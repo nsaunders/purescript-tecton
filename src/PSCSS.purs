@@ -70,6 +70,9 @@ instance Monoid Value where
 class ToValue (a :: Type) where
   value :: a -> Value
 
+instance ToValue Value where
+  value = identity
+
 instance ToValue String where
   value = Value <<< const
 
@@ -105,6 +108,7 @@ data Declaration = Declaration
 
 type SupportedDeclarations' (v :: Type) =
   ( color :: v
+  , height :: v
   , opacity :: v
   , width :: v
   )
@@ -112,6 +116,7 @@ type SupportedDeclarations' (v :: Type) =
 defaultDeclarations :: { | SupportedDeclarations }
 defaultDeclarations =
   { color: Nothing
+  , height: Nothing
   , opacity: Nothing
   , width: Nothing
   }
@@ -548,5 +553,25 @@ instance IsColor CSSColor
 -- https://www.w3.org/TR/css-sizing-3/#propdef-width
 
 instance propertyWidthCommonKeyword :: Property "width" CommonKeyword
+
 instance propertyWidthAuto :: Property "width" Auto
+
 instance propertyWidthLengthPercentage :: LengthPercentageTag a => Property "width" (Measure a)
+
+instance propertyWidthContentSizingValue :: Property "width" ContentSizingValue
+
+-- https://www.w3.org/TR/css-sizing-3/#propdef-height
+
+instance propertyHeightWidth :: Property "width" a => Property "height" a
+
+-- https://www.w3.org/TR/css-sizing-3/#sizing-values
+
+newtype ContentSizingValue = ContentSizingValue Value
+
+minContent = ContentSizingValue (value "min-content") :: ContentSizingValue
+maxContent = ContentSizingValue (value "max-content") :: ContentSizingValue
+
+fitContent :: forall a. LengthPercentageTag a => Measure a -> ContentSizingValue
+fitContent a = ContentSizingValue (fn (value "fit-content") [value a])
+
+derive newtype instance ToValue ContentSizingValue
