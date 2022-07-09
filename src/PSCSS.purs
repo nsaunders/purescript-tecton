@@ -113,6 +113,8 @@ data Declaration = Declaration
 type SupportedDeclarations' (v :: Type) =
   ( color :: v
   , height :: v
+  , maxHeight :: v
+  , maxWidth :: v
   , minHeight :: v
   , minWidth :: v
   , opacity :: v
@@ -123,6 +125,8 @@ defaultDeclarations :: { | SupportedDeclarations }
 defaultDeclarations =
   { color: Nothing
   , height: Nothing
+  , maxHeight: Nothing
+  , maxWidth: Nothing
   , minHeight: Nothing
   , minWidth: Nothing
   , opacity: Nothing
@@ -532,6 +536,10 @@ data Auto = Auto
 auto = Auto :: Auto
 instance ToValue Auto where value _ = value "auto"
 
+data None = None
+none = None :: None
+instance ToValue None where value _ = value "none"
+
 --------------------------------------------------------------------------------
 
 class ToValue a <= IsMediaType (a :: Type)
@@ -592,6 +600,20 @@ instance propertyMinHeightWidth :: Property "width" a => Property "minHeight" a
 -- https://www.w3.org/TR/css-sizing-3/#propdef-min-width
 
 instance propertyMinWidthWidth :: Property "width" a => Property "minWidth" a
+
+-- https://www.w3.org/TR/css-sizing-3/#propdef-max-width
+
+instance propertyMaxWidthCommonKeyword :: Property "maxWidth" CommonKeyword
+
+instance propertyMaxWidthNone :: Property "maxWidth" None
+
+instance propertyMaxWidthLengthPercentage :: LengthPercentageTag a => Property "maxWidth" (Measure a)
+
+instance propertyMaxWidthContentSizingValue :: Property "maxWidth" ContentSizingValue
+
+-- https://www.w3.org/TR/css-sizing-3/#propdef-max-height
+
+instance propertyMaxHeightMaxWidth :: Property "maxWidth" a => Property "maxHeight" a
 
 -- https://www.w3.org/TR/css-sizing-3/#sizing-values
 

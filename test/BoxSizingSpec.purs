@@ -4,7 +4,7 @@ module Test.BoxSizingSpec where
 
 import Prelude
 
-import PSCSS (auto, fitContent, inherit, initial, maxContent, minContent, pct, px, unset, (@+@))
+import PSCSS (auto, fitContent, inherit, initial, maxContent, minContent, none, pct, px, unset, (@+@))
 import Test.Spec (Spec, describe)
 import Test.Util (renders)
 
@@ -70,3 +70,33 @@ spec = describe "Box Sizing Module" do
     { minHeight: fitContent (px 100 @+@ pct 50) }
       `renders`
       "min-height:fit-content(calc(100px + 50%))"
+  describe "max-width property" do
+    { maxWidth: inherit } `renders` "max-width:inherit"
+    { maxWidth: initial } `renders` "max-width:initial"
+    { maxWidth: unset } `renders` "max-width:unset"
+    { maxWidth: none } `renders` "max-width:none"
+    { maxWidth: px 100 } `renders` "max-width:100px"
+    { maxWidth: pct 50 } `renders` "max-width:50%"
+    { maxWidth: px 100 @+@ pct 50 } `renders` "max-width:calc(100px + 50%)"
+    { maxWidth: maxContent } `renders` "max-width:max-content"
+    { maxWidth: maxContent } `renders` "max-width:max-content"
+    { maxWidth: fitContent (px 100) } `renders` "max-width:fit-content(100px)"
+    { maxWidth: fitContent (pct 50) } `renders` "max-width:fit-content(50%)"
+    { maxWidth: fitContent (px 100 @+@ pct 50) }
+      `renders`
+      "max-width:fit-content(calc(100px + 50%))"
+  describe "max-height property" do
+    { maxHeight: inherit } `renders` "max-height:inherit"
+    { maxHeight: initial } `renders` "max-height:initial"
+    { maxHeight: unset } `renders` "max-height:unset"
+    { maxHeight: none } `renders` "max-height:none"
+    { maxHeight: px 100 } `renders` "max-height:100px"
+    { maxHeight: pct 50 } `renders` "max-height:50%"
+    { maxHeight: px 100 @+@ pct 50 } `renders` "max-height:calc(100px + 50%)"
+    { maxHeight: maxContent } `renders` "max-height:max-content"
+    { maxHeight: maxContent } `renders` "max-height:max-content"
+    { maxHeight: fitContent (px 100) } `renders` "max-height:fit-content(100px)"
+    { maxHeight: fitContent (pct 50) } `renders` "max-height:fit-content(50%)"
+    { maxHeight: fitContent (px 100 @+@ pct 50) }
+      `renders`
+      "max-height:fit-content(calc(100px + 50%))"
