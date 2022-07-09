@@ -1,3 +1,5 @@
+-- https://www.w3.org/TR/css-sizing-3/
+
 module Test.BoxSizingSpec where
 
 import Prelude
@@ -38,3 +40,33 @@ spec = describe "Box Sizing Module" do
     { height: fitContent (px 100 @+@ pct 50) }
       `renders`
       "height:fit-content(calc(100px + 50%))"
+  describe "min-width property" do
+    { minWidth: inherit } `renders` "min-width:inherit"
+    { minWidth: initial } `renders` "min-width:initial"
+    { minWidth: unset } `renders` "min-width:unset"
+    { minWidth: auto } `renders` "min-width:auto"
+    { minWidth: px 100 } `renders` "min-width:100px"
+    { minWidth: pct 50 } `renders` "min-width:50%"
+    { minWidth: px 100 @+@ pct 50 } `renders` "min-width:calc(100px + 50%)"
+    { minWidth: minContent } `renders` "min-width:min-content"
+    { minWidth: maxContent } `renders` "min-width:max-content"
+    { minWidth: fitContent (px 100) } `renders` "min-width:fit-content(100px)"
+    { minWidth: fitContent (pct 50) } `renders` "min-width:fit-content(50%)"
+    { minWidth: fitContent (px 100 @+@ pct 50) }
+      `renders`
+      "min-width:fit-content(calc(100px + 50%))"
+  describe "min-height property" do
+    { minHeight: inherit } `renders` "min-height:inherit"
+    { minHeight: initial } `renders` "min-height:initial"
+    { minHeight: unset } `renders` "min-height:unset"
+    { minHeight: auto } `renders` "min-height:auto"
+    { minHeight: px 100 } `renders` "min-height:100px"
+    { minHeight: pct 50 } `renders` "min-height:50%"
+    { minHeight: px 100 @+@ pct 50 } `renders` "min-height:calc(100px + 50%)"
+    { minHeight: minContent } `renders` "min-height:min-content"
+    { minHeight: maxContent } `renders` "min-height:max-content"
+    { minHeight: fitContent (px 100) } `renders` "min-height:fit-content(100px)"
+    { minHeight: fitContent (pct 50) } `renders` "min-height:fit-content(50%)"
+    { minHeight: fitContent (px 100 @+@ pct 50) }
+      `renders`
+      "min-height:fit-content(calc(100px + 50%))"

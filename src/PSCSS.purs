@@ -1,18 +1,22 @@
 module PSCSS where
 
-import Prelude
+import Prelude hiding (add)
 
 import Color (Color, cssStringHSLA, toHexString)
 import Control.Monad.Writer (Writer, execWriter, tell)
 import ConvertableOptions (class ConvertOption, class ConvertOptionsWithDefaults, convertOptionsWithDefaults)
 import Data.Array (replicate)
 import Data.Array as Array
+import Data.Either (Either(..))
 import Data.FoldableWithIndex (class FoldableWithIndex, foldlWithIndex)
 import Data.Int as Int
 import Data.List (List, (:))
 import Data.Maybe (Maybe(..))
 import Data.Number.Format as Number
 import Data.String as String
+import Data.String.Regex (regex)
+import Data.String.Regex as Regex
+import Data.String.Regex.Flags (global)
 import Data.Symbol (class IsSymbol, reflectSymbol)
 import Data.Tuple.Nested (type (/\), (/\))
 import Prim.Row as Row
@@ -109,6 +113,8 @@ data Declaration = Declaration
 type SupportedDeclarations' (v :: Type) =
   ( color :: v
   , height :: v
+  , minHeight :: v
+  , minWidth :: v
   , opacity :: v
   , width :: v
   )
@@ -117,6 +123,8 @@ defaultDeclarations :: { | SupportedDeclarations }
 defaultDeclarations =
   { color: Nothing
   , height: Nothing
+  , minHeight: Nothing
+  , minWidth: Nothing
   , opacity: Nothing
   , width: Nothing
   }
@@ -173,15 +181,25 @@ instance
   ) => CollectDeclarations (RL.Cons property (Maybe Value) tailRowList) row where
   collectDeclarations _ rec =
     let
+      camelToKebab s =
+        case regex "[A-Z]" global of
+          Left _ ->
+            s
+          Right caps ->
+            Regex.replace' caps (const <<< ("-" <> _) <<< String.toLower) s
       field = Proxy :: _ property
-      property = (value $ reflectSymbol field) :: Value
-      value' = (Record.get field rec) :: Maybe Value
-      rest = collectDeclarations (Proxy :: _ tailRowList) (Record.delete field rec)
+      rest =
+        collectDeclarations (Proxy :: _ tailRowList) (Record.delete field rec)
     in
-      case value' of
+      case Record.get field rec of
         Just v ->
           let
-            decl = Value \c@{ separator } -> runValue c property <> ":" <> separator <> runValue c v
+            decl =
+              Value \c@{ separator } ->
+                runValue c (value $ camelToKebab $ reflectSymbol field)
+                <> ":"
+                <> separator
+                <> runValue c v
           in
             decl : rest
         Nothing ->
@@ -191,7 +209,10 @@ declarationBlock
   :: forall providedDeclarations rl
    . RowToList SupportedDeclarations rl
   => CollectDeclarations rl SupportedDeclarations
-  => ConvertOptionsWithDefaults Declaration { | SupportedDeclarations } { | providedDeclarations } { | SupportedDeclarations }
+  => ConvertOptionsWithDefaults Declaration
+       { | SupportedDeclarations }
+       { | providedDeclarations }
+       { | SupportedDeclarations }
   => { | providedDeclarations }
   -> Value
 declarationBlock provided =
@@ -563,6 +584,14 @@ instance propertyWidthContentSizingValue :: Property "width" ContentSizingValue
 -- https://www.w3.org/TR/css-sizing-3/#propdef-height
 
 instance propertyHeightWidth :: Property "width" a => Property "height" a
+
+-- https://www.w3.org/TR/css-sizing-3/#propdef-min-height
+
+instance propertyMinHeightWidth :: Property "width" a => Property "minHeight" a
+
+-- https://www.w3.org/TR/css-sizing-3/#propdef-min-width
+
+instance propertyMinWidthWidth :: Property "width" a => Property "minWidth" a
 
 -- https://www.w3.org/TR/css-sizing-3/#sizing-values
 
