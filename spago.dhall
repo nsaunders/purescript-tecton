@@ -14,9 +14,7 @@ to generate this file without the comments in this block.
 , dependencies =
   [ "arrays"
   , "colors"
-  , "console"
   , "convertable-options"
-  , "effect"
   , "either"
   , "foldable-traversable"
   , "integers"

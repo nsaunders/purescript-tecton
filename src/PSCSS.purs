@@ -224,7 +224,14 @@ declarationBlock provided =
     ( runValue config $
         joinValues
           (";" <> newline)
-          ( Array.reverse
+          ( map
+            (\line ->
+              Value \config'@{ indentLevel, indentation } ->
+                (String.joinWith "" $ replicate indentLevel indentation)
+                <>
+                runValue config' line
+            )
+            $ Array.reverse
             $ Array.fromFoldable
             $ collectDeclarations (Proxy :: _ rl) all'
           )
