@@ -17,12 +17,17 @@ to generate this file without the comments in this block.
   , "console"
   , "convertable-options"
   , "effect"
+  , "either"
   , "foldable-traversable"
+  , "integers"
+  , "lists"
   , "maybe"
+  , "numbers"
   , "prelude"
   , "record"
   , "strings"
   , "transformers"
+  , "tuples"
   , "typelevel-prelude"
   ]
 , packages = ./packages.dhall

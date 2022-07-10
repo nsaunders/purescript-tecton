@@ -4,7 +4,7 @@ import Prelude hiding (add)
 
 import Color (Color, cssStringHSLA, toHexString)
 import Control.Monad.Writer (Writer, execWriter, tell)
-import ConvertableOptions (class ConvertOption, class ConvertOptionsWithDefaults, convertOptionsWithDefaults)
+import ConvertableOptions (class ConvertOption, class ConvertOptionsWithDefaults, convertOption, convertOptionsWithDefaults)
 import Data.Array (replicate)
 import Data.Array as Array
 import Data.Either (Either(..))
@@ -542,12 +542,71 @@ instance ToValue None where value _ = value "none"
 
 --------------------------------------------------------------------------------
 
+-- https://www.w3.org/TR/mediaqueries-3/
+
+newtype MediaType = MediaType String
+print = MediaType "print" :: MediaType
+screen = MediaType "screen" :: MediaType
+derive newtype instance ToValue MediaType
+
 class ToValue a <= IsMediaType (a :: Type)
-
 instance IsMediaType All
+instance IsMediaType MediaType
 
-media :: forall a. IsMediaType a => a -> NestedRule
-media mediaType = NestedRule $ value "media " <> value mediaType
+type SupportedMediaFeatures' (v :: Type) =
+  ( minWidth :: v
+  , maxWidth :: v
+  , width :: v
+  )
+
+defaultMediaFeatures :: { | SupportedMediaFeatures }
+defaultMediaFeatures =
+  { maxWidth: Nothing
+  , minWidth: Nothing
+  , width: Nothing
+  }
+
+type SupportedMediaFeatures = SupportedMediaFeatures' (Maybe Value)
+
+data MediaFeature' = MediaFeature'
+
+class ToValue v <= MediaFeature (f :: Symbol) (v :: Type)
+instance MediaFeature f v => ConvertOption MediaFeature' f v (Maybe Value) where
+  convertOption _ _ = pure <<< value
+
+instance mediaFeatureWidthLength :: LengthTag a => MediaFeature "width" (Measure a)
+instance mediaFeatureMinWidthLength :: LengthTag a => MediaFeature "minWidth" (Measure a)
+instance mediaFeatureMaxWidthLength :: LengthTag a => MediaFeature "maxWidth" (Measure a)
+
+media
+  :: forall mediaType providedMediaFeatures rl
+   . IsMediaType mediaType
+  => RowToList SupportedMediaFeatures rl
+  => CollectDeclarations rl SupportedMediaFeatures
+  => ConvertOptionsWithDefaults MediaFeature' { | SupportedMediaFeatures } { | providedMediaFeatures } { | SupportedMediaFeatures }
+  => mediaType
+  -> Record providedMediaFeatures
+  -> NestedRule
+media mediaType providedMediaFeatures =
+  let
+    features =
+      joinValues ""
+      $ map (\v -> value " and (" <> v <> value ")")
+        $ Array.reverse
+        $ Array.fromFoldable
+        $ collectDeclarations (Proxy :: _ rl) $
+            convertOptionsWithDefaults
+              MediaFeature'
+              defaultMediaFeatures
+              providedMediaFeatures
+  in
+    NestedRule $ value "media " <> value mediaType <> features
+
+--------------------------------------------------------------------------------
+
+-- https://www.w3.org/TR/selectors-4/
+
+universal = Selector (value "*") :: Selector
 
 --------------------------------------------------------------------------------
 
