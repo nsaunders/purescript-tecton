@@ -28,6 +28,12 @@ import Type.Proxy (Proxy(..))
 
 --------------------------------------------------------------------------------
 
+-- Utilities
+
+foreign import quote :: String -> String
+
+--------------------------------------------------------------------------------
+
 -- Configuration
 
 type Configuration =
@@ -168,7 +174,7 @@ instance
   statement selector provided =
     tell $ pure $ Ruleset selector $ declarationBlock provided
 
-infixr 5 statement as ?
+infixl 1 statement as ?
 
 class CollectDeclarations (xs :: RowList Type) (row :: Row Type) where
   collectDeclarations :: Proxy xs -> Record row -> List Value
@@ -611,9 +617,47 @@ media mediaType providedMediaFeatures =
 
 --------------------------------------------------------------------------------
 
--- https://www.w3.org/TR/selectors-4/
+-- https://www.w3.org/TR/selectors-3/
+
+appendSelectorDetail :: Value -> Selector -> Selector
+appendSelectorDetail v (Selector s) = Selector $ s <> v
+
+-- https://www.w3.org/TR/selectors-3/#universal-selector
 
 universal = Selector (value "*") :: Selector
+
+-- https://www.w3.org/TR/selectors-3/#descendant-combinators
+
+combine :: String -> Selector -> Selector -> Selector
+combine s a (Selector b) =
+  a # appendSelectorDetail (value s) # appendSelectorDetail b
+
+descendant :: Selector -> Selector -> Selector
+descendant = combine " "
+infixl 1 descendant as :-
+
+child :: Selector -> Selector -> Selector
+child = combine " > "
+infixl 1 child as :>
+
+-- https://www.w3.org/TR/selectors-3/#attribute-representation
+
+attCmp :: String -> String -> String -> Selector -> Selector
+attCmp op att val =
+  appendSelectorDetail $
+    value ("[" <> att) <> value op <> value (quote val) <> value "]"
+
+attEq :: String -> String -> Selector -> Selector
+attEq = attCmp "="
+infixl 5 attEq as :==
+
+attElem :: String -> String -> Selector -> Selector
+attElem = attCmp "~="
+infixl 5 attElem as :~=
+
+attStartsWith :: String -> String -> Selector -> Selector
+attStartsWith = attCmp "|="
+infixl 5 attStartsWith as :|=
 
 --------------------------------------------------------------------------------
 
