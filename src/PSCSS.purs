@@ -634,11 +634,11 @@ combine s a (Selector b) =
 
 descendant :: Selector -> Selector -> Selector
 descendant = combine " "
-infixl 1 descendant as :-
+infixl 1 descendant as |*
 
 child :: Selector -> Selector -> Selector
 child = combine " > "
-infixl 1 child as :>
+infixl 1 child as |>
 
 -- https://www.w3.org/TR/selectors-3/#attribute-representation
 
@@ -649,15 +649,27 @@ attCmp op att val =
 
 attEq :: String -> String -> Selector -> Selector
 attEq = attCmp "="
-infixl 5 attEq as :==
+infixl 5 attEq as @=
 
-attElem :: String -> String -> Selector -> Selector
-attElem = attCmp "~="
-infixl 5 attElem as :~=
+attElemWhitespace :: String -> String -> Selector -> Selector
+attElemWhitespace = attCmp "~="
+infixl 5 attElemWhitespace as ~=
 
 attStartsWith :: String -> String -> Selector -> Selector
-attStartsWith = attCmp "|="
-infixl 5 attStartsWith as :|=
+attStartsWith = attCmp "^="
+infixl 5 attStartsWith as ^=
+
+attEndsWith :: String -> String -> Selector -> Selector
+attEndsWith = attCmp "$="
+infixl 5 attEndsWith as $=
+
+attContains :: String -> String -> Selector -> Selector
+attContains = attCmp "*="
+infixl 5 attContains as *=
+
+attStartsWithHyphen :: String -> String -> Selector -> Selector
+attStartsWithHyphen = attCmp "|="
+infixl 5 attStartsWithHyphen as |=
 
 --------------------------------------------------------------------------------
 
