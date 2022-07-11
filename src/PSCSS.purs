@@ -671,6 +671,16 @@ attStartsWithHyphen :: String -> String -> Selector -> Selector
 attStartsWithHyphen = attCmp "|="
 infixl 5 attStartsWithHyphen as |=
 
+-- https://www.w3.org/TR/selectors-3/#class-html
+
+byClass :: String -> Selector -> Selector
+byClass c = appendSelectorDetail (value $ "." <> c)
+
+-- https://www.w3.org/TR/selectors-3/#id-selectors
+
+byId :: String -> Selector -> Selector
+byId i = appendSelectorDetail (value $ "#" <> i)
+
 --------------------------------------------------------------------------------
 
 -- https://www.w3.org/TR/css-color-4/
