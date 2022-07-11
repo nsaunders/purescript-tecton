@@ -152,7 +152,7 @@ data Statement
   = NestedAtRule NestedRule (Array Statement)
   | Ruleset Selector Value
 
-class Statement' (a :: Type) (b :: Type) | a -> b where
+class Statement' (a :: Type) (b :: Type) where
   statement :: a -> b -> Writer (Array Statement) Unit
 
 instance Statement' NestedRule (Writer (Array Statement) Unit) where
