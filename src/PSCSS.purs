@@ -642,32 +642,85 @@ infixl 1 child as |>
 
 -- https://www.w3.org/TR/selectors-3/#attribute-representation
 
-attCmp :: String -> String -> String -> Selector -> Selector
-attCmp op att val =
-  appendSelectorDetail $
-    value ("[" <> att) <> value op <> value (quote val) <> value "]"
+newtype Attribute = Attribute String
 
-attEq :: String -> String -> Selector -> Selector
+att :: String -> Attribute
+att = Attribute
+
+derive newtype instance ToValue Attribute
+
+class ToValue a <= IsAttribute (a :: Type)
+instance IsAttribute Attribute
+
+attCmp 
+  :: forall a
+   . IsAttribute a
+  => String
+  -> a
+  -> String
+  -> Selector
+  -> Selector
+attCmp op att' val =
+  appendSelectorDetail $
+    value "[" <> value att' <> value op <> value (quote val) <> value "]"
+
+attEq
+  :: forall a
+   . IsAttribute a
+  => a
+  -> String
+  -> Selector
+  -> Selector
 attEq = attCmp "="
 infixl 5 attEq as @=
 
-attElemWhitespace :: String -> String -> Selector -> Selector
+attElemWhitespace
+  :: forall a
+   . IsAttribute a
+  => a
+  -> String
+  -> Selector
+  -> Selector
 attElemWhitespace = attCmp "~="
 infixl 5 attElemWhitespace as ~=
 
-attStartsWith :: String -> String -> Selector -> Selector
+attStartsWith
+  :: forall a
+   . IsAttribute a
+  => a
+  -> String
+  -> Selector
+  -> Selector
 attStartsWith = attCmp "^="
 infixl 5 attStartsWith as ^=
 
-attEndsWith :: String -> String -> Selector -> Selector
+attEndsWith
+  :: forall a
+   . IsAttribute a
+  => a
+  -> String
+  -> Selector
+  -> Selector
 attEndsWith = attCmp "$="
 infixl 5 attEndsWith as $=
 
-attContains :: String -> String -> Selector -> Selector
+attContains
+  :: forall a
+   . IsAttribute a
+  => a
+  -> String
+  -> Selector
+  -> Selector
 attContains = attCmp "*="
 infixl 5 attContains as *=
 
-attStartsWithHyphen :: String -> String -> Selector -> Selector
+attStartsWithHyphen
+  :: forall a
+   . IsAttribute a
+  => a
+  -> String
+  -> Selector
+  -> Selector
 attStartsWithHyphen = attCmp "|="
 infixl 5 attStartsWithHyphen as |=
 
