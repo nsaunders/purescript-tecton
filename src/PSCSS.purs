@@ -178,7 +178,7 @@ instance
   statement selector provided =
     tell $ pure $ Ruleset (closeSelector selector) $ declarationBlock provided
 
-infixl 1 statement as ?
+infixr 0 statement as ?
 
 class CollectDeclarations (xs :: RowList Type) (row :: Row Type) where
   collectDeclarations :: Proxy xs -> Record row -> List Value
