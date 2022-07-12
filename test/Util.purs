@@ -6,7 +6,6 @@ import PSCSS (class Render, compact, render)
 import Test.Spec (Spec, it)
 import Test.Spec.Assertions (shouldEqual)
 
-renders :: forall a. Render a => a -> String -> Spec Unit
-renders given expected =
-  it ("renders " <> expected) do
-    render compact given `shouldEqual` expected
+isRenderedFrom :: forall a. Render a => String -> a -> Spec Unit
+isRenderedFrom expected given =
+  it ("renders " <> expected) $ render compact given `shouldEqual` expected
