@@ -152,11 +152,15 @@ instance Property p v => ConvertOption Declaration p v (Maybe Value) where
 
 newtype NestedRule = NestedRule Value
 
-newtype Selector = Selector Value
+data Open
+
+data Closed
+
+newtype Selector (tag :: Type) = Selector Value
 
 data Statement
   = NestedAtRule NestedRule (Array Statement)
-  | Ruleset Selector Value
+  | Ruleset (Selector Closed) Value
 
 class Statement' (a :: Type) (b :: Type) | a -> b where
   statement :: a -> b -> Writer (Array Statement) Unit
@@ -170,9 +174,9 @@ instance
     { | SupportedDeclarations }
     { | providedDeclarations }
     { | SupportedDeclarations }
-  => Statement' Selector { | providedDeclarations } where
+  => Statement' (Selector tag) { | providedDeclarations } where
   statement selector provided =
-    tell $ pure $ Ruleset selector $ declarationBlock provided
+    tell $ pure $ Ruleset (closeSelector selector) $ declarationBlock provided
 
 infixl 1 statement as ?
 
@@ -617,30 +621,47 @@ media mediaType providedMediaFeatures =
 
 --------------------------------------------------------------------------------
 
--- https://www.w3.org/TR/selectors-3/
+-- https://www.w3.org/TR/selectors-4/
 
-appendSelectorDetail :: Value -> Selector -> Selector
+closeSelector :: forall tag. Selector tag -> Selector Closed
+closeSelector (Selector x) = Selector x
+
+appendSelectorDetail :: Value -> Selector Open -> Selector Open
 appendSelectorDetail v (Selector s) = Selector $ s <> v
 
--- https://www.w3.org/TR/selectors-3/#universal-selector
+-- https://www.w3.org/TR/selectors-4/#the-universal-selector
 
-universal = Selector (value "*") :: Selector
+universal = Selector (value "*") :: Selector Open
 
--- https://www.w3.org/TR/selectors-3/#descendant-combinators
+-- https://www.w3.org/TR/selectors-4/#combinators
 
-combine :: String -> Selector -> Selector -> Selector
+combine :: String -> Selector Open -> Selector Open -> Selector Open
 combine s a (Selector b) =
   a # appendSelectorDetail (value s) # appendSelectorDetail b
 
-descendant :: Selector -> Selector -> Selector
+-- https://www.w3.org/TR/selectors-4/#descendant-combinators
+
+descendant :: Selector Open -> Selector Open -> Selector Open
 descendant = combine " "
 infixl 1 descendant as |*
 
-child :: Selector -> Selector -> Selector
+-- https://www.w3.org/TR/selectors-4/#child-combinators
+
+child :: Selector Open -> Selector Open -> Selector Open
 child = combine " > "
 infixl 1 child as |>
 
--- https://www.w3.org/TR/selectors-3/#attribute-representation
+-- https://www.w3.org/TR/selectors-4/#adjacent-sibling-combinators
+
+adjacentSibling :: Selector Open -> Selector Open -> Selector Open
+adjacentSibling = combine "+"
+
+-- https://www.w3.org/TR/selectors-4/#general-sibling-combinators
+
+generalSibling :: Selector Open -> Selector Open -> Selector Open
+generalSibling = combine "~"
+
+-- https://www.w3.org/TR/selectors-4/#attribute-representation
 
 newtype Attribute = Attribute String
 
@@ -658,8 +679,8 @@ attCmp
   => String
   -> a
   -> String
-  -> Selector
-  -> Selector
+  -> Selector Open
+  -> Selector Open
 attCmp op att' val =
   appendSelectorDetail $
     value "[" <> value att' <> value op <> value (quote val) <> value "]"
@@ -669,8 +690,8 @@ attEq
    . IsAttribute a
   => a
   -> String
-  -> Selector
-  -> Selector
+  -> Selector Open
+  -> Selector Open
 attEq = attCmp "="
 infixl 5 attEq as @=
 
@@ -679,8 +700,8 @@ attElemWhitespace
    . IsAttribute a
   => a
   -> String
-  -> Selector
-  -> Selector
+  -> Selector Open
+  -> Selector Open
 attElemWhitespace = attCmp "~="
 infixl 5 attElemWhitespace as ~=
 
@@ -689,8 +710,8 @@ attStartsWith
    . IsAttribute a
   => a
   -> String
-  -> Selector
-  -> Selector
+  -> Selector Open
+  -> Selector Open
 attStartsWith = attCmp "^="
 infixl 5 attStartsWith as ^=
 
@@ -699,8 +720,8 @@ attEndsWith
    . IsAttribute a
   => a
   -> String
-  -> Selector
-  -> Selector
+  -> Selector Open
+  -> Selector Open
 attEndsWith = attCmp "$="
 infixl 5 attEndsWith as $=
 
@@ -709,8 +730,8 @@ attContains
    . IsAttribute a
   => a
   -> String
-  -> Selector
-  -> Selector
+  -> Selector Open
+  -> Selector Open
 attContains = attCmp "*="
 infixl 5 attContains as *=
 
@@ -719,19 +740,19 @@ attStartsWithHyphen
    . IsAttribute a
   => a
   -> String
-  -> Selector
-  -> Selector
+  -> Selector Open
+  -> Selector Open
 attStartsWithHyphen = attCmp "|="
 infixl 5 attStartsWithHyphen as |=
 
 -- https://www.w3.org/TR/selectors-3/#class-html
 
-byClass :: String -> Selector -> Selector
+byClass :: String -> Selector Open -> Selector Open
 byClass c = appendSelectorDetail (value $ "." <> c)
 
 -- https://www.w3.org/TR/selectors-3/#id-selectors
 
-byId :: String -> Selector -> Selector
+byId :: String -> Selector Open -> Selector Open
 byId i = appendSelectorDetail (value $ "#" <> i)
 
 --------------------------------------------------------------------------------
