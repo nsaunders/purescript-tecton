@@ -28,6 +28,12 @@ import Type.Proxy (Proxy(..))
 
 --------------------------------------------------------------------------------
 
+-- Utilities
+
+foreign import quote :: String -> String
+
+--------------------------------------------------------------------------------
+
 -- Configuration
 
 type Configuration =
@@ -146,11 +152,15 @@ instance Property p v => ConvertOption Declaration p v (Maybe Value) where
 
 newtype NestedRule = NestedRule Value
 
-newtype Selector = Selector Value
+data Open
+
+data Closed
+
+newtype Selector (tag :: Type) = Selector Value
 
 data Statement
   = NestedAtRule NestedRule (Array Statement)
-  | Ruleset Selector Value
+  | Ruleset (Selector Closed) Value
 
 class Statement' (a :: Type) (b :: Type) where
   statement :: a -> b -> Writer (Array Statement) Unit
@@ -164,11 +174,11 @@ instance
     { | SupportedDeclarations }
     { | providedDeclarations }
     { | SupportedDeclarations }
-  => Statement' Selector { | providedDeclarations } where
+  => Statement' (Selector tag) { | providedDeclarations } where
   statement selector provided =
-    tell $ pure $ Ruleset selector $ declarationBlock provided
+    tell $ pure $ Ruleset (closeSelector selector) $ declarationBlock provided
 
-infixr 5 statement as ?
+infixl 1 statement as ?
 
 class CollectDeclarations (xs :: RowList Type) (row :: Row Type) where
   collectDeclarations :: Proxy xs -> Record row -> List Value
@@ -613,7 +623,137 @@ media mediaType providedMediaFeatures =
 
 -- https://www.w3.org/TR/selectors-4/
 
-universal = Selector (value "*") :: Selector
+closeSelector :: forall tag. Selector tag -> Selector Closed
+closeSelector (Selector x) = Selector x
+
+appendSelectorDetail :: Value -> Selector Open -> Selector Open
+appendSelectorDetail v (Selector s) = Selector $ s <> v
+
+-- https://www.w3.org/TR/selectors-4/#the-universal-selector
+
+universal = Selector (value "*") :: Selector Open
+
+-- https://www.w3.org/TR/selectors-4/#combinators
+
+combine :: String -> Selector Open -> Selector Open -> Selector Open
+combine s a (Selector b) =
+  a # appendSelectorDetail (value s) # appendSelectorDetail b
+
+-- https://www.w3.org/TR/selectors-4/#descendant-combinators
+
+descendant :: Selector Open -> Selector Open -> Selector Open
+descendant = combine " "
+infixl 1 descendant as |*
+
+-- https://www.w3.org/TR/selectors-4/#child-combinators
+
+child :: Selector Open -> Selector Open -> Selector Open
+child = combine " > "
+infixl 1 child as |>
+
+-- https://www.w3.org/TR/selectors-4/#adjacent-sibling-combinators
+
+adjacentSibling :: Selector Open -> Selector Open -> Selector Open
+adjacentSibling = combine "+"
+
+-- https://www.w3.org/TR/selectors-4/#general-sibling-combinators
+
+generalSibling :: Selector Open -> Selector Open -> Selector Open
+generalSibling = combine "~"
+
+-- https://www.w3.org/TR/selectors-4/#attribute-representation
+
+newtype Attribute = Attribute String
+
+att :: String -> Attribute
+att = Attribute
+
+derive newtype instance ToValue Attribute
+
+class ToValue a <= IsAttribute (a :: Type)
+instance IsAttribute Attribute
+
+attCmp 
+  :: forall a
+   . IsAttribute a
+  => String
+  -> a
+  -> String
+  -> Selector Open
+  -> Selector Open
+attCmp op att' val =
+  appendSelectorDetail $
+    value "[" <> value att' <> value op <> value (quote val) <> value "]"
+
+attEq
+  :: forall a
+   . IsAttribute a
+  => a
+  -> String
+  -> Selector Open
+  -> Selector Open
+attEq = attCmp "="
+infixl 5 attEq as @=
+
+attElemWhitespace
+  :: forall a
+   . IsAttribute a
+  => a
+  -> String
+  -> Selector Open
+  -> Selector Open
+attElemWhitespace = attCmp "~="
+infixl 5 attElemWhitespace as ~=
+
+attStartsWith
+  :: forall a
+   . IsAttribute a
+  => a
+  -> String
+  -> Selector Open
+  -> Selector Open
+attStartsWith = attCmp "^="
+infixl 5 attStartsWith as ^=
+
+attEndsWith
+  :: forall a
+   . IsAttribute a
+  => a
+  -> String
+  -> Selector Open
+  -> Selector Open
+attEndsWith = attCmp "$="
+infixl 5 attEndsWith as $=
+
+attContains
+  :: forall a
+   . IsAttribute a
+  => a
+  -> String
+  -> Selector Open
+  -> Selector Open
+attContains = attCmp "*="
+infixl 5 attContains as *=
+
+attStartsWithHyphen
+  :: forall a
+   . IsAttribute a
+  => a
+  -> String
+  -> Selector Open
+  -> Selector Open
+attStartsWithHyphen = attCmp "|="
+infixl 5 attStartsWithHyphen as |=
+
+-- https://www.w3.org/TR/selectors-3/#class-html
+
+byClass :: String -> Selector Open -> Selector Open
+byClass c = appendSelectorDetail (value $ "." <> c)
+
+-- https://www.w3.org/TR/selectors-3/#id-selectors
+
+byId :: String -> Selector Open -> Selector Open
+byId i = appendSelectorDetail (value $ "#" <> i)
 
 --------------------------------------------------------------------------------
 
