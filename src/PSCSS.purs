@@ -581,13 +581,19 @@ instance IsMediaType All
 instance IsMediaType MediaType
 
 type SupportedMediaFeatures' (v :: Type) =
-  ( deviceHeight :: v
+  ( aspectRatio :: v
+  , deviceAspectRatio :: v
+  , deviceHeight :: v
   , deviceWidth :: v
   , height :: v
+  , maxAspectRatio :: v
+  , maxDeviceAspectRatio :: v
   , maxDeviceHeight :: v
   , maxDeviceWidth :: v
   , maxHeight :: v
   , maxWidth :: v
+  , minAspectRatio :: v
+  , minDeviceAspectRatio :: v
   , minDeviceHeight :: v
   , minDeviceWidth :: v
   , minHeight :: v
@@ -598,13 +604,19 @@ type SupportedMediaFeatures' (v :: Type) =
 
 defaultMediaFeatures :: { | SupportedMediaFeatures }
 defaultMediaFeatures =
-  { deviceHeight: Nothing
+  { aspectRatio: Nothing
+  , deviceAspectRatio: Nothing
+  , deviceHeight: Nothing
   , deviceWidth: Nothing
   , height: Nothing
+  , maxAspectRatio: Nothing
+  , maxDeviceAspectRatio: Nothing
   , maxDeviceHeight: Nothing
   , maxDeviceWidth: Nothing
   , maxHeight: Nothing
   , maxWidth: Nothing
+  , minAspectRatio: Nothing
+  , minDeviceAspectRatio: Nothing
   , minDeviceHeight: Nothing
   , minDeviceWidth: Nothing
   , minHeight: Nothing
@@ -653,6 +665,22 @@ landscape = Orientation "landscape" :: Orientation
 derive newtype instance ToVal Orientation
 
 instance mediaFeatureOrientation :: MediaFeature "orientation" Orientation
+
+-- https://www.w3.org/TR/mediaqueries-3/#aspect-ratio
+
+data Ratio = Ratio Int Int
+instance ToVal Ratio where val (Ratio num den) = val num <> val "/" <> val den
+infix 5 Ratio as :/
+
+instance mediaFeatureAspectRatio :: MediaFeature "aspectRatio" Ratio
+instance mediaFeatureMinAspectRatio :: MediaFeature "minAspectRatio" Ratio
+instance mediaFeatureMaxAspectRatio :: MediaFeature "maxAspectRatio" Ratio
+
+-- https://www.w3.org/TR/mediaqueries-3/#device-aspect-ratio
+
+instance mediaFeatureDeviceAspectRatio :: MediaFeature "deviceAspectRatio" Ratio
+instance mediaFeatureMinDeviceAspectRatio :: MediaFeature "minDeviceAspectRatio" Ratio
+instance mediaFeatureMaxDeviceAspectRatio :: MediaFeature "maxDeviceAspectRatio" Ratio
 
 --------------------------------------------------------------------------------
 
