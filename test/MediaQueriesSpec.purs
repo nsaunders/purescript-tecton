@@ -4,7 +4,7 @@ module Test.MediaQueriesSpec where
 
 import Prelude
 
-import PSCSS (all, media, px, universal, (?))
+import PSCSS (all, landscape, media, portrait, px, universal, (?))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -60,4 +60,16 @@ spec =
         "@media all and (min-device-height:800px) and (max-device-height:1600px){*{}}"
           `isRenderedFrom` do
           media all { minDeviceHeight: px 800, maxDeviceHeight: px 1600 } ?
+            universal ? {}
+
+      describe "orientation" do
+
+        "@media all and (orientation:landscape){*{}}"
+          `isRenderedFrom` do
+          media all { orientation: landscape } ?
+            universal ? {}
+
+        "@media all and (orientation:portrait){*{}}"
+          `isRenderedFrom` do
+          media all { orientation: portrait } ?
             universal ? {}

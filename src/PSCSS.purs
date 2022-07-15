@@ -592,6 +592,7 @@ type SupportedMediaFeatures' (v :: Type) =
   , minDeviceWidth :: v
   , minHeight :: v
   , minWidth :: v
+  , orientation :: v
   , width :: v
   )
 
@@ -608,6 +609,7 @@ defaultMediaFeatures =
   , minDeviceWidth: Nothing
   , minHeight: Nothing
   , minWidth: Nothing
+  , orientation: Nothing
   , width: Nothing
   }
 
@@ -642,6 +644,15 @@ instance mediaFeatureMaxDeviceWidthLength :: LengthTag a => MediaFeature "maxDev
 instance mediaFeatureDeviceHeightLength :: LengthTag a => MediaFeature "deviceHeight" (Measure a)
 instance mediaFeatureMinDeviceHeightLength :: LengthTag a => MediaFeature "minDeviceHeight" (Measure a)
 instance mediaFeatureMaxDeviceHeightLength :: LengthTag a => MediaFeature "maxDeviceHeight" (Measure a)
+
+-- https://www.w3.org/TR/mediaqueries-3/#orientation
+
+newtype Orientation = Orientation String
+portrait = Orientation "portrait" :: Orientation
+landscape = Orientation "landscape" :: Orientation
+derive newtype instance ToVal Orientation
+
+instance mediaFeatureOrientation :: MediaFeature "orientation" Orientation
 
 --------------------------------------------------------------------------------
 
