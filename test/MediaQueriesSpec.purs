@@ -4,7 +4,7 @@ module Test.MediaQueriesSpec where
 
 import Prelude
 
-import PSCSS (all, media, pct, print, px, screen, universal, (?))
+import PSCSS (all, media, px, universal, (?))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -36,4 +36,28 @@ spec =
         "@media all and (min-height:800px) and (max-height:1600px){*{}}"
           `isRenderedFrom` do
           media all { minHeight: px 800, maxHeight: px 1600 } ?
+            universal ? {}
+
+      describe "device-width" do
+
+        "@media all and (device-width:600px){*{}}"
+          `isRenderedFrom` do
+          media all { deviceWidth: px 600 } ?
+            universal ? {}
+
+        "@media all and (min-device-width:400px) and (max-device-width:999px){*{}}"
+          `isRenderedFrom` do
+          media all { minDeviceWidth: px 400, maxDeviceWidth: px 999 } ?
+            universal ? {}
+
+      describe "device-height" do
+
+        "@media all and (device-height:600px){*{}}"
+          `isRenderedFrom` do
+          media all { deviceHeight: px 600 } ?
+            universal ? {}
+
+        "@media all and (min-device-height:800px) and (max-device-height:1600px){*{}}"
+          `isRenderedFrom` do
+          media all { minDeviceHeight: px 800, maxDeviceHeight: px 1600 } ?
             universal ? {}

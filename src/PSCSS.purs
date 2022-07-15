@@ -581,9 +581,15 @@ instance IsMediaType All
 instance IsMediaType MediaType
 
 type SupportedMediaFeatures' (v :: Type) =
-  ( height :: v
+  ( deviceHeight :: v
+  , deviceWidth :: v
+  , height :: v
+  , maxDeviceHeight :: v
+  , maxDeviceWidth :: v
   , maxHeight :: v
   , maxWidth :: v
+  , minDeviceHeight :: v
+  , minDeviceWidth :: v
   , minHeight :: v
   , minWidth :: v
   , width :: v
@@ -591,9 +597,15 @@ type SupportedMediaFeatures' (v :: Type) =
 
 defaultMediaFeatures :: { | SupportedMediaFeatures }
 defaultMediaFeatures =
-  { height: Nothing
+  { deviceHeight: Nothing
+  , deviceWidth: Nothing
+  , height: Nothing
+  , maxDeviceHeight: Nothing
+  , maxDeviceWidth: Nothing
   , maxHeight: Nothing
   , maxWidth: Nothing
+  , minDeviceHeight: Nothing
+  , minDeviceWidth: Nothing
   , minHeight: Nothing
   , minWidth: Nothing
   , width: Nothing
@@ -618,6 +630,18 @@ instance mediaFeatureMaxWidthLength :: LengthTag a => MediaFeature "maxWidth" (M
 instance mediaFeatureHeightLength :: LengthTag a => MediaFeature "height" (Measure a)
 instance mediaFeatureMinHeightLength :: LengthTag a => MediaFeature "minHeight" (Measure a)
 instance mediaFeatureMaxHeightLength :: LengthTag a => MediaFeature "maxHeight" (Measure a)
+
+-- https://www.w3.org/TR/mediaqueries-3/#device-width
+
+instance mediaFeatureDeviceWidthLength :: LengthTag a => MediaFeature "deviceWidth" (Measure a)
+instance mediaFeatureMinDeviceWidthLength :: LengthTag a => MediaFeature "minDeviceWidth" (Measure a)
+instance mediaFeatureMaxDeviceWidthLength :: LengthTag a => MediaFeature "maxDeviceWidth" (Measure a)
+
+-- https://www.w3.org/TR/mediaqueries-3/#device-height
+
+instance mediaFeatureDeviceHeightLength :: LengthTag a => MediaFeature "deviceHeight" (Measure a)
+instance mediaFeatureMinDeviceHeightLength :: LengthTag a => MediaFeature "minDeviceHeight" (Measure a)
+instance mediaFeatureMaxDeviceHeightLength :: LengthTag a => MediaFeature "maxDeviceHeight" (Measure a)
 
 --------------------------------------------------------------------------------
 
