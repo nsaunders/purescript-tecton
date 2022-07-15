@@ -1,3 +1,5 @@
+-- https://www.w3.org/TR/mediaqueries-3/
+
 module Test.MediaQueriesSpec where
 
 import Prelude
@@ -10,32 +12,16 @@ spec :: Spec Unit
 spec =
   describe "Media Queries Module" do
 
-    describe "width feature" do
+    describe "Media features" do
 
-      "@media all and (width:400px){*{width:100%}}"
-        `isRenderedFrom` do
-        media all { width: px 400 } ?
-          universal ?
-            { width: pct 100
-            }
+      describe "width" do
 
-      "@media print and (width:400px){*{width:100%}}"
-        `isRenderedFrom` do
-        media print { width: px 400 } ?
-          universal ?
-            { width: pct 100
-            }
+        "@media all and (width:600px){*{}}"
+          `isRenderedFrom` do
+          media all { width: px 600 } ?
+            universal ? {}
 
-      "@media screen and (width:400px){*{width:100%}}"
-        `isRenderedFrom` do
-        media screen { width: px 400 } ?
-          universal ?
-            { width: pct 100
-            }
-
-      "@media all and (min-width:400px){*{width:100%}}"
-        `isRenderedFrom` do
-        media all { minWidth: px 400 } ?
-          universal ?
-            { width: pct 100
-            }
+        "@media all and (min-width:400px) and (max-width:999px){*{}}"
+          `isRenderedFrom` do
+          media all { minWidth: px 400, maxWidth: px 999 } ?
+            universal ? {}
