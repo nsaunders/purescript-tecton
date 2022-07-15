@@ -582,17 +582,23 @@ instance IsMediaType MediaType
 
 type SupportedMediaFeatures' (v :: Type) =
   ( aspectRatio :: v
+  , color :: v
+  , colorIndex :: v
   , deviceAspectRatio :: v
   , deviceHeight :: v
   , deviceWidth :: v
   , height :: v
   , maxAspectRatio :: v
+  , maxColor :: v
+  , maxColorIndex :: v
   , maxDeviceAspectRatio :: v
   , maxDeviceHeight :: v
   , maxDeviceWidth :: v
   , maxHeight :: v
   , maxWidth :: v
   , minAspectRatio :: v
+  , minColor :: v
+  , minColorIndex :: v
   , minDeviceAspectRatio :: v
   , minDeviceHeight :: v
   , minDeviceWidth :: v
@@ -605,17 +611,23 @@ type SupportedMediaFeatures' (v :: Type) =
 defaultMediaFeatures :: { | SupportedMediaFeatures }
 defaultMediaFeatures =
   { aspectRatio: Nothing
+  , color: Nothing
+  , colorIndex: Nothing
   , deviceAspectRatio: Nothing
   , deviceHeight: Nothing
   , deviceWidth: Nothing
   , height: Nothing
   , maxAspectRatio: Nothing
+  , maxColor: Nothing
+  , maxColorIndex: Nothing
   , maxDeviceAspectRatio: Nothing
   , maxDeviceHeight: Nothing
   , maxDeviceWidth: Nothing
   , maxHeight: Nothing
   , maxWidth: Nothing
   , minAspectRatio: Nothing
+  , minColor: Nothing
+  , minColorIndex: Nothing
   , minDeviceAspectRatio: Nothing
   , minDeviceHeight: Nothing
   , minDeviceWidth: Nothing
@@ -681,6 +693,18 @@ instance mediaFeatureMaxAspectRatio :: MediaFeature "maxAspectRatio" Ratio
 instance mediaFeatureDeviceAspectRatio :: MediaFeature "deviceAspectRatio" Ratio
 instance mediaFeatureMinDeviceAspectRatio :: MediaFeature "minDeviceAspectRatio" Ratio
 instance mediaFeatureMaxDeviceAspectRatio :: MediaFeature "maxDeviceAspectRatio" Ratio
+
+-- https://www.w3.org/TR/mediaqueries-3/#color
+
+instance mediaFeatureColor :: MediaFeature "color" Int
+instance mediaFeatureMinColor :: MediaFeature "minColor" Int
+instance mediaFeatureMaxColor :: MediaFeature "maxColor" Int
+
+-- https://www.w3.org/TR/mediaqueries-3/#color-index
+
+instance mediaFeatureColorIndex :: MediaFeature "colorIndex" Int
+instance mediaFeatureMinColorIndex :: MediaFeature "minColorIndex" Int
+instance mediaFeatureMaxColorIndex :: MediaFeature "maxColorIndex" Int
 
 --------------------------------------------------------------------------------
 

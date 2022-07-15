@@ -89,3 +89,23 @@ spec =
             all
             { minDeviceAspectRatio: 4 :/ 3, maxDeviceAspectRatio: 16 :/ 9 } ?
             universal ? {}
+
+      describe "color" do
+
+        "@media all and (color:0){*{}}"
+          `isRenderedFrom` do
+          media all { color: 0 } ? universal ? {}
+
+        "@media all and (min-color:0) and (max-color:2){*{}}"
+          `isRenderedFrom` do
+          media all { minColor: 0, maxColor: 2 } ? universal ? {}
+
+      describe "color-index" do
+
+        "@media all and (color-index:1){*{}}"
+          `isRenderedFrom` do
+          media all { colorIndex: 1 } ? universal ? {}
+
+        "@media all and (min-color-index:1) and (max-color-index:256){*{}}"
+          `isRenderedFrom` do
+          media all { minColorIndex: 1, maxColorIndex: 256 } ? universal ? {}
