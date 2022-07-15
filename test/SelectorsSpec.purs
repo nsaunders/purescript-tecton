@@ -6,7 +6,7 @@ module Test.SelectorsSpec where
 import Prelude
 
 import Data.NonEmpty ((:|))
-import PSCSS (att, byActive, byAfter, byBefore, byChecked, byClass, byDisabled, byEmpty, byEnabled, byFirstChild, byFirstLetter, byFirstLine, byFirstOfType, byFocus, byHover, byId, byIndeterminate, byLang, byLastChild, byLastOfType, byLink, byNot, byNthChild, byNthLastChild, byNthOfType, byOnlyChild, byOnlyOfType, byRoot, byTarget, byVisited, even, href, hreflang, nth, odd, title, universal, ($=), (*=), (?), (@=), (^=), (|*), (|+), (|=), (|>), (|~), (~=))
+import PSCSS (att, byActive, byAfter, byAtt, byBefore, byChecked, byClass, byDisabled, byEmpty, byEnabled, byFirstChild, byFirstLetter, byFirstLine, byFirstOfType, byFocus, byHover, byId, byIndeterminate, byLang, byLastChild, byLastOfType, byLink, byNot, byNthChild, byNthLastChild, byNthOfType, byOnlyChild, byOnlyOfType, byRoot, byTarget, byVisited, even, href, hreflang, nth, odd, title, universal, ($=), (*=), (?), (@=), (^=), (|*), (|+), (|=), (|>), (|~), (~=))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -19,6 +19,8 @@ spec =
       "*{}" `isRenderedFrom` do universal ? {}
 
     describe "Attribute selectors" do
+
+      "*[href]{}" `isRenderedFrom` do universal # byAtt href ? {}
 
       "*[href=\"http://www.w3.org/\"]{}"
         `isRenderedFrom` do

@@ -679,6 +679,9 @@ attCmp op att' val' =
   appendSelectorDetail $
     val "[" <> val att' <> val op <> val (quote val') <> val "]"
 
+byAtt :: forall a. IsAttribute a => a -> Selector Open -> Selector Open
+byAtt a = appendSelectorDetail $ val "[" <> val a <> val "]"
+
 byAttEq
   :: forall a
    . IsAttribute a
