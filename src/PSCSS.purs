@@ -547,40 +547,6 @@ infixl 8 divide as @/
 
 -- https://www.w3.org/TR/mediaqueries-3/
 
-newtype MediaType = MediaType String
-print = MediaType "print" :: MediaType
-screen = MediaType "screen" :: MediaType
-derive newtype instance ToVal MediaType
-
-class ToVal a <= IsMediaType (a :: Type)
-instance IsMediaType All
-instance IsMediaType MediaType
-
-type SupportedMediaFeatures' (v :: Type) =
-  ( minWidth :: v
-  , maxWidth :: v
-  , width :: v
-  )
-
-defaultMediaFeatures :: { | SupportedMediaFeatures }
-defaultMediaFeatures =
-  { maxWidth: Nothing
-  , minWidth: Nothing
-  , width: Nothing
-  }
-
-type SupportedMediaFeatures = SupportedMediaFeatures' (Maybe Val)
-
-data MediaFeature' = MediaFeature'
-
-class ToVal v <= MediaFeature (f :: Symbol) (v :: Type)
-instance MediaFeature f v => ConvertOption MediaFeature' f v (Maybe Val) where
-  convertOption _ _ = pure <<< val
-
-instance mediaFeatureWidthLength :: LengthTag a => MediaFeature "width" (Measure a)
-instance mediaFeatureMinWidthLength :: LengthTag a => MediaFeature "minWidth" (Measure a)
-instance mediaFeatureMaxWidthLength :: LengthTag a => MediaFeature "maxWidth" (Measure a)
-
 media
   :: forall mediaType providedMediaFeatures rl
    . IsMediaType mediaType
@@ -604,6 +570,54 @@ media mediaType providedMediaFeatures =
               providedMediaFeatures
   in
     NestedRule $ val "media " <> val mediaType <> features
+
+newtype MediaType = MediaType String
+print = MediaType "print" :: MediaType
+screen = MediaType "screen" :: MediaType
+derive newtype instance ToVal MediaType
+
+class ToVal a <= IsMediaType (a :: Type)
+instance IsMediaType All
+instance IsMediaType MediaType
+
+type SupportedMediaFeatures' (v :: Type) =
+  ( height :: v
+  , maxHeight :: v
+  , maxWidth :: v
+  , minHeight :: v
+  , minWidth :: v
+  , width :: v
+  )
+
+defaultMediaFeatures :: { | SupportedMediaFeatures }
+defaultMediaFeatures =
+  { height: Nothing
+  , maxHeight: Nothing
+  , maxWidth: Nothing
+  , minHeight: Nothing
+  , minWidth: Nothing
+  , width: Nothing
+  }
+
+type SupportedMediaFeatures = SupportedMediaFeatures' (Maybe Val)
+
+data MediaFeature' = MediaFeature'
+
+class ToVal v <= MediaFeature (f :: Symbol) (v :: Type)
+instance MediaFeature f v => ConvertOption MediaFeature' f v (Maybe Val) where
+  convertOption _ _ = pure <<< val
+
+-- https://www.w3.org/TR/mediaqueries-3/#width
+
+instance mediaFeatureWidthLength :: LengthTag a => MediaFeature "width" (Measure a)
+instance mediaFeatureMinWidthLength :: LengthTag a => MediaFeature "minWidth" (Measure a)
+instance mediaFeatureMaxWidthLength :: LengthTag a => MediaFeature "maxWidth" (Measure a)
+
+-- https://www.w3.org/TR/mediaqueries-3/#height
+
+instance mediaFeatureHeightLength :: LengthTag a => MediaFeature "height" (Measure a)
+instance mediaFeatureMinHeightLength :: LengthTag a => MediaFeature "minHeight" (Measure a)
+instance mediaFeatureMaxHeightLength :: LengthTag a => MediaFeature "maxHeight" (Measure a)
 
 --------------------------------------------------------------------------------
 

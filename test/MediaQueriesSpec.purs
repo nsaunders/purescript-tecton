@@ -25,3 +25,15 @@ spec =
           `isRenderedFrom` do
           media all { minWidth: px 400, maxWidth: px 999 } ?
             universal ? {}
+
+      describe "height" do
+
+        "@media all and (height:600px){*{}}"
+          `isRenderedFrom` do
+          media all { height: px 600 } ?
+            universal ? {}
+
+        "@media all and (min-height:800px) and (max-height:1600px){*{}}"
+          `isRenderedFrom` do
+          media all { minHeight: px 800, maxHeight: px 1600 } ?
+            universal ? {}
