@@ -163,21 +163,43 @@ data Statement
   = NestedAtRule NestedRule (Array Statement)
   | Ruleset (NonEmpty Array (Selector Closed)) Val
 
-class Statement' (a :: Type) (b :: Type) where
-  statement :: a -> b -> Writer (Array Statement) Unit
+newtype Keyframes = Keyframes String
 
-instance Statement' NestedRule (Writer (Array Statement) Unit) where
+keyframes :: String -> Keyframes
+keyframes = Keyframes
+
+data KeyframeBlock = KeyframeBlock (NonEmpty Array (Measure Percentage)) Val
+
+class Statement' (a :: Type) (b :: Type) (c :: Type) | a -> c where
+  statement :: a -> b -> c
+
+instance Statement' NestedRule (Writer (Array Statement) Unit) (Writer (Array Statement) Unit) where
   statement rule = tell <<< pure <<< NestedAtRule rule <<< execWriter
+else instance Statement' Keyframes (Writer (Array KeyframeBlock) Unit) (Writer (Array Statement) Unit) where
+  statement (Keyframes k) keyframeBlocks =
+    tell $ pure $ NestedAtRule (NestedRule $ val $ "keyframes " <> k) $ keyframeBlockToStatement <$> execWriter keyframeBlocks
+    where
+      keyframeBlockToStatement (KeyframeBlock selectors declarations) =
+        Ruleset ((Selector <<< val) <$> selectors) declarations
 else instance
   ConvertOptionsWithDefaults
     Declaration
     { | SupportedDeclarations }
     { | providedDeclarations }
     { | SupportedDeclarations }
-  => Statement' (NonEmpty Array (Selector tag)) { | providedDeclarations } where
+  => Statement' (NonEmpty Array (Measure Percentage)) { | providedDeclarations } (Writer (Array KeyframeBlock) Unit) where
+  statement selectors provided =
+    tell $ pure $ KeyframeBlock selectors $ declarationBlock provided
+else instance
+  ConvertOptionsWithDefaults
+    Declaration
+    { | SupportedDeclarations }
+    { | providedDeclarations }
+    { | SupportedDeclarations }
+  => Statement' (NonEmpty Array (Selector tag)) { | providedDeclarations } (Writer (Array Statement) Unit) where
   statement selectors provided =
     tell $ pure $ Ruleset (closeSelector <$> selectors) $ declarationBlock provided
-else instance Statement' (NonEmpty Array a) b => Statement' a b where
+else instance Statement' (NonEmpty Array a) b c => Statement' a b c where
   statement selector = statement (NE.singleton selector :: NonEmpty Array a)
 
 infixr 0 statement as ?

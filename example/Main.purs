@@ -5,10 +5,14 @@ import Prelude
 import Color (hsl)
 import Effect (Effect)
 import Effect.Console (log)
-import PSCSS (all, att, byClass, class', byHover, media, pct, pretty, px, render, universal, (?), (@=), (^=), (|*), (|>), (~=), (|+))
+import PSCSS (all, att, byClass, byHover, class', keyframes, media, pct, pretty, px, render, universal, (?), (@=), (^=), (|*), (|+), (|>), (~=))
 
 main :: Effect Unit
 main = log $ render pretty do
+  keyframes "foo" ?
+    pct 100 ?
+      { width: px 100
+      }
   universal # byHover |+ universal # byClass "foo" ?
     { color: hsl 240.0 1.0 0.5
     }
