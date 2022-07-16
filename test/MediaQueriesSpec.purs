@@ -4,13 +4,21 @@ module Test.MediaQueriesSpec where
 
 import Prelude
 
-import PSCSS (all, dpcm, dpi, landscape, media, portrait, px, universal, (?), (:/))
+import PSCSS (all, dpcm, dpi, landscape, media, portrait, print, px, screen, universal, (:/), (?))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
 spec :: Spec Unit
 spec =
   describe "Media Queries Module" do
+
+    describe "Media types" do
+
+      "@media all{*{}}" `isRenderedFrom` do media all {} ? universal ? {}
+
+      "@media screen{*{}}" `isRenderedFrom` do media screen {} ? universal ? {}
+
+      "@media print{*{}}" `isRenderedFrom` do media print {} ? universal ? {}
 
     describe "Media features" do
 
