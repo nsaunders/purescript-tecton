@@ -4,7 +4,7 @@ module Test.MediaQueriesSpec where
 
 import Prelude
 
-import PSCSS (all, landscape, media, portrait, px, universal, (?), (:/))
+import PSCSS (all, dpcm, dpi, landscape, media, portrait, px, universal, (?), (:/))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -109,3 +109,24 @@ spec =
         "@media all and (min-color-index:1) and (max-color-index:256){*{}}"
           `isRenderedFrom` do
           media all { minColorIndex: 1, maxColorIndex: 256 } ? universal ? {}
+
+      describe "monochrome" do
+
+        "@media all and (monochrome:0){*{}}"
+          `isRenderedFrom` do
+          media all { monochrome: 0 } ? universal ? {}
+
+        "@media all and (min-monochrome:1) and (max-monochrome:2){*{}}"
+          `isRenderedFrom` do
+          media all { minMonochrome: 1, maxMonochrome: 2 } ? universal ? {}
+
+      describe "resolution" do
+
+        "@media all and (resolution:300dpi){*{}}"
+          `isRenderedFrom` do
+          media all { resolution: dpi 300 } ? universal ? {}
+
+        "@media all and (min-resolution:118dpcm) and (max-resolution:236dpcm){*{}}"
+          `isRenderedFrom` do
+          media all { minResolution: dpcm 118, maxResolution: dpcm 236 } ?
+            universal ? {}

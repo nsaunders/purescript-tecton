@@ -595,6 +595,8 @@ type SupportedMediaFeatures' (v :: Type) =
   , maxDeviceHeight :: v
   , maxDeviceWidth :: v
   , maxHeight :: v
+  , maxMonochrome :: v
+  , maxResolution :: v
   , maxWidth :: v
   , minAspectRatio :: v
   , minColor :: v
@@ -603,8 +605,12 @@ type SupportedMediaFeatures' (v :: Type) =
   , minDeviceHeight :: v
   , minDeviceWidth :: v
   , minHeight :: v
+  , minMonochrome :: v
+  , minResolution :: v
   , minWidth :: v
+  , monochrome :: v
   , orientation :: v
+  , resolution :: v
   , width :: v
   )
 
@@ -624,6 +630,8 @@ defaultMediaFeatures =
   , maxDeviceHeight: Nothing
   , maxDeviceWidth: Nothing
   , maxHeight: Nothing
+  , maxMonochrome: Nothing
+  , maxResolution: Nothing
   , maxWidth: Nothing
   , minAspectRatio: Nothing
   , minColor: Nothing
@@ -632,8 +640,12 @@ defaultMediaFeatures =
   , minDeviceHeight: Nothing
   , minDeviceWidth: Nothing
   , minHeight: Nothing
+  , minMonochrome: Nothing
+  , minResolution: Nothing
   , minWidth: Nothing
+  , monochrome: Nothing
   , orientation: Nothing
+  , resolution: Nothing
   , width: Nothing
   }
 
@@ -705,6 +717,28 @@ instance mediaFeatureMaxColor :: MediaFeature "maxColor" Int
 instance mediaFeatureColorIndex :: MediaFeature "colorIndex" Int
 instance mediaFeatureMinColorIndex :: MediaFeature "minColorIndex" Int
 instance mediaFeatureMaxColorIndex :: MediaFeature "maxColorIndex" Int
+
+-- https://www.w3.org/TR/mediaqueries-3/#monochrome
+
+instance mediaFeatureMonochrome :: MediaFeature "monochrome" Int
+instance mediaFeatureMinMonochrome :: MediaFeature "minMonochrome" Int
+instance mediaFeatureMaxMonochrome :: MediaFeature "maxMonochrome" Int
+
+-- https://www.w3.org/TR/mediaqueries-3/#resolution
+
+newtype Resolution = Resolution String
+
+dpi :: Int -> Resolution
+dpi x = Resolution $ show x <> "dpi"
+
+dpcm :: Int -> Resolution
+dpcm x = Resolution $ show x <> "dpcm"
+
+derive newtype instance ToVal Resolution
+
+instance mediaFeatureResolution :: MediaFeature "resolution" Resolution
+instance mediaFeatureMinResolution :: MediaFeature "minResolution" Resolution
+instance mediaFeatureMaxResolution :: MediaFeature "maxResolution" Resolution
 
 --------------------------------------------------------------------------------
 
