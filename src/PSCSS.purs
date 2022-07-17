@@ -124,7 +124,8 @@ runVal x (Val f) = f x
 data Declaration = Declaration
 
 type SupportedDeclarations' (v :: Type) =
-  ( animationName :: v
+  ( animationDuration :: v
+  , animationName :: v
   , color :: v
   , height :: v
   , maxHeight :: v
@@ -137,7 +138,8 @@ type SupportedDeclarations' (v :: Type) =
 
 defaultDeclarations :: { | SupportedDeclarations }
 defaultDeclarations =
-  { animationName: Nothing
+  { animationDuration: Nothing
+  , animationName: Nothing
   , color: Nothing
   , height: Nothing
   , maxHeight: Nothing
@@ -468,8 +470,8 @@ data Time
 ms :: forall a. ToNumber a => a -> Measure Time
 ms = measure "ms"
 
-sec :: forall a. ToNumber a => a -> Measure Time
-sec = measure "s"
+s :: forall a. ToNumber a => a -> Measure Time
+s = measure "s"
 
 class TimeTag (a :: Type)
 instance TimeTag Time
@@ -1124,10 +1126,18 @@ byAfter = closeSelector <<< appendSelectorDetail (val "::after")
 
 -- https://www.w3.org/TR/css-animations-1/
 
+-- https://www.w3.org/TR/css-animations-1/#propdef-animation-name
+
 instance propertyAnimationNameCommonKeyword :: Property "animationName" CommonKeyword
 instance propertyAnimationNameNone :: Property "animationName" None
 instance propertyAnimationNameSingle :: Property "animationName" KeyframesName
 instance propertyAnimationNameMultiple :: Property "animationName" (NonEmpty Array KeyframesName)
+
+-- https://www.w3.org/TR/css-animations-1/#propdef-animation-duration
+
+instance propertyAnimationDurationCommonKeyword :: Property "animationDuration" CommonKeyword
+instance propertyAnimationDurationSingle :: TimeTag a => Property "animationDuration" (Measure a)
+instance propertyAnimationDurationMultiple :: TimeTag a => Property "animationDuration" (NonEmpty Array (Measure a))
 
 --------------------------------------------------------------------------------
 

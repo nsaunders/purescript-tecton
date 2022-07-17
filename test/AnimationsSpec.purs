@@ -5,7 +5,7 @@ module Test.AnimationsSpec where
 import Prelude
 
 import Data.NonEmpty ((:|))
-import PSCSS (all, inherit, initial, keyframes, keyframesName, media, none, pct, unset, (?), (@*), (@+@), (@/))
+import PSCSS (all, inherit, initial, keyframes, keyframesName, media, ms, none, pct, s, unset, (?), (@*), (@+@), (@/))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -49,3 +49,17 @@ spec =
       "animation-name:foo,bar"
         `isRenderedFrom`
         { animationName: keyframesName "foo" :| [keyframesName "bar"] }
+
+    describe "animation-duration property" do
+
+      "animation-duration:inherit" `isRenderedFrom` { animationDuration: inherit }
+
+      "animation-duration:initial" `isRenderedFrom` { animationDuration: initial }
+
+      "animation-duration:unset" `isRenderedFrom` { animationDuration: unset }
+
+      "animation-duration:150ms" `isRenderedFrom` { animationDuration: ms 150 }
+
+      "animation-duration:150ms,2s"
+        `isRenderedFrom`
+        { animationDuration: ms 150 :| [s 2] }
