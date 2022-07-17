@@ -21,6 +21,7 @@ import Data.String.Regex (regex)
 import Data.String.Regex as Regex
 import Data.String.Regex.Flags (global)
 import Data.Symbol (class IsSymbol, reflectSymbol)
+import Data.Tuple (curry)
 import Data.Tuple.Nested (type (/\), (/\))
 import Prim.Row as Row
 import Prim.RowList (class RowToList, RowList)
@@ -488,20 +489,10 @@ else instance Calc Add (Measure Percentage) (Measure LengthPercentage) (Measure 
 else instance Calc Add a a a
 else instance Calc Add a b c => Calc Add b a c
 else instance Calc Add a b c => Calc Subtract a b c
-else instance Calc Multiply a Number a
-else instance Calc Multiply a Int a
-else instance Calc Multiply a Number c => Calc Divide a Number c
-else instance Calc Multiply a Int c => Calc Divide a Int c
+else instance ToNumber b => Calc Multiply a b a
+else instance Calc Multiply a b c => Calc Divide a b c
 
-calc
-  :: forall op a b
-   . ToVal op
-  => ToVal a
-  => ToVal b
-  => op
-  -> a
-  -> b
-  -> Val
+calc :: forall op a b. ToVal op => ToVal a => ToVal b => op -> a -> b -> Val
 calc op a b = fn (val "calc") [val $ a /\ op /\ b]
 
 add
@@ -510,12 +501,13 @@ add
   => Measure a
   -> Measure b
   -> Measure c
-add a b =
-  case a /\ b of
-    Measure an au /\ Measure bn bu | au == bu ->
-      Measure (an + bn) au
-    _ ->
-      MeasureVal $ calc Add a b
+add =
+  curry $
+    case _ of
+      Measure an au /\ Measure bn bu | au == bu ->
+        Measure (an + bn) au
+      a /\ b ->
+        MeasureVal $ calc Add a b
 
 infixl 7 add as @+@
 
@@ -525,12 +517,13 @@ subtract
   => Measure a
   -> Measure b
   -> Measure c
-subtract a b =
-  case a /\ b of
-    Measure an au /\ Measure bn bu | au == bu ->
-      Measure (an - bn) au
-    _ ->
-      MeasureVal $ calc Subtract a b
+subtract =
+  curry $
+    case _ of
+      Measure an au /\ Measure bn bu | au == bu ->
+        Measure (an - bn) au
+      a /\ b ->
+        MeasureVal $ calc Subtract a b
 
 infixl 7 subtract as @-@
 
@@ -542,12 +535,13 @@ multiply
   => Measure a
   -> b
   -> Measure a
-multiply a b =
-  case a of
-    Measure n u ->
-      Measure (n * toNumber b) u
-    _ ->
-      MeasureVal $ calc Multiply a b
+multiply =
+  curry $
+    case _ of
+      Measure n u /\ b ->
+        Measure (n * toNumber b) u
+      a /\ b ->
+        MeasureVal $ calc Multiply a b
 
 infixl 8 multiply as @*
 
@@ -559,12 +553,13 @@ multiplyFlipped
   => b
   -> Measure a
   -> Measure a
-multiplyFlipped b a =
-  case a of
-    Measure n u ->
-      Measure (n * toNumber b) u
-    _ ->
-      MeasureVal $ calc Multiply b a
+multiplyFlipped =
+  curry $
+    case _ of
+      b /\ Measure n u ->
+        Measure (n * toNumber b) u
+      b /\ a ->
+        MeasureVal $ calc Multiply b a
 
 infixl 8 multiplyFlipped as *@
 
@@ -576,12 +571,13 @@ divide
   => Measure a
   -> b
   -> Measure a
-divide a b =
-  case a of
-    Measure n u ->
-      Measure (n / toNumber b) u
-    _ ->
-      MeasureVal $ calc Divide a b
+divide =
+  curry $
+    case _ of
+      Measure n u /\ b ->
+        Measure (n / toNumber b) u
+      a /\ b ->
+        MeasureVal $ calc Divide a b
 
 infixl 8 divide as @/
 
