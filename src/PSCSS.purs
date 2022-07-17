@@ -99,6 +99,9 @@ instance ToVal Int where
 instance (ToVal a, ToVal b) => ToVal (a /\ b) where
   val (a /\ b) = val a <> val " " <> val b
 
+instance ToVal a => ToVal (NonEmpty Array a) where
+  val = joinVals "," <<< Array.fromFoldable <<< map val
+
 joinVals 
   :: forall s f
    . ToVal s
@@ -121,7 +124,8 @@ runVal x (Val f) = f x
 data Declaration = Declaration
 
 type SupportedDeclarations' (v :: Type) =
-  ( color :: v
+  ( animationName :: v
+  , color :: v
   , height :: v
   , maxHeight :: v
   , maxWidth :: v
@@ -133,7 +137,8 @@ type SupportedDeclarations' (v :: Type) =
 
 defaultDeclarations :: { | SupportedDeclarations }
 defaultDeclarations =
-  { color: Nothing
+  { animationName: Nothing
+  , color: Nothing
   , height: Nothing
   , maxHeight: Nothing
   , maxWidth: Nothing
@@ -168,6 +173,8 @@ newtype KeyframesName = KeyframesName String
 
 keyframesName :: String -> KeyframesName
 keyframesName = KeyframesName
+
+derive newtype instance ToVal KeyframesName
 
 newtype Keyframes = Keyframes KeyframesName
 
@@ -1112,6 +1119,15 @@ byBefore = closeSelector <<< appendSelectorDetail (val "::before")
 
 byAfter :: Selector Open -> Selector Closed
 byAfter = closeSelector <<< appendSelectorDetail (val "::after")
+
+--------------------------------------------------------------------------------
+
+-- https://www.w3.org/TR/css-animations-1/
+
+instance propertyAnimationNameCommonKeyword :: Property "animationName" CommonKeyword
+instance propertyAnimationNameNone :: Property "animationName" None
+instance propertyAnimationNameSingle :: Property "animationName" KeyframesName
+instance propertyAnimationNameMultiple :: Property "animationName" (NonEmpty Array KeyframesName)
 
 --------------------------------------------------------------------------------
 
