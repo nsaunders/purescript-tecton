@@ -341,68 +341,78 @@ fn name' args = Val \c ->
   in
     runVal c name' <> "(" <> args' <> ")"
 
-newtype Measure (tag :: Type) = Measure Val
+class ToNumber (a :: Type) where
+  toNumber :: a -> Number
+
+instance ToNumber Int where
+  toNumber = Int.toNumber
+
+instance ToNumber Number where
+  toNumber = identity
+
+data Measure (tag :: Type)
+  = MeasureVal Val
+  | Measure Number String
 
 instance ToVal (Measure tag) where
-  val (Measure v) = v
+  val =
+    case _ of
+      MeasureVal v ->
+        v
+      Measure n u ->
+        val $ Number.toString n <> u
 
-measure :: forall a. String -> Number -> Measure a
-measure u n = Measure $ val $ Number.toString n <> u
+measure :: forall n a. ToNumber n => String -> n -> Measure a
+measure u n = Measure (toNumber n) u
 
 data Nil
 
 nil :: Measure Nil
-nil = Measure $ val 0
+nil = Measure 0.0 mempty
 
 data Length
 
-class ToLength a where
-  ch :: a -> Measure Length
-  em :: a -> Measure Length
-  ex :: a -> Measure Length
-  rem :: a -> Measure Length
-  vh :: a -> Measure Length
-  vw :: a -> Measure Length
-  vmin :: a -> Measure Length
-  vmax :: a -> Measure Length
-  px :: a -> Measure Length
-  cm :: a -> Measure Length
-  mm :: a -> Measure Length
-  pc :: a -> Measure Length
-  pt :: a -> Measure Length
-  inch :: a -> Measure Length
+ch :: forall a. ToNumber a => a -> Measure Length
+ch = measure "ch"
 
-instance ToLength Number where
-  ch = measure "ch"
-  em = measure "em"
-  ex = measure "ex"
-  rem = measure "rem"
-  vh = measure "vh"
-  vw = measure "vw"
-  vmin = measure "vmin"
-  vmax = measure "vmax"
-  px = measure "px"
-  cm = measure "cm"
-  mm = measure "mm"
-  pc = measure "pc"
-  pt = measure "pt"
-  inch = measure "in"
+em :: forall a. ToNumber a => a -> Measure Length
+em = measure "em"
 
-instance ToLength Int where
-  ch = ch <<< Int.toNumber
-  em = em <<< Int.toNumber
-  ex = ex <<< Int.toNumber
-  rem = rem <<< Int.toNumber
-  vh = vh <<< Int.toNumber
-  vw = vw <<< Int.toNumber
-  vmin = vmin <<< Int.toNumber
-  vmax = vmax <<< Int.toNumber
-  px = px <<< Int.toNumber
-  cm = cm <<< Int.toNumber
-  mm = mm <<< Int.toNumber
-  pc = pc <<< Int.toNumber
-  pt = pt <<< Int.toNumber
-  inch = inch <<< Int.toNumber
+ex :: forall a. ToNumber a => a -> Measure Length
+ex = measure "ex"
+
+rem :: forall a. ToNumber a => a -> Measure Length
+rem = measure "rem"
+
+vh :: forall a. ToNumber a => a -> Measure Length
+vh = measure "vh"
+
+vw :: forall a. ToNumber a => a -> Measure Length
+vw = measure "vw"
+
+vmin :: forall a. ToNumber a => a -> Measure Length
+vmin = measure "vmin"
+
+vmax :: forall a. ToNumber a => a -> Measure Length
+vmax = measure "vmax"
+
+px :: forall a. ToNumber a => a -> Measure Length
+px = measure "px"
+
+cm :: forall a. ToNumber a => a -> Measure Length
+cm = measure "cm"
+
+mm :: forall a. ToNumber a => a -> Measure Length
+mm = measure "mm"
+
+pc :: forall a. ToNumber a => a -> Measure Length
+pc = measure "pc"
+
+pt :: forall a. ToNumber a => a -> Measure Length
+pt = measure "pt"
+
+inch :: forall a. ToNumber a => a -> Measure Length
+inch = measure "in"
 
 class LengthTag (a :: Type)
 instance LengthTag Length
@@ -410,14 +420,8 @@ instance LengthTag Nil
 
 data Percentage
 
-class ToPercentage a where
-  pct :: a -> Measure Percentage
-
-instance ToPercentage Number where
-  pct = measure "%"
-
-instance ToPercentage Int where
-  pct = pct <<< Int.toNumber
+pct :: forall a. ToNumber a => a -> Measure Percentage
+pct = measure "%"
 
 class PercentageTag (a :: Type)
 instance PercentageTag Percentage
@@ -433,20 +437,14 @@ instance LengthPercentageTag Nil
 
 data Angle
 
-class ToAngle a where
-  deg :: a -> Measure Angle
-  rad :: a -> Measure Angle
-  turn :: a -> Measure Angle
+deg :: forall a. ToNumber a => a -> Measure Angle
+deg = measure "deg"
 
-instance ToAngle Number where
-  deg = measure "deg"
-  rad = measure "rad"
-  turn = measure "turn"
+rad :: forall a. ToNumber a => a -> Measure Angle
+rad = measure "rad"
 
-instance ToAngle Int where
-  deg = deg <<< Int.toNumber
-  rad = rad <<< Int.toNumber
-  turn = turn <<< Int.toNumber
+turn :: forall a. ToNumber a => a -> Measure Angle
+turn = measure "turn"
 
 class AngleTag (a :: Type)
 instance AngleTag Angle
@@ -454,17 +452,11 @@ instance AngleTag Nil
 
 data Time
 
-class ToTime a where
-  ms :: a -> Measure Time
-  sec :: a -> Measure Time
+ms :: forall a. ToNumber a => a -> Measure Time
+ms = measure "ms"
 
-instance ToTime Number where
-  ms = measure "ms"
-  sec = measure "s"
-
-instance ToTime Int where
-  ms = ms <<< Int.toNumber
-  sec = sec <<< Int.toNumber
+sec :: forall a. ToNumber a => a -> Measure Time
+sec = measure "s"
 
 class TimeTag (a :: Type)
 instance TimeTag Time
@@ -518,7 +510,12 @@ add
   => Measure a
   -> Measure b
   -> Measure c
-add a b = Measure $ calc Add a b
+add a b =
+  case a /\ b of
+    Measure an au /\ Measure bn bu | au == bu ->
+      Measure (an + bn) au
+    _ ->
+      MeasureVal $ calc Add a b
 
 infixl 7 add as @+@
 
@@ -528,40 +525,63 @@ subtract
   => Measure a
   -> Measure b
   -> Measure c
-subtract a b = Measure $ calc Subtract a b
+subtract a b =
+  case a /\ b of
+    Measure an au /\ Measure bn bu | au == bu ->
+      Measure (an - bn) au
+    _ ->
+      MeasureVal $ calc Subtract a b
 
 infixl 7 subtract as @-@
 
 multiply
   :: forall a b
-   . ToVal b
+   . ToNumber b
+  => ToVal b
   => Calc Multiply (Measure a) b (Measure a)
   => Measure a
   -> b
   -> Measure a
-multiply a b = Measure $ calc Multiply a b
+multiply a b =
+  case a of
+    Measure n u ->
+      Measure (n * toNumber b) u
+    _ ->
+      MeasureVal $ calc Multiply a b
 
 infixl 8 multiply as @*
 
 multiplyFlipped
   :: forall a b
    . ToVal b
+  => ToNumber b
   => Calc Multiply (Measure a) b (Measure a)
   => b
   -> Measure a
   -> Measure a
-multiplyFlipped b a = Measure $ calc Multiply b a
+multiplyFlipped b a =
+  case a of
+    Measure n u ->
+      Measure (n * toNumber b) u
+    _ ->
+      MeasureVal $ calc Multiply b a
 
 infixl 8 multiplyFlipped as *@
 
 divide
   :: forall a b
-   . ToVal b
+   . ToNumber b
+  => ToVal b
   => Calc Divide (Measure a) b (Measure a)
   => Measure a
   -> b
   -> Measure a
-divide a b = Measure $ calc Divide a b
+divide a b =
+  case a of
+    Measure n u ->
+      Measure (n / toNumber b) u
+    _ ->
+      MeasureVal $ calc Divide a b
 
 infixl 8 divide as @/
 
