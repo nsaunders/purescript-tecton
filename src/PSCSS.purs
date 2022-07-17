@@ -164,9 +164,14 @@ data Statement
   = NestedAtRule NestedRule (Array Statement)
   | Ruleset (NonEmpty Array (Selector Closed)) Val
 
-newtype Keyframes = Keyframes String
+newtype KeyframesName = KeyframesName String
 
-keyframes :: String -> Keyframes
+keyframesName :: String -> KeyframesName
+keyframesName = KeyframesName
+
+newtype Keyframes = Keyframes KeyframesName
+
+keyframes :: KeyframesName -> Keyframes
 keyframes = Keyframes
 
 data KeyframeBlock = KeyframeBlock (NonEmpty Array (Measure Percentage)) Val
@@ -177,7 +182,7 @@ class Statement' (a :: Type) (b :: Type) (c :: Type) | a -> c where
 instance Statement' NestedRule (Writer (Array Statement) Unit) (Writer (Array Statement) Unit) where
   statement rule = tell <<< pure <<< NestedAtRule rule <<< execWriter
 else instance Statement' Keyframes (Writer (Array KeyframeBlock) Unit) (Writer (Array Statement) Unit) where
-  statement (Keyframes k) keyframeBlocks =
+  statement (Keyframes (KeyframesName k)) keyframeBlocks =
     tell $ pure $ NestedAtRule (NestedRule $ val $ "keyframes " <> k) $ keyframeBlockToStatement <$> execWriter keyframeBlocks
     where
       keyframeBlockToStatement (KeyframeBlock selectors declarations) =

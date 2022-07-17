@@ -5,12 +5,12 @@ import Prelude
 import Color (hsl)
 import Effect (Effect)
 import Effect.Console (log)
-import PSCSS (all, att, byClass, byHover, class', keyframes, media, pct, pretty, px, render, universal, (?), (@=), (^=), (|*), (|+), (|>), (~=), (@+@), (*@))
+import PSCSS (all, att, byClass, byHover, class', keyframes, keyframesName, media, pct, pretty, px, render, universal, (?), (@=), (^=), (|*), (|+), (|>), (~=), (@+@), (*@))
 
 main :: Effect Unit
 main = log $ render pretty do
   media all { minWidth: px 600, maxWidth: px 999 } ? do
-    keyframes "foo" ? do
+    keyframes (keyframesName "foo") ? do
       (pct 0 @+@ pct 20) ?
         { width: 2 *@ (px 100 @+@ pct 10)
         }
