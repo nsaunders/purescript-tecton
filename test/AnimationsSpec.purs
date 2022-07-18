@@ -5,7 +5,7 @@ module Test.AnimationsSpec where
 import Prelude
 
 import Data.NonEmpty ((:|))
-import PSCSS (all, inherit, initial, keyframes, keyframesName, media, ms, none, pct, s, unset, (?), (@*), (@+@), (@/))
+import PSCSS (all, inherit, initial, keyframes, keyframesName, media, ms, nil, none, pct, s, singleAnimationDuration, singleAnimationName, unset, (?), (@*), (@+@), (@/))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -50,11 +50,24 @@ spec =
         `isRenderedFrom`
         { animationName: keyframesName "foo" :| [keyframesName "bar"] }
 
+      "animation-name:foo,none,bar"
+        `isRenderedFrom`
+        { animationName:
+            ( singleAnimationName $ keyframesName "foo" ) :|
+            [ singleAnimationName none
+            , singleAnimationName $ keyframesName "bar"
+            ]
+        }
+
     describe "animation-duration property" do
 
-      "animation-duration:inherit" `isRenderedFrom` { animationDuration: inherit }
+      "animation-duration:inherit"
+        `isRenderedFrom`
+        { animationDuration: inherit }
 
-      "animation-duration:initial" `isRenderedFrom` { animationDuration: initial }
+      "animation-duration:initial"
+        `isRenderedFrom`
+        { animationDuration: initial }
 
       "animation-duration:unset" `isRenderedFrom` { animationDuration: unset }
 
@@ -63,3 +76,12 @@ spec =
       "animation-duration:150ms,2s"
         `isRenderedFrom`
         { animationDuration: ms 150 :| [s 2] }
+
+      "animation-duration:150ms,0,2s"
+        `isRenderedFrom`
+        { animationDuration:
+            ( singleAnimationDuration $ ms 150 ) :|
+            [ singleAnimationDuration nil
+            , singleAnimationDuration $ s 2
+            ]
+        }

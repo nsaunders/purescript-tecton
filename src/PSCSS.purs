@@ -1098,7 +1098,7 @@ instance ByNot (NonEmpty Array (Selector Open)) where
         Val \c@{ separator } ->
           String.joinWith ("," <> separator)
             $ Array.fromFoldable
-            $ (\(Selector s) -> runVal c s) <$> selectors
+            $ (\(Selector x) -> runVal c x) <$> selectors
     in
       appendSelectorDetail $ val ":not(" <> x <> val ")"
 
@@ -1128,16 +1128,46 @@ byAfter = closeSelector <<< appendSelectorDetail (val "::after")
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-name
 
+newtype SingleAnimationName = SingleAnimationName Val
+derive newtype instance ToVal SingleAnimationName
+
+class ToVal a <= ToSingleAnimationName (a :: Type)
+
+instance ToSingleAnimationName None
+instance ToSingleAnimationName KeyframesName
+instance ToSingleAnimationName SingleAnimationName
+
+singleAnimationName
+  :: forall a
+   . ToSingleAnimationName a
+  => a
+  -> SingleAnimationName
+singleAnimationName = SingleAnimationName <<< val
+
 instance propertyAnimationNameCommonKeyword :: Property "animationName" CommonKeyword
-instance propertyAnimationNameNone :: Property "animationName" None
-instance propertyAnimationNameSingle :: Property "animationName" KeyframesName
-instance propertyAnimationNameMultiple :: Property "animationName" (NonEmpty Array KeyframesName)
+else instance propertyAnimationNameMultiple :: ToSingleAnimationName a => Property "animationName" (NonEmpty Array a)
+else instance propertyAnimationNameNone :: ToSingleAnimationName a => Property "animationName" a
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-duration
 
+newtype SingleAnimationDuration = SingleAnimationDuration Val
+derive newtype instance ToVal SingleAnimationDuration
+
+class ToVal a <= ToSingleAnimationDuration (a :: Type)
+
+instance TimeTag a => ToSingleAnimationDuration (Measure a)
+instance ToSingleAnimationDuration SingleAnimationDuration
+
+singleAnimationDuration
+  :: forall a
+   . ToSingleAnimationDuration a
+  => a
+  -> SingleAnimationDuration
+singleAnimationDuration = SingleAnimationDuration <<< val
+
 instance propertyAnimationDurationCommonKeyword :: Property "animationDuration" CommonKeyword
-instance propertyAnimationDurationSingle :: TimeTag a => Property "animationDuration" (Measure a)
-instance propertyAnimationDurationMultiple :: TimeTag a => Property "animationDuration" (NonEmpty Array (Measure a))
+else instance propertyAnimationDurationMultiple :: ToSingleAnimationDuration a => Property "animationDuration" (NonEmpty Array a)
+else instance propertyAnimationDurationNone :: ToSingleAnimationDuration a => Property "animationDuration" a
 
 --------------------------------------------------------------------------------
 
