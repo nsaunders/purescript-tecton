@@ -120,6 +120,7 @@ data Declaration = Declaration
 type SupportedDeclarations' (v :: Type) =
   ( animationDuration :: v
   , animationName :: v
+  , animationTimingFunction :: v
   , color :: v
   , height :: v
   , maxHeight :: v
@@ -134,6 +135,7 @@ defaultDeclarations :: { | SupportedDeclarations }
 defaultDeclarations =
   { animationDuration: Nothing
   , animationName: Nothing
+  , animationTimingFunction: Nothing
   , color: Nothing
   , height: Nothing
   , maxHeight: Nothing
@@ -344,12 +346,12 @@ instance
 
 -- Common values
 
-fn :: forall f. FoldableWithIndex Int f => Val -> f Val -> Val
+fn :: forall f. FoldableWithIndex Int f => String -> f Val -> Val
 fn name' args = Val \c ->
   let
     args' = runVal c $ joinVals ("," <> c.separator) args
   in
-    runVal c name' <> "(" <> args' <> ")"
+    name' <> "(" <> args' <> ")"
 
 class ToNumber (a :: Type) where
   toNumber :: a -> Number
@@ -502,7 +504,7 @@ else instance ToNumber b => Calc Multiply a b a
 else instance Calc Multiply a b c => Calc Divide a b c
 
 calc :: forall op a b. ToVal op => ToVal a => ToVal b => op -> a -> b -> Val
-calc op a b = fn (val "calc") [joinVals " " [val a, val op, val b]]
+calc op a b = fn "calc" [joinVals " " [val a, val op, val b]]
 
 add
   :: forall a b c
@@ -1089,13 +1091,13 @@ instance ByNot (Selector Open) where
 instance ByNot (NonEmpty Array (Selector Open)) where
   byNot selectors =
     let
-      x =
+      s =
         Val \c@{ separator } ->
           String.joinWith ("," <> separator)
             $ Array.fromFoldable
             $ (\(Selector x) -> runVal c x) <$> selectors
     in
-      appendSelectorDetail $ val ":not(" <> x <> val ")"
+      appendSelectorDetail $ val ":not(" <> s <> val ")"
 
 -- https://www.w3.org/TR/selectors-3/#sel-first-line
 
@@ -1182,6 +1184,35 @@ else instance propertyAnimationDurationNone :: ValAnimationDuration a => Propert
 
 --------------------------------------------------------------------------------
 
+-- https://www.w3.org/TR/css-animations-1/#propdef-animation-timing-function
+
+class ValAnimationTimingFunction (a :: Type) where
+  valAnimationTimingFunction :: a -> Val
+
+instance valAnimationTimingFunctionEasingFunction
+  :: ValAnimationTimingFunction EasingFunction where
+  valAnimationTimingFunction = val
+
+instance valAnimationTimingFunctionMultiple
+  :: ( ValAnimationTimingFunction a
+     , ValAnimationTimingFunction b
+     )
+  => ValAnimationTimingFunction (a /\ b) where
+  valAnimationTimingFunction (a /\ b) =
+    joinVals
+      (Val \{ separator } -> "," <> separator)
+      [ valAnimationTimingFunction a, valAnimationTimingFunction b]
+
+instance propertyAnimationTimingFunctionCommonKeyword
+  :: Property "animationTimingFunction" CommonKeyword where
+  pval = const val
+
+else instance propertyAnimationTimingFunctionNone
+  :: ValAnimationTimingFunction a => Property "animationTimingFunction" a where
+  pval = const valAnimationTimingFunction
+
+--------------------------------------------------------------------------------
+
 -- https://www.w3.org/TR/css-color-4/
 
 -- https://www.w3.org/TR/css-color-4/#propdef-color
@@ -1211,6 +1242,78 @@ class ToVal a <= IsColor (a :: Type)
 instance ToVal Color where val c = Val \cfg -> cfg.color c
 instance IsColor Color
 instance IsColor CSSColor
+
+--------------------------------------------------------------------------------
+
+-- https://www.w3.org/TR/css-easing-1/
+
+newtype EasingFunction = EasingFunction Val
+derive newtype instance ToVal EasingFunction
+
+-- https://www.w3.org/TR/css-easing-1/#valdef-easing-function-linear
+
+linear :: EasingFunction
+linear = EasingFunction $ val "linear"
+
+-- https://www.w3.org/TR/css-easing-1/#valdef-cubic-bezier-easing-function-ease
+
+ease :: EasingFunction
+ease = EasingFunction $ val "ease"
+
+-- https://www.w3.org/TR/css-easing-1/#valdef-cubic-bezier-easing-function-ease-in
+
+easeIn :: EasingFunction
+easeIn = EasingFunction $ val "ease-in"
+
+-- https://www.w3.org/TR/css-easing-1/#valdef-cubic-bezier-easing-function-ease-out
+
+easeOut :: EasingFunction
+easeOut = EasingFunction $ val "ease-out"
+
+-- https://www.w3.org/TR/css-easing-1/#valdef-cubic-bezier-easing-function-ease-out
+
+easeInOut :: EasingFunction
+easeInOut = EasingFunction $ val "ease-in-out"
+
+-- https://www.w3.org/TR/css-easing-1/#funcdef-cubic-bezier-easing-function-cubic-bezier
+
+cubicBezier
+  :: forall y1 y2
+   . ToNumber y1
+  => ToNumber y2
+  => Number
+  -> y1
+  -> Number
+  -> y2
+  -> EasingFunction
+cubicBezier x1 y1 x2 y2 =
+  EasingFunction $
+    fn "cubic-bezier" [val x1, val $ toNumber y1, val x2, val $ toNumber y2]
+     
+-- https://www.w3.org/TR/css-easing-1/#typedef-step-position
+
+newtype StepPosition = StepPosition String
+
+derive newtype instance ToVal StepPosition
+
+jumpStart = StepPosition "jump-start" :: StepPosition
+jumpEnd = StepPosition "jump-end" :: StepPosition
+jumpNone = StepPosition "jump-none" :: StepPosition
+jumpBoth = StepPosition "jump-both" :: StepPosition
+
+class ToVal a <= IsStepPosition (a :: Type)
+instance IsStepPosition StepPosition
+instance IsStepPosition Start
+instance IsStepPosition End
+
+steps :: forall a. IsStepPosition a => Int -> a -> EasingFunction
+steps n f = EasingFunction $ fn "steps" [val n, val f]
+
+stepStart :: EasingFunction
+stepStart = EasingFunction $ val "step-start"
+
+stepEnd :: EasingFunction
+stepEnd = EasingFunction $ val "step-end"
 
 --------------------------------------------------------------------------------
 
@@ -1272,19 +1375,25 @@ minContent = ContentSizingVal (val "min-content") :: ContentSizingVal
 maxContent = ContentSizingVal (val "max-content") :: ContentSizingVal
 
 fitContent :: forall a. LengthPercentageTag a => Measure a -> ContentSizingVal
-fitContent a = ContentSizingVal (fn (val "fit-content") [val a])
+fitContent a = ContentSizingVal (fn "fit-content" [val a])
 
 derive newtype instance ToVal ContentSizingVal
 
 --------------------------------------------------------------------------------
 
--- Common keywords
+-- Global keywords
+
+-- https://www.w3.org/TR/css3-values/#common-keywords
 
 newtype CommonKeyword = CommonKeyword String
 inherit = CommonKeyword "inherit" :: CommonKeyword
 initial = CommonKeyword "initial" :: CommonKeyword
 unset = CommonKeyword "unset" :: CommonKeyword
 instance ToVal CommonKeyword where val (CommonKeyword x) = val x
+
+--------------------------------------------------------------------------------
+
+-- Common words
 
 data Accept = Accept
 accept = Accept :: Accept
@@ -1438,6 +1547,10 @@ data Enctype = Enctype
 enctype = Enctype :: Enctype
 instance ToVal Enctype where val _ = val "enctype"
 instance IsAttribute Enctype
+
+data End = End
+end = End :: End
+instance ToVal End where val _ = val "end"
 
 data For = For
 for = For :: For

@@ -6,7 +6,7 @@ import Prelude
 
 import Data.NonEmpty ((:|))
 import Data.Tuple.Nested ((/\))
-import PSCSS (all, inherit, initial, keyframes, keyframesName, media, ms, nil, none, pct, sec, unset, (?), (@*), (@+@), (@/))
+import PSCSS (all, cubicBezier, ease, easeIn, easeInOut, easeOut, end, inherit, initial, jumpBoth, jumpEnd, jumpNone, jumpStart, keyframes, keyframesName, linear, media, ms, nil, none, pct, sec, start, stepEnd, stepStart, steps, unset, (?), (@*), (@+@), (@/))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -68,3 +68,79 @@ spec =
       "animation-duration:150ms,0,2s"
         `isRenderedFrom`
         { animationDuration: ms 150 /\ nil /\ sec 2 }
+
+    describe "animation-timing-function property" do
+
+      "animation-timing-function:inherit"
+        `isRenderedFrom`
+        { animationTimingFunction: inherit }
+
+      "animation-timing-function:initial"
+        `isRenderedFrom`
+        { animationTimingFunction: initial }
+
+      "animation-timing-function:unset"
+        `isRenderedFrom`
+        { animationTimingFunction: unset }
+
+      "animation-timing-function:linear"
+        `isRenderedFrom`
+        { animationTimingFunction: linear }
+
+      "animation-timing-function:ease"
+        `isRenderedFrom`
+        { animationTimingFunction: ease }
+
+      "animation-timing-function:ease-in"
+        `isRenderedFrom`
+        { animationTimingFunction: easeIn }
+
+      "animation-timing-function:ease-out"
+        `isRenderedFrom`
+        { animationTimingFunction: easeOut }
+
+      "animation-timing-function:ease-in-out"
+        `isRenderedFrom`
+        { animationTimingFunction: easeInOut }
+
+      "animation-timing-function:cubic-bezier(0.25,50,0.5,100)"
+        `isRenderedFrom`
+        { animationTimingFunction: cubicBezier 0.25 50 0.5 100 }
+
+      "animation-timing-function:steps(0,jump-start)"
+        `isRenderedFrom`
+        { animationTimingFunction: steps 0 jumpStart }
+
+      "animation-timing-function:steps(1,jump-end)"
+        `isRenderedFrom`
+        { animationTimingFunction: steps 1 jumpEnd }
+
+      "animation-timing-function:steps(2,jump-none)"
+        `isRenderedFrom`
+        { animationTimingFunction: steps 2 jumpNone }
+
+      "animation-timing-function:steps(3,jump-both)"
+        `isRenderedFrom`
+        { animationTimingFunction: steps 3 jumpBoth }
+
+      "animation-timing-function:steps(4,start)"
+        `isRenderedFrom`
+        { animationTimingFunction: steps 4 start }
+
+      "animation-timing-function:steps(4,end)"
+        `isRenderedFrom`
+        { animationTimingFunction: steps 4 end }
+
+      "animation-timing-function:step-start"
+        `isRenderedFrom`
+        { animationTimingFunction: stepStart }
+
+      "animation-timing-function:step-end"
+        `isRenderedFrom`
+        { animationTimingFunction: stepEnd }
+
+      "animation-timing-function:ease,step-start,cubic-bezier(0.1,0.7,1,0.1)"
+        `isRenderedFrom`
+        { animationTimingFunction:
+            ease /\ stepStart /\ cubicBezier 0.1 0.7 1.0 0.1
+        }

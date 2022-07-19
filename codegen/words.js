@@ -184,6 +184,11 @@ const code = [
     attribute: true
   },
   {
+    typeName: "End",
+    varName: "end",
+    value: "end"
+  },
+  {
     typeName: "For",
     varName: "for",
     value: "for",
