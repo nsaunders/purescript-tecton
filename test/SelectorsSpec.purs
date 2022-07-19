@@ -157,8 +157,6 @@ spec =
 
       "* *{}" `isRenderedFrom` do universal |* universal ? {}
 
-      "* *{}" `isRenderedFrom` do universal |* universal ? {}
-
       "*>*{}" `isRenderedFrom` do universal |> universal ? {}
 
       "*+*{}" `isRenderedFrom` do universal |+ universal ? {}
