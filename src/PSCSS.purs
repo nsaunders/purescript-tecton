@@ -465,8 +465,8 @@ data Time
 ms :: forall a. ToNumber a => a -> Measure Time
 ms = measure "ms"
 
-s :: forall a. ToNumber a => a -> Measure Time
-s = measure "s"
+sec :: forall a. ToNumber a => a -> Measure Time
+sec = measure "s"
 
 class TimeTag (a :: Type)
 instance TimeTag Time
@@ -1123,56 +1123,62 @@ byAfter = closeSelector <<< appendSelectorDetail (val "::after")
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-name
 
-newtype SingleAnimationName = SingleAnimationName Val
-derive newtype instance ToVal SingleAnimationName
+class ValAnimationName (a :: Type) where
+  valAnimationName :: a -> Val
 
-class ToVal a <= ToSingleAnimationName (a :: Type)
+instance valAnimationNameNone :: ValAnimationName None where
+  valAnimationName = val
 
-instance ToSingleAnimationName None
-instance ToSingleAnimationName KeyframesName
-instance ToSingleAnimationName SingleAnimationName
+instance valAnimationNameKeyframesName :: ValAnimationName KeyframesName where
+  valAnimationName = val
 
-singleAnimationName
-  :: forall a
-   . ToSingleAnimationName a
-  => a
-  -> SingleAnimationName
-singleAnimationName = SingleAnimationName <<< val
+instance
+  valAnimationNameMultiple
+  :: (ValAnimationName a, ValAnimationName b)
+  => ValAnimationName (a /\ b) where
+  valAnimationName (a /\ b) =
+    joinVals
+      (Val \c -> "," <> c.separator)
+      [ valAnimationName a
+      , valAnimationName b
+      ]
 
 instance propertyAnimationNameCommonKeyword :: Property "animationName" CommonKeyword where
   pval = const val
 
-else instance propertyAnimationNameMultiple :: ToSingleAnimationName a => Property "animationName" (NonEmpty Array a) where
-  pval = const $ joinVals "," <<< Array.fromFoldable <<< map val
-
-else instance propertyAnimationNameNone :: ToSingleAnimationName a => Property "animationName" a where
-  pval = const val
+else instance propertyAnimationNameNone :: ValAnimationName a => Property "animationName" a where
+  pval = const valAnimationName
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-duration
 
-newtype SingleAnimationDuration = SingleAnimationDuration Val
-derive newtype instance ToVal SingleAnimationDuration
+class ValAnimationDuration (a :: Type) where
+  valAnimationDuration :: a -> Val
 
-class ToVal a <= ToSingleAnimationDuration (a :: Type)
+instance valAnimationDurationNone :: ValAnimationDuration None where
+  valAnimationDuration = val
 
-instance TimeTag a => ToSingleAnimationDuration (Measure a)
-instance ToSingleAnimationDuration SingleAnimationDuration
+instance
+  valAnimationDurationTime
+  :: TimeTag a
+  => ValAnimationDuration (Measure a) where
+  valAnimationDuration = val
 
-singleAnimationDuration
-  :: forall a
-   . ToSingleAnimationDuration a
-  => a
-  -> SingleAnimationDuration
-singleAnimationDuration = SingleAnimationDuration <<< val
+instance
+  valAnimationDurationMultiple
+  :: (ValAnimationDuration a, ValAnimationDuration b)
+  => ValAnimationDuration (a /\ b) where
+  valAnimationDuration (a /\ b) =
+    joinVals
+      (Val \c -> "," <> c.separator)
+      [ valAnimationDuration a
+      , valAnimationDuration b
+      ]
 
 instance propertyAnimationDurationCommonKeyword :: Property "animationDuration" CommonKeyword where
   pval = const val
 
-else instance propertyAnimationDurationMultiple :: ToSingleAnimationDuration a => Property "animationDuration" (NonEmpty Array a) where
-  pval = const $ joinVals "," <<< Array.fromFoldable <<< map val
-
-else instance propertyAnimationDurationNone :: ToSingleAnimationDuration a => Property "animationDuration" a where
-  pval = const val
+else instance propertyAnimationDurationNone :: ValAnimationDuration a => Property "animationDuration" a where
+  pval = const valAnimationDuration
 
 --------------------------------------------------------------------------------
 
