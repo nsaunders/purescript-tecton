@@ -96,12 +96,6 @@ instance ToVal Number where
 instance ToVal Int where
   val = val <<< Int.toNumber
 
-instance (ToVal a, ToVal b) => ToVal (a /\ b) where
-  val (a /\ b) = val a <> val " " <> val b
-
-instance ToVal a => ToVal (NonEmpty Array a) where
-  val = joinVals "," <<< Array.fromFoldable <<< map val
-
 joinVals 
   :: forall s f
    . ToVal s
@@ -152,10 +146,11 @@ defaultDeclarations =
 
 type SupportedDeclarations = SupportedDeclarations' (Maybe Val)
 
-class ToVal v <= Property (p :: Symbol) (v :: Type)
+class Property (p :: Symbol) (v :: Type) where
+  pval :: Proxy p -> v -> Val
 
 instance Property p v => ConvertOption Declaration p v (Maybe Val) where
-  convertOption _ _ = pure <<< val
+  convertOption _ p = pure <<< pval p
 
 --------------------------------------------------------------------------------
 
@@ -507,7 +502,7 @@ else instance ToNumber b => Calc Multiply a b a
 else instance Calc Multiply a b c => Calc Divide a b c
 
 calc :: forall op a b. ToVal op => ToVal a => ToVal b => op -> a -> b -> Val
-calc op a b = fn (val "calc") [val $ a /\ op /\ b]
+calc op a b = fn (val "calc") [joinVals " " [val a, val op, val b]]
 
 add
   :: forall a b c
@@ -1144,9 +1139,14 @@ singleAnimationName
   -> SingleAnimationName
 singleAnimationName = SingleAnimationName <<< val
 
-instance propertyAnimationNameCommonKeyword :: Property "animationName" CommonKeyword
-else instance propertyAnimationNameMultiple :: ToSingleAnimationName a => Property "animationName" (NonEmpty Array a)
-else instance propertyAnimationNameNone :: ToSingleAnimationName a => Property "animationName" a
+instance propertyAnimationNameCommonKeyword :: Property "animationName" CommonKeyword where
+  pval = const val
+
+else instance propertyAnimationNameMultiple :: ToSingleAnimationName a => Property "animationName" (NonEmpty Array a) where
+  pval = const $ joinVals "," <<< Array.fromFoldable <<< map val
+
+else instance propertyAnimationNameNone :: ToSingleAnimationName a => Property "animationName" a where
+  pval = const val
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-duration
 
@@ -1165,9 +1165,14 @@ singleAnimationDuration
   -> SingleAnimationDuration
 singleAnimationDuration = SingleAnimationDuration <<< val
 
-instance propertyAnimationDurationCommonKeyword :: Property "animationDuration" CommonKeyword
-else instance propertyAnimationDurationMultiple :: ToSingleAnimationDuration a => Property "animationDuration" (NonEmpty Array a)
-else instance propertyAnimationDurationNone :: ToSingleAnimationDuration a => Property "animationDuration" a
+instance propertyAnimationDurationCommonKeyword :: Property "animationDuration" CommonKeyword where
+  pval = const val
+
+else instance propertyAnimationDurationMultiple :: ToSingleAnimationDuration a => Property "animationDuration" (NonEmpty Array a) where
+  pval = const $ joinVals "," <<< Array.fromFoldable <<< map val
+
+else instance propertyAnimationDurationNone :: ToSingleAnimationDuration a => Property "animationDuration" a where
+  pval = const val
 
 --------------------------------------------------------------------------------
 
@@ -1175,13 +1180,19 @@ else instance propertyAnimationDurationNone :: ToSingleAnimationDuration a => Pr
 
 -- https://www.w3.org/TR/css-color-4/#propdef-color
 
-instance propertyColorCommonKeyword :: Property "color" CommonKeyword
-else instance propertyColorIsColor :: IsColor a => Property "color" a
+instance propertyColorCommonKeyword :: Property "color" CommonKeyword where
+  pval = const val
+
+else instance propertyColorIsColor :: IsColor a => Property "color" a where
+  pval = const val
 
 -- https://www.w3.org/TR/css-color-4/#propdef-opacity
 
-instance propertyOpacityCommonKeyword :: Property "opacity" CommonKeyword
-else instance propertyOpacityNumber :: Property "opacity" Number
+instance propertyOpacityCommonKeyword :: Property "opacity" CommonKeyword where
+  pval = const val
+
+else instance propertyOpacityNumber :: Property "opacity" Number where
+  pval = const val
 
 -- https://www.w3.org/TR/css-color-4/#typedef-color
 
@@ -1201,39 +1212,51 @@ instance IsColor CSSColor
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-width
 
-instance propertyWidthCommonKeyword :: Property "width" CommonKeyword
+instance propertyWidthCommonKeyword :: Property "width" CommonKeyword where
+  pval = const val
 
-instance propertyWidthAuto :: Property "width" Auto
+instance propertyWidthAuto :: Property "width" Auto where
+  pval = const val
 
-instance propertyWidthLengthPercentage :: LengthPercentageTag a => Property "width" (Measure a)
+instance propertyWidthLengthPercentage :: LengthPercentageTag a => Property "width" (Measure a) where
+  pval = const val
 
-instance propertyWidthContentSizingVal :: Property "width" ContentSizingVal
+instance propertyWidthContentSizingVal :: Property "width" ContentSizingVal where
+  pval = const val
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-height
 
-instance propertyHeightWidth :: Property "width" a => Property "height" a
+instance propertyHeightWidth :: Property "width" a => Property "height" a where
+  pval = const $ pval (Proxy :: _ "width")
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-min-height
 
-instance propertyMinHeightWidth :: Property "width" a => Property "minHeight" a
+instance propertyMinHeightWidth :: Property "width" a => Property "minHeight" a where
+  pval = const $ pval (Proxy :: _ "width")
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-min-width
 
-instance propertyMinWidthWidth :: Property "width" a => Property "minWidth" a
+instance propertyMinWidthWidth :: Property "width" a => Property "minWidth" a where
+  pval = const $ pval (Proxy :: _ "width")
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-max-width
 
-instance propertyMaxWidthCommonKeyword :: Property "maxWidth" CommonKeyword
+instance propertyMaxWidthCommonKeyword :: Property "maxWidth" CommonKeyword where
+  pval = const val
 
-instance propertyMaxWidthNone :: Property "maxWidth" None
+instance propertyMaxWidthNone :: Property "maxWidth" None where
+  pval = const val
 
-instance propertyMaxWidthLengthPercentage :: LengthPercentageTag a => Property "maxWidth" (Measure a)
+instance propertyMaxWidthLengthPercentage :: LengthPercentageTag a => Property "maxWidth" (Measure a) where
+  pval = const val
 
-instance propertyMaxWidthContentSizingVal :: Property "maxWidth" ContentSizingVal
+instance propertyMaxWidthContentSizingVal :: Property "maxWidth" ContentSizingVal where
+  pval = const val
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-max-height
 
-instance propertyMaxHeightMaxWidth :: Property "maxWidth" a => Property "maxHeight" a
+instance propertyMaxHeightMaxWidth :: Property "maxWidth" a => Property "maxHeight" a where
+  pval = const $ pval (Proxy :: _ "maxWidth")
 
 -- https://www.w3.org/TR/css-sizing-3/#sizing-values
 
