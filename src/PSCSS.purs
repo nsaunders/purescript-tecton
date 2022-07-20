@@ -677,38 +677,40 @@ type SupportedMediaFeatures' (v :: Type) =
 
 defaultMediaFeatures :: { | SupportedMediaFeatures }
 defaultMediaFeatures =
-  { aspectRatio: Nothing
-  , color: Nothing
-  , colorIndex: Nothing
-  , deviceAspectRatio: Nothing
-  , deviceHeight: Nothing
-  , deviceWidth: Nothing
-  , height: Nothing
-  , maxAspectRatio: Nothing
-  , maxColor: Nothing
-  , maxColorIndex: Nothing
-  , maxDeviceAspectRatio: Nothing
-  , maxDeviceHeight: Nothing
-  , maxDeviceWidth: Nothing
-  , maxHeight: Nothing
-  , maxMonochrome: Nothing
-  , maxResolution: Nothing
-  , maxWidth: Nothing
-  , minAspectRatio: Nothing
-  , minColor: Nothing
-  , minColorIndex: Nothing
-  , minDeviceAspectRatio: Nothing
-  , minDeviceHeight: Nothing
-  , minDeviceWidth: Nothing
-  , minHeight: Nothing
-  , minMonochrome: Nothing
-  , minResolution: Nothing
-  , minWidth: Nothing
-  , monochrome: Nothing
-  , orientation: Nothing
-  , resolution: Nothing
-  , width: Nothing
+  { aspectRatio: v
+  , color: v
+  , colorIndex: v
+  , deviceAspectRatio: v
+  , deviceHeight: v
+  , deviceWidth: v
+  , height: v
+  , maxAspectRatio: v
+  , maxColor: v
+  , maxColorIndex: v
+  , maxDeviceAspectRatio: v
+  , maxDeviceHeight: v
+  , maxDeviceWidth: v
+  , maxHeight: v
+  , maxMonochrome: v
+  , maxResolution: v
+  , maxWidth: v
+  , minAspectRatio: v
+  , minColor: v
+  , minColorIndex: v
+  , minDeviceAspectRatio: v
+  , minDeviceHeight: v
+  , minDeviceWidth: v
+  , minHeight: v
+  , minMonochrome: v
+  , minResolution: v
+  , minWidth: v
+  , monochrome: v
+  , orientation: v
+  , resolution: v
+  , width: v
   }
+  where
+    v = Nothing
 
 type SupportedMediaFeatures = SupportedMediaFeatures' (Maybe Val)
 
