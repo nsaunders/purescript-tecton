@@ -122,6 +122,7 @@ type SupportedDeclarations' (v :: Type) =
   , animationDuration :: v
   , animationIterationCount :: v
   , animationName :: v
+  , animationPlayState :: v
   , animationTimingFunction :: v
   , color :: v
   , height :: v
@@ -142,6 +143,7 @@ defaultDeclarations =
     , animationDuration: v
     , animationIterationCount: v
     , animationName: v
+    , animationPlayState: v
     , animationTimingFunction: v
     , color: v
     , height: v
@@ -1295,6 +1297,42 @@ else instance propertyAnimationDirection
   :: ValAnimationDirection a
   => Property "animationDirection" a where
   pval = const valAnimationDirection
+
+-- https://www.w3.org/TR/css-animations-1/#propdef-animation-play-state
+
+newtype AnimationPlayState = AnimationPlayState String
+
+derive newtype instance ToVal AnimationPlayState
+
+running = AnimationPlayState "running" :: AnimationPlayState
+paused = AnimationPlayState "paused" :: AnimationPlayState
+
+class ValAnimationPlayState (a :: Type) where
+  valAnimationPlayState :: a -> Val
+
+instance valAnimationPlayStateAnimationPlayState
+  :: ValAnimationPlayState AnimationPlayState where
+  valAnimationPlayState = val
+
+instance valAnimationPlayStateMultiple
+  :: ( ValAnimationPlayState a
+     , ValAnimationPlayState b
+     )
+  => ValAnimationPlayState (a /\ b) where
+  valAnimationPlayState (a /\ b) =
+    joinVals
+      (Val \{ separator } -> "," <> separator)
+      [ valAnimationPlayState a
+      , valAnimationPlayState b
+      ]
+
+instance propertyAnimationPlayStateCommonKeyword
+  :: Property "animationPlayState" CommonKeyword where
+  pval = const val
+
+else instance propertyAnimationPlayStateValAnimationPlayState
+  :: ValAnimationPlayState a => Property "animationPlayState" a where
+  pval = const valAnimationPlayState
 
 --------------------------------------------------------------------------------
 

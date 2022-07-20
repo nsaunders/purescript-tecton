@@ -6,7 +6,7 @@ import Prelude
 
 import Data.NonEmpty ((:|))
 import Data.Tuple.Nested ((/\))
-import PSCSS (all, alternate, alternateReverse, cubicBezier, ease, easeIn, easeInOut, easeOut, end, infinite, inherit, initial, jumpBoth, jumpEnd, jumpNone, jumpStart, keyframes, keyframesName, linear, media, ms, nil, none, normal, pct, reverse, sec, start, stepEnd, stepStart, steps, unset, (?), (@*), (@+@), (@/))
+import PSCSS (all, alternate, alternateReverse, cubicBezier, ease, easeIn, easeInOut, easeOut, end, infinite, inherit, initial, jumpBoth, jumpEnd, jumpNone, jumpStart, keyframes, keyframesName, linear, media, ms, nil, none, normal, paused, pct, reverse, running, sec, start, stepEnd, stepStart, steps, unset, (?), (@*), (@+@), (@/))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -190,3 +190,29 @@ spec =
       "animation-direction:normal,alternate-reverse,alternate"
         `isRenderedFrom`
         { animationDirection: normal /\ alternateReverse /\ alternate }
+
+    describe "animation-play-state property" do
+
+      "animation-play-state:inherit"
+        `isRenderedFrom`
+        { animationPlayState: inherit }
+
+      "animation-play-state:initial"
+        `isRenderedFrom`
+        { animationPlayState: initial }
+
+      "animation-play-state:unset"
+        `isRenderedFrom`
+        { animationPlayState: unset }
+
+      "animation-play-state:running"
+        `isRenderedFrom`
+        { animationPlayState: running }
+
+      "animation-play-state:paused"
+        `isRenderedFrom`
+        { animationPlayState: paused }
+
+      "animation-play-state:paused,running,running"
+        `isRenderedFrom`
+        { animationPlayState: paused /\ running /\ running }
