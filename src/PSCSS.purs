@@ -118,7 +118,8 @@ runVal x (Val f) = f x
 data Declaration = Declaration
 
 type SupportedDeclarations' (v :: Type) =
-  ( animationDuration :: v
+  ( animationDirection :: v
+  , animationDuration :: v
   , animationIterationCount :: v
   , animationName :: v
   , animationTimingFunction :: v
@@ -137,7 +138,8 @@ defaultDeclarations =
   let
     v = Nothing
   in
-    { animationDuration: v
+    { animationDirection: v
+    , animationDuration: v
     , animationIterationCount: v
     , animationName: v
     , animationTimingFunction: v
@@ -1253,6 +1255,47 @@ else instance propertyAnimationIterationCount
   => Property "animationIterationCount" a where
   pval = const valAnimationIterationCount
 
+-- https://www.w3.org/TR/css-animations-1/#propdef-animation-direction
+
+newtype AnimationDirection = AnimationDirection String
+derive newtype instance ToVal AnimationDirection
+
+reverse = AnimationDirection "reverse" :: AnimationDirection
+alternate = AnimationDirection "alternate" :: AnimationDirection
+alternateReverse = AnimationDirection "alternate-reverse" :: AnimationDirection
+
+class ToVal a <= IsAnimationDirection (a :: Type)
+instance IsAnimationDirection AnimationDirection
+instance IsAnimationDirection Normal
+
+class ValAnimationDirection (a :: Type) where
+  valAnimationDirection :: a -> Val
+
+instance valAnimationDirectionMultiple
+  :: ( ValAnimationDirection a
+     , ValAnimationDirection b
+     )
+  => ValAnimationDirection (a /\ b) where
+  valAnimationDirection (a /\ b) =
+    joinVals
+      (Val \{ separator } -> "," <> separator)
+      [ valAnimationDirection a
+      , valAnimationDirection b
+      ]
+
+else instance valAnimationDirectionIsAnimationDirection
+  :: IsAnimationDirection a => ValAnimationDirection a where
+  valAnimationDirection = val
+
+instance propertyAnimationDirectionCommonKeyword
+  :: Property "animationDirection" CommonKeyword where
+  pval = const val
+
+else instance propertyAnimationDirection
+  :: ValAnimationDirection a
+  => Property "animationDirection" a where
+  pval = const valAnimationDirection
+
 --------------------------------------------------------------------------------
 
 -- https://www.w3.org/TR/css-color-4/
@@ -1436,6 +1479,8 @@ instance ToVal CommonKeyword where val (CommonKeyword x) = val x
 --------------------------------------------------------------------------------
 
 -- Common words
+
+-- WARNING: The following is generated code. Edit with care!
 
 data Accept = Accept
 accept = Accept :: Accept
@@ -1727,6 +1772,10 @@ instance IsAttribute Name
 data None = None
 none = None :: None
 instance ToVal None where val _ = val "none"
+
+data Normal = Normal
+normal = Normal :: Normal
+instance ToVal Normal where val _ = val "normal"
 
 data Novalidate = Novalidate
 novalidate = Novalidate :: Novalidate

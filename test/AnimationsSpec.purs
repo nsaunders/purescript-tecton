@@ -6,7 +6,7 @@ import Prelude
 
 import Data.NonEmpty ((:|))
 import Data.Tuple.Nested ((/\))
-import PSCSS (all, cubicBezier, ease, easeIn, easeInOut, easeOut, end, infinite, inherit, initial, jumpBoth, jumpEnd, jumpNone, jumpStart, keyframes, keyframesName, linear, media, ms, nil, none, pct, sec, start, stepEnd, stepStart, steps, unset, (?), (@*), (@+@), (@/))
+import PSCSS (all, alternate, alternateReverse, cubicBezier, ease, easeIn, easeInOut, easeOut, end, infinite, inherit, initial, jumpBoth, jumpEnd, jumpNone, jumpStart, keyframes, keyframesName, linear, media, ms, nil, none, normal, pct, reverse, sec, start, stepEnd, stepStart, steps, unset, (?), (@*), (@+@), (@/))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -158,3 +158,35 @@ spec =
       "animation-iteration-count:3,infinite,2"
         `isRenderedFrom`
         { animationIterationCount: 3 /\ infinite /\ 2 }
+
+    describe "animation-direction property" do
+
+      "animation-direction:inherit"
+        `isRenderedFrom`
+        { animationDirection: inherit }
+
+      "animation-direction:initial"
+        `isRenderedFrom`
+        { animationDirection: initial }
+
+      "animation-direction:unset" `isRenderedFrom` { animationDirection: unset }
+
+      "animation-direction:normal"
+        `isRenderedFrom`
+        { animationDirection: normal }
+
+      "animation-direction:reverse"
+        `isRenderedFrom`
+        { animationDirection: reverse }
+
+      "animation-direction:alternate"
+        `isRenderedFrom`
+        { animationDirection: alternate }
+
+      "animation-direction:alternate-reverse"
+        `isRenderedFrom`
+        { animationDirection: alternateReverse }
+
+      "animation-direction:normal,alternate-reverse,alternate"
+        `isRenderedFrom`
+        { animationDirection: normal /\ alternateReverse /\ alternate }

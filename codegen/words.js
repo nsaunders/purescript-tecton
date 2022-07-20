@@ -1,3 +1,9 @@
+const fs = require("fs/promises");
+const path = require("path");
+
+const prefix =
+  "-- WARNING: The following is generated code. Edit with care!\n\n";
+
 const code = [
   {
     typeName: "Accept",
@@ -348,6 +354,11 @@ const code = [
     typeName: "None",
     varName: "none",
     value: "none",
+  },
+  {
+    typeName: "Normal",
+    varName: "normal",
+    value: "normal",
   },
   {
     typeName: "Novalidate",
@@ -1001,4 +1012,11 @@ const code = [
   .join("\n"))
   .join("\n\n");
 
-console.log(code);
+async function main() {
+  const filePath = path.join(__dirname, "..", "src", "PSCSS.purs");
+  const current = await fs.readFile(filePath, "utf8");
+  const update = current.substring(0, current.indexOf(prefix)) + prefix + code;
+  await fs.writeFile(filePath, update);
+}
+
+main().catch(err => console.error(err));
