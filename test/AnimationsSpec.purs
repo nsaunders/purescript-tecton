@@ -216,3 +216,21 @@ spec =
       "animation-play-state:paused,running,running"
         `isRenderedFrom`
         { animationPlayState: paused /\ running /\ running }
+
+    describe "animation-delay property" do
+
+      "animation-delay:inherit"
+        `isRenderedFrom`
+        { animationDelay: inherit }
+
+      "animation-delay:initial"
+        `isRenderedFrom`
+        { animationDelay: initial }
+
+      "animation-delay:unset" `isRenderedFrom` { animationDelay: unset }
+
+      "animation-delay:150ms" `isRenderedFrom` { animationDelay: ms 150 }
+
+      "animation-delay:150ms,0,2s"
+        `isRenderedFrom`
+        { animationDelay: ms 150 /\ nil /\ sec 2 }

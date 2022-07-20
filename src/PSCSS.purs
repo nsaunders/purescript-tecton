@@ -118,7 +118,8 @@ runVal x (Val f) = f x
 data Declaration = Declaration
 
 type SupportedDeclarations' (v :: Type) =
-  ( animationDirection :: v
+  ( animationDelay :: v
+  , animationDirection :: v
   , animationDuration :: v
   , animationIterationCount :: v
   , animationName :: v
@@ -136,24 +137,24 @@ type SupportedDeclarations' (v :: Type) =
 
 defaultDeclarations :: { | SupportedDeclarations }
 defaultDeclarations =
-  let
+  { animationDelay: v
+  , animationDirection: v
+  , animationDuration: v
+  , animationIterationCount: v
+  , animationName: v
+  , animationPlayState: v
+  , animationTimingFunction: v
+  , color: v
+  , height: v
+  , maxHeight: v
+  , maxWidth: v
+  , minHeight: v
+  , minWidth: v
+  , opacity: v
+  , width: v
+  }
+  where
     v = Nothing
-  in
-    { animationDirection: v
-    , animationDuration: v
-    , animationIterationCount: v
-    , animationName: v
-    , animationPlayState: v
-    , animationTimingFunction: v
-    , color: v
-    , height: v
-    , maxHeight: v
-    , maxWidth: v
-    , minHeight: v
-    , minWidth: v
-    , opacity: v
-    , width: v
-    }
 
 type SupportedDeclarations = SupportedDeclarations' (Maybe Val)
 
@@ -1333,6 +1334,12 @@ instance propertyAnimationPlayStateCommonKeyword
 else instance propertyAnimationPlayStateValAnimationPlayState
   :: ValAnimationPlayState a => Property "animationPlayState" a where
   pval = const valAnimationPlayState
+
+-- https://www.w3.org/TR/css-animations-1/#propdef-animation-delay
+
+instance propertyAnimationDelay
+  :: Property "animationDuration" a => Property "animationDelay" a where
+  pval _ = pval (Proxy :: _ "animationDuration")
 
 --------------------------------------------------------------------------------
 
