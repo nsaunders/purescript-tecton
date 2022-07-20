@@ -1159,10 +1159,13 @@ instance
       , valAnimationName b
       ]
 
-instance propertyAnimationNameCommonKeyword :: Property "animationName" CommonKeyword where
+instance propertyAnimationNameCommonKeyword
+  :: Property "animationName" CommonKeyword where
   pval = const val
 
-else instance propertyAnimationNameNone :: ValAnimationName a => Property "animationName" a where
+else instance propertyAnimationNameNone
+  :: ValAnimationName a
+  => Property "animationName" a where
   pval = const valAnimationName
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-duration
@@ -1173,15 +1176,15 @@ class ValAnimationDuration (a :: Type) where
 instance valAnimationDurationNone :: ValAnimationDuration None where
   valAnimationDuration = val
 
-instance
-  valAnimationDurationTime
+instance valAnimationDurationTime
   :: TimeTag a
   => ValAnimationDuration (Measure a) where
   valAnimationDuration = val
 
-instance
-  valAnimationDurationMultiple
-  :: (ValAnimationDuration a, ValAnimationDuration b)
+instance valAnimationDurationMultiple
+  :: ( ValAnimationDuration a
+     , ValAnimationDuration b
+     )
   => ValAnimationDuration (a /\ b) where
   valAnimationDuration (a /\ b) =
     joinVals
@@ -1190,10 +1193,13 @@ instance
       , valAnimationDuration b
       ]
 
-instance propertyAnimationDurationCommonKeyword :: Property "animationDuration" CommonKeyword where
+instance propertyAnimationDurationCommonKeyword
+  :: Property "animationDuration" CommonKeyword where
   pval = const val
 
-else instance propertyAnimationDurationNone :: ValAnimationDuration a => Property "animationDuration" a where
+else instance propertyAnimationDurationNone
+  :: ValAnimationDuration a
+  => Property "animationDuration" a where
   pval = const valAnimationDuration
 
 --------------------------------------------------------------------------------
@@ -1203,7 +1209,7 @@ else instance propertyAnimationDurationNone :: ValAnimationDuration a => Propert
 class ValAnimationTimingFunction (a :: Type) where
   valAnimationTimingFunction :: a -> Val
 
-instance valAnimationTimingFunctionEasingFunction
+instance valAnimationTimingFunctionSingle
   :: ValAnimationTimingFunction EasingFunction where
   valAnimationTimingFunction = val
 
@@ -1221,8 +1227,9 @@ instance propertyAnimationTimingFunctionCommonKeyword
   :: Property "animationTimingFunction" CommonKeyword where
   pval = const val
 
-else instance propertyAnimationTimingFunctionNone
-  :: ValAnimationTimingFunction a => Property "animationTimingFunction" a where
+else instance propertyAnimationTimingFunctionVal
+  :: ValAnimationTimingFunction a
+  => Property "animationTimingFunction" a where
   pval = const valAnimationTimingFunction
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-iteration-count
@@ -1231,15 +1238,12 @@ data Infinite = Infinite
 infinite = Infinite :: Infinite
 instance ToVal Infinite where val _ = val "infinite"
 
+class ToVal a <= SingleAnimationIterationCountCompatible (a :: Type)
+instance SingleAnimationIterationCountCompatible Infinite
+instance SingleAnimationIterationCountCompatible Int
+
 class ValAnimationIterationCount (a :: Type) where
   valAnimationIterationCount :: a -> Val
-
-instance valAnimationIterationCountInfinite
-  :: ValAnimationIterationCount Infinite where
-  valAnimationIterationCount = val
-
-instance valAnimationIterationCountInt :: ValAnimationIterationCount Int where
-  valAnimationIterationCount = val
 
 instance valAnimationIterationCountMultiple
   :: ( ValAnimationIterationCount a
@@ -1253,27 +1257,38 @@ instance valAnimationIterationCountMultiple
       , valAnimationIterationCount b
       ]
 
+else instance valAnimationIterationCountSingle
+  :: SingleAnimationIterationCountCompatible a
+  => ValAnimationIterationCount a where
+  valAnimationIterationCount = val
+
 instance propertyAnimationIterationCountCommonKeyword
   :: Property "animationIterationCount" CommonKeyword where
   pval = const val
 
-else instance propertyAnimationIterationCount
+else instance propertyAnimationIterationCountVal
   :: ValAnimationIterationCount a
   => Property "animationIterationCount" a where
   pval = const valAnimationIterationCount
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-direction
 
-newtype AnimationDirection = AnimationDirection String
-derive newtype instance ToVal AnimationDirection
+newtype SingleAnimationDirection = SingleAnimationDirection String
 
-reverse = AnimationDirection "reverse" :: AnimationDirection
-alternate = AnimationDirection "alternate" :: AnimationDirection
-alternateReverse = AnimationDirection "alternate-reverse" :: AnimationDirection
+derive newtype instance ToVal SingleAnimationDirection
 
-class ToVal a <= IsAnimationDirection (a :: Type)
-instance IsAnimationDirection AnimationDirection
-instance IsAnimationDirection Normal
+reverse :: SingleAnimationDirection
+reverse = SingleAnimationDirection "reverse"
+
+alternate :: SingleAnimationDirection
+alternate = SingleAnimationDirection "alternate"
+
+alternateReverse :: SingleAnimationDirection
+alternateReverse = SingleAnimationDirection "alternate-reverse"
+
+class ToVal a <= SingleAnimationDirectionCompatible (a :: Type)
+instance SingleAnimationDirectionCompatible Normal
+instance SingleAnimationDirectionCompatible SingleAnimationDirection
 
 class ValAnimationDirection (a :: Type) where
   valAnimationDirection :: a -> Val
@@ -1290,8 +1305,9 @@ instance valAnimationDirectionMultiple
       , valAnimationDirection b
       ]
 
-else instance valAnimationDirectionIsAnimationDirection
-  :: IsAnimationDirection a => ValAnimationDirection a where
+else instance valAnimationDirectionSingle
+  :: SingleAnimationDirectionCompatible a
+  => ValAnimationDirection a where
   valAnimationDirection = val
 
 instance propertyAnimationDirectionCommonKeyword
@@ -1305,19 +1321,18 @@ else instance propertyAnimationDirection
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-play-state
 
-newtype AnimationPlayState = AnimationPlayState String
+newtype SingleAnimationPlayState = SingleAnimationPlayState String
 
-derive newtype instance ToVal AnimationPlayState
+derive newtype instance ToVal SingleAnimationPlayState
 
-running = AnimationPlayState "running" :: AnimationPlayState
-paused = AnimationPlayState "paused" :: AnimationPlayState
+running :: SingleAnimationPlayState
+running = SingleAnimationPlayState "running"
+
+paused :: SingleAnimationPlayState
+paused = SingleAnimationPlayState "paused"
 
 class ValAnimationPlayState (a :: Type) where
   valAnimationPlayState :: a -> Val
-
-instance valAnimationPlayStateAnimationPlayState
-  :: ValAnimationPlayState AnimationPlayState where
-  valAnimationPlayState = val
 
 instance valAnimationPlayStateMultiple
   :: ( ValAnimationPlayState a
@@ -1331,18 +1346,24 @@ instance valAnimationPlayStateMultiple
       , valAnimationPlayState b
       ]
 
+instance valAnimationPlayStateSingle
+  :: ValAnimationPlayState SingleAnimationPlayState where
+  valAnimationPlayState = val
+
 instance propertyAnimationPlayStateCommonKeyword
   :: Property "animationPlayState" CommonKeyword where
   pval = const val
 
 else instance propertyAnimationPlayStateValAnimationPlayState
-  :: ValAnimationPlayState a => Property "animationPlayState" a where
+  :: ValAnimationPlayState a
+  => Property "animationPlayState" a where
   pval = const valAnimationPlayState
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-delay
 
 instance propertyAnimationDelay
-  :: Property "animationDuration" a => Property "animationDelay" a where
+  :: Property "animationDuration" a
+  => Property "animationDelay" a where
   pval _ = pval (Proxy :: _ "animationDuration")
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-fill-mode
@@ -1351,13 +1372,16 @@ newtype SingleAnimationFillMode = SingleAnimationFillMode String
 
 derive newtype instance ToVal SingleAnimationFillMode
 
-forwards = SingleAnimationFillMode "forwards" :: SingleAnimationFillMode
-backwards = SingleAnimationFillMode "backwards" :: SingleAnimationFillMode
+forwards :: SingleAnimationFillMode
+forwards = SingleAnimationFillMode "forwards"
 
-class ToVal a <= SingleAnimationFillModeFamily (a :: Type)
-instance SingleAnimationFillModeFamily SingleAnimationFillMode
-instance SingleAnimationFillModeFamily None
-instance SingleAnimationFillModeFamily Both
+backwards :: SingleAnimationFillMode
+backwards = SingleAnimationFillMode "backwards"
+
+class ToVal a <= SingleAnimationFillModeCompatible (a :: Type)
+instance SingleAnimationFillModeCompatible SingleAnimationFillMode
+instance SingleAnimationFillModeCompatible None
+instance SingleAnimationFillModeCompatible Both
 
 class ValAnimationFillMode (a :: Type) where
   valAnimationFillMode :: a -> Val
@@ -1375,7 +1399,7 @@ instance valAnimationFillModeMultiple
       ]
 
 else instance valAnimationFillModeSingle
-  :: SingleAnimationFillModeFamily a
+  :: SingleAnimationFillModeCompatible a
   => ValAnimationFillMode a where
   valAnimationFillMode = val
 
@@ -1383,7 +1407,7 @@ instance propertyAnimationFillModeCommonKeyword
   :: Property "animationFillMode" CommonKeyword where
   pval = const val
 
-else instance propertyAnimationFillModeValAnimationFillMode
+else instance propertyAnimationFillModeVal
   :: ValAnimationFillMode a => Property "animationFillMode" a where
   pval = const valAnimationFillMode
 
