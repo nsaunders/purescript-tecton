@@ -6,7 +6,7 @@ import Prelude
 
 import Data.NonEmpty ((:|))
 import Data.Tuple.Nested ((/\))
-import PSCSS (all, cubicBezier, ease, easeIn, easeInOut, easeOut, end, inherit, initial, jumpBoth, jumpEnd, jumpNone, jumpStart, keyframes, keyframesName, linear, media, ms, nil, none, pct, sec, start, stepEnd, stepStart, steps, unset, (?), (@*), (@+@), (@/))
+import PSCSS (all, cubicBezier, ease, easeIn, easeInOut, easeOut, end, infinite, inherit, initial, jumpBoth, jumpEnd, jumpNone, jumpStart, keyframes, keyframesName, linear, media, ms, nil, none, pct, sec, start, stepEnd, stepStart, steps, unset, (?), (@*), (@+@), (@/))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -144,3 +144,17 @@ spec =
         { animationTimingFunction:
             ease /\ stepStart /\ cubicBezier 0.1 0.7 1.0 0.1
         }
+
+    describe "animation-iteration-count property" do
+
+      "animation-iteration-count:infinite"
+        `isRenderedFrom`
+        { animationIterationCount: infinite }
+
+      "animation-iteration-count:3"
+        `isRenderedFrom`
+        { animationIterationCount: 3 }
+
+      "animation-iteration-count:3,infinite,2"
+        `isRenderedFrom`
+        { animationIterationCount: 3 /\ infinite /\ 2 }

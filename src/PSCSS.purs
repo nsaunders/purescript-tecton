@@ -119,6 +119,7 @@ data Declaration = Declaration
 
 type SupportedDeclarations' (v :: Type) =
   ( animationDuration :: v
+  , animationIterationCount :: v
   , animationName :: v
   , animationTimingFunction :: v
   , color :: v
@@ -133,18 +134,22 @@ type SupportedDeclarations' (v :: Type) =
 
 defaultDeclarations :: { | SupportedDeclarations }
 defaultDeclarations =
-  { animationDuration: Nothing
-  , animationName: Nothing
-  , animationTimingFunction: Nothing
-  , color: Nothing
-  , height: Nothing
-  , maxHeight: Nothing
-  , maxWidth: Nothing
-  , minHeight: Nothing
-  , minWidth: Nothing
-  , opacity: Nothing
-  , width: Nothing
-  }
+  let
+    v = Nothing
+  in
+    { animationDuration: v
+    , animationIterationCount: v
+    , animationName: v
+    , animationTimingFunction: v
+    , color: v
+    , height: v
+    , maxHeight: v
+    , maxWidth: v
+    , minHeight: v
+    , minWidth: v
+    , opacity: v
+    , width: v
+    }
 
 type SupportedDeclarations = SupportedDeclarations' (Maybe Val)
 
@@ -1210,6 +1215,43 @@ instance propertyAnimationTimingFunctionCommonKeyword
 else instance propertyAnimationTimingFunctionNone
   :: ValAnimationTimingFunction a => Property "animationTimingFunction" a where
   pval = const valAnimationTimingFunction
+
+-- https://www.w3.org/TR/css-animations-1/#propdef-animation-iteration-count
+
+data Infinite = Infinite
+infinite = Infinite :: Infinite
+instance ToVal Infinite where val _ = val "infinite"
+
+class ValAnimationIterationCount (a :: Type) where
+  valAnimationIterationCount :: a -> Val
+
+instance valAnimationIterationCountInfinite
+  :: ValAnimationIterationCount Infinite where
+  valAnimationIterationCount = val
+
+instance valAnimationIterationCountInt :: ValAnimationIterationCount Int where
+  valAnimationIterationCount = val
+
+instance valAnimationIterationCountMultiple
+  :: ( ValAnimationIterationCount a
+     , ValAnimationIterationCount b
+     )
+  => ValAnimationIterationCount (a /\ b) where
+  valAnimationIterationCount (a /\ b) =
+    joinVals
+      (Val \{ separator } -> "," <> separator)
+      [ valAnimationIterationCount a
+      , valAnimationIterationCount b
+      ]
+
+instance propertyAnimationIterationCountCommonKeyword
+  :: Property "animationIterationCount" CommonKeyword where
+  pval = const val
+
+else instance propertyAnimationIterationCount
+  :: ValAnimationIterationCount a
+  => Property "animationIterationCount" a where
+  pval = const valAnimationIterationCount
 
 --------------------------------------------------------------------------------
 
