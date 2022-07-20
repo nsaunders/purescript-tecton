@@ -747,9 +747,11 @@ instance mediaFeatureMaxDeviceHeightLength :: LengthTag a => MediaFeature "maxDe
 -- https://www.w3.org/TR/mediaqueries-3/#orientation
 
 newtype Orientation = Orientation String
+
+derive newtype instance ToVal Orientation
+
 portrait = Orientation "portrait" :: Orientation
 landscape = Orientation "landscape" :: Orientation
-derive newtype instance ToVal Orientation
 
 instance mediaFeatureOrientation :: MediaFeature "orientation" Orientation
 
@@ -791,13 +793,13 @@ instance mediaFeatureMaxMonochrome :: MediaFeature "maxMonochrome" Int
 
 newtype Resolution = Resolution String
 
+derive newtype instance ToVal Resolution
+
 dpi :: Int -> Resolution
 dpi x = Resolution $ show x <> "dpi"
 
 dpcm :: Int -> Resolution
 dpcm x = Resolution $ show x <> "dpcm"
-
-derive newtype instance ToVal Resolution
 
 instance mediaFeatureResolution :: MediaFeature "resolution" Resolution
 instance mediaFeatureMinResolution :: MediaFeature "minResolution" Resolution
@@ -949,8 +951,6 @@ byClass c = appendSelectorDetail (val $ "." <> c)
 
 byId :: String -> Selector Open -> Selector Open
 byId i = appendSelectorDetail (val $ "#" <> i)
-
---------------------------------------------------------------------------------
 
 -- https://www.w3.org/TR/selectors-3/#sel-link
 
