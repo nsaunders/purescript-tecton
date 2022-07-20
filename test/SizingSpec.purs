@@ -1,6 +1,6 @@
 -- https://www.w3.org/TR/css-sizing-3/
 
-module Test.BoxSizingSpec where
+module Test.SizingSpec where
 
 import Prelude
 
