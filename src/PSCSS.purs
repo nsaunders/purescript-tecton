@@ -121,6 +121,7 @@ type SupportedDeclarations' (v :: Type) =
   ( animationDelay :: v
   , animationDirection :: v
   , animationDuration :: v
+  , animationFillMode :: v
   , animationIterationCount :: v
   , animationName :: v
   , animationPlayState :: v
@@ -140,6 +141,7 @@ defaultDeclarations =
   { animationDelay: v
   , animationDirection: v
   , animationDuration: v
+  , animationFillMode: v
   , animationIterationCount: v
   , animationName: v
   , animationPlayState: v
@@ -1341,6 +1343,48 @@ instance propertyAnimationDelay
   :: Property "animationDuration" a => Property "animationDelay" a where
   pval _ = pval (Proxy :: _ "animationDuration")
 
+-- https://www.w3.org/TR/css-animations-1/#propdef-animation-fill-mode
+
+newtype SingleAnimationFillMode = SingleAnimationFillMode String
+
+derive newtype instance ToVal SingleAnimationFillMode
+
+forwards = SingleAnimationFillMode "forwards" :: SingleAnimationFillMode
+backwards = SingleAnimationFillMode "backwards" :: SingleAnimationFillMode
+
+class ToVal a <= SingleAnimationFillModeFamily (a :: Type)
+instance SingleAnimationFillModeFamily SingleAnimationFillMode
+instance SingleAnimationFillModeFamily None
+instance SingleAnimationFillModeFamily Both
+
+class ValAnimationFillMode (a :: Type) where
+  valAnimationFillMode :: a -> Val
+
+instance valAnimationFillModeMultiple
+  :: ( ValAnimationFillMode a
+     , ValAnimationFillMode b
+     )
+  => ValAnimationFillMode (a /\ b) where
+  valAnimationFillMode (a /\ b) =
+    joinVals
+      (Val \{ separator } -> "," <> separator)
+      [ valAnimationFillMode a
+      , valAnimationFillMode b
+      ]
+
+else instance valAnimationFillModeSingle
+  :: SingleAnimationFillModeFamily a
+  => ValAnimationFillMode a where
+  valAnimationFillMode = val
+
+instance propertyAnimationFillModeCommonKeyword
+  :: Property "animationFillMode" CommonKeyword where
+  pval = const val
+
+else instance propertyAnimationFillModeValAnimationFillMode
+  :: ValAnimationFillMode a => Property "animationFillMode" a where
+  pval = const valAnimationFillMode
+
 --------------------------------------------------------------------------------
 
 -- https://www.w3.org/TR/css-color-4/
@@ -1579,6 +1623,10 @@ data Autoplay = Autoplay
 autoplay = Autoplay :: Autoplay
 instance ToVal Autoplay where val _ = val "autoplay"
 instance IsAttribute Autoplay
+
+data Both = Both
+both = Both :: Both
+instance ToVal Both where val _ = val "both"
 
 data Charset = Charset
 charset = Charset :: Charset

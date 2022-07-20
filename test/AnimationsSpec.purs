@@ -6,7 +6,7 @@ import Prelude
 
 import Data.NonEmpty ((:|))
 import Data.Tuple.Nested ((/\))
-import PSCSS (all, alternate, alternateReverse, cubicBezier, ease, easeIn, easeInOut, easeOut, end, infinite, inherit, initial, jumpBoth, jumpEnd, jumpNone, jumpStart, keyframes, keyframesName, linear, media, ms, nil, none, normal, paused, pct, reverse, running, sec, start, stepEnd, stepStart, steps, unset, (?), (@*), (@+@), (@/))
+import PSCSS (all, alternate, alternateReverse, backwards, both, cubicBezier, ease, easeIn, easeInOut, easeOut, end, forwards, infinite, inherit, initial, jumpBoth, jumpEnd, jumpNone, jumpStart, keyframes, keyframesName, linear, media, ms, nil, none, normal, paused, pct, reverse, running, sec, start, stepEnd, stepStart, steps, unset, (?), (@*), (@+@), (@/))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -230,6 +230,34 @@ spec =
       "animation-delay:unset" `isRenderedFrom` { animationDelay: unset }
 
       "animation-delay:150ms" `isRenderedFrom` { animationDelay: ms 150 }
+
+      "animation-delay:150ms,0,2s"
+        `isRenderedFrom`
+        { animationDelay: ms 150 /\ nil /\ sec 2 }
+
+    describe "animation-fill-mode property" do
+
+      "animation-fill-mode:inherit"
+        `isRenderedFrom`
+        { animationFillMode: inherit }
+
+      "animation-fill-mode:initial"
+        `isRenderedFrom`
+        { animationFillMode: initial }
+
+      "animation-fill-mode:unset" `isRenderedFrom` { animationFillMode: unset }
+
+      "animation-fill-mode:none" `isRenderedFrom` { animationFillMode: none }
+
+      "animation-fill-mode:forwards"
+        `isRenderedFrom`
+        { animationFillMode: forwards }
+
+      "animation-fill-mode:backwards"
+        `isRenderedFrom`
+        { animationFillMode: backwards }
+
+      "animation-fill-mode:both" `isRenderedFrom` { animationFillMode: both }
 
       "animation-delay:150ms,0,2s"
         `isRenderedFrom`

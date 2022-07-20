@@ -70,6 +70,11 @@ const code = [
     attribute: true
   },
   {
+    typeName: "Both",
+    varName: "both",
+    value: "both",
+  },
+  {
     typeName: "Charset",
     varName: "charset",
     value: "charset",
@@ -1015,7 +1020,7 @@ const code = [
 async function main() {
   const filePath = path.join(__dirname, "..", "src", "PSCSS.purs");
   const current = await fs.readFile(filePath, "utf8");
-  const update = current.substring(0, current.indexOf(prefix)) + prefix + code;
+  const update = current.substring(0, current.indexOf(prefix)) + prefix + code + "\n";
   await fs.writeFile(filePath, update);
 }
 
