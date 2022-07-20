@@ -128,6 +128,9 @@ type SupportedDeclarations' (v :: Type) =
   , animationTimingFunction :: v
   , color :: v
   , height :: v
+  , marginBottom :: v
+  , marginLeft :: v
+  , marginRight :: v
   , marginTop :: v
   , maxHeight :: v
   , maxWidth :: v
@@ -149,6 +152,9 @@ defaultDeclarations =
   , animationTimingFunction: v
   , color: v
   , height: v
+  , marginBottom: v
+  , marginLeft: v
+  , marginRight: v
   , marginTop: v
   , maxHeight: v
   , maxWidth: v
@@ -1438,6 +1444,27 @@ else instance propertyMarginTopVal
   :: ValMarginTop a
   => Property "marginTop" a where
   pval = const valMarginTop
+
+-- https://www.w3.org/TR/css-box-3/#propdef-margin-right
+
+instance propertyMarginRightMarginTop
+  :: Property "marginTop" a
+  => Property "marginRight" a where
+  pval = const $ pval (Proxy :: _ "marginTop")
+
+-- https://www.w3.org/TR/css-box-3/#propdef-margin-bottom
+
+instance propertyMarginBottomMarginTop
+  :: Property "marginTop" a
+  => Property "marginBottom" a where
+  pval = const $ pval (Proxy :: _ "marginTop")
+
+-- https://www.w3.org/TR/css-box-3/#propdef-margin-left
+
+instance propertyMarginLeftMarginTop
+  :: Property "marginTop" a
+  => Property "marginLeft" a where
+  pval = const $ pval (Proxy :: _ "marginTop")
 
 --------------------------------------------------------------------------------
 
