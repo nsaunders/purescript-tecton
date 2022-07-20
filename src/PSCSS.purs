@@ -1555,57 +1555,72 @@ instance propertyWidthCommonKeyword :: Property "width" CommonKeyword where
 instance propertyWidthAuto :: Property "width" Auto where
   pval = const val
 
-instance propertyWidthLengthPercentage :: LengthPercentageTag a => Property "width" (Measure a) where
+instance propertyWidthLengthPercentage
+  :: LengthPercentageTag a
+  => Property "width" (Measure a) where
   pval = const val
 
-instance propertyWidthContentSizingVal :: Property "width" ContentSizingVal where
+instance propertyWidthContentSizingValue
+  :: Property "width" ContentSizingValue where
   pval = const val
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-height
 
-instance propertyHeightWidth :: Property "width" a => Property "height" a where
+instance propertyHeightWidth
+  :: Property "width" a
+  => Property "height" a where
   pval = const $ pval (Proxy :: _ "width")
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-min-height
 
-instance propertyMinHeightWidth :: Property "width" a => Property "minHeight" a where
+instance propertyMinHeightWidth
+  :: Property "width" a
+  => Property "minHeight" a where
   pval = const $ pval (Proxy :: _ "width")
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-min-width
 
-instance propertyMinWidthWidth :: Property "width" a => Property "minWidth" a where
+instance propertyMinWidthWidth
+  :: Property "width" a
+  => Property "minWidth" a where
   pval = const $ pval (Proxy :: _ "width")
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-max-width
 
-instance propertyMaxWidthCommonKeyword :: Property "maxWidth" CommonKeyword where
+instance propertyMaxWidthCommonKeyword
+  :: Property "maxWidth" CommonKeyword where
   pval = const val
 
 instance propertyMaxWidthNone :: Property "maxWidth" None where
   pval = const val
 
-instance propertyMaxWidthLengthPercentage :: LengthPercentageTag a => Property "maxWidth" (Measure a) where
+instance propertyMaxWidthLengthPercentage
+  :: LengthPercentageTag a
+  => Property "maxWidth" (Measure a) where
   pval = const val
 
-instance propertyMaxWidthContentSizingVal :: Property "maxWidth" ContentSizingVal where
+instance propertyMaxWidthContentSizingValue
+  :: Property "maxWidth" ContentSizingValue where
   pval = const val
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-max-height
 
-instance propertyMaxHeightMaxWidth :: Property "maxWidth" a => Property "maxHeight" a where
+instance propertyMaxHeightMaxWidth
+  :: Property "maxWidth" a
+  => Property "maxHeight" a where
   pval = const $ pval (Proxy :: _ "maxWidth")
 
 -- https://www.w3.org/TR/css-sizing-3/#sizing-values
 
-newtype ContentSizingVal = ContentSizingVal Val
+newtype ContentSizingValue = ContentSizingValue Val
 
-minContent = ContentSizingVal (val "min-content") :: ContentSizingVal
-maxContent = ContentSizingVal (val "max-content") :: ContentSizingVal
+derive newtype instance ToVal ContentSizingValue
 
-fitContent :: forall a. LengthPercentageTag a => Measure a -> ContentSizingVal
-fitContent a = ContentSizingVal (fn "fit-content" [val a])
+minContent = ContentSizingValue (val "min-content") :: ContentSizingValue
+maxContent = ContentSizingValue (val "max-content") :: ContentSizingValue
 
-derive newtype instance ToVal ContentSizingVal
+fitContent :: forall a. LengthPercentageTag a => Measure a -> ContentSizingValue
+fitContent a = ContentSizingValue $ fn "fit-content" [val a]
 
 --------------------------------------------------------------------------------
 
