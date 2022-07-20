@@ -128,6 +128,7 @@ type SupportedDeclarations' (v :: Type) =
   , animationTimingFunction :: v
   , color :: v
   , height :: v
+  , marginTop :: v
   , maxHeight :: v
   , maxWidth :: v
   , minHeight :: v
@@ -148,6 +149,7 @@ defaultDeclarations =
   , animationTimingFunction: v
   , color: v
   , height: v
+  , marginTop: v
   , maxHeight: v
   , maxWidth: v
   , minHeight: v
@@ -1410,6 +1412,32 @@ instance propertyAnimationFillModeCommonKeyword
 else instance propertyAnimationFillModeVal
   :: ValAnimationFillMode a => Property "animationFillMode" a where
   pval = const valAnimationFillMode
+
+--------------------------------------------------------------------------------
+
+-- https://www.w3.org/TR/css-box-3/
+
+-- https://www.w3.org/TR/css-box-3/#propdef-margin-top
+
+class ValMarginTop (a :: Type) where
+  valMarginTop :: a -> Val
+
+instance valMarginTopLengthPercentage
+  :: LengthPercentageTag a
+  => ValMarginTop (Measure a) where
+  valMarginTop = val
+
+instance valMarginTopAuto :: ValMarginTop Auto where
+  valMarginTop = val
+
+instance propertyMarginTopCommonKeyword
+  :: Property "marginTop" CommonKeyword where
+  pval = const val
+
+else instance propertyMarginTopVal
+  :: ValMarginTop a
+  => Property "marginTop" a where
+  pval = const valMarginTop
 
 --------------------------------------------------------------------------------
 
