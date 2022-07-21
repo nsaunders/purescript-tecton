@@ -138,6 +138,10 @@ type SupportedDeclarations' (v :: Type) =
   , minHeight :: v
   , minWidth :: v
   , opacity :: v
+  , paddingBottom :: v
+  , paddingLeft :: v
+  , paddingRight :: v
+  , paddingTop :: v
   , width :: v
   )
 
@@ -162,6 +166,10 @@ defaultDeclarations =
   , maxWidth: v
   , minHeight: v
   , minWidth: v
+  , paddingBottom: v
+  , paddingLeft: v
+  , paddingRight: v
+  , paddingTop: v
   , opacity: v
   , width: v
   }
@@ -1509,6 +1517,38 @@ else instance propertyMarginValMarginTop1
   :: ValMarginTop a
   => Property "margin" a where
   pval = const valMarginTop
+
+-- https://www.w3.org/TR/css-box-3/#propdef-padding-top
+
+instance propertyPaddingTopCommonKeyword
+  :: Property "paddingTop" CommonKeyword where
+  pval = const val
+
+instance propertyPaddingTopLengthPercentage
+  :: LengthPercentageTag a
+  => Property "paddingTop" (Measure a) where
+  pval = const val
+
+-- https://www.w3.org/TR/css-box-3/#propdef-padding-right
+
+instance propertyPaddingRightPaddingTop
+  :: Property "paddingTop" a
+  => Property "paddingRight" a where
+  pval = const $ pval (Proxy :: _ "paddingTop")
+
+-- https://www.w3.org/TR/css-box-3/#propdef-padding-bottom
+
+instance propertyPaddingBottomPaddingTop
+  :: Property "paddingTop" a
+  => Property "paddingBottom" a where
+  pval = const $ pval (Proxy :: _ "paddingTop")
+
+-- https://www.w3.org/TR/css-box-3/#propdef-padding-left
+
+instance propertyPaddingLeftPaddingTop
+  :: Property "paddingTop" a
+  => Property "paddingLeft" a where
+  pval = const $ pval (Proxy :: _ "paddingTop")
 
 --------------------------------------------------------------------------------
 

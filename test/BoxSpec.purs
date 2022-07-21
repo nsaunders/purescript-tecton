@@ -88,3 +88,51 @@ spec =
       "margin:1px 1em 25% auto"
         `isRenderedFrom`
         { margin: px 1 /\ em 1 /\ pct 25 /\ auto }
+
+    describe "padding-top property" do
+
+      "padding-top:inherit" `isRenderedFrom` { paddingTop: inherit }
+
+      "padding-top:initial" `isRenderedFrom` { paddingTop: initial }
+
+      "padding-top:unset" `isRenderedFrom` { paddingTop: unset }
+
+      "padding-top:1px" `isRenderedFrom` { paddingTop: px 1 }
+
+      "padding-top:10%" `isRenderedFrom` { paddingTop: pct 10 }
+
+    describe "padding-right property" do
+
+      "padding-right:inherit" `isRenderedFrom` { paddingRight: inherit }
+
+      "padding-right:initial" `isRenderedFrom` { paddingRight: initial }
+
+      "padding-right:unset" `isRenderedFrom` { paddingRight: unset }
+
+      "padding-right:1px" `isRenderedFrom` { paddingRight: px 1 }
+
+      "padding-right:10%" `isRenderedFrom` { paddingRight: pct 10 }
+
+    describe "padding-bottom property" do
+
+      "padding-bottom:inherit" `isRenderedFrom` { paddingBottom: inherit }
+
+      "padding-bottom:initial" `isRenderedFrom` { paddingBottom: initial }
+
+      "padding-bottom:unset" `isRenderedFrom` { paddingBottom: unset }
+
+      "padding-bottom:1px" `isRenderedFrom` { paddingBottom: px 1 }
+
+      "padding-bottom:10%" `isRenderedFrom` { paddingBottom: pct 10 }
+
+    describe "padding-left property" do
+
+      "padding-left:inherit" `isRenderedFrom` { paddingLeft: inherit }
+
+      "padding-left:initial" `isRenderedFrom` { paddingLeft: initial }
+
+      "padding-left:unset" `isRenderedFrom` { paddingLeft: unset }
+
+      "padding-left:1px" `isRenderedFrom` { paddingLeft: px 1 }
+
+      "padding-left:10%" `isRenderedFrom` { paddingLeft: pct 10 }
