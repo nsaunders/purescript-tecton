@@ -4,7 +4,8 @@ module Test.BoxSpec where
 
 import Prelude
 
-import PSCSS (auto, inherit, initial, pct, px, unset)
+import Data.Tuple.Nested ((/\))
+import PSCSS (auto, em, inherit, initial, pct, px, unset)
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -67,3 +68,23 @@ spec =
       "margin-left:10%" `isRenderedFrom` { marginLeft: pct 10 }
 
       "margin-left:auto" `isRenderedFrom` { marginLeft: auto }
+
+    describe "margin property" do
+
+      "margin:inherit" `isRenderedFrom` { margin: inherit }
+
+      "margin:initial" `isRenderedFrom` { margin: initial }
+
+      "margin:unset" `isRenderedFrom` { margin: unset }
+
+      "margin:1px" `isRenderedFrom` { margin: px 1 }
+
+      "margin:10%" `isRenderedFrom` { margin: pct 10 }
+
+      "margin:1px 10%" `isRenderedFrom` { margin: px 1 /\ pct 10 }
+
+      "margin:10% 1px 25%" `isRenderedFrom` { margin: pct 10 /\ px 1 /\ pct 25 }
+
+      "margin:1px 1em 25% auto"
+        `isRenderedFrom`
+        { margin: px 1 /\ em 1 /\ pct 25 /\ auto }

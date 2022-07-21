@@ -128,6 +128,7 @@ type SupportedDeclarations' (v :: Type) =
   , animationTimingFunction :: v
   , color :: v
   , height :: v
+  , margin :: v
   , marginBottom :: v
   , marginLeft :: v
   , marginRight :: v
@@ -152,6 +153,7 @@ defaultDeclarations =
   , animationTimingFunction: v
   , color: v
   , height: v
+  , margin: v
   , marginBottom: v
   , marginLeft: v
   , marginRight: v
@@ -1465,6 +1467,48 @@ instance propertyMarginLeftMarginTop
   :: Property "marginTop" a
   => Property "marginLeft" a where
   pval = const $ pval (Proxy :: _ "marginTop")
+
+-- https://www.w3.org/TR/css-box-3/#propdef-margin
+
+instance propertyMarginCommonKeyword :: Property "margin" CommonKeyword where
+  pval = const val
+
+else instance propertyMarginValMarginTop4
+  :: ( ValMarginTop a
+     , ValMarginTop b
+     , ValMarginTop c
+     , ValMarginTop d
+     )
+  => Property "margin" (a /\ b /\ c /\ d) where
+  pval _ (a /\ b /\ c /\ d) =
+    joinVals
+      (val " ")
+      [ valMarginTop a
+      , valMarginTop b
+      , valMarginTop c
+      , valMarginTop d
+      ]
+
+else instance propertyMarginValMarginTop3
+  :: ( ValMarginTop a
+     , ValMarginTop b
+     , ValMarginTop c
+     )
+  => Property "margin" (a /\ b /\ c) where
+  pval _ (a /\ b /\ c) =
+    joinVals (val " ") [valMarginTop a, valMarginTop b, valMarginTop c]
+
+else instance propertyMarginValMarginTop2
+  :: ( ValMarginTop a
+     , ValMarginTop b
+     )
+  => Property "margin" (a /\ b) where
+  pval _ (a /\ b) = joinVals (val " ") [valMarginTop a, valMarginTop b]
+
+else instance propertyMarginValMarginTop1
+  :: ValMarginTop a
+  => Property "margin" a where
+  pval = const valMarginTop
 
 --------------------------------------------------------------------------------
 
