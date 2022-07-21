@@ -1480,10 +1480,7 @@ instance propertyMarginLeftMarginTop
 
 -- https://www.w3.org/TR/css-box-3/#propdef-margin
 
-instance propertyMarginCommonKeyword :: Property "margin" CommonKeyword where
-  pval = const val
-
-else instance propertyMarginValMarginTop4
+instance propertyMarginValMarginTop4
   :: ( ValMarginTop a
      , ValMarginTop b
      , ValMarginTop c
@@ -1515,10 +1512,10 @@ else instance propertyMarginValMarginTop2
   => Property "margin" (a /\ b) where
   pval _ (a /\ b) = joinVals (val " ") [valMarginTop a, valMarginTop b]
 
-else instance propertyMarginValMarginTop1
-  :: ValMarginTop a
+else instance propertyMarginMarginTop
+  :: Property "marginTop" a
   => Property "margin" a where
-  pval = const valMarginTop
+  pval = const $ pval (Proxy :: _ "marginTop")
 
 -- https://www.w3.org/TR/css-box-3/#propdef-padding-top
 
