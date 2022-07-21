@@ -138,6 +138,7 @@ type SupportedDeclarations' (v :: Type) =
   , minHeight :: v
   , minWidth :: v
   , opacity :: v
+  , padding :: v
   , paddingBottom :: v
   , paddingLeft :: v
   , paddingRight :: v
@@ -166,6 +167,7 @@ defaultDeclarations =
   , maxWidth: v
   , minHeight: v
   , minWidth: v
+  , padding: v
   , paddingBottom: v
   , paddingLeft: v
   , paddingRight: v
@@ -1548,6 +1550,37 @@ instance propertyPaddingBottomPaddingTop
 instance propertyPaddingLeftPaddingTop
   :: Property "paddingTop" a
   => Property "paddingLeft" a where
+  pval = const $ pval (Proxy :: _ "paddingTop")
+
+-- https://www.w3.org/TR/css-box-3/#propdef-padding
+
+instance paddingLengthPercentage4
+  :: ( LengthPercentageTag a
+     , LengthPercentageTag b
+     , LengthPercentageTag c
+     , LengthPercentageTag d
+     )
+  => Property "padding" (Measure a /\ Measure b /\ Measure c /\ Measure d) where
+  pval _ (a /\ b /\ c /\ d) = joinVals (val " ") [val a, val b, val c, val d]
+
+else instance paddingLengthPercentage3
+  :: ( LengthPercentageTag a
+     , LengthPercentageTag b
+     , LengthPercentageTag c
+     )
+  => Property "padding" (Measure a /\ Measure b /\ Measure c) where
+  pval _ (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+
+else instance paddingLengthPercentage2
+  :: ( LengthPercentageTag a
+     , LengthPercentageTag b
+     )
+  => Property "padding" (Measure a /\ Measure b) where
+  pval _ (a /\ b) = joinVals (val " ") [val a, val b]
+
+else instance paddingPaddingTop
+  :: Property "paddingTop" a
+  => Property "padding" a where
   pval = const $ pval (Proxy :: _ "paddingTop")
 
 --------------------------------------------------------------------------------

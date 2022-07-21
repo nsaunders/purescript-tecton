@@ -136,3 +136,23 @@ spec =
       "padding-left:1px" `isRenderedFrom` { paddingLeft: px 1 }
 
       "padding-left:10%" `isRenderedFrom` { paddingLeft: pct 10 }
+
+    describe "padding property" do
+
+      "padding:inherit" `isRenderedFrom` { padding: inherit }
+
+      "padding:initial" `isRenderedFrom` { padding: initial }
+
+      "padding:unset" `isRenderedFrom` { padding: unset }
+
+      "padding:1px" `isRenderedFrom` { padding: px 1 }
+
+      "padding:10%" `isRenderedFrom` { padding: pct 10 }
+
+      "padding:10% 20%" `isRenderedFrom` { padding: pct 10 /\ pct 20 }
+
+      "padding:1px 10% 2em" `isRenderedFrom` { padding: px 1 /\ pct 10 /\ em 2 }
+
+      "padding:2em 1% 1px 10%"
+        `isRenderedFrom`
+        { padding: em 2 /\ pct 1 /\ px 1 /\ pct 10 }
