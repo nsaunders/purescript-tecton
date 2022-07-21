@@ -126,6 +126,7 @@ type SupportedDeclarations' (v :: Type) =
   , animationName :: v
   , animationPlayState :: v
   , animationTimingFunction :: v
+  , backgroundColor :: v
   , color :: v
   , height :: v
   , margin :: v
@@ -156,6 +157,7 @@ defaultDeclarations =
   , animationName: v
   , animationPlayState: v
   , animationTimingFunction: v
+  , backgroundColor: v
   , color: v
   , height: v
   , margin: v
@@ -1430,6 +1432,20 @@ instance propertyAnimationFillModeCommonKeyword
 else instance propertyAnimationFillModeVal
   :: ValAnimationFillMode a => Property "animationFillMode" a where
   pval = const valAnimationFillMode
+
+--------------------------------------------------------------------------------
+
+-- https://www.w3.org/TR/css-backgrounds-3/
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-color
+
+instance propertyBackgroundColorCommonKeyword
+  :: Property "backgroundColor" CommonKeyword where
+  pval = const val
+
+else instance propertyBackgroundColorColor
+  :: IsColor a => Property "backgroundColor" a where
+  pval = const val
 
 --------------------------------------------------------------------------------
 
