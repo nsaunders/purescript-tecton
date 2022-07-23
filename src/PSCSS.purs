@@ -1798,6 +1798,8 @@ stepEnd = EasingFunction $ val "step-end"
 class ToVal a <= IsImage (a :: Type)
 instance IsImage URL
 
+data Repeating
+
 data ColorStop
 
 data TransitionHint
@@ -1806,54 +1808,55 @@ class IsColorStopListItem (a :: Type)
 instance IsColorStopListItem ColorStop
 instance IsColorStopListItem TransitionHint
 
-newtype Gradient (previous :: Type) (last :: Type) =
+newtype Gradient (repeating :: Type) (previous :: Type) (last :: Type) =
   Gradient (String /\ List Val)
 
 instance
   IsColorStopListItem previous
-  => ToVal (Gradient previous ColorStop) where
+  => ToVal (Gradient repeating previous ColorStop) where
   val (Gradient (f /\ args)) = fn f $ Array.reverse $ Array.fromFoldable args
 
-instance IsColorStopListItem previous => IsImage (Gradient previous ColorStop)
+instance IsColorStopListItem previous
+  => IsImage (Gradient repeating previous ColorStop)
 
-mkGradient :: String -> Gradient Unit Unit
+mkGradient :: String -> Gradient Unit Unit Unit
 mkGradient ty = Gradient $ (ty <> "-gradient") /\ Nil
 
-repeating :: Gradient Unit Unit -> Gradient Unit Unit
+repeating :: Gradient Unit Unit Unit -> Gradient Repeating Unit Unit
 repeating (Gradient (f /\ args)) = Gradient $ ("repeating-" <> f) /\ args
 
 addGradientDetail
-  :: forall a previous last next
+  :: forall a repeating previous last next
    . ToVal a
   => a
-  -> Gradient previous last
-  -> Gradient last next
+  -> Gradient repeating previous last
+  -> Gradient repeating last next
 addGradientDetail arg (Gradient (f /\ args)) = Gradient $ f /\ val arg : args
  
 stop
-  :: forall color previous last
+  :: forall color repeating previous last
    . IsColor color
   => color
-  -> Gradient previous last
-  -> Gradient last ColorStop
+  -> Gradient repeating previous last
+  -> Gradient repeating last ColorStop
 stop = addGradientDetail
 
 stop2
-  :: forall color lengthPercentage previous last
+  :: forall color lengthPercentage repeating previous last
    . IsColor color
   => LengthPercentageTag lengthPercentage
   => color
   -> Measure lengthPercentage
-  -> Gradient previous last
-  -> Gradient last ColorStop
+  -> Gradient repeating previous last
+  -> Gradient repeating last ColorStop
 stop2 color pos = addGradientDetail $ val color <> val " " <> val pos
 
 hint
-  :: forall lengthPercentage previous
+  :: forall lengthPercentage repeating previous
    . LengthPercentageTag lengthPercentage
   => Measure lengthPercentage
-  -> Gradient previous ColorStop
-  -> Gradient ColorStop TransitionHint
+  -> Gradient repeating previous ColorStop
+  -> Gradient repeating ColorStop TransitionHint
 hint = addGradientDetail
 
 newtype GradientAngle = GradientAngle Val
@@ -1884,14 +1887,14 @@ instance AngleTag a => IsGradientAngle (Measure a)
 
 -- https://www.w3.org/TR/css-images-3/#linear-gradient-syntax
 
-linearGradient :: Gradient Unit Unit
+linearGradient :: Gradient Unit Unit Unit
 linearGradient = mkGradient "linear"
 
 linearGradient1
   :: forall angle
    . IsGradientAngle angle
   => angle
-  -> Gradient Unit Unit
+  -> Gradient Unit Unit Unit
 linearGradient1 = flip addGradientDetail linearGradient
 
 -- https://www.w3.org/TR/css-images-3/#radial-gradient-syntax
@@ -1916,11 +1919,11 @@ data Ellipse = Ellipse
 ellipse = Ellipse :: Ellipse
 instance ToVal Ellipse where val _ = val "ellipse"
 
-radialGradient :: Gradient Unit Unit
+radialGradient :: Gradient Unit Unit Unit
 radialGradient = mkGradient "radial"
   
 class RadialGradient1 (a :: Type) where
-  radialGradient1 :: a -> Gradient Unit Unit
+  radialGradient1 :: a -> Gradient Unit Unit Unit
 
 instance RadialGradient1 Circle where
   radialGradient1 = flip addGradientDetail radialGradient
@@ -1939,7 +1942,7 @@ instance LengthTag length => RadialGradient1 (Measure length) where
   radialGradient1 = flip addGradientDetail radialGradient
 
 class RadialGradient2 (a :: Type) (b :: Type) where
-  radialGradient2 :: a -> b -> Gradient Unit Unit
+  radialGradient2 :: a -> b -> Gradient Unit Unit Unit
 
 instance RadialGradient2 Circle Extent where
   radialGradient2 endingShape extent =
@@ -1974,7 +1977,7 @@ instance
     radialGradient # addGradientDetail (val x <> val " " <> val y)
 
 class RadialGradient3 (a :: Type) (b :: Type) (c :: Type) where
-  radialGradient3 :: a -> b -> c -> Gradient Unit Unit
+  radialGradient3 :: a -> b -> c -> Gradient Unit Unit Unit
 
 instance RadialGradient3 Circle Extent Position where
   radialGradient3 endingShape extent position =
@@ -2048,7 +2051,7 @@ radialGradient4
   -> (Measure x)
   -> (Measure y)
   -> Position
-  -> Gradient Unit Unit
+  -> Gradient Unit Unit Unit
 radialGradient4 endingShape x y position =
   radialGradient
     # addGradientDetail
