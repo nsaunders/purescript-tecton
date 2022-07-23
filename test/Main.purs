@@ -8,6 +8,7 @@ import Test.AnimationsSpec as Animations
 import Test.BackgroundsSpec as Backgrounds
 import Test.BoxSpec as Box
 import Test.ColorSpec as Color
+import Test.ImagesSpec as Images
 import Test.MediaQueriesSpec as MediaQueries
 import Test.SelectorsSpec as Selectors
 import Test.SizingSpec as Sizing
@@ -20,6 +21,7 @@ main = launchAff_ $ runSpec [consoleReporter] do
   Backgrounds.spec
   Box.spec
   Color.spec
+  Images.spec
   MediaQueries.spec
   Selectors.spec
   Sizing.spec

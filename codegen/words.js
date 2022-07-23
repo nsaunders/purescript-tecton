@@ -75,6 +75,16 @@ const code = [
     value: "both",
   },
   {
+    typeName: "Bottom",
+    varName: "bottom",
+    value: "bottom",
+  },
+  {
+    typeName: "Center",
+    varName: "center",
+    value: "center",
+  },
+  {
     typeName: "Charset",
     varName: "charset",
     value: "charset",
@@ -85,6 +95,11 @@ const code = [
     varName: "checked",
     value: "checked",
     attribute: true
+  },
+  {
+    typeName: "Circle",
+    varName: "circle",
+    value: "circle",
   },
   {
     typeName: "Cite",
@@ -288,6 +303,11 @@ const code = [
     varName: "lang",
     value: "lang",
     attribute: true
+  },
+  {
+    typeName: "Left",
+    varName: "left",
+    value: "left",
   },
   {
     typeName: "List'",
@@ -852,6 +872,11 @@ const code = [
     attribute: true
   },
   {
+    typeName: "Right",
+    varName: "right",
+    value: "right",
+  },
+  {
     typeName: "Rows",
     varName: "rows",
     value: "rows",
@@ -970,6 +995,11 @@ const code = [
     varName: "title",
     value: "title",
     attribute: true
+  },
+  {
+    typeName: "Top",
+    varName: "top",
+    value: "top",
   },
   {
     typeName: "Translate",
