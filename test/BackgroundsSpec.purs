@@ -6,7 +6,7 @@ import Prelude hiding (bottom, top)
 
 import Color (rgb, white)
 import Data.Tuple.Nested ((/\))
-import PSCSS (at2, at3, at4, bottom, center, currentColor, fixed, inherit, initial, left, local, noRepeat, none, px, radialGradient1, repeat, repeat2, repeatX, repeatY, right, round, scroll, space, stop, top, transparent, unset, url)
+import PSCSS (at2, at3, at4, borderBox, bottom, center, contentBox, currentColor, fixed, inherit, initial, left, local, noRepeat, none, paddingBox, px, radialGradient1, repeat, repeat2, repeatX, repeatY, right, round, scroll, space, stop, top, transparent, unset, url)
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -173,3 +173,27 @@ spec =
         { backgroundPosition:
             at2 center bottom /\ at2 left (px 15) /\ at3 center top (px (-5))
         } 
+
+    describe "background-clip property" do
+
+      "background-clip:inherit" `isRenderedFrom` { backgroundClip: inherit }
+
+      "background-clip:initial" `isRenderedFrom` { backgroundClip: initial }
+
+      "background-clip:unset" `isRenderedFrom` { backgroundClip: unset }
+
+      "background-clip:border-box"
+        `isRenderedFrom`
+        { backgroundClip: borderBox }
+
+      "background-clip:padding-box"
+        `isRenderedFrom`
+        { backgroundClip: paddingBox }
+
+      "background-clip:content-box"
+        `isRenderedFrom`
+        { backgroundClip: contentBox }
+
+      "background-clip:border-box,padding-box,content-box"
+        `isRenderedFrom`
+        { backgroundClip: borderBox /\ paddingBox /\ contentBox }

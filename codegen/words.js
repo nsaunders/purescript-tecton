@@ -70,6 +70,11 @@ const code = [
     attribute: true
   },
   {
+    typeName: "BorderBox",
+    varName: "borderBox",
+    value: "border-box",
+  },
+  {
     typeName: "Both",
     varName: "both",
     value: "both",
@@ -130,6 +135,11 @@ const code = [
     varName: "content",
     value: "content",
     attribute: true
+  },
+  {
+    typeName: "ContentBox",
+    varName: "contentBox",
+    value: "content-box",
   },
   {
     typeName: "Contenteditable",

@@ -127,6 +127,7 @@ type SupportedDeclarations' (v :: Type) =
   , animationPlayState :: v
   , animationTimingFunction :: v
   , backgroundAttachment :: v
+  , backgroundClip :: v
   , backgroundColor :: v
   , backgroundImage :: v
   , backgroundPosition :: v
@@ -162,6 +163,7 @@ defaultDeclarations =
   , animationPlayState: v
   , animationTimingFunction: v
   , backgroundAttachment: v
+  , backgroundClip: v
   , backgroundColor: v
   , backgroundImage: v
   , backgroundPosition: v
@@ -1710,6 +1712,43 @@ else instance propertyBackgroundPositionVal
   => Property "backgroundPosition" a where
   pval = const valBackgroundPosition
 
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-clip
+
+data PaddingBox = PaddingBox
+instance ToVal PaddingBox where val _ = val "padding-box"
+paddingBox = PaddingBox :: PaddingBox
+
+class ValBackgroundClip (a :: Type) where
+  valBackgroundClip :: a -> Val
+
+instance valBackgroundClipMultiple
+  :: ( ValBackgroundClip a
+     , ValBackgroundClip b
+     )
+  => ValBackgroundClip (a /\ b) where
+  valBackgroundClip (a /\ b) =
+    valBackgroundClip a
+    <> Val (\{ separator } -> "," <> separator)
+    <> valBackgroundClip b
+
+instance ValBackgroundClip BorderBox where
+  valBackgroundClip = val
+
+instance ValBackgroundClip PaddingBox where
+  valBackgroundClip = val
+
+instance ValBackgroundClip ContentBox where
+  valBackgroundClip = val
+
+instance propertyBackgroundClipCommonKeyword
+  :: Property "backgroundClip" CommonKeyword where
+  pval = const val
+
+else instance propertyBackgroundClipVal
+  :: ValBackgroundClip a
+  => Property "backgroundClip" a where
+  pval = const valBackgroundClip
+
 --------------------------------------------------------------------------------
 
 -- https://www.w3.org/TR/css-box-3/
@@ -2413,6 +2452,10 @@ instance ToVal Autoplay where val _ = val "autoplay"
 autoplay = Autoplay :: Autoplay
 instance IsAttribute Autoplay
 
+data BorderBox = BorderBox
+instance ToVal BorderBox where val _ = val "border-box"
+borderBox = BorderBox :: BorderBox
+
 data Both = Both
 instance ToVal Both where val _ = val "both"
 both = Both :: Both
@@ -2463,6 +2506,10 @@ data Content = Content
 instance ToVal Content where val _ = val "content"
 content = Content :: Content
 instance IsAttribute Content
+
+data ContentBox = ContentBox
+instance ToVal ContentBox where val _ = val "content-box"
+contentBox = ContentBox :: ContentBox
 
 data Contenteditable = Contenteditable
 instance ToVal Contenteditable where val _ = val "contenteditable"
