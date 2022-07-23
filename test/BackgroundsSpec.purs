@@ -6,7 +6,7 @@ import Prelude hiding (bottom, top)
 
 import Color (rgb, white)
 import Data.Tuple.Nested ((/\))
-import PSCSS (at2, at3, at4, borderBox, bottom, center, contentBox, currentColor, fixed, inherit, initial, left, local, noRepeat, none, paddingBox, px, radialGradient1, repeat, repeat2, repeatX, repeatY, right, round, scroll, space, stop, top, transparent, unset, url)
+import PSCSS (at2, at3, at4, auto, bgSize2, borderBox, bottom, center, contain, contentBox, cover, currentColor, fixed, inherit, initial, left, local, noRepeat, none, paddingBox, pct, px, radialGradient1, repeat, repeat2, repeatX, repeatY, right, round, scroll, space, stop, top, transparent, unset, url)
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -221,3 +221,39 @@ spec =
       "background-origin:border-box,padding-box,content-box"
         `isRenderedFrom`
         { backgroundOrigin: borderBox /\ paddingBox /\ contentBox }
+
+    describe "background-size property" do
+
+      "background-size:inherit" `isRenderedFrom` { backgroundSize: inherit }
+
+      "background-size:initial" `isRenderedFrom` { backgroundSize: initial }
+
+      "background-size:unset" `isRenderedFrom` { backgroundSize: unset }
+
+      "background-size:100px" `isRenderedFrom` { backgroundSize: px 100 }
+
+      "background-size:10%" `isRenderedFrom` { backgroundSize: pct 10 }
+
+      "background-size:auto" `isRenderedFrom` { backgroundSize: auto }
+
+      "background-size:cover" `isRenderedFrom` { backgroundSize: cover }
+
+      "background-size:contain" `isRenderedFrom` { backgroundSize: contain }
+
+      "background-size:50% 100px"
+        `isRenderedFrom`
+        { backgroundSize: bgSize2 (pct 50) (px 100) }
+
+      "background-size:25% auto"
+        `isRenderedFrom`
+        { backgroundSize: bgSize2 (pct 25) auto }
+
+      "background-size:auto 5px"
+        `isRenderedFrom`
+        { backgroundSize: bgSize2 auto (px 5) }
+
+      "background-size:50%,50px,auto 100px,auto,cover,contain"
+        `isRenderedFrom`
+        { backgroundSize:
+            pct 50 /\ px 50 /\ bgSize2 auto (px 100) /\ auto /\ cover /\ contain
+        }

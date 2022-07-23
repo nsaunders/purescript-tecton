@@ -131,6 +131,11 @@ const code = [
     attribute: true
   },
   {
+    typeName: "Contain",
+    varName: "contain",
+    value: "contain",
+  },
+  {
     typeName: "Content",
     varName: "content",
     value: "content",
@@ -158,6 +163,11 @@ const code = [
     varName: "coords",
     value: "coords",
     attribute: true
+  },
+  {
+    typeName: "Cover",
+    varName: "cover",
+    value: "cover",
   },
   {
     typeName: "Data",

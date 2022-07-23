@@ -133,6 +133,7 @@ type SupportedDeclarations' (v :: Type) =
   , backgroundOrigin :: v
   , backgroundPosition :: v
   , backgroundRepeat :: v
+  , backgroundSize :: v
   , color :: v
   , height :: v
   , margin :: v
@@ -170,6 +171,7 @@ defaultDeclarations =
   , backgroundOrigin: v
   , backgroundPosition: v
   , backgroundRepeat: v
+  , backgroundSize: v
   , color: v
   , height: v
   , margin: v
@@ -1758,6 +1760,62 @@ instance propertyBackgroundOriginBackgroundClip
   => Property "backgroundOrigin" a where
   pval = const $ pval (Proxy :: _ "backgroundClip")
 
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-size
+
+newtype BgSize = BgSize Val
+
+derive newtype instance ToVal BgSize
+
+class (ToVal x, ToVal y) <= BgSize2 (x :: Type) (y :: Type)
+instance LengthPercentageTag x => BgSize2 Auto Auto
+instance LengthPercentageTag x => BgSize2 (Measure x) Auto
+instance LengthPercentageTag y => BgSize2 Auto (Measure y)
+instance
+  ( LengthPercentageTag x
+  , LengthPercentageTag y
+  )
+  => BgSize2 (Measure x) (Measure y)
+
+bgSize2 :: forall x y. BgSize2 x y => x -> y -> BgSize
+bgSize2 x y = BgSize $ val x <> val " " <> val y
+
+class ValBackgroundSize (a :: Type) where
+  valBackgroundSize :: a -> Val
+
+instance valBackgroundSizeMultiple
+  :: ( ValBackgroundSize a
+     , ValBackgroundSize b
+     )
+  => ValBackgroundSize (a /\ b) where
+  valBackgroundSize (a /\ b) =
+    valBackgroundSize a
+    <> Val (\{ separator } -> "," <> separator)
+    <> valBackgroundSize b
+
+instance LengthPercentageTag a => ValBackgroundSize (Measure a) where
+  valBackgroundSize = val
+
+instance ValBackgroundSize Auto where
+  valBackgroundSize = val
+
+instance ValBackgroundSize Cover where
+  valBackgroundSize = val
+
+instance ValBackgroundSize Contain where
+  valBackgroundSize = val
+
+instance ValBackgroundSize BgSize where
+  valBackgroundSize = val
+
+instance propertyBackgroundSizeCommonKeyword
+  :: Property "backgroundSize" CommonKeyword where
+  pval = const val
+
+else instance propertyBackgroundSizeVal
+  :: ValBackgroundSize a
+  => Property "backgroundSize" a where
+  pval = const valBackgroundSize
+
 --------------------------------------------------------------------------------
 
 -- https://www.w3.org/TR/css-box-3/
@@ -2511,6 +2569,10 @@ instance ToVal Colspan where val _ = val "colspan"
 colspan = Colspan :: Colspan
 instance IsAttribute Colspan
 
+data Contain = Contain
+instance ToVal Contain where val _ = val "contain"
+contain = Contain :: Contain
+
 data Content = Content
 instance ToVal Content where val _ = val "content"
 content = Content :: Content
@@ -2534,6 +2596,10 @@ data Coords = Coords
 instance ToVal Coords where val _ = val "coords"
 coords = Coords :: Coords
 instance IsAttribute Coords
+
+data Cover = Cover
+instance ToVal Cover where val _ = val "cover"
+cover = Cover :: Cover
 
 data Data = Data
 instance ToVal Data where val _ = val "data"
