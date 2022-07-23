@@ -127,6 +127,7 @@ type SupportedDeclarations' (v :: Type) =
   , animationPlayState :: v
   , animationTimingFunction :: v
   , backgroundColor :: v
+  , backgroundImage :: v
   , color :: v
   , height :: v
   , margin :: v
@@ -158,6 +159,7 @@ defaultDeclarations =
   , animationPlayState: v
   , animationTimingFunction: v
   , backgroundColor: v
+  , backgroundImage: v
   , color: v
   , height: v
   , margin: v
@@ -634,7 +636,7 @@ infixl 8 divide as @/
 newtype URL = URL String
 
 instance toValURL :: ToVal URL where
-  val (URL x) = val $ "url(\"" <> quote x <> "\")"
+  val (URL x) = val $ fn "url" [val $ quote x]
 
 url :: String -> URL
 url = URL
@@ -1535,6 +1537,36 @@ instance propertyBackgroundColorCommonKeyword
 else instance propertyBackgroundColorColor
   :: IsColor a => Property "backgroundColor" a where
   pval = const val
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-image
+
+class ValBackgroundImage (a :: Type) where
+  valBackgroundImage :: a -> Val
+
+instance valBackgroundImageMultiple
+  :: ( ValBackgroundImage a
+     , ValBackgroundImage b
+     )
+  => ValBackgroundImage (a /\ b) where
+  valBackgroundImage (a /\ b) =
+    valBackgroundImage a
+    <> (Val \c -> "," <> c.separator)
+    <> valBackgroundImage b
+
+else instance ValBackgroundImage None where
+  valBackgroundImage = val
+
+else instance IsImage a => ValBackgroundImage a where
+  valBackgroundImage = val
+
+instance propertyBackgroundImageCommonKeyword
+  :: Property "backgroundImage" CommonKeyword where
+  pval = const val
+
+else instance propertyBackgroundImageVal
+  :: ValBackgroundImage a
+  => Property "backgroundImage" a where
+  pval = const valBackgroundImage
 
 --------------------------------------------------------------------------------
 

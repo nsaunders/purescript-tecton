@@ -2,10 +2,11 @@
 
 module Test.BackgroundsSpec where
 
-import Prelude
+import Prelude hiding (bottom)
 
-import Color (rgb)
-import PSCSS (currentColor, inherit, initial, transparent, unset)
+import Color (rgb, white)
+import Data.Tuple.Nested ((/\))
+import PSCSS (at2, bottom, currentColor, inherit, initial, none, radialGradient1, right, stop, transparent, unset, url)
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -32,3 +33,33 @@ spec =
       "background-color:transparent"
         `isRenderedFrom`
         { backgroundColor: transparent }
+
+    describe "background-image property" do
+
+      "background-image:inherit" `isRenderedFrom` { backgroundImage: inherit }
+
+      "background-image:initial" `isRenderedFrom` { backgroundImage: initial }
+
+      "background-image:unset" `isRenderedFrom` { backgroundImage: unset }
+
+      "background-image:url(\"marble.svg\")"
+        `isRenderedFrom`
+        { backgroundImage: url "marble.svg" }
+
+      "background-image:none"
+        `isRenderedFrom`
+        { backgroundImage: none }
+
+      "background-image:url(\"tl.png\"),url(\"tr.png\")"
+        `isRenderedFrom`
+        { backgroundImage: url "tl.png" /\ url "tr.png" }
+
+      "background-image:radial-gradient(at right bottom,transparent,#ffffff)"
+        `isRenderedFrom`
+        { backgroundImage:
+            radialGradient1 (at2 right bottom) # stop transparent # stop white
+        }
+
+      "background-image:none,url(\"cat.jpg\")"
+        `isRenderedFrom`
+        { backgroundImage: none /\ url "cat.jpg" }
