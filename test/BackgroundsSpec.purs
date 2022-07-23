@@ -6,7 +6,7 @@ import Prelude hiding (bottom)
 
 import Color (rgb, white)
 import Data.Tuple.Nested ((/\))
-import PSCSS (at2, bottom, currentColor, inherit, initial, noRepeat, none, radialGradient1, repeat, repeat2, repeatX, repeatY, right, round, space, stop, transparent, unset, url)
+import PSCSS (at2, bottom, currentColor, fixed, inherit, initial, local, noRepeat, none, radialGradient1, repeat, repeat2, repeatX, repeatY, right, round, scroll, space, stop, transparent, unset, url)
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -103,3 +103,33 @@ spec =
       "background-repeat:space round,repeat-x"
         `isRenderedFrom`
         { backgroundRepeat: repeat2 space round /\ repeatX }
+
+    describe "background-attachment property" do
+
+      "background-attachment:inherit"
+        `isRenderedFrom`
+        { backgroundAttachment: inherit }
+
+      "background-attachment:initial"
+        `isRenderedFrom`
+        { backgroundAttachment: initial }
+
+      "background-attachment:unset"
+        `isRenderedFrom`
+        { backgroundAttachment: unset }
+
+      "background-attachment:fixed"
+        `isRenderedFrom`
+        { backgroundAttachment: fixed }
+
+      "background-attachment:local"
+        `isRenderedFrom`
+        { backgroundAttachment: local }
+
+      "background-attachment:scroll"
+        `isRenderedFrom`
+        { backgroundAttachment: scroll }
+
+      "background-attachment:fixed,local,scroll"
+        `isRenderedFrom`
+        { backgroundAttachment: fixed /\ local /\ scroll }

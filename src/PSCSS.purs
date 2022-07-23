@@ -126,6 +126,7 @@ type SupportedDeclarations' (v :: Type) =
   , animationName :: v
   , animationPlayState :: v
   , animationTimingFunction :: v
+  , backgroundAttachment :: v
   , backgroundColor :: v
   , backgroundImage :: v
   , backgroundRepeat :: v
@@ -159,6 +160,7 @@ defaultDeclarations =
   , animationName: v
   , animationPlayState: v
   , animationTimingFunction: v
+  , backgroundAttachment: v
   , backgroundColor: v
   , backgroundImage: v
   , backgroundRepeat: v
@@ -748,9 +750,14 @@ media mediaType providedMediaFeatures =
     NestedRule $ val "media " <> val mediaType <> features
 
 newtype MediaType = MediaType String
-print = MediaType "print" :: MediaType
-screen = MediaType "screen" :: MediaType
+
 derive newtype instance ToVal MediaType
+
+print :: MediaType
+print = MediaType "print"
+
+screen :: MediaType
+screen = MediaType "screen"
 
 class ToVal a <= IsMediaType (a :: Type)
 instance IsMediaType All
@@ -1613,7 +1620,7 @@ instance valBackgroundRepeatMultiple
       <> Val (\{ separator } -> "," <> separator)
       <> valBackgroundRepeat b
 
-else instance ValBackgroundRepeat (RepeatStyle a) where
+instance ValBackgroundRepeat (RepeatStyle a) where
   valBackgroundRepeat = val
 
 instance propertyBackgroundRepeatCommonKeyword
@@ -1624,6 +1631,43 @@ else instance propertyBackgroundRepeatVal
   :: ValBackgroundRepeat a
   => Property "backgroundRepeat" a where
   pval = const valBackgroundRepeat
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-repeat
+
+data Local = Local
+instance ToVal Local where val _ = val "local"
+local = Local :: Local
+
+class ValBackgroundAttachment (a :: Type) where
+  valBackgroundAttachment :: a -> Val
+
+instance valBackgroundAttachmentMultiple
+  :: ( ValBackgroundAttachment a
+     , ValBackgroundAttachment b
+     )
+  => ValBackgroundAttachment (a /\ b) where
+    valBackgroundAttachment (a /\ b) =
+      valBackgroundAttachment a
+      <> Val (\{ separator } -> "," <> separator)
+      <> valBackgroundAttachment b
+
+instance ValBackgroundAttachment Fixed where
+  valBackgroundAttachment = val
+
+instance ValBackgroundAttachment Local where
+  valBackgroundAttachment = val
+
+instance ValBackgroundAttachment Scroll where
+  valBackgroundAttachment = val
+
+instance propertyBackgrondAttachmentCommonKeyword
+  :: Property "backgroundAttachment" CommonKeyword where
+  pval = const val
+
+else instance propertyBackgrondAttachmentVal
+  :: ValBackgroundAttachment a
+  => Property "backgroundAttachment" a where
+  pval = const valBackgroundAttachment
 
 --------------------------------------------------------------------------------
 
@@ -1797,12 +1841,18 @@ else instance propertyOpacityNumber :: Property "opacity" Number where
 -- https://www.w3.org/TR/css-color-4/#typedef-color
 
 newtype CSSColor = CSSColor String
-currentColor = CSSColor "currentColor" :: CSSColor
-transparent = CSSColor "transparent" :: CSSColor
+
 derive newtype instance ToVal CSSColor
 
-class ToVal a <= IsColor (a :: Type)
+currentColor :: CSSColor
+currentColor = CSSColor "currentColor"
+
+transparent :: CSSColor
+transparent = CSSColor "transparent"
+
 instance ToVal Color where val c = Val \cfg -> cfg.color c
+
+class ToVal a <= IsColor (a :: Type)
 instance IsColor Color
 instance IsColor CSSColor
 
@@ -1811,6 +1861,7 @@ instance IsColor CSSColor
 -- https://www.w3.org/TR/css-easing-1/
 
 newtype EasingFunction = EasingFunction Val
+
 derive newtype instance ToVal EasingFunction
 
 -- https://www.w3.org/TR/css-easing-1/#valdef-easing-function-linear
@@ -1859,10 +1910,17 @@ newtype StepPosition = StepPosition String
 
 derive newtype instance ToVal StepPosition
 
-jumpStart = StepPosition "jump-start" :: StepPosition
-jumpEnd = StepPosition "jump-end" :: StepPosition
-jumpNone = StepPosition "jump-none" :: StepPosition
-jumpBoth = StepPosition "jump-both" :: StepPosition
+jumpStart :: StepPosition
+jumpStart = StepPosition "jump-start"
+
+jumpEnd :: StepPosition
+jumpEnd = StepPosition "jump-end"
+
+jumpNone :: StepPosition
+jumpNone = StepPosition "jump-none"
+
+jumpBoth :: StepPosition
+jumpBoth = StepPosition "jump-both"
 
 class ToVal a <= IsStepPosition (a :: Type)
 instance IsStepPosition StepPosition
@@ -2005,8 +2063,8 @@ farthestSide :: Extent
 farthestSide = Extent "farthest-side"
 
 data Ellipse = Ellipse
-ellipse = Ellipse :: Ellipse
 instance ToVal Ellipse where val _ = val "ellipse"
+ellipse = Ellipse :: Ellipse
 
 radialGradient :: Gradient Unit Unit Unit
 radialGradient = mkGradient "radial"
@@ -2227,8 +2285,11 @@ newtype ContentSizingValue = ContentSizingValue Val
 
 derive newtype instance ToVal ContentSizingValue
 
-minContent = ContentSizingValue (val "min-content") :: ContentSizingValue
-maxContent = ContentSizingValue (val "max-content") :: ContentSizingValue
+minContent :: ContentSizingValue
+minContent = ContentSizingValue $ val "min-content"
+
+maxContent :: ContentSizingValue
+maxContent = ContentSizingValue $ val "max-content"
 
 fitContent :: forall a. LengthPercentageTag a => Measure a -> ContentSizingValue
 fitContent a = ContentSizingValue $ fn "fit-content" [val a]
@@ -2240,871 +2301,886 @@ fitContent a = ContentSizingValue $ fn "fit-content" [val a]
 -- https://www.w3.org/TR/css3-values/#common-keywords
 
 newtype CommonKeyword = CommonKeyword String
-inherit = CommonKeyword "inherit" :: CommonKeyword
-initial = CommonKeyword "initial" :: CommonKeyword
-unset = CommonKeyword "unset" :: CommonKeyword
+
 instance ToVal CommonKeyword where val (CommonKeyword x) = val x
+
+inherit :: CommonKeyword
+inherit = CommonKeyword "inherit"
+
+initial :: CommonKeyword
+initial = CommonKeyword "initial"
+
+unset :: CommonKeyword
+unset = CommonKeyword "unset"
 
 --------------------------------------------------------------------------------
 
--- Common words
+-- Misc/common words
 
 -- WARNING: The following is generated code. Edit with care!
 
 data Accept = Accept
-accept = Accept :: Accept
 instance ToVal Accept where val _ = val "accept"
+accept = Accept :: Accept
 instance IsAttribute Accept
 
 data AcceptCharset = AcceptCharset
-acceptCharset = AcceptCharset :: AcceptCharset
 instance ToVal AcceptCharset where val _ = val "accept-charset"
+acceptCharset = AcceptCharset :: AcceptCharset
 instance IsAttribute AcceptCharset
 
 data Accesskey = Accesskey
-accesskey = Accesskey :: Accesskey
 instance ToVal Accesskey where val _ = val "accesskey"
+accesskey = Accesskey :: Accesskey
 instance IsAttribute Accesskey
 
 data Action = Action
-action = Action :: Action
 instance ToVal Action where val _ = val "action"
+action = Action :: Action
 instance IsAttribute Action
 
 data All = All
-all = All :: All
 instance ToVal All where val _ = val "all"
+all = All :: All
 
 data Alt = Alt
-alt = Alt :: Alt
 instance ToVal Alt where val _ = val "alt"
+alt = Alt :: Alt
 instance IsAttribute Alt
 
 data Async = Async
-async = Async :: Async
 instance ToVal Async where val _ = val "async"
+async = Async :: Async
 instance IsAttribute Async
 
 data Auto = Auto
-auto = Auto :: Auto
 instance ToVal Auto where val _ = val "auto"
+auto = Auto :: Auto
 
 data Autocomplete = Autocomplete
-autocomplete = Autocomplete :: Autocomplete
 instance ToVal Autocomplete where val _ = val "autocomplete"
+autocomplete = Autocomplete :: Autocomplete
 instance IsAttribute Autocomplete
 
 data Autofocus = Autofocus
-autofocus = Autofocus :: Autofocus
 instance ToVal Autofocus where val _ = val "autofocus"
+autofocus = Autofocus :: Autofocus
 instance IsAttribute Autofocus
 
 data Autoplay = Autoplay
-autoplay = Autoplay :: Autoplay
 instance ToVal Autoplay where val _ = val "autoplay"
+autoplay = Autoplay :: Autoplay
 instance IsAttribute Autoplay
 
 data Both = Both
-both = Both :: Both
 instance ToVal Both where val _ = val "both"
+both = Both :: Both
 
 data Bottom = Bottom
-bottom = Bottom :: Bottom
 instance ToVal Bottom where val _ = val "bottom"
+bottom = Bottom :: Bottom
 
 data Center = Center
-center = Center :: Center
 instance ToVal Center where val _ = val "center"
+center = Center :: Center
 
 data Charset = Charset
-charset = Charset :: Charset
 instance ToVal Charset where val _ = val "charset"
+charset = Charset :: Charset
 instance IsAttribute Charset
 
 data Checked = Checked
-checked = Checked :: Checked
 instance ToVal Checked where val _ = val "checked"
+checked = Checked :: Checked
 instance IsAttribute Checked
 
 data Circle = Circle
-circle = Circle :: Circle
 instance ToVal Circle where val _ = val "circle"
+circle = Circle :: Circle
 
 data Cite = Cite
-cite = Cite :: Cite
 instance ToVal Cite where val _ = val "cite"
+cite = Cite :: Cite
 instance IsAttribute Cite
 
 data Class = Class
-class' = Class :: Class
 instance ToVal Class where val _ = val "class"
+class' = Class :: Class
 instance IsAttribute Class
 
 data Cols = Cols
-cols = Cols :: Cols
 instance ToVal Cols where val _ = val "cols"
+cols = Cols :: Cols
 instance IsAttribute Cols
 
 data Colspan = Colspan
-colspan = Colspan :: Colspan
 instance ToVal Colspan where val _ = val "colspan"
+colspan = Colspan :: Colspan
 instance IsAttribute Colspan
 
 data Content = Content
-content = Content :: Content
 instance ToVal Content where val _ = val "content"
+content = Content :: Content
 instance IsAttribute Content
 
 data Contenteditable = Contenteditable
-contenteditable = Contenteditable :: Contenteditable
 instance ToVal Contenteditable where val _ = val "contenteditable"
+contenteditable = Contenteditable :: Contenteditable
 instance IsAttribute Contenteditable
 
 data Controls = Controls
-controls = Controls :: Controls
 instance ToVal Controls where val _ = val "controls"
+controls = Controls :: Controls
 instance IsAttribute Controls
 
 data Coords = Coords
-coords = Coords :: Coords
 instance ToVal Coords where val _ = val "coords"
+coords = Coords :: Coords
 instance IsAttribute Coords
 
 data Data = Data
-data' = Data :: Data
 instance ToVal Data where val _ = val "data"
+data' = Data :: Data
 instance IsAttribute Data
 
 data Datetime = Datetime
-datetime = Datetime :: Datetime
 instance ToVal Datetime where val _ = val "datetime"
+datetime = Datetime :: Datetime
 instance IsAttribute Datetime
 
 data Default = Default
-default = Default :: Default
 instance ToVal Default where val _ = val "default"
+default = Default :: Default
 instance IsAttribute Default
 
 data Defer = Defer
-defer = Defer :: Defer
 instance ToVal Defer where val _ = val "defer"
+defer = Defer :: Defer
 instance IsAttribute Defer
 
 data Dir = Dir
-dir = Dir :: Dir
 instance ToVal Dir where val _ = val "dir"
+dir = Dir :: Dir
 instance IsAttribute Dir
 
 data Dirname = Dirname
-dirname = Dirname :: Dirname
 instance ToVal Dirname where val _ = val "dirname"
+dirname = Dirname :: Dirname
 instance IsAttribute Dirname
 
 data Disabled = Disabled
-disabled = Disabled :: Disabled
 instance ToVal Disabled where val _ = val "disabled"
+disabled = Disabled :: Disabled
 instance IsAttribute Disabled
 
 data Download = Download
-download = Download :: Download
 instance ToVal Download where val _ = val "download"
+download = Download :: Download
 instance IsAttribute Download
 
 data Draggable = Draggable
-draggable = Draggable :: Draggable
 instance ToVal Draggable where val _ = val "draggable"
+draggable = Draggable :: Draggable
 instance IsAttribute Draggable
 
 data Enctype = Enctype
-enctype = Enctype :: Enctype
 instance ToVal Enctype where val _ = val "enctype"
+enctype = Enctype :: Enctype
 instance IsAttribute Enctype
 
 data End = End
-end = End :: End
 instance ToVal End where val _ = val "end"
+end = End :: End
+
+data Fixed = Fixed
+instance ToVal Fixed where val _ = val "fixed"
+fixed = Fixed :: Fixed
 
 data For = For
-for = For :: For
 instance ToVal For where val _ = val "for"
+for = For :: For
 instance IsAttribute For
 
 data Form = Form
-form = Form :: Form
 instance ToVal Form where val _ = val "form"
+form = Form :: Form
 instance IsAttribute Form
 
 data Formaction = Formaction
-formaction = Formaction :: Formaction
 instance ToVal Formaction where val _ = val "formaction"
+formaction = Formaction :: Formaction
 instance IsAttribute Formaction
 
 data Headers = Headers
-headers = Headers :: Headers
 instance ToVal Headers where val _ = val "headers"
+headers = Headers :: Headers
 instance IsAttribute Headers
 
 data Height = Height
-height = Height :: Height
 instance ToVal Height where val _ = val "height"
+height = Height :: Height
 instance IsAttribute Height
 
 data Hidden = Hidden
-hidden = Hidden :: Hidden
 instance ToVal Hidden where val _ = val "hidden"
+hidden = Hidden :: Hidden
 instance IsAttribute Hidden
 
 data High = High
-high = High :: High
 instance ToVal High where val _ = val "high"
+high = High :: High
 instance IsAttribute High
 
 data Href = Href
-href = Href :: Href
 instance ToVal Href where val _ = val "href"
+href = Href :: Href
 instance IsAttribute Href
 
 data Hreflang = Hreflang
-hreflang = Hreflang :: Hreflang
 instance ToVal Hreflang where val _ = val "hreflang"
+hreflang = Hreflang :: Hreflang
 instance IsAttribute Hreflang
 
 data HttpEquiv = HttpEquiv
-httpEquiv = HttpEquiv :: HttpEquiv
 instance ToVal HttpEquiv where val _ = val "http-equiv"
+httpEquiv = HttpEquiv :: HttpEquiv
 instance IsAttribute HttpEquiv
 
 data Id = Id
-id = Id :: Id
 instance ToVal Id where val _ = val "id"
+id = Id :: Id
 instance IsAttribute Id
 
 data Ismap = Ismap
-ismap = Ismap :: Ismap
 instance ToVal Ismap where val _ = val "ismap"
+ismap = Ismap :: Ismap
 instance IsAttribute Ismap
 
 data Kind = Kind
-kind = Kind :: Kind
 instance ToVal Kind where val _ = val "kind"
+kind = Kind :: Kind
 instance IsAttribute Kind
 
 data Label = Label
-label = Label :: Label
 instance ToVal Label where val _ = val "label"
+label = Label :: Label
 instance IsAttribute Label
 
 data Lang = Lang
-lang = Lang :: Lang
 instance ToVal Lang where val _ = val "lang"
+lang = Lang :: Lang
 instance IsAttribute Lang
 
 data Left = Left
-left = Left :: Left
 instance ToVal Left where val _ = val "left"
+left = Left :: Left
 
 data List' = List'
-list = List' :: List'
 instance ToVal List' where val _ = val "list"
+list = List' :: List'
 instance IsAttribute List'
 
 data Loop = Loop
-loop = Loop :: Loop
 instance ToVal Loop where val _ = val "loop"
+loop = Loop :: Loop
 instance IsAttribute Loop
 
 data Low = Low
-low = Low :: Low
 instance ToVal Low where val _ = val "low"
+low = Low :: Low
 instance IsAttribute Low
 
 data Max = Max
-max = Max :: Max
 instance ToVal Max where val _ = val "max"
+max = Max :: Max
 instance IsAttribute Max
 
 data Maxlength = Maxlength
-maxlength = Maxlength :: Maxlength
 instance ToVal Maxlength where val _ = val "maxlength"
+maxlength = Maxlength :: Maxlength
 instance IsAttribute Maxlength
 
 data Media = Media
-media' = Media :: Media
 instance ToVal Media where val _ = val "media"
+media' = Media :: Media
 instance IsAttribute Media
 
 data Method = Method
-method = Method :: Method
 instance ToVal Method where val _ = val "method"
+method = Method :: Method
 instance IsAttribute Method
 
 data Min = Min
-min = Min :: Min
 instance ToVal Min where val _ = val "min"
+min = Min :: Min
 instance IsAttribute Min
 
 data Multiple = Multiple
-multiple = Multiple :: Multiple
 instance ToVal Multiple where val _ = val "multiple"
+multiple = Multiple :: Multiple
 instance IsAttribute Multiple
 
 data Muted = Muted
-muted = Muted :: Muted
 instance ToVal Muted where val _ = val "muted"
+muted = Muted :: Muted
 instance IsAttribute Muted
 
 data Name = Name
-name = Name :: Name
 instance ToVal Name where val _ = val "name"
+name = Name :: Name
 instance IsAttribute Name
 
 data None = None
-none = None :: None
 instance ToVal None where val _ = val "none"
+none = None :: None
 
 data Normal = Normal
-normal = Normal :: Normal
 instance ToVal Normal where val _ = val "normal"
+normal = Normal :: Normal
 
 data Novalidate = Novalidate
-novalidate = Novalidate :: Novalidate
 instance ToVal Novalidate where val _ = val "novalidate"
+novalidate = Novalidate :: Novalidate
 instance IsAttribute Novalidate
 
 data Onabort = Onabort
-onabort = Onabort :: Onabort
 instance ToVal Onabort where val _ = val "onabort"
+onabort = Onabort :: Onabort
 instance IsAttribute Onabort
 
 data Onafterprint = Onafterprint
-onafterprint = Onafterprint :: Onafterprint
 instance ToVal Onafterprint where val _ = val "onafterprint"
+onafterprint = Onafterprint :: Onafterprint
 instance IsAttribute Onafterprint
 
 data Onbeforeprint = Onbeforeprint
-onbeforeprint = Onbeforeprint :: Onbeforeprint
 instance ToVal Onbeforeprint where val _ = val "onbeforeprint"
+onbeforeprint = Onbeforeprint :: Onbeforeprint
 instance IsAttribute Onbeforeprint
 
 data Onbeforeunload = Onbeforeunload
-onbeforeunload = Onbeforeunload :: Onbeforeunload
 instance ToVal Onbeforeunload where val _ = val "onbeforeunload"
+onbeforeunload = Onbeforeunload :: Onbeforeunload
 instance IsAttribute Onbeforeunload
 
 data Onblur = Onblur
-onblur = Onblur :: Onblur
 instance ToVal Onblur where val _ = val "onblur"
+onblur = Onblur :: Onblur
 instance IsAttribute Onblur
 
 data Oncanplay = Oncanplay
-oncanplay = Oncanplay :: Oncanplay
 instance ToVal Oncanplay where val _ = val "oncanplay"
+oncanplay = Oncanplay :: Oncanplay
 instance IsAttribute Oncanplay
 
 data Oncanplaythrough = Oncanplaythrough
-oncanplaythrough = Oncanplaythrough :: Oncanplaythrough
 instance ToVal Oncanplaythrough where val _ = val "oncanplaythrough"
+oncanplaythrough = Oncanplaythrough :: Oncanplaythrough
 instance IsAttribute Oncanplaythrough
 
 data Onchange = Onchange
-onchange = Onchange :: Onchange
 instance ToVal Onchange where val _ = val "onchange"
+onchange = Onchange :: Onchange
 instance IsAttribute Onchange
 
 data Onclick = Onclick
-onclick = Onclick :: Onclick
 instance ToVal Onclick where val _ = val "onclick"
+onclick = Onclick :: Onclick
 instance IsAttribute Onclick
 
 data Oncontextmenu = Oncontextmenu
-oncontextmenu = Oncontextmenu :: Oncontextmenu
 instance ToVal Oncontextmenu where val _ = val "oncontextmenu"
+oncontextmenu = Oncontextmenu :: Oncontextmenu
 instance IsAttribute Oncontextmenu
 
 data Oncopy = Oncopy
-oncopy = Oncopy :: Oncopy
 instance ToVal Oncopy where val _ = val "oncopy"
+oncopy = Oncopy :: Oncopy
 instance IsAttribute Oncopy
 
 data Oncuechange = Oncuechange
-oncuechange = Oncuechange :: Oncuechange
 instance ToVal Oncuechange where val _ = val "oncuechange"
+oncuechange = Oncuechange :: Oncuechange
 instance IsAttribute Oncuechange
 
 data Oncut = Oncut
-oncut = Oncut :: Oncut
 instance ToVal Oncut where val _ = val "oncut"
+oncut = Oncut :: Oncut
 instance IsAttribute Oncut
 
 data Ondblclick = Ondblclick
-ondblclick = Ondblclick :: Ondblclick
 instance ToVal Ondblclick where val _ = val "ondblclick"
+ondblclick = Ondblclick :: Ondblclick
 instance IsAttribute Ondblclick
 
 data Ondrag = Ondrag
-ondrag = Ondrag :: Ondrag
 instance ToVal Ondrag where val _ = val "ondrag"
+ondrag = Ondrag :: Ondrag
 instance IsAttribute Ondrag
 
 data Ondragend = Ondragend
-ondragend = Ondragend :: Ondragend
 instance ToVal Ondragend where val _ = val "ondragend"
+ondragend = Ondragend :: Ondragend
 instance IsAttribute Ondragend
 
 data Ondragenter = Ondragenter
-ondragenter = Ondragenter :: Ondragenter
 instance ToVal Ondragenter where val _ = val "ondragenter"
+ondragenter = Ondragenter :: Ondragenter
 instance IsAttribute Ondragenter
 
 data Ondragleave = Ondragleave
-ondragleave = Ondragleave :: Ondragleave
 instance ToVal Ondragleave where val _ = val "ondragleave"
+ondragleave = Ondragleave :: Ondragleave
 instance IsAttribute Ondragleave
 
 data Ondragover = Ondragover
-ondragover = Ondragover :: Ondragover
 instance ToVal Ondragover where val _ = val "ondragover"
+ondragover = Ondragover :: Ondragover
 instance IsAttribute Ondragover
 
 data Ondragstart = Ondragstart
-ondragstart = Ondragstart :: Ondragstart
 instance ToVal Ondragstart where val _ = val "ondragstart"
+ondragstart = Ondragstart :: Ondragstart
 instance IsAttribute Ondragstart
 
 data Ondrop = Ondrop
-ondrop = Ondrop :: Ondrop
 instance ToVal Ondrop where val _ = val "ondrop"
+ondrop = Ondrop :: Ondrop
 instance IsAttribute Ondrop
 
 data Ondurationchange = Ondurationchange
-ondurationchange = Ondurationchange :: Ondurationchange
 instance ToVal Ondurationchange where val _ = val "ondurationchange"
+ondurationchange = Ondurationchange :: Ondurationchange
 instance IsAttribute Ondurationchange
 
 data Onemptied = Onemptied
-onemptied = Onemptied :: Onemptied
 instance ToVal Onemptied where val _ = val "onemptied"
+onemptied = Onemptied :: Onemptied
 instance IsAttribute Onemptied
 
 data Onended = Onended
-onended = Onended :: Onended
 instance ToVal Onended where val _ = val "onended"
+onended = Onended :: Onended
 instance IsAttribute Onended
 
 data Onerror = Onerror
-onerror = Onerror :: Onerror
 instance ToVal Onerror where val _ = val "onerror"
+onerror = Onerror :: Onerror
 instance IsAttribute Onerror
 
 data Onfocus = Onfocus
-onfocus = Onfocus :: Onfocus
 instance ToVal Onfocus where val _ = val "onfocus"
+onfocus = Onfocus :: Onfocus
 instance IsAttribute Onfocus
 
 data Onhashchange = Onhashchange
-onhashchange = Onhashchange :: Onhashchange
 instance ToVal Onhashchange where val _ = val "onhashchange"
+onhashchange = Onhashchange :: Onhashchange
 instance IsAttribute Onhashchange
 
 data Oninput = Oninput
-oninput = Oninput :: Oninput
 instance ToVal Oninput where val _ = val "oninput"
+oninput = Oninput :: Oninput
 instance IsAttribute Oninput
 
 data Oninvalid = Oninvalid
-oninvalid = Oninvalid :: Oninvalid
 instance ToVal Oninvalid where val _ = val "oninvalid"
+oninvalid = Oninvalid :: Oninvalid
 instance IsAttribute Oninvalid
 
 data Onkeydown = Onkeydown
-onkeydown = Onkeydown :: Onkeydown
 instance ToVal Onkeydown where val _ = val "onkeydown"
+onkeydown = Onkeydown :: Onkeydown
 instance IsAttribute Onkeydown
 
 data Onkeypress = Onkeypress
-onkeypress = Onkeypress :: Onkeypress
 instance ToVal Onkeypress where val _ = val "onkeypress"
+onkeypress = Onkeypress :: Onkeypress
 instance IsAttribute Onkeypress
 
 data Onkeyup = Onkeyup
-onkeyup = Onkeyup :: Onkeyup
 instance ToVal Onkeyup where val _ = val "onkeyup"
+onkeyup = Onkeyup :: Onkeyup
 instance IsAttribute Onkeyup
 
 data Onload = Onload
-onload = Onload :: Onload
 instance ToVal Onload where val _ = val "onload"
+onload = Onload :: Onload
 instance IsAttribute Onload
 
 data Onloadeddata = Onloadeddata
-onloadeddata = Onloadeddata :: Onloadeddata
 instance ToVal Onloadeddata where val _ = val "onloadeddata"
+onloadeddata = Onloadeddata :: Onloadeddata
 instance IsAttribute Onloadeddata
 
 data Onloadedmetadata = Onloadedmetadata
-onloadedmetadata = Onloadedmetadata :: Onloadedmetadata
 instance ToVal Onloadedmetadata where val _ = val "onloadedmetadata"
+onloadedmetadata = Onloadedmetadata :: Onloadedmetadata
 instance IsAttribute Onloadedmetadata
 
 data Onloadstart = Onloadstart
-onloadstart = Onloadstart :: Onloadstart
 instance ToVal Onloadstart where val _ = val "onloadstart"
+onloadstart = Onloadstart :: Onloadstart
 instance IsAttribute Onloadstart
 
 data Onmousedown = Onmousedown
-onmousedown = Onmousedown :: Onmousedown
 instance ToVal Onmousedown where val _ = val "onmousedown"
+onmousedown = Onmousedown :: Onmousedown
 instance IsAttribute Onmousedown
 
 data Onmousemove = Onmousemove
-onmousemove = Onmousemove :: Onmousemove
 instance ToVal Onmousemove where val _ = val "onmousemove"
+onmousemove = Onmousemove :: Onmousemove
 instance IsAttribute Onmousemove
 
 data Onmouseout = Onmouseout
-onmouseout = Onmouseout :: Onmouseout
 instance ToVal Onmouseout where val _ = val "onmouseout"
+onmouseout = Onmouseout :: Onmouseout
 instance IsAttribute Onmouseout
 
 data Onmouseover = Onmouseover
-onmouseover = Onmouseover :: Onmouseover
 instance ToVal Onmouseover where val _ = val "onmouseover"
+onmouseover = Onmouseover :: Onmouseover
 instance IsAttribute Onmouseover
 
 data Onmouseup = Onmouseup
-onmouseup = Onmouseup :: Onmouseup
 instance ToVal Onmouseup where val _ = val "onmouseup"
+onmouseup = Onmouseup :: Onmouseup
 instance IsAttribute Onmouseup
 
 data Onmousewheel = Onmousewheel
-onmousewheel = Onmousewheel :: Onmousewheel
 instance ToVal Onmousewheel where val _ = val "onmousewheel"
+onmousewheel = Onmousewheel :: Onmousewheel
 instance IsAttribute Onmousewheel
 
 data Onoffline = Onoffline
-onoffline = Onoffline :: Onoffline
 instance ToVal Onoffline where val _ = val "onoffline"
+onoffline = Onoffline :: Onoffline
 instance IsAttribute Onoffline
 
 data Ononline = Ononline
-ononline = Ononline :: Ononline
 instance ToVal Ononline where val _ = val "ononline"
+ononline = Ononline :: Ononline
 instance IsAttribute Ononline
 
 data Onpagehide = Onpagehide
-onpagehide = Onpagehide :: Onpagehide
 instance ToVal Onpagehide where val _ = val "onpagehide"
+onpagehide = Onpagehide :: Onpagehide
 instance IsAttribute Onpagehide
 
 data Onpageshow = Onpageshow
-onpageshow = Onpageshow :: Onpageshow
 instance ToVal Onpageshow where val _ = val "onpageshow"
+onpageshow = Onpageshow :: Onpageshow
 instance IsAttribute Onpageshow
 
 data Onpaste = Onpaste
-onpaste = Onpaste :: Onpaste
 instance ToVal Onpaste where val _ = val "onpaste"
+onpaste = Onpaste :: Onpaste
 instance IsAttribute Onpaste
 
 data Onpause = Onpause
-onpause = Onpause :: Onpause
 instance ToVal Onpause where val _ = val "onpause"
+onpause = Onpause :: Onpause
 instance IsAttribute Onpause
 
 data Onplay = Onplay
-onplay = Onplay :: Onplay
 instance ToVal Onplay where val _ = val "onplay"
+onplay = Onplay :: Onplay
 instance IsAttribute Onplay
 
 data Onplaying = Onplaying
-onplaying = Onplaying :: Onplaying
 instance ToVal Onplaying where val _ = val "onplaying"
+onplaying = Onplaying :: Onplaying
 instance IsAttribute Onplaying
 
 data Onpopstate = Onpopstate
-onpopstate = Onpopstate :: Onpopstate
 instance ToVal Onpopstate where val _ = val "onpopstate"
+onpopstate = Onpopstate :: Onpopstate
 instance IsAttribute Onpopstate
 
 data Onprogress = Onprogress
-onprogress = Onprogress :: Onprogress
 instance ToVal Onprogress where val _ = val "onprogress"
+onprogress = Onprogress :: Onprogress
 instance IsAttribute Onprogress
 
 data Onratechange = Onratechange
-onratechange = Onratechange :: Onratechange
 instance ToVal Onratechange where val _ = val "onratechange"
+onratechange = Onratechange :: Onratechange
 instance IsAttribute Onratechange
 
 data Onreset = Onreset
-onreset = Onreset :: Onreset
 instance ToVal Onreset where val _ = val "onreset"
+onreset = Onreset :: Onreset
 instance IsAttribute Onreset
 
 data Onresize = Onresize
-onresize = Onresize :: Onresize
 instance ToVal Onresize where val _ = val "onresize"
+onresize = Onresize :: Onresize
 instance IsAttribute Onresize
 
 data Onscroll = Onscroll
-onscroll = Onscroll :: Onscroll
 instance ToVal Onscroll where val _ = val "onscroll"
+onscroll = Onscroll :: Onscroll
 instance IsAttribute Onscroll
 
 data Onsearch = Onsearch
-onsearch = Onsearch :: Onsearch
 instance ToVal Onsearch where val _ = val "onsearch"
+onsearch = Onsearch :: Onsearch
 instance IsAttribute Onsearch
 
 data Onseeked = Onseeked
-onseeked = Onseeked :: Onseeked
 instance ToVal Onseeked where val _ = val "onseeked"
+onseeked = Onseeked :: Onseeked
 instance IsAttribute Onseeked
 
 data Onseeking = Onseeking
-onseeking = Onseeking :: Onseeking
 instance ToVal Onseeking where val _ = val "onseeking"
+onseeking = Onseeking :: Onseeking
 instance IsAttribute Onseeking
 
 data Onselect = Onselect
-onselect = Onselect :: Onselect
 instance ToVal Onselect where val _ = val "onselect"
+onselect = Onselect :: Onselect
 instance IsAttribute Onselect
 
 data Onstalled = Onstalled
-onstalled = Onstalled :: Onstalled
 instance ToVal Onstalled where val _ = val "onstalled"
+onstalled = Onstalled :: Onstalled
 instance IsAttribute Onstalled
 
 data Onstorage = Onstorage
-onstorage = Onstorage :: Onstorage
 instance ToVal Onstorage where val _ = val "onstorage"
+onstorage = Onstorage :: Onstorage
 instance IsAttribute Onstorage
 
 data Onsubmit = Onsubmit
-onsubmit = Onsubmit :: Onsubmit
 instance ToVal Onsubmit where val _ = val "onsubmit"
+onsubmit = Onsubmit :: Onsubmit
 instance IsAttribute Onsubmit
 
 data Onsuspend = Onsuspend
-onsuspend = Onsuspend :: Onsuspend
 instance ToVal Onsuspend where val _ = val "onsuspend"
+onsuspend = Onsuspend :: Onsuspend
 instance IsAttribute Onsuspend
 
 data Ontimeupdate = Ontimeupdate
-ontimeupdate = Ontimeupdate :: Ontimeupdate
 instance ToVal Ontimeupdate where val _ = val "ontimeupdate"
+ontimeupdate = Ontimeupdate :: Ontimeupdate
 instance IsAttribute Ontimeupdate
 
 data Ontoggle = Ontoggle
-ontoggle = Ontoggle :: Ontoggle
 instance ToVal Ontoggle where val _ = val "ontoggle"
+ontoggle = Ontoggle :: Ontoggle
 instance IsAttribute Ontoggle
 
 data Onunload = Onunload
-onunload = Onunload :: Onunload
 instance ToVal Onunload where val _ = val "onunload"
+onunload = Onunload :: Onunload
 instance IsAttribute Onunload
 
 data Onvolumechange = Onvolumechange
-onvolumechange = Onvolumechange :: Onvolumechange
 instance ToVal Onvolumechange where val _ = val "onvolumechange"
+onvolumechange = Onvolumechange :: Onvolumechange
 instance IsAttribute Onvolumechange
 
 data Onwaiting = Onwaiting
-onwaiting = Onwaiting :: Onwaiting
 instance ToVal Onwaiting where val _ = val "onwaiting"
+onwaiting = Onwaiting :: Onwaiting
 instance IsAttribute Onwaiting
 
 data Onwheel = Onwheel
-onwheel = Onwheel :: Onwheel
 instance ToVal Onwheel where val _ = val "onwheel"
+onwheel = Onwheel :: Onwheel
 instance IsAttribute Onwheel
 
 data Open = Open
-open = Open :: Open
 instance ToVal Open where val _ = val "open"
+open = Open :: Open
 instance IsAttribute Open
 
 data Optimum = Optimum
-optimum = Optimum :: Optimum
 instance ToVal Optimum where val _ = val "optimum"
+optimum = Optimum :: Optimum
 instance IsAttribute Optimum
 
 data Pattern = Pattern
-pattern = Pattern :: Pattern
 instance ToVal Pattern where val _ = val "pattern"
+pattern = Pattern :: Pattern
 instance IsAttribute Pattern
 
 data Placeholder = Placeholder
-placeholder = Placeholder :: Placeholder
 instance ToVal Placeholder where val _ = val "placeholder"
+placeholder = Placeholder :: Placeholder
 instance IsAttribute Placeholder
 
 data Poster = Poster
-poster = Poster :: Poster
 instance ToVal Poster where val _ = val "poster"
+poster = Poster :: Poster
 instance IsAttribute Poster
 
 data Preload = Preload
-preload = Preload :: Preload
 instance ToVal Preload where val _ = val "preload"
+preload = Preload :: Preload
 instance IsAttribute Preload
 
 data Readonly = Readonly
-readonly = Readonly :: Readonly
 instance ToVal Readonly where val _ = val "readonly"
+readonly = Readonly :: Readonly
 instance IsAttribute Readonly
 
 data Rel = Rel
-rel = Rel :: Rel
 instance ToVal Rel where val _ = val "rel"
+rel = Rel :: Rel
 instance IsAttribute Rel
 
 data Required = Required
-required = Required :: Required
 instance ToVal Required where val _ = val "required"
+required = Required :: Required
 instance IsAttribute Required
 
 data Reversed = Reversed
-reversed = Reversed :: Reversed
 instance ToVal Reversed where val _ = val "reversed"
+reversed = Reversed :: Reversed
 instance IsAttribute Reversed
 
 data Right = Right
-right = Right :: Right
 instance ToVal Right where val _ = val "right"
+right = Right :: Right
 
 data Rows = Rows
-rows = Rows :: Rows
 instance ToVal Rows where val _ = val "rows"
+rows = Rows :: Rows
 instance IsAttribute Rows
 
 data Rowspan = Rowspan
-rowspan = Rowspan :: Rowspan
 instance ToVal Rowspan where val _ = val "rowspan"
+rowspan = Rowspan :: Rowspan
 instance IsAttribute Rowspan
 
 data Sandbox = Sandbox
-sandbox = Sandbox :: Sandbox
 instance ToVal Sandbox where val _ = val "sandbox"
+sandbox = Sandbox :: Sandbox
 instance IsAttribute Sandbox
 
 data Scope = Scope
-scope = Scope :: Scope
 instance ToVal Scope where val _ = val "scope"
+scope = Scope :: Scope
 instance IsAttribute Scope
 
+data Scroll = Scroll
+instance ToVal Scroll where val _ = val "scroll"
+scroll = Scroll :: Scroll
+
 data Selected = Selected
-selected = Selected :: Selected
 instance ToVal Selected where val _ = val "selected"
+selected = Selected :: Selected
 instance IsAttribute Selected
 
 data Shape = Shape
-shape = Shape :: Shape
 instance ToVal Shape where val _ = val "shape"
+shape = Shape :: Shape
 instance IsAttribute Shape
 
 data Size = Size
-size = Size :: Size
 instance ToVal Size where val _ = val "size"
+size = Size :: Size
 instance IsAttribute Size
 
 data Sizes = Sizes
-sizes = Sizes :: Sizes
 instance ToVal Sizes where val _ = val "sizes"
+sizes = Sizes :: Sizes
 instance IsAttribute Sizes
 
 data Span = Span
-span = Span :: Span
 instance ToVal Span where val _ = val "span"
+span = Span :: Span
 instance IsAttribute Span
 
 data Spellcheck = Spellcheck
-spellcheck = Spellcheck :: Spellcheck
 instance ToVal Spellcheck where val _ = val "spellcheck"
+spellcheck = Spellcheck :: Spellcheck
 instance IsAttribute Spellcheck
 
 data Src = Src
-src = Src :: Src
 instance ToVal Src where val _ = val "src"
+src = Src :: Src
 instance IsAttribute Src
 
 data Srcdoc = Srcdoc
-srcdoc = Srcdoc :: Srcdoc
 instance ToVal Srcdoc where val _ = val "srcdoc"
+srcdoc = Srcdoc :: Srcdoc
 instance IsAttribute Srcdoc
 
 data Srclang = Srclang
-srclang = Srclang :: Srclang
 instance ToVal Srclang where val _ = val "srclang"
+srclang = Srclang :: Srclang
 instance IsAttribute Srclang
 
 data Srcset = Srcset
-srcset = Srcset :: Srcset
 instance ToVal Srcset where val _ = val "srcset"
+srcset = Srcset :: Srcset
 instance IsAttribute Srcset
 
 data Start = Start
-start = Start :: Start
 instance ToVal Start where val _ = val "start"
+start = Start :: Start
 instance IsAttribute Start
 
 data Step = Step
-step = Step :: Step
 instance ToVal Step where val _ = val "step"
+step = Step :: Step
 instance IsAttribute Step
 
 data Style = Style
-style = Style :: Style
 instance ToVal Style where val _ = val "style"
+style = Style :: Style
 instance IsAttribute Style
 
 data Tabindex = Tabindex
-tabindex = Tabindex :: Tabindex
 instance ToVal Tabindex where val _ = val "tabindex"
+tabindex = Tabindex :: Tabindex
 instance IsAttribute Tabindex
 
 data Target = Target
-target = Target :: Target
 instance ToVal Target where val _ = val "target"
+target = Target :: Target
 instance IsAttribute Target
 
 data Title = Title
-title = Title :: Title
 instance ToVal Title where val _ = val "title"
+title = Title :: Title
 instance IsAttribute Title
 
 data Top = Top
-top = Top :: Top
 instance ToVal Top where val _ = val "top"
+top = Top :: Top
 
 data Translate = Translate
-translate' = Translate :: Translate
 instance ToVal Translate where val _ = val "translate"
+translate' = Translate :: Translate
 instance IsAttribute Translate
 
 data Type' = Type'
-type' = Type' :: Type'
 instance ToVal Type' where val _ = val "type"
+type' = Type' :: Type'
 instance IsAttribute Type'
 
 data Usemap = Usemap
-usemap = Usemap :: Usemap
 instance ToVal Usemap where val _ = val "usemap"
+usemap = Usemap :: Usemap
 instance IsAttribute Usemap
 
 data Value = Value
-value = Value :: Value
 instance ToVal Value where val _ = val "value"
+value = Value :: Value
 instance IsAttribute Value
 
 data Width = Width
-width = Width :: Width
 instance ToVal Width where val _ = val "width"
+width = Width :: Width
 instance IsAttribute Width
 
 data Wrap = Wrap
-wrap = Wrap :: Wrap
 instance ToVal Wrap where val _ = val "wrap"
+wrap = Wrap :: Wrap
 instance IsAttribute Wrap

@@ -215,6 +215,11 @@ const code = [
     value: "end"
   },
   {
+    typeName: "Fixed",
+    varName: "fixed",
+    value: "fixed",
+  },
+  {
     typeName: "For",
     varName: "for",
     value: "for",
@@ -901,6 +906,11 @@ const code = [
     attribute: true
   },
   {
+    typeName: "Scroll",
+    varName: "scroll",
+    value: "scroll",
+  },
+  {
     typeName: "Selected",
     varName: "selected",
     value: "selected",
@@ -1040,8 +1050,8 @@ const code = [
 ]
   .map(({ typeName, varName, value, attribute }) => [
     `data ${typeName} = ${typeName}`,
-    `${varName} = ${typeName} :: ${typeName}`,
     `instance ToVal ${typeName} where val _ = val "${value}"`,
+    `${varName} = ${typeName} :: ${typeName}`,
     ...attribute ? [`instance IsAttribute ${typeName}`] : [],
   ]
   .join("\n"))
