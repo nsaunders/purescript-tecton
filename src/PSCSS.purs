@@ -135,10 +135,15 @@ type SupportedDeclarations' (v :: Type) =
   , backgroundRepeat :: v
   , backgroundSize :: v
   , borderBottomColor :: v
+  , borderBottomStyle :: v
   , borderColor :: v
   , borderLeftColor :: v
+  , borderLeftStyle :: v
   , borderRightColor :: v
+  , borderRightStyle :: v
+  , borderStyle :: v
   , borderTopColor :: v
+  , borderTopStyle :: v
   , color :: v
   , height :: v
   , margin :: v
@@ -178,10 +183,15 @@ defaultDeclarations =
   , backgroundRepeat: v
   , backgroundSize: v
   , borderBottomColor: v
+  , borderBottomStyle: v
   , borderColor: v
   , borderLeftColor: v
+  , borderLeftStyle: v
   , borderRightColor: v
+  , borderRightStyle: v
+  , borderStyle: v
   , borderTopColor: v
+  , borderTopStyle: v
   , color: v
   , height: v
   , margin: v
@@ -1901,6 +1911,116 @@ else instance propertyBorderColorVal
   :: ValBorderColor a
   => Property "borderColor" a where
   pval = const valBorderColor
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-style
+
+newtype LineStyle = LineStyle String
+
+derive newtype instance ToVal LineStyle
+
+dotted :: LineStyle
+dotted = LineStyle "dotted"
+
+dashed :: LineStyle
+dashed = LineStyle "dashed"
+
+solid :: LineStyle
+solid = LineStyle "solid"
+
+double :: LineStyle
+double = LineStyle "double"
+
+groove :: LineStyle
+groove = LineStyle "groove"
+
+ridge :: LineStyle
+ridge = LineStyle "ridge"
+
+inset :: LineStyle
+inset = LineStyle "inset"
+
+outset :: LineStyle
+outset = LineStyle "outset"
+
+class ToVal a <= ValBorderTopStyle (a :: Type)
+
+instance ValBorderTopStyle None
+instance ValBorderTopStyle Hidden
+instance ValBorderTopStyle LineStyle
+
+instance propertyBorderTopStyleCommonKeyword
+  :: Property "borderTopStyle" CommonKeyword where
+  pval = const val
+
+else instance propertyBorderTopStyleVal
+  :: ValBorderTopStyle a
+  => Property "borderTopStyle" a where
+  pval = const val
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-right-style
+
+instance propertyBorderRightStyleBorderTopStyle
+  :: Property "borderTopStyle" a
+  => Property "borderRightStyle" a where
+  pval = const $ pval (Proxy :: _ "borderTopStyle")
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-bottom-style
+
+instance propertyBorderBottomStyleBorderTopStyle
+  :: Property "borderTopStyle" a
+  => Property "borderBottomStyle" a where
+  pval = const $ pval (Proxy :: _ "borderTopStyle")
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-left-style
+
+instance propertyBorderLeftStyleBorderTopStyle
+  :: Property "borderTopStyle" a
+  => Property "borderLeftStyle" a where
+  pval = const $ pval (Proxy :: _ "borderTopStyle")
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-style
+
+class ValBorderStyle (a :: Type) where
+  valBorderStyle :: a -> Val
+
+instance valBorderStyle4
+  :: ( ValBorderTopStyle a
+     , ValBorderTopStyle b
+     , ValBorderTopStyle c
+     , ValBorderTopStyle d
+     )
+  => ValBorderStyle (a /\ b /\ c /\ d) where
+  valBorderStyle (a /\ b /\ c /\ d) =
+    joinVals (val " ") [val a, val b, val c, val d]
+
+else instance valBorderStyle3
+  :: ( ValBorderTopStyle a
+     , ValBorderTopStyle b
+     , ValBorderTopStyle c
+     )
+  => ValBorderStyle (a /\ b /\ c) where
+  valBorderStyle (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+
+else instance valBorderStyle2
+  :: ( ValBorderTopStyle a
+     , ValBorderTopStyle b
+     )
+  => ValBorderStyle (a /\ b) where
+  valBorderStyle (a /\ b) = joinVals (val " ") [val a, val b]
+
+else instance valBorderStyle1
+  :: ValBorderTopStyle a
+  => ValBorderStyle a where
+  valBorderStyle = val
+
+instance propertyBorderStyleCommonKeyword
+  :: Property "borderStyle" CommonKeyword where
+  pval = const val
+
+else instance propertyBorderStyleVal
+  :: ValBorderStyle a
+  => Property "borderStyle" a where
+  pval = const valBorderStyle
 
 --------------------------------------------------------------------------------
 

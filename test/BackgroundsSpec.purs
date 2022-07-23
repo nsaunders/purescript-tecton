@@ -6,7 +6,7 @@ import Prelude hiding (bottom, top)
 
 import Color (black, rgb, white)
 import Data.Tuple.Nested ((/\))
-import PSCSS (at2, at3, at4, auto, bgSize2, borderBox, bottom, center, contain, contentBox, cover, currentColor, fixed, inherit, initial, left, local, noRepeat, none, paddingBox, pct, px, radialGradient1, repeat, repeat2, repeatX, repeatY, right, round, scroll, space, stop, top, transparent, unset, url)
+import PSCSS (at2, at3, at4, auto, bgSize2, borderBox, bottom, center, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local, noRepeat, none, outset, paddingBox, pct, px, radialGradient1, repeat, repeat2, repeatX, repeatY, ridge, right, round, scroll, solid, space, stop, top, transparent, unset, url)
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -349,3 +349,187 @@ spec =
       "border-color:#008000 #000000 #0000ff #ffffff"
         `isRenderedFrom`
         { borderColor: rgb 0 128 0 /\ black /\ rgb 0 0 255 /\ rgb 255 255 255 }
+
+    describe "border-top-style property" do
+
+      "border-top-style:inherit" `isRenderedFrom` { borderTopStyle: inherit }
+
+      "border-top-style:initial" `isRenderedFrom` { borderTopStyle: initial }
+
+      "border-top-style:unset" `isRenderedFrom` { borderTopStyle: unset }
+
+      "border-top-style:none" `isRenderedFrom` { borderTopStyle: none }
+
+      "border-top-style:hidden" `isRenderedFrom` { borderTopStyle: hidden }
+
+      "border-top-style:dotted" `isRenderedFrom` { borderTopStyle: dotted }
+
+      "border-top-style:dashed" `isRenderedFrom` { borderTopStyle: dashed }
+
+      "border-top-style:solid" `isRenderedFrom` { borderTopStyle: solid }
+
+      "border-top-style:double" `isRenderedFrom` { borderTopStyle: double }
+
+      "border-top-style:groove" `isRenderedFrom` { borderTopStyle: groove }
+
+      "border-top-style:ridge" `isRenderedFrom` { borderTopStyle: ridge }
+
+      "border-top-style:inset" `isRenderedFrom` { borderTopStyle: inset }
+
+      "border-top-style:outset" `isRenderedFrom` { borderTopStyle: outset }
+
+    describe "border-right-style property" do
+
+      "border-right-style:inherit"
+        `isRenderedFrom`
+        { borderRightStyle: inherit }
+
+      "border-right-style:initial"
+        `isRenderedFrom`
+        { borderRightStyle: initial }
+
+      "border-right-style:unset" `isRenderedFrom` { borderRightStyle: unset }
+
+      "border-right-style:none" `isRenderedFrom` { borderRightStyle: none }
+
+      "border-right-style:hidden" `isRenderedFrom` { borderRightStyle: hidden }
+
+      "border-right-style:dotted" `isRenderedFrom` { borderRightStyle: dotted }
+
+      "border-right-style:dashed" `isRenderedFrom` { borderRightStyle: dashed }
+
+      "border-right-style:solid" `isRenderedFrom` { borderRightStyle: solid }
+
+      "border-right-style:double" `isRenderedFrom` { borderRightStyle: double }
+
+      "border-right-style:groove" `isRenderedFrom` { borderRightStyle: groove }
+
+      "border-right-style:ridge" `isRenderedFrom` { borderRightStyle: ridge }
+
+      "border-right-style:inset" `isRenderedFrom` { borderRightStyle: inset }
+
+      "border-right-style:outset" `isRenderedFrom` { borderRightStyle: outset }
+
+    describe "border-bottom-style property" do
+
+      "border-bottom-style:inherit"
+        `isRenderedFrom`
+        { borderBottomStyle: inherit }
+
+      "border-bottom-style:initial"
+        `isRenderedFrom`
+        { borderBottomStyle: initial }
+
+      "border-bottom-style:unset" `isRenderedFrom` { borderBottomStyle: unset }
+
+      "border-bottom-style:none" `isRenderedFrom` { borderBottomStyle: none }
+
+      "border-bottom-style:hidden"
+        `isRenderedFrom`
+        { borderBottomStyle: hidden }
+
+      "border-bottom-style:dotted"
+        `isRenderedFrom`
+        { borderBottomStyle: dotted }
+
+      "border-bottom-style:dashed"
+        `isRenderedFrom`
+        { borderBottomStyle: dashed }
+
+      "border-bottom-style:solid" `isRenderedFrom` { borderBottomStyle: solid }
+
+      "border-bottom-style:double"
+        `isRenderedFrom`
+        { borderBottomStyle: double }
+
+      "border-bottom-style:groove"
+        `isRenderedFrom`
+        { borderBottomStyle: groove }
+
+      "border-bottom-style:ridge" `isRenderedFrom` { borderBottomStyle: ridge }
+
+      "border-bottom-style:inset" `isRenderedFrom` { borderBottomStyle: inset }
+
+      "border-bottom-style:outset"
+        `isRenderedFrom`
+        { borderBottomStyle: outset }
+
+    describe "border-left-style property" do
+
+      "border-left-style:inherit" `isRenderedFrom` { borderLeftStyle: inherit }
+
+      "border-left-style:initial" `isRenderedFrom` { borderLeftStyle: initial }
+
+      "border-left-style:unset" `isRenderedFrom` { borderLeftStyle: unset }
+
+      "border-left-style:none" `isRenderedFrom` { borderLeftStyle: none }
+
+      "border-left-style:hidden" `isRenderedFrom` { borderLeftStyle: hidden }
+
+      "border-left-style:dotted" `isRenderedFrom` { borderLeftStyle: dotted }
+
+      "border-left-style:dashed" `isRenderedFrom` { borderLeftStyle: dashed }
+
+      "border-left-style:solid" `isRenderedFrom` { borderLeftStyle: solid }
+
+      "border-left-style:double" `isRenderedFrom` { borderLeftStyle: double }
+
+      "border-left-style:groove" `isRenderedFrom` { borderLeftStyle: groove }
+
+      "border-left-style:ridge" `isRenderedFrom` { borderLeftStyle: ridge }
+
+      "border-left-style:inset" `isRenderedFrom` { borderLeftStyle: inset }
+
+      "border-left-style:outset" `isRenderedFrom` { borderLeftStyle: outset }
+
+    describe "border-style property" do
+
+      "border-style:inherit" `isRenderedFrom` { borderStyle: inherit }
+
+      "border-style:initial" `isRenderedFrom` { borderStyle: initial }
+
+      "border-style:unset" `isRenderedFrom` { borderStyle: unset }
+
+      "border-style:none" `isRenderedFrom` { borderStyle: none }
+
+      "border-style:hidden" `isRenderedFrom` { borderStyle: hidden }
+
+      "border-style:dotted" `isRenderedFrom` { borderStyle: dotted }
+
+      "border-style:dashed" `isRenderedFrom` { borderStyle: dashed }
+
+      "border-style:solid" `isRenderedFrom` { borderStyle: solid }
+
+      "border-style:double" `isRenderedFrom` { borderStyle: double }
+
+      "border-style:groove" `isRenderedFrom` { borderStyle: groove }
+
+      "border-style:ridge" `isRenderedFrom` { borderStyle: ridge }
+
+      "border-style:inset" `isRenderedFrom` { borderStyle: inset }
+
+      "border-style:outset" `isRenderedFrom` { borderStyle: outset }
+
+      "border-style:none ridge"
+        `isRenderedFrom`
+        { borderStyle: none /\ ridge }
+
+      "border-style:hidden groove"
+        `isRenderedFrom`
+        { borderStyle: hidden /\ groove }
+
+      "border-style:dotted solid groove"
+        `isRenderedFrom`
+        { borderStyle: dotted /\ solid /\ groove }
+
+      "border-style:double dashed hidden"
+        `isRenderedFrom`
+        { borderStyle: double /\ dashed /\ hidden }
+
+      "border-style:none dotted solid double"
+        `isRenderedFrom`
+        { borderStyle: none /\ dotted /\ solid /\ double }
+
+      "border-style:outset inset ridge groove"
+        `isRenderedFrom`
+        { borderStyle: outset /\ inset /\ ridge /\ groove }
