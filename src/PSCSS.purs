@@ -129,6 +129,7 @@ type SupportedDeclarations' (v :: Type) =
   , backgroundAttachment :: v
   , backgroundColor :: v
   , backgroundImage :: v
+  , backgroundPosition :: v
   , backgroundRepeat :: v
   , color :: v
   , height :: v
@@ -163,6 +164,7 @@ defaultDeclarations =
   , backgroundAttachment: v
   , backgroundColor: v
   , backgroundImage: v
+  , backgroundPosition: v
   , backgroundRepeat: v
   , color: v
   , height: v
@@ -687,10 +689,18 @@ at2 :: forall x y. At2 x y => x -> y -> Position
 at2 x y = Position $ val x <> val " " <> val y
 
 class (ToVal a, ToVal b, ToVal c) <= At3 (a :: Type) (b :: Type) (c :: Type)
-instance LengthPercentageTag yo => At3 Center Top (Measure yo)
-instance LengthPercentageTag yo => At3 Center Bottom (Measure yo)
-instance LengthPercentageTag xo => At3 Right (Measure xo) Center
-instance LengthPercentageTag xo => At3 Left (Measure xo) Center
+instance LengthPercentageTag a => At3 Left (Measure a) Top
+instance LengthPercentageTag a => At3 Left (Measure a) Center
+instance LengthPercentageTag a => At3 Left (Measure a) Bottom
+instance LengthPercentageTag a => At3 Left Top (Measure a)
+instance LengthPercentageTag a => At3 Left Bottom (Measure a)
+instance LengthPercentageTag a => At3 Right (Measure a) Top
+instance LengthPercentageTag a => At3 Right (Measure a) Center
+instance LengthPercentageTag a => At3 Right (Measure a) Bottom
+instance LengthPercentageTag a => At3 Right Top (Measure a)
+instance LengthPercentageTag a => At3 Right Bottom (Measure a)
+instance LengthPercentageTag a => At3 Center Top (Measure a)
+instance LengthPercentageTag a => At3 Center Bottom (Measure a)
 
 at3 :: forall a b c. At3 a b c => a -> b -> c -> Position
 at3 a b c = Position $ joinVals (val " ") [val a, val b, val c]
@@ -1632,7 +1642,7 @@ else instance propertyBackgroundRepeatVal
   => Property "backgroundRepeat" a where
   pval = const valBackgroundRepeat
 
--- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-repeat
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-attachment
 
 data Local = Local
 instance ToVal Local where val _ = val "local"
@@ -1668,6 +1678,37 @@ else instance propertyBackgrondAttachmentVal
   :: ValBackgroundAttachment a
   => Property "backgroundAttachment" a where
   pval = const valBackgroundAttachment
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-position
+
+class ValBackgroundPosition (a :: Type) where
+  valBackgroundPosition :: a -> Val
+
+instance valBackgroundPositionMultiple
+  :: ( ValBackgroundPosition a
+     , ValBackgroundPosition b
+     )
+  => ValBackgroundPosition (a /\ b) where
+  valBackgroundPosition (a /\ b) =
+    valBackgroundPosition a
+    <> Val (\{ separator } -> "," <> separator)
+    <> valBackgroundPosition b
+
+else instance valBackgroundPositionPosition
+  :: ValBackgroundPosition Position where
+  valBackgroundPosition = val
+
+else instance valBackgroundPositionAt1 :: At1 a => ValBackgroundPosition a where
+  valBackgroundPosition = val
+
+instance propertyBackgroundPositionCommonKeyword
+  :: Property "backgroundPosition" CommonKeyword where
+  pval = const val
+
+else instance propertyBackgroundPositionVal
+  :: ValBackgroundPosition a
+  => Property "backgroundPosition" a where
+  pval = const valBackgroundPosition
 
 --------------------------------------------------------------------------------
 

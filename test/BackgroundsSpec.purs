@@ -2,11 +2,11 @@
 
 module Test.BackgroundsSpec where
 
-import Prelude hiding (bottom)
+import Prelude hiding (bottom, top)
 
 import Color (rgb, white)
 import Data.Tuple.Nested ((/\))
-import PSCSS (at2, bottom, currentColor, fixed, inherit, initial, local, noRepeat, none, radialGradient1, repeat, repeat2, repeatX, repeatY, right, round, scroll, space, stop, transparent, unset, url)
+import PSCSS (at2, at3, at4, bottom, center, currentColor, fixed, inherit, initial, left, local, noRepeat, none, px, radialGradient1, repeat, repeat2, repeatX, repeatY, right, round, scroll, space, stop, top, transparent, unset, url)
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -133,3 +133,43 @@ spec =
       "background-attachment:fixed,local,scroll"
         `isRenderedFrom`
         { backgroundAttachment: fixed /\ local /\ scroll }
+
+    describe "background-position property" do
+
+      "background-position:inherit"
+        `isRenderedFrom`
+        { backgroundPosition: inherit }
+
+      "background-position:initial"
+        `isRenderedFrom`
+        { backgroundPosition: initial }
+
+      "background-position:unset" `isRenderedFrom` { backgroundPosition: unset }
+       
+      "background-position:top" `isRenderedFrom` { backgroundPosition: top } 
+
+      "background-position:right" `isRenderedFrom` { backgroundPosition: right } 
+
+      "background-position:bottom"
+        `isRenderedFrom`
+        { backgroundPosition: bottom } 
+
+      "background-position:left" `isRenderedFrom` { backgroundPosition: left } 
+
+      "background-position:left top"
+        `isRenderedFrom`
+        { backgroundPosition: at2 left top } 
+
+      "background-position:left 10px top"
+        `isRenderedFrom`
+        { backgroundPosition: at3 left (px 10) top } 
+
+      "background-position:left 10px top 15px"
+        `isRenderedFrom`
+        { backgroundPosition: at4 left (px 10) top (px 15) } 
+
+      "background-position:center bottom,left 15px,center top -5px"
+        `isRenderedFrom`
+        { backgroundPosition:
+            at2 center bottom /\ at2 left (px 15) /\ at3 center top (px (-5))
+        } 
