@@ -134,6 +134,11 @@ type SupportedDeclarations' (v :: Type) =
   , backgroundPosition :: v
   , backgroundRepeat :: v
   , backgroundSize :: v
+  , borderBottomColor :: v
+  , borderColor :: v
+  , borderLeftColor :: v
+  , borderRightColor :: v
+  , borderTopColor :: v
   , color :: v
   , height :: v
   , margin :: v
@@ -172,6 +177,11 @@ defaultDeclarations =
   , backgroundPosition: v
   , backgroundRepeat: v
   , backgroundSize: v
+  , borderBottomColor: v
+  , borderColor: v
+  , borderLeftColor: v
+  , borderRightColor: v
+  , borderTopColor: v
   , color: v
   , height: v
   , margin: v
@@ -1815,6 +1825,82 @@ else instance propertyBackgroundSizeVal
   :: ValBackgroundSize a
   => Property "backgroundSize" a where
   pval = const valBackgroundSize
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-color
+
+instance propertyBorderTopColorCommonKeyword
+  :: Property "borderTopColor" CommonKeyword where
+  pval = const val
+
+else instance propertyBorderTopColorColor
+  :: IsColor a
+  => Property "borderTopColor" a where
+  pval = const val
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-right-color
+
+instance propertyBorderRightColorBorderTopColor
+  :: Property "borderTopColor" a
+  => Property "borderRightColor" a where
+  pval = const $ pval (Proxy :: _ "borderTopColor")
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-bottom-color
+
+instance propertyBorderBottomColorBorderTopColor
+  :: Property "borderTopColor" a
+  => Property "borderBottomColor" a where
+  pval = const $ pval (Proxy :: _ "borderTopColor")
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-left-color
+
+instance propertyBorderLeftColorBorderTopColor
+  :: Property "borderTopColor" a
+  => Property "borderLeftColor" a where
+  pval = const $ pval (Proxy :: _ "borderTopColor")
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-color
+
+class ValBorderColor (a :: Type) where
+  valBorderColor :: a -> Val
+
+instance valBorderColor4
+  :: ( IsColor a
+     , IsColor b
+     , IsColor c
+     , IsColor d
+     )
+  => ValBorderColor (a /\ b /\ c /\ d) where
+  valBorderColor (a /\ b /\ c /\ d) =
+    joinVals (val " ") [val a, val b, val c, val d]
+
+else instance valBorderColor3
+  :: ( IsColor a
+     , IsColor b
+     , IsColor c
+     )
+  => ValBorderColor (a /\ b /\ c) where
+  valBorderColor (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+
+else instance valBorderColor2
+  :: ( IsColor a
+     , IsColor b
+     )
+  => ValBorderColor (a /\ b) where
+  valBorderColor (a /\ b) = joinVals (val " ") [val a, val b]
+   
+else instance valBorderColor1
+  :: IsColor a
+  => ValBorderColor a where
+  valBorderColor = val
+
+instance propertyBorderColorCommonKeyword
+  :: Property "borderColor" CommonKeyword where
+  pval = const val
+
+else instance propertyBorderColorVal
+  :: ValBorderColor a
+  => Property "borderColor" a where
+  pval = const valBorderColor
 
 --------------------------------------------------------------------------------
 

@@ -4,7 +4,7 @@ module Test.BackgroundsSpec where
 
 import Prelude hiding (bottom, top)
 
-import Color (rgb, white)
+import Color (black, rgb, white)
 import Data.Tuple.Nested ((/\))
 import PSCSS (at2, at3, at4, auto, bgSize2, borderBox, bottom, center, contain, contentBox, cover, currentColor, fixed, inherit, initial, left, local, noRepeat, none, paddingBox, pct, px, radialGradient1, repeat, repeat2, repeatX, repeatY, right, round, scroll, space, stop, top, transparent, unset, url)
 import Test.Spec (Spec, describe)
@@ -257,3 +257,95 @@ spec =
         { backgroundSize:
             pct 50 /\ px 50 /\ bgSize2 auto (px 100) /\ auto /\ cover /\ contain
         }
+
+    describe "border-top-color property" do
+
+      "border-top-color:inherit" `isRenderedFrom` { borderTopColor: inherit }
+
+      "border-top-color:initial" `isRenderedFrom` { borderTopColor: initial }
+
+      "border-top-color:unset" `isRenderedFrom` { borderTopColor: unset }
+
+      "border-top-color:currentColor"
+        `isRenderedFrom`
+        { borderTopColor: currentColor }
+
+      "border-top-color:#000055" `isRenderedFrom` { borderTopColor: rgb 0 0 85 }
+
+    describe "border-right-color property" do
+
+      "border-right-color:inherit"
+        `isRenderedFrom`
+        { borderRightColor: inherit }
+
+      "border-right-color:initial"
+        `isRenderedFrom`
+        { borderRightColor: initial }
+
+      "border-right-color:unset" `isRenderedFrom` { borderRightColor: unset }
+
+      "border-right-color:currentColor"
+        `isRenderedFrom`
+        { borderRightColor: currentColor }
+
+      "border-right-color:#000055"
+        `isRenderedFrom`
+        { borderRightColor: rgb 0 0 85 }
+
+    describe "border-bottom-color property" do
+
+      "border-bottom-color:inherit"
+        `isRenderedFrom`
+        { borderBottomColor: inherit }
+
+      "border-bottom-color:initial"
+        `isRenderedFrom`
+        { borderBottomColor: initial }
+
+      "border-bottom-color:unset" `isRenderedFrom` { borderBottomColor: unset }
+
+      "border-bottom-color:currentColor"
+        `isRenderedFrom`
+        { borderBottomColor: currentColor }
+
+      "border-bottom-color:#000055"
+        `isRenderedFrom`
+        { borderBottomColor: rgb 0 0 85 }
+
+    describe "border-left-color property" do
+
+      "border-left-color:inherit" `isRenderedFrom` { borderLeftColor: inherit }
+
+      "border-left-color:initial" `isRenderedFrom` { borderLeftColor: initial }
+
+      "border-left-color:unset" `isRenderedFrom` { borderLeftColor: unset }
+
+      "border-left-color:currentColor"
+        `isRenderedFrom`
+        { borderLeftColor: currentColor }
+
+      "border-left-color:#000055"
+        `isRenderedFrom`
+        { borderLeftColor: rgb 0 0 85 }
+
+    describe "border-color property" do
+
+      "border-color:inherit" `isRenderedFrom` { borderColor: inherit }
+
+      "border-color:initial" `isRenderedFrom` { borderColor: initial }
+
+      "border-color:unset" `isRenderedFrom` { borderColor: unset }
+
+      "border-color:transparent" `isRenderedFrom` { borderColor: transparent }
+
+      "border-color:currentColor #0000ff"
+        `isRenderedFrom`
+        { borderColor: currentColor /\ rgb 0 0 255 }
+
+      "border-color:#008000 #000000 #0000ff"
+        `isRenderedFrom`
+        { borderColor: rgb 0 128 0 /\ black /\ rgb 0 0 255 }
+
+      "border-color:#008000 #000000 #0000ff #ffffff"
+        `isRenderedFrom`
+        { borderColor: rgb 0 128 0 /\ black /\ rgb 0 0 255 /\ rgb 255 255 255 }
