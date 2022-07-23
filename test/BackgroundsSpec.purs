@@ -197,3 +197,27 @@ spec =
       "background-clip:border-box,padding-box,content-box"
         `isRenderedFrom`
         { backgroundClip: borderBox /\ paddingBox /\ contentBox }
+
+    describe "background-origin property" do
+
+      "background-origin:inherit" `isRenderedFrom` { backgroundOrigin: inherit }
+
+      "background-origin:initial" `isRenderedFrom` { backgroundOrigin: initial }
+
+      "background-origin:unset" `isRenderedFrom` { backgroundOrigin: unset }
+
+      "background-origin:border-box"
+        `isRenderedFrom`
+        { backgroundOrigin: borderBox }
+
+      "background-origin:padding-box"
+        `isRenderedFrom`
+        { backgroundOrigin: paddingBox }
+
+      "background-origin:content-box"
+        `isRenderedFrom`
+        { backgroundOrigin: contentBox }
+
+      "background-origin:border-box,padding-box,content-box"
+        `isRenderedFrom`
+        { backgroundOrigin: borderBox /\ paddingBox /\ contentBox }

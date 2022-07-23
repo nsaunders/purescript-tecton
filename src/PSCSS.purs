@@ -130,6 +130,7 @@ type SupportedDeclarations' (v :: Type) =
   , backgroundClip :: v
   , backgroundColor :: v
   , backgroundImage :: v
+  , backgroundOrigin :: v
   , backgroundPosition :: v
   , backgroundRepeat :: v
   , color :: v
@@ -166,6 +167,7 @@ defaultDeclarations =
   , backgroundClip: v
   , backgroundColor: v
   , backgroundImage: v
+  , backgroundOrigin: v
   , backgroundPosition: v
   , backgroundRepeat: v
   , color: v
@@ -1748,6 +1750,13 @@ else instance propertyBackgroundClipVal
   :: ValBackgroundClip a
   => Property "backgroundClip" a where
   pval = const valBackgroundClip
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-origin
+
+instance propertyBackgroundOriginBackgroundClip
+  :: Property "backgroundClip" a
+  => Property "backgroundOrigin" a where
+  pval = const $ pval (Proxy :: _ "backgroundClip")
 
 --------------------------------------------------------------------------------
 
