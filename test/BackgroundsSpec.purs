@@ -6,7 +6,7 @@ import Prelude hiding (bottom)
 
 import Color (rgb, white)
 import Data.Tuple.Nested ((/\))
-import PSCSS (at2, bottom, currentColor, inherit, initial, none, radialGradient1, right, stop, transparent, unset, url)
+import PSCSS (at2, bottom, currentColor, inherit, initial, noRepeat, none, radialGradient1, repeat, repeat2, repeatX, repeatY, right, round, space, stop, transparent, unset, url)
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -63,3 +63,43 @@ spec =
       "background-image:none,url(\"cat.jpg\")"
         `isRenderedFrom`
         { backgroundImage: none /\ url "cat.jpg" }
+
+    describe "background-repeat property" do
+
+      "background-repeat:inherit" `isRenderedFrom` { backgroundRepeat: inherit }
+
+      "background-repeat:initial" `isRenderedFrom` { backgroundRepeat: initial }
+
+      "background-repeat:unset" `isRenderedFrom` { backgroundRepeat: unset }
+
+      "background-repeat:repeat-x"
+        `isRenderedFrom`
+        { backgroundRepeat: repeatX }
+
+      "background-repeat:repeat-y"
+        `isRenderedFrom`
+        { backgroundRepeat: repeatY }
+
+      "background-repeat:repeat"
+        `isRenderedFrom`
+        { backgroundRepeat: repeat }
+
+      "background-repeat:space"
+        `isRenderedFrom`
+        { backgroundRepeat: space }
+
+      "background-repeat:round"
+        `isRenderedFrom`
+        { backgroundRepeat: round }
+
+      "background-repeat:no-repeat"
+        `isRenderedFrom`
+        { backgroundRepeat: noRepeat }
+
+      "background-repeat:repeat no-repeat"
+        `isRenderedFrom`
+        { backgroundRepeat: repeat2 repeat noRepeat }
+
+      "background-repeat:space round,repeat-x"
+        `isRenderedFrom`
+        { backgroundRepeat: repeat2 space round /\ repeatX }

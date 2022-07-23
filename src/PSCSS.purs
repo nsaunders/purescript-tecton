@@ -128,6 +128,7 @@ type SupportedDeclarations' (v :: Type) =
   , animationTimingFunction :: v
   , backgroundColor :: v
   , backgroundImage :: v
+  , backgroundRepeat :: v
   , color :: v
   , height :: v
   , margin :: v
@@ -160,6 +161,7 @@ defaultDeclarations =
   , animationTimingFunction: v
   , backgroundColor: v
   , backgroundImage: v
+  , backgroundRepeat: v
   , color: v
   , height: v
   , margin: v
@@ -1567,6 +1569,61 @@ else instance propertyBackgroundImageVal
   :: ValBackgroundImage a
   => Property "backgroundImage" a where
   pval = const valBackgroundImage
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-repeat
+
+newtype RepeatStyle (vertical :: Type) = RepeatStyle String
+
+derive newtype instance ToVal (RepeatStyle a)
+
+repeatX :: RepeatStyle (RepeatStyle Unit)
+repeatX = RepeatStyle "repeat-x"
+
+repeatY :: RepeatStyle (RepeatStyle Unit)
+repeatY = RepeatStyle "repeat-y"
+
+repeat :: RepeatStyle Unit
+repeat = RepeatStyle "repeat"
+
+space :: RepeatStyle Unit
+space = RepeatStyle "space"
+
+round :: RepeatStyle Unit
+round = RepeatStyle "round"
+
+noRepeat :: RepeatStyle Unit
+noRepeat = RepeatStyle "no-repeat"
+
+repeat2
+  :: RepeatStyle Unit
+  -> RepeatStyle Unit
+  -> RepeatStyle (RepeatStyle Unit)
+repeat2 (RepeatStyle a) (RepeatStyle b) = RepeatStyle $ a <> " " <> b
+
+class ValBackgroundRepeat (a :: Type) where
+  valBackgroundRepeat :: a -> Val
+
+instance valBackgroundRepeatMultiple
+  :: ( ValBackgroundRepeat a
+     , ValBackgroundRepeat b
+     )
+  => ValBackgroundRepeat (a /\ b) where
+  valBackgroundRepeat (a /\ b) =
+    valBackgroundRepeat a
+      <> Val (\{ separator } -> "," <> separator)
+      <> valBackgroundRepeat b
+
+else instance ValBackgroundRepeat (RepeatStyle a) where
+  valBackgroundRepeat = val
+
+instance propertyBackgroundRepeatCommonKeyword
+  :: Property "backgroundRepeat" CommonKeyword where
+  pval = const val
+
+else instance propertyBackgroundRepeatVal
+  :: ValBackgroundRepeat a
+  => Property "backgroundRepeat" a where
+  pval = const valBackgroundRepeat
 
 --------------------------------------------------------------------------------
 
