@@ -6,7 +6,7 @@ import Prelude hiding (bottom, top)
 
 import Color (black, rgb, white)
 import Data.Tuple.Nested ((/\))
-import PSCSS (at2, at3, at4, auto, bgSize2, borderBox, bottom, center, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local, noRepeat, none, outset, paddingBox, pct, px, radialGradient1, repeat, repeat2, repeatX, repeatY, ridge, right, round, scroll, solid, space, stop, top, transparent, unset, url)
+import PSCSS (at2, at3, at4, auto, bgSize2, borderBox, bottom, center, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local, medium, noRepeat, none, outset, paddingBox, pct, px, radialGradient1, repeat, repeat2, repeatX, repeatY, ridge, right, round, scroll, solid, space, stop, thick, thin, top, transparent, unset, url)
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -533,3 +533,117 @@ spec =
       "border-style:outset inset ridge groove"
         `isRenderedFrom`
         { borderStyle: outset /\ inset /\ ridge /\ groove }
+
+    describe "border-top-width" do
+
+      "border-top-width:inherit" `isRenderedFrom` { borderTopWidth: inherit }
+
+      "border-top-width:initial" `isRenderedFrom` { borderTopWidth: initial }
+
+      "border-top-width:unset" `isRenderedFrom` { borderTopWidth: unset }
+
+      "border-top-width:thin" `isRenderedFrom` { borderTopWidth: thin }
+
+      "border-top-width:medium" `isRenderedFrom` { borderTopWidth: medium }
+
+      "border-top-width:thick" `isRenderedFrom` { borderTopWidth: thick }
+
+      "border-top-width:1px" `isRenderedFrom` { borderTopWidth: px 1 }
+
+    describe "border-right-width" do
+
+      "border-right-width:inherit"
+        `isRenderedFrom`
+        { borderRightWidth: inherit }
+
+      "border-right-width:initial"
+        `isRenderedFrom`
+        { borderRightWidth: initial }
+
+      "border-right-width:unset" `isRenderedFrom` { borderRightWidth: unset }
+
+      "border-right-width:thin" `isRenderedFrom` { borderRightWidth: thin }
+
+      "border-right-width:medium" `isRenderedFrom` { borderRightWidth: medium }
+
+      "border-right-width:thick" `isRenderedFrom` { borderRightWidth: thick }
+
+      "border-right-width:1px" `isRenderedFrom` { borderRightWidth: px 1 }
+
+    describe "border-bottom-width" do
+
+      "border-bottom-width:inherit"
+        `isRenderedFrom`
+        { borderBottomWidth: inherit }
+
+      "border-bottom-width:initial"
+        `isRenderedFrom`
+        { borderBottomWidth: initial }
+
+      "border-bottom-width:unset" `isRenderedFrom` { borderBottomWidth: unset }
+
+      "border-bottom-width:thin" `isRenderedFrom` { borderBottomWidth: thin }
+
+      "border-bottom-width:medium"
+        `isRenderedFrom`
+        { borderBottomWidth: medium }
+
+      "border-bottom-width:thick" `isRenderedFrom` { borderBottomWidth: thick }
+
+      "border-bottom-width:1px" `isRenderedFrom` { borderBottomWidth: px 1 }
+
+    describe "border-left-width" do
+
+      "border-left-width:inherit" `isRenderedFrom` { borderLeftWidth: inherit }
+
+      "border-left-width:initial" `isRenderedFrom` { borderLeftWidth: initial }
+
+      "border-left-width:unset" `isRenderedFrom` { borderLeftWidth: unset }
+
+      "border-left-width:thin" `isRenderedFrom` { borderLeftWidth: thin }
+
+      "border-left-width:medium" `isRenderedFrom` { borderLeftWidth: medium }
+
+      "border-left-width:thick" `isRenderedFrom` { borderLeftWidth: thick }
+
+      "border-left-width:1px" `isRenderedFrom` { borderLeftWidth: px 1 }
+
+    describe "border-width" do
+
+      "border-width:inherit" `isRenderedFrom` { borderWidth: inherit }
+
+      "border-width:initial" `isRenderedFrom` { borderWidth: initial }
+
+      "border-width:unset" `isRenderedFrom` { borderWidth: unset }
+
+      "border-width:thin" `isRenderedFrom` { borderWidth: thin }
+
+      "border-width:medium" `isRenderedFrom` { borderWidth: medium }
+
+      "border-width:thick" `isRenderedFrom` { borderWidth: thick }
+
+      "border-width:1px" `isRenderedFrom` { borderWidth: px 1 }
+
+      "border-width:1px medium"
+        `isRenderedFrom`
+        { borderWidth: px 1 /\ medium }
+
+      "border-width:thick thin"
+        `isRenderedFrom`
+        { borderWidth: thick /\ thin }
+
+      "border-width:medium 1px thick"
+        `isRenderedFrom`
+        { borderWidth: medium /\ px 1 /\ thick }
+
+      "border-width:thin 1px 2px"
+        `isRenderedFrom`
+        { borderWidth: thin /\ px 1 /\ px 2 }
+
+      "border-width:1px thin 1px 2px"
+        `isRenderedFrom`
+        { borderWidth: px 1 /\ thin /\ px 1 /\ px 2 }
+
+      "border-width:medium thin 1px thick"
+        `isRenderedFrom`
+        { borderWidth: medium /\ thin /\ px 1 /\ thick }

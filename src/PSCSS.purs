@@ -136,14 +136,19 @@ type SupportedDeclarations' (v :: Type) =
   , backgroundSize :: v
   , borderBottomColor :: v
   , borderBottomStyle :: v
+  , borderBottomWidth :: v
   , borderColor :: v
   , borderLeftColor :: v
   , borderLeftStyle :: v
+  , borderLeftWidth :: v
   , borderRightColor :: v
   , borderRightStyle :: v
+  , borderRightWidth :: v
   , borderStyle :: v
   , borderTopColor :: v
   , borderTopStyle :: v
+  , borderTopWidth :: v
+  , borderWidth :: v
   , color :: v
   , height :: v
   , margin :: v
@@ -184,14 +189,19 @@ defaultDeclarations =
   , backgroundSize: v
   , borderBottomColor: v
   , borderBottomStyle: v
+  , borderBottomWidth: v
   , borderColor: v
   , borderLeftColor: v
   , borderLeftStyle: v
+  , borderLeftWidth: v
   , borderRightColor: v
   , borderRightStyle: v
+  , borderRightWidth: v
   , borderStyle: v
   , borderTopColor: v
   , borderTopStyle: v
+  , borderTopWidth: v
+  , borderWidth: v
   , color: v
   , height: v
   , margin: v
@@ -2022,6 +2032,95 @@ else instance propertyBorderStyleVal
   => Property "borderStyle" a where
   pval = const valBorderStyle
 
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-width
+
+newtype LineWidth = LineWidth String
+
+derive newtype instance ToVal LineWidth
+
+thin :: LineWidth
+thin = LineWidth "thin"
+
+thick :: LineWidth
+thick = LineWidth "thick"
+
+class ToVal a <= ValBorderTopWidth (a :: Type)
+instance LengthTag a => ValBorderTopWidth (Measure a)
+instance ValBorderTopWidth LineWidth
+instance ValBorderTopWidth Medium
+
+instance propertyBorderTopWidthCommonKeyword
+  :: Property "borderTopWidth" CommonKeyword where
+  pval = const val
+
+else instance propertyBorderTopWidthVal
+  :: ValBorderTopWidth a
+  => Property "borderTopWidth" a where
+  pval = const val
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-right-width
+
+instance propertyBorderRightWidthBorderTopWidth
+  :: Property "borderTopWidth" a
+  => Property "borderRightWidth" a where
+  pval = const $ pval (Proxy :: _ "borderTopWidth")
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-bottom-width
+
+instance propertyBorderBottomWidthBorderTopWidth
+  :: Property "borderTopWidth" a
+  => Property "borderBottomWidth" a where
+  pval = const $ pval (Proxy :: _ "borderTopWidth")
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-left-width
+
+instance propertyBorderLeftWidthBorderTopWidth
+  :: Property "borderTopWidth" a
+  => Property "borderLeftWidth" a where
+  pval = const $ pval (Proxy :: _ "borderTopWidth")
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-width
+
+class ValBorderWidth (a :: Type) where
+  valBorderWidth :: a -> Val
+
+instance valBorderWidth4
+  :: ( ValBorderTopWidth a
+     , ValBorderTopWidth b
+     , ValBorderTopWidth c
+     , ValBorderTopWidth d
+     )
+  => ValBorderWidth (a /\ b /\ c /\ d) where
+  valBorderWidth (a /\ b /\ c /\ d) =
+    joinVals (val " ") [val a, val b, val c, val d]
+
+else instance valBorderWidth3
+  :: ( ValBorderTopWidth a
+     , ValBorderTopWidth b
+     , ValBorderTopWidth c
+     )
+  => ValBorderWidth (a /\ b /\ c) where
+  valBorderWidth (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+
+else instance valBorderWidth2
+  :: ( ValBorderTopWidth a
+     , ValBorderTopWidth b
+     )
+  => ValBorderWidth (a /\ b) where
+  valBorderWidth (a /\ b) = val a <> val " " <> val b
+
+else instance valBorderWidth1 :: ValBorderTopWidth a => ValBorderWidth a where
+  valBorderWidth = val
+
+instance propertyBorderWidthCommonKeyword
+  :: Property "borderWidth" CommonKeyword where
+  pval = const val
+
+else instance propertyBorderWidthVal
+  :: ValBorderWidth a
+  => Property "borderWidth" a where
+  pval = const valBorderWidth
+
 --------------------------------------------------------------------------------
 
 -- https://www.w3.org/TR/css-box-3/
@@ -2973,6 +3072,10 @@ data Media = Media
 instance ToVal Media where val _ = val "media"
 media' = Media :: Media
 instance IsAttribute Media
+
+data Medium = Medium
+instance ToVal Medium where val _ = val "medium"
+medium = Medium :: Medium
 
 data Method = Method
 instance ToVal Method where val _ = val "method"

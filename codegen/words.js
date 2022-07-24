@@ -371,6 +371,11 @@ const code = [
     attribute: true
   },
   {
+    typeName: "Medium",
+    varName: "medium",
+    value: "medium",
+  },
+  {
     typeName: "Method",
     varName: "method",
     value: "method",
