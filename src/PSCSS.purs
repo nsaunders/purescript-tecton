@@ -134,17 +134,22 @@ type SupportedDeclarations' (v :: Type) =
   , backgroundPosition :: v
   , backgroundRepeat :: v
   , backgroundSize :: v
+  , border :: v
+  , borderBottom :: v
   , borderBottomColor :: v
   , borderBottomStyle :: v
   , borderBottomWidth :: v
   , borderColor :: v
+  , borderLeft :: v
   , borderLeftColor :: v
   , borderLeftStyle :: v
   , borderLeftWidth :: v
+  , borderRight :: v
   , borderRightColor :: v
   , borderRightStyle :: v
   , borderRightWidth :: v
   , borderStyle :: v
+  , borderTop :: v
   , borderTopColor :: v
   , borderTopStyle :: v
   , borderTopWidth :: v
@@ -187,17 +192,22 @@ defaultDeclarations =
   , backgroundPosition: v
   , backgroundRepeat: v
   , backgroundSize: v
+  , border: v
+  , borderBottom: v
   , borderBottomColor: v
   , borderBottomStyle: v
   , borderBottomWidth: v
   , borderColor: v
+  , borderLeft: v
   , borderLeftColor: v
   , borderLeftStyle: v
   , borderLeftWidth: v
+  , borderRight: v
   , borderRightColor: v
   , borderRightStyle: v
   , borderRightWidth: v
   , borderStyle: v
+  , borderTop: v
   , borderTopColor: v
   , borderTopStyle: v
   , borderTopWidth: v
@@ -2120,6 +2130,153 @@ else instance propertyBorderWidthVal
   :: ValBorderWidth a
   => Property "borderWidth" a where
   pval = const valBorderWidth
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top
+
+class ValBorderTop (a :: Type) where
+  valBorderTop :: a -> Val
+
+instance valBorderTopLengthNone
+  :: ( LengthTag a
+     , IsColor c
+     )
+  => ValBorderTop (Measure a /\ None /\ c) where
+  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+
+instance valBorderTopLineWidthNone
+  :: IsColor c
+  => ValBorderTop (LineWidth /\ None /\ c) where
+  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+
+instance valBorderTopMediumNone
+  :: IsColor c
+  => ValBorderTop (Medium /\ None /\ c) where
+  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+
+instance valBorderTopLengthHidden
+  :: ( LengthTag a
+     , IsColor c
+     )
+  => ValBorderTop (Measure a /\ Hidden /\ c) where
+  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+
+instance valBorderTopLineWidthHidden
+  :: IsColor c
+  => ValBorderTop (LineWidth /\ Hidden /\ c) where
+  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+
+instance valBorderTopMediumHidden
+  :: IsColor c
+  => ValBorderTop (Medium /\ Hidden /\ c) where
+  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+
+instance valBorderTopLengthLineStyle
+  :: ( LengthTag a
+     , IsColor c
+     )
+  => ValBorderTop (Measure a /\ LineStyle /\ c) where
+  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+
+instance valBorderTopLineWidthLineStyle
+  :: IsColor c
+  => ValBorderTop (LineWidth /\ LineStyle /\ c) where
+  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+
+instance valBorderTopMediumLineStyle
+  :: IsColor c
+  => ValBorderTop (Medium /\ LineStyle /\ c) where
+  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+
+instance propertyBorderTopCommonKeyword
+  :: Property "borderTop" CommonKeyword where
+  pval = const val
+
+else instance propertyBorderTopVal
+  :: ValBorderTop a
+  => Property "borderTop" a where
+  pval = const valBorderTop
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-right
+
+instance propertyBorderRightBorderTop
+  :: Property "borderTop" a
+  => Property "borderRight" a where
+  pval = const $ pval (Proxy :: _ "borderTop")
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-bottom
+
+instance propertyBorderBottomBorderTop
+  :: Property "borderTop" a
+  => Property "borderBottom" a where
+  pval = const $ pval (Proxy :: _ "borderTop")
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-left
+
+instance propertyBorderLeftBorderTop
+  :: Property "borderTop" a
+  => Property "borderLeft" a where
+  pval = const $ pval (Proxy :: _ "borderTop")
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border
+
+class ValBorder (a :: Type) where
+  valBorder :: a -> Val
+
+instance valBorderBorderTop4
+  :: ( ValBorderTop (a /\ b /\ c)
+     , ValBorderTop (d /\ e /\ f)
+     , ValBorderTop (g /\ h /\ i)
+     , ValBorderTop (j /\ k /\ l)
+     )
+  => ValBorder (a /\ b /\ c /\ d /\ e /\ f /\ g /\ h /\ i /\ j /\ k /\ l) where
+  valBorder (a /\ b /\ c /\ d /\ e /\ f /\ g /\ h /\ i /\ j /\ k /\ l) =
+    joinVals
+    (Val \{ separator } -> "," <> separator)
+    [ valBorderTop $ a /\ b /\ c
+    , valBorderTop $ d /\ e /\ f
+    , valBorderTop $ g /\ h /\ i
+    , valBorderTop $ j /\ k /\ l
+    ]
+
+else instance valBorderBorderTop3
+  :: ( ValBorderTop (a /\ b /\ c)
+     , ValBorderTop (d /\ e /\ f)
+     , ValBorderTop (g /\ h /\ i)
+     )
+  => ValBorder (a /\ b /\ c /\ d /\ e /\ f /\ g /\ h /\ i) where
+  valBorder (a /\ b /\ c /\ d /\ e /\ f /\ g /\ h /\ i) =
+    joinVals
+    (Val \{ separator } -> "," <> separator)
+    [ valBorderTop $ a /\ b /\ c
+    , valBorderTop $ d /\ e /\ f
+    , valBorderTop $ g /\ h /\ i
+    ]
+
+else instance valBorderBorderTop2
+  :: ( ValBorderTop (a /\ b /\ c)
+     , ValBorderTop (d /\ e /\ f)
+     )
+  => ValBorder (a /\ b /\ c /\ d /\ e /\ f) where
+  valBorder (a /\ b /\ c /\ d /\ e /\ f) =
+    joinVals
+    (Val \{ separator } -> "," <> separator)
+    [ valBorderTop $ a /\ b /\ c
+    , valBorderTop $ d /\ e /\ f
+    ]
+
+else instance valBorderBorderTop1
+  :: ValBorderTop (a /\ b /\ c)
+  => ValBorder (a /\ b /\ c) where
+  valBorder = valBorderTop
+
+instance propertyBorderCommonKeyword
+  :: Property "border" CommonKeyword where
+  pval = const val
+
+else instance propertyBorderVal
+  :: ValBorder a
+  => Property "border" a where
+  pval = const valBorder
 
 --------------------------------------------------------------------------------
 

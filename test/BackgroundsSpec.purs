@@ -647,3 +647,239 @@ spec =
       "border-width:medium thin 1px thick"
         `isRenderedFrom`
         { borderWidth: medium /\ thin /\ px 1 /\ thick }
+
+    describe "border-top property" do
+
+      "border-top:inherit" `isRenderedFrom` { borderTop: inherit }
+
+      "border-top:initial" `isRenderedFrom` { borderTop: initial }
+
+      "border-top:unset" `isRenderedFrom` { borderTop: unset }
+
+      "border-top:1px none #000000"
+        `isRenderedFrom`
+        { borderTop: px 1 /\ none /\ black }
+
+      "border-top:thin none #000000"
+        `isRenderedFrom`
+        { borderTop: thin /\ none /\ black }
+
+      "border-top:medium none #000000"
+        `isRenderedFrom`
+        { borderTop: medium /\ none /\ black }
+
+      "border-top:1px hidden #000000"
+        `isRenderedFrom`
+        { borderTop: px 1 /\ hidden /\ black }
+
+      "border-top:thick hidden #000000"
+        `isRenderedFrom`
+        { borderTop: thick /\ hidden /\ black }
+
+      "border-top:medium hidden #000000"
+        `isRenderedFrom`
+        { borderTop: medium /\ hidden /\ black }
+
+      "border-top:1px solid #000000"
+        `isRenderedFrom`
+        { borderTop: px 1 /\ solid /\ black }
+
+      "border-top:thin solid #000000"
+        `isRenderedFrom`
+        { borderTop: thin /\ solid /\ black }
+
+      "border-top:medium solid #000000"
+        `isRenderedFrom`
+        { borderTop: medium /\ solid /\ black }
+
+    describe "border-right property" do
+
+      "border-right:inherit" `isRenderedFrom` { borderRight: inherit }
+
+      "border-right:initial" `isRenderedFrom` { borderRight: initial }
+
+      "border-right:unset" `isRenderedFrom` { borderRight: unset }
+
+      "border-right:1px none #000000"
+        `isRenderedFrom`
+        { borderRight: px 1 /\ none /\ black }
+
+      "border-right:thin none #000000"
+        `isRenderedFrom`
+        { borderRight: thin /\ none /\ black }
+
+      "border-right:medium none #000000"
+        `isRenderedFrom`
+        { borderRight: medium /\ none /\ black }
+
+      "border-right:1px hidden #000000"
+        `isRenderedFrom`
+        { borderRight: px 1 /\ hidden /\ black }
+
+      "border-right:thick hidden #000000"
+        `isRenderedFrom`
+        { borderRight: thick /\ hidden /\ black }
+
+      "border-right:medium hidden #000000"
+        `isRenderedFrom`
+        { borderRight: medium /\ hidden /\ black }
+
+      "border-right:1px solid #000000"
+        `isRenderedFrom`
+        { borderRight: px 1 /\ solid /\ black }
+
+      "border-right:thin solid #000000"
+        `isRenderedFrom`
+        { borderRight: thin /\ solid /\ black }
+
+      "border-right:medium solid #000000"
+        `isRenderedFrom`
+        { borderRight: medium /\ solid /\ black }
+
+    describe "border-bottom property" do
+
+      "border-bottom:inherit" `isRenderedFrom` { borderBottom: inherit }
+
+      "border-bottom:initial" `isRenderedFrom` { borderBottom: initial }
+
+      "border-bottom:unset" `isRenderedFrom` { borderBottom: unset }
+
+      "border-bottom:1px none #000000"
+        `isRenderedFrom`
+        { borderBottom: px 1 /\ none /\ black }
+
+      "border-bottom:thin none #000000"
+        `isRenderedFrom`
+        { borderBottom: thin /\ none /\ black }
+
+      "border-bottom:medium none #000000"
+        `isRenderedFrom`
+        { borderBottom: medium /\ none /\ black }
+
+      "border-bottom:1px hidden #000000"
+        `isRenderedFrom`
+        { borderBottom: px 1 /\ hidden /\ black }
+
+      "border-bottom:thick hidden #000000"
+        `isRenderedFrom`
+        { borderBottom: thick /\ hidden /\ black }
+
+      "border-bottom:medium hidden #000000"
+        `isRenderedFrom`
+        { borderBottom: medium /\ hidden /\ black }
+
+      "border-bottom:1px solid #000000"
+        `isRenderedFrom`
+        { borderBottom: px 1 /\ solid /\ black }
+
+      "border-bottom:thin solid #000000"
+        `isRenderedFrom`
+        { borderBottom: thin /\ solid /\ black }
+
+      "border-bottom:medium solid #000000"
+        `isRenderedFrom`
+        { borderBottom: medium /\ solid /\ black }
+
+    describe "border-left property" do
+
+      "border-left:inherit" `isRenderedFrom` { borderLeft: inherit }
+
+      "border-left:initial" `isRenderedFrom` { borderLeft: initial }
+
+      "border-left:unset" `isRenderedFrom` { borderLeft: unset }
+
+      "border-left:1px none #000000"
+        `isRenderedFrom`
+        { borderLeft: px 1 /\ none /\ black }
+
+      "border-left:thin none #000000"
+        `isRenderedFrom`
+        { borderLeft: thin /\ none /\ black }
+
+      "border-left:medium none #000000"
+        `isRenderedFrom`
+        { borderLeft: medium /\ none /\ black }
+
+      "border-left:1px hidden #000000"
+        `isRenderedFrom`
+        { borderLeft: px 1 /\ hidden /\ black }
+
+      "border-left:thick hidden #000000"
+        `isRenderedFrom`
+        { borderLeft: thick /\ hidden /\ black }
+
+      "border-left:medium hidden #000000"
+        `isRenderedFrom`
+        { borderLeft: medium /\ hidden /\ black }
+
+      "border-left:1px solid #000000"
+        `isRenderedFrom`
+        { borderLeft: px 1 /\ solid /\ black }
+
+      "border-left:thin solid #000000"
+        `isRenderedFrom`
+        { borderLeft: thin /\ solid /\ black }
+
+      "border-left:medium solid #000000"
+        `isRenderedFrom`
+        { borderLeft: medium /\ solid /\ black }
+
+    describe "border property" do
+
+      "border:inherit" `isRenderedFrom` { border: inherit }
+
+      "border:initial" `isRenderedFrom` { border: initial }
+
+      "border:unset" `isRenderedFrom` { border: unset }
+
+      "border:1px none #000000,thin none #000000,medium none #000000,1px hidden #000000"
+        `isRenderedFrom`
+        { border:
+            px 1 /\ none /\ black /\ thin /\ none /\ black /\ medium /\ none /\ black /\ px 1 /\ hidden /\ black
+        }
+
+      "border:thick hidden #000000,medium hidden #000000,1px solid #000000"
+        `isRenderedFrom`
+        { border:
+            thick /\ hidden /\ black /\ medium /\ hidden /\ black /\ px 1 /\ solid /\ black
+        }
+
+      "border:thin solid #000000,medium solid #000000"
+        `isRenderedFrom`
+        { border: thin /\ solid /\ black /\ medium /\ solid /\ black }
+
+      "border:1px none #000000"
+        `isRenderedFrom`
+        { border: px 1 /\ none /\ black }
+
+      "border:thin none #000000"
+        `isRenderedFrom`
+        { border: thin /\ none /\ black }
+
+      "border:medium none #000000"
+        `isRenderedFrom`
+        { border: medium /\ none /\ black }
+
+      "border:1px hidden #000000"
+        `isRenderedFrom`
+        { border: px 1 /\ hidden /\ black }
+
+      "border:thick hidden #000000"
+        `isRenderedFrom`
+        { border: thick /\ hidden /\ black }
+
+      "border:medium hidden #000000"
+        `isRenderedFrom`
+        { border: medium /\ hidden /\ black }
+
+      "border:1px solid #000000"
+        `isRenderedFrom`
+        { border: px 1 /\ solid /\ black }
+
+      "border:thin solid #000000"
+        `isRenderedFrom`
+        { border: thin /\ solid /\ black }
+
+      "border:medium solid #000000"
+        `isRenderedFrom`
+        { border: medium /\ solid /\ black }
