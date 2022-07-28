@@ -146,6 +146,7 @@ type SupportedDeclarations' (v :: Type) =
   , borderLeftColor :: v
   , borderLeftStyle :: v
   , borderLeftWidth :: v
+  , borderRadius :: v
   , borderRight :: v
   , borderRightColor :: v
   , borderRightStyle :: v
@@ -208,6 +209,7 @@ defaultDeclarations =
   , borderLeftColor: v
   , borderLeftStyle: v
   , borderLeftWidth: v
+  , borderRadius: v
   , borderRight: v
   , borderRightColor: v
   , borderRightStyle: v
@@ -2278,6 +2280,32 @@ instance propertyBorderBottomLeftRadiusBorderTopLeftRadius
   :: Property "borderTopLeftRadius" a
   => Property "borderBottomLeftRadius" a where
   pval = const $ pval (Proxy :: _ "borderTopLeftRadius")
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-radius
+
+class ValBorderRadius (a :: Type) where
+  valBorderRadius :: a -> Val
+
+instance valBorderRadius2
+  :: ( LengthPercentageTag a
+     , LengthPercentageTag b
+     )
+  => ValBorderRadius (Measure a /\ Measure b) where
+  valBorderRadius (a /\ b) = val a <> val "/" <> val b
+
+instance valBorderRadius1
+  :: LengthPercentageTag a
+  => ValBorderRadius (Measure a) where
+  valBorderRadius = val
+
+instance propertyBorderRadiusCommonKeyword
+  :: Property "borderRadius" CommonKeyword where
+  pval = const val
+
+else instance propertyBorderRadiusVal
+  :: ValBorderRadius a
+  => Property "borderRadius" a where
+  pval = const valBorderRadius
 
 --------------------------------------------------------------------------------
 

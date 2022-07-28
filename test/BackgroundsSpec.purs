@@ -927,3 +927,19 @@ spec =
       "border-top-right-radius:10% 1px"
         `isRenderedFrom`
         { borderTopRightRadius: pct 10 /\ px 1 }
+
+    describe "border-radius" do
+
+      "border-radius:inherit" `isRenderedFrom` { borderRadius: inherit }
+
+      "border-radius:initial" `isRenderedFrom` { borderRadius: initial }
+
+      "border-radius:unset" `isRenderedFrom` { borderRadius: unset }
+
+      "border-radius:1px" `isRenderedFrom` { borderRadius: px 1 }
+
+      "border-radius:10%" `isRenderedFrom` { borderRadius: pct 10 }
+
+      "border-radius:1px/10%" `isRenderedFrom` { borderRadius: px 1 /\ pct 10 }
+
+      "border-radius:10%/1px" `isRenderedFrom` { borderRadius: pct 10 /\ px 1 }
