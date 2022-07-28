@@ -2227,64 +2227,10 @@ instance propertyBorderLeftBorderTop
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border
 
-class ValBorder (a :: Type) where
-  valBorder :: a -> Val
-
-instance valBorderBorderTop4
-  :: ( ValBorderTop (a /\ b /\ c)
-     , ValBorderTop (d /\ e /\ f)
-     , ValBorderTop (g /\ h /\ i)
-     , ValBorderTop (j /\ k /\ l)
-     )
-  => ValBorder (a /\ b /\ c /\ d /\ e /\ f /\ g /\ h /\ i /\ j /\ k /\ l) where
-  valBorder (a /\ b /\ c /\ d /\ e /\ f /\ g /\ h /\ i /\ j /\ k /\ l) =
-    joinVals
-    (Val \{ separator } -> "," <> separator)
-    [ valBorderTop $ a /\ b /\ c
-    , valBorderTop $ d /\ e /\ f
-    , valBorderTop $ g /\ h /\ i
-    , valBorderTop $ j /\ k /\ l
-    ]
-
-else instance valBorderBorderTop3
-  :: ( ValBorderTop (a /\ b /\ c)
-     , ValBorderTop (d /\ e /\ f)
-     , ValBorderTop (g /\ h /\ i)
-     )
-  => ValBorder (a /\ b /\ c /\ d /\ e /\ f /\ g /\ h /\ i) where
-  valBorder (a /\ b /\ c /\ d /\ e /\ f /\ g /\ h /\ i) =
-    joinVals
-    (Val \{ separator } -> "," <> separator)
-    [ valBorderTop $ a /\ b /\ c
-    , valBorderTop $ d /\ e /\ f
-    , valBorderTop $ g /\ h /\ i
-    ]
-
-else instance valBorderBorderTop2
-  :: ( ValBorderTop (a /\ b /\ c)
-     , ValBorderTop (d /\ e /\ f)
-     )
-  => ValBorder (a /\ b /\ c /\ d /\ e /\ f) where
-  valBorder (a /\ b /\ c /\ d /\ e /\ f) =
-    joinVals
-    (Val \{ separator } -> "," <> separator)
-    [ valBorderTop $ a /\ b /\ c
-    , valBorderTop $ d /\ e /\ f
-    ]
-
-else instance valBorderBorderTop1
-  :: ValBorderTop (a /\ b /\ c)
-  => ValBorder (a /\ b /\ c) where
-  valBorder = valBorderTop
-
-instance propertyBorderCommonKeyword
-  :: Property "border" CommonKeyword where
-  pval = const val
-
-else instance propertyBorderVal
-  :: ValBorder a
+instance propertyBorderBorderTop
+  :: Property "borderTop" a
   => Property "border" a where
-  pval = const valBorder
+  pval = const $ pval (Proxy :: _ "borderTop")
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-left-radius
 

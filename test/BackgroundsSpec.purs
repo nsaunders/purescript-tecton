@@ -832,22 +832,6 @@ spec =
 
       "border:unset" `isRenderedFrom` { border: unset }
 
-      "border:1px none #000000,thin none #000000,medium none #000000,1px hidden #000000"
-        `isRenderedFrom`
-        { border:
-            px 1 /\ none /\ black /\ thin /\ none /\ black /\ medium /\ none /\ black /\ px 1 /\ hidden /\ black
-        }
-
-      "border:thick hidden #000000,medium hidden #000000,1px solid #000000"
-        `isRenderedFrom`
-        { border:
-            thick /\ hidden /\ black /\ medium /\ hidden /\ black /\ px 1 /\ solid /\ black
-        }
-
-      "border:thin solid #000000,medium solid #000000"
-        `isRenderedFrom`
-        { border: thin /\ solid /\ black /\ medium /\ solid /\ black }
-
       "border:1px none #000000"
         `isRenderedFrom`
         { border: px 1 /\ none /\ black }
