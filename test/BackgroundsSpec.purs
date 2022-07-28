@@ -883,3 +883,63 @@ spec =
       "border:medium solid #000000"
         `isRenderedFrom`
         { border: medium /\ solid /\ black }
+
+    describe "border-top-left-radius property" do
+
+      "border-top-left-radius:inherit"
+        `isRenderedFrom`
+        { borderTopLeftRadius: inherit }
+
+      "border-top-left-radius:initial"
+        `isRenderedFrom`
+        { borderTopLeftRadius: initial }
+
+      "border-top-left-radius:unset"
+        `isRenderedFrom`
+        { borderTopLeftRadius: unset }
+
+      "border-top-left-radius:1px"
+        `isRenderedFrom`
+        { borderTopLeftRadius: px 1 }
+
+      "border-top-left-radius:10%"
+        `isRenderedFrom`
+        { borderTopLeftRadius: pct 10 }
+
+      "border-top-left-radius:1px 10%"
+        `isRenderedFrom`
+        { borderTopLeftRadius: px 1 /\ pct 10 }
+
+      "border-top-left-radius:10% 1px"
+        `isRenderedFrom`
+        { borderTopLeftRadius: pct 10 /\ px 1 }
+
+    describe "border-top-right-radius property" do
+
+      "border-top-right-radius:inherit"
+        `isRenderedFrom`
+        { borderTopRightRadius: inherit }
+
+      "border-top-right-radius:initial"
+        `isRenderedFrom`
+        { borderTopRightRadius: initial }
+
+      "border-top-right-radius:unset"
+        `isRenderedFrom`
+        { borderTopRightRadius: unset }
+
+      "border-top-right-radius:1px"
+        `isRenderedFrom`
+        { borderTopRightRadius: px 1 }
+
+      "border-top-right-radius:10%"
+        `isRenderedFrom`
+        { borderTopRightRadius: pct 10 }
+
+      "border-top-right-radius:1px 10%"
+        `isRenderedFrom`
+        { borderTopRightRadius: px 1 /\ pct 10 }
+
+      "border-top-right-radius:10% 1px"
+        `isRenderedFrom`
+        { borderTopRightRadius: pct 10 /\ px 1 }

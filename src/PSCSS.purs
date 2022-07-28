@@ -137,6 +137,8 @@ type SupportedDeclarations' (v :: Type) =
   , border :: v
   , borderBottom :: v
   , borderBottomColor :: v
+  , borderBottomLeftRadius :: v
+  , borderBottomRightRadius :: v
   , borderBottomStyle :: v
   , borderBottomWidth :: v
   , borderColor :: v
@@ -151,6 +153,8 @@ type SupportedDeclarations' (v :: Type) =
   , borderStyle :: v
   , borderTop :: v
   , borderTopColor :: v
+  , borderTopLeftRadius :: v
+  , borderTopRightRadius :: v
   , borderTopStyle :: v
   , borderTopWidth :: v
   , borderWidth :: v
@@ -195,6 +199,8 @@ defaultDeclarations =
   , border: v
   , borderBottom: v
   , borderBottomColor: v
+  , borderBottomLeftRadius: v
+  , borderBottomRightRadius: v
   , borderBottomStyle: v
   , borderBottomWidth: v
   , borderColor: v
@@ -209,6 +215,8 @@ defaultDeclarations =
   , borderStyle: v
   , borderTop: v
   , borderTopColor: v
+  , borderTopLeftRadius: v
+  , borderTopRightRadius: v
   , borderTopStyle: v
   , borderTopWidth: v
   , borderWidth: v
@@ -2277,6 +2285,53 @@ else instance propertyBorderVal
   :: ValBorder a
   => Property "border" a where
   pval = const valBorder
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-left-radius
+
+class ValBorderTopLeftRadius (a :: Type) where
+  valBorderTopLeftRadius :: a -> Val
+
+instance valBorderTopLeftRadius2
+  :: ( LengthPercentageTag a
+     , LengthPercentageTag b
+     )
+  => ValBorderTopLeftRadius (Measure a /\ Measure b) where
+  valBorderTopLeftRadius (a /\ b) = val a <> val " " <> val b
+
+instance valBorderTopLeftRadius1
+  :: LengthPercentageTag a
+  => ValBorderTopLeftRadius (Measure a) where
+  valBorderTopLeftRadius = val
+
+instance propertyBorderTopLeftRadiusCommonKeyword
+  :: Property "borderTopLeftRadius" CommonKeyword where
+  pval = const val
+
+else instance propertyBorderTopLeftRadiusVal
+  :: ValBorderTopLeftRadius a
+  => Property "borderTopLeftRadius" a where
+  pval = const valBorderTopLeftRadius
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-right-radius
+
+instance propertyBorderTopRightRadiusBorderTopLeftRadius
+  :: Property "borderTopLeftRadius" a
+  => Property "borderTopRightRadius" a where
+  pval = const $ pval (Proxy :: _ "borderTopLeftRadius")
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-bottom-right-radius
+
+instance propertyBorderBottomRightRadiusBorderTopLeftRadius
+  :: Property "borderTopLeftRadius" a
+  => Property "borderBottomRightRadius" a where
+  pval = const $ pval (Proxy :: _ "borderTopLeftRadius")
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-bottom-left-radius
+
+instance propertyBorderBottomLeftRadiusBorderTopLeftRadius
+  :: Property "borderTopLeftRadius" a
+  => Property "borderBottomLeftRadius" a where
+  pval = const $ pval (Proxy :: _ "borderTopLeftRadius")
 
 --------------------------------------------------------------------------------
 
