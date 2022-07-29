@@ -4,9 +4,9 @@ module Test.BackgroundsSpec where
 
 import Prelude hiding (bottom, top)
 
-import Color (black, rgb, white)
+import Color (black, rgb, rgba, white)
 import Data.Tuple.Nested ((/\))
-import PSCSS (at2, at3, at4, auto, bgSize2, borderBox, bottom, center, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local, medium, noRepeat, none, outset, paddingBox, pct, px, radialGradient1, repeat, repeat2, repeatX, repeatY, ridge, right, round, scroll, solid, space, stop, thick, thin, top, transparent, unset, url)
+import PSCSS (at2, at3, at4, auto, bgSize2, borderBox, bottom, center, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local, medium, nil, noRepeat, none, outset, paddingBox, pct, px, radialGradient1, repeat, repeat2, repeatX, repeatY, ridge, right, round, scroll, shadow, shadow', solid, space, stop, thick, thin, top, transparent, unset, url)
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -943,3 +943,45 @@ spec =
       "border-radius:1px/10%" `isRenderedFrom` { borderRadius: px 1 /\ pct 10 }
 
       "border-radius:10%/1px" `isRenderedFrom` { borderRadius: pct 10 /\ px 1 }
+
+    describe "box-shadow property" do
+
+      "box-shadow:inherit" `isRenderedFrom` { boxShadow: inherit }
+
+      "box-shadow:initial" `isRenderedFrom` { boxShadow: initial }
+
+      "box-shadow:unset" `isRenderedFrom` { boxShadow: unset }
+
+      "box-shadow:4px 8px" `isRenderedFrom` { boxShadow: shadow' (px 4) (px 8) }
+
+      "box-shadow:64px 64px 12px 40px #000000"
+        `isRenderedFrom`
+        { boxShadow:
+            shadow (px 64) (px 64) { blur: px 12, spread: px 40, color: black }
+        }
+
+      "box-shadow:8px 16px 0 8px #00000066 inset"
+        `isRenderedFrom`
+        { boxShadow:
+            shadow
+              (px 8)
+              (px 16)
+              { blur: nil
+              , spread: px 8
+              , color: rgba 0 0 0 0.4
+              , inset: true
+              }
+        }
+
+      "box-shadow:5px 5px 10px #000000 inset,-5px -5px 10px #0000ff inset"
+        `isRenderedFrom`
+        { boxShadow:
+            shadow (px 5) (px 5) { blur: px 10, color: black, inset: true }
+            /\ shadow
+                 (px (-5))
+                 (px (-5))
+                 { blur: px 10
+                 , color: rgb 0 0 255
+                 , inset: true
+                 }
+        }

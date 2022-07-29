@@ -5,7 +5,7 @@ import Prelude hiding (add)
 import Color (Color, cssStringHSLA, toHexString)
 import Control.Monad.Writer (Writer, execWriter, tell)
 import ConvertableOptions (class ConvertOption, class ConvertOptionsWithDefaults, convertOptionsWithDefaults)
-import Data.Array (replicate)
+import Data.Array (catMaybes, replicate)
 import Data.Array as Array
 import Data.Either as Either
 import Data.FoldableWithIndex (class FoldableWithIndex, foldlWithIndex)
@@ -159,6 +159,7 @@ type SupportedDeclarations' (v :: Type) =
   , borderTopStyle :: v
   , borderTopWidth :: v
   , borderWidth :: v
+  , boxShadow :: v
   , color :: v
   , height :: v
   , margin :: v
@@ -222,6 +223,7 @@ defaultDeclarations =
   , borderTopStyle: v
   , borderTopWidth: v
   , borderWidth: v
+  , boxShadow: v
   , color: v
   , height: v
   , margin: v
@@ -2306,6 +2308,102 @@ else instance propertyBorderRadiusVal
   :: ValBorderRadius a
   => Property "borderRadius" a where
   pval = const valBorderRadius
+
+-- https://www.w3.org/TR/css-backgrounds-3/#propdef-box-shadow
+
+newtype Shadow = Shadow Val
+
+derive newtype instance ToVal Shadow
+
+type AllShadowDetails =
+  ( blur :: Maybe Val
+  , color :: Maybe Val
+  , inset :: Boolean
+  , spread :: Maybe Val
+  )
+
+data Shadow' = Shadow'
+
+instance shadowBlurLength
+  :: LengthTag a => ConvertOption Shadow' "blur" (Measure a) (Maybe Val) where
+  convertOption _ _ = pure <<< val
+
+instance shadowColor
+  :: IsColor a => ConvertOption Shadow' "color" a (Maybe Val) where
+  convertOption _ _ = pure <<< val
+
+instance shadowInset
+  :: ConvertOption Shadow' "inset" Boolean Boolean where
+  convertOption _ _ = identity
+
+instance shadowSpreadLength
+  :: LengthTag a => ConvertOption Shadow' "spread" (Measure a) (Maybe Val) where
+  convertOption _ _ = pure <<< val
+
+shadow
+  :: forall xo yo providedShadowDetails
+   . LengthTag xo
+  => LengthTag yo
+  => ConvertOptionsWithDefaults
+       Shadow'
+       { | AllShadowDetails }
+       { | providedShadowDetails }
+       { | AllShadowDetails }
+  => Measure xo
+  -> Measure yo
+  -> { | providedShadowDetails }
+  -> Shadow
+shadow xo yo providedShadowDetails =
+  let
+    { blur, color, inset, spread } =
+      convertOptionsWithDefaults
+        Shadow'
+        { blur: Nothing
+        , color: Nothing
+        , inset: false
+        , spread: Nothing
+        }
+        providedShadowDetails
+  in
+    Shadow $
+      joinVals (val " ") $
+        catMaybes
+          [ pure $ val xo
+          , pure $ val yo
+          , blur
+          , spread
+          , color
+          , if inset then pure (val "inset") else Nothing
+          ]
+
+shadow'
+  :: forall xo yo
+   . LengthTag xo
+  => LengthTag yo
+  => Measure xo
+  -> Measure yo
+  -> Shadow
+shadow' xo yo = shadow xo yo {}
+
+class ValBoxShadow (a :: Type) where
+  valBoxShadow :: a -> Val
+
+instance valBoxShadowShadow :: ValBoxShadow Shadow where
+  valBoxShadow = val
+
+instance valBoxShadowMultiple
+  :: ValBoxShadow b
+  => ValBoxShadow (Shadow /\ b) where
+  valBoxShadow (a /\ b) = val a <> val "," <> valBoxShadow b
+
+instance propertyBoxShadowCommonKeyword
+  :: Property "boxShadow" CommonKeyword where
+  pval = const val
+
+else instance propertyBoxShadowVal
+  :: ValBoxShadow a
+  => Property "boxShadow" a where
+  pval = const valBoxShadow
 
 --------------------------------------------------------------------------------
 
