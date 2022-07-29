@@ -928,7 +928,7 @@ spec =
         `isRenderedFrom`
         { borderTopRightRadius: pct 10 /\ px 1 }
 
-    describe "border-radius" do
+    describe "border-radius property" do
 
       "border-radius:inherit" `isRenderedFrom` { borderRadius: inherit }
 
