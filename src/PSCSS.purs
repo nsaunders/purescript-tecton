@@ -177,6 +177,7 @@ type SupportedDeclarations' (v :: Type) =
   , paddingLeft :: v
   , paddingRight :: v
   , paddingTop :: v
+  , transform :: v
   , width :: v
   )
 
@@ -241,6 +242,7 @@ defaultDeclarations =
   , paddingRight: v
   , paddingTop: v
   , opacity: v
+  , transform: v
   , width: v
   }
   where
@@ -3029,6 +3031,276 @@ maxContent = ContentSizingValue $ val "max-content"
 
 fitContent :: forall a. LengthPercentageTag a => Measure a -> ContentSizingValue
 fitContent a = ContentSizingValue $ fn "fit-content" [val a]
+
+--------------------------------------------------------------------------------
+
+-- https://www.w3.org/TR/css-transforms-1/
+
+newtype TransformFunction = TransformFunction Val
+
+derive newtype instance ToVal TransformFunction
+
+-- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-matrix
+
+matrix
+  :: forall a b c d e f
+   . ToNumber a
+  => ToNumber b
+  => ToNumber c
+  => ToNumber d
+  => ToNumber e
+  => ToNumber f
+  => a
+  -> b
+  -> c
+  -> d
+  -> e
+  -> f
+  -> TransformFunction
+matrix a b c d e f =
+  TransformFunction $
+    fn
+      "matrix"
+      [ val $ toNumber a
+      , val $ toNumber b
+      , val $ toNumber c
+      , val $ toNumber d
+      , val $ toNumber e
+      , val $ toNumber f
+      ]
+
+-- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-translate
+
+translate
+  :: forall x y
+   . LengthPercentageTag x
+  => LengthPercentageTag y
+  => Measure x
+  -> Measure y
+  -> TransformFunction
+translate tx ty = TransformFunction $ fn "translate" [val tx, val ty]
+
+-- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-translatex
+
+translateX :: forall x. LengthPercentageTag x => Measure x -> TransformFunction
+translateX tx = TransformFunction $ fn "translateX" [val tx]
+
+-- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-translatey
+
+translateY :: forall y. LengthPercentageTag y => Measure y -> TransformFunction
+translateY ty = TransformFunction $ fn "translateY" [val ty]
+
+-- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-scale
+
+scale :: Number -> Number -> TransformFunction
+scale sx sy = TransformFunction $ fn "scale" [val sx, val sy]
+
+-- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-scalex
+
+scaleX :: Number -> TransformFunction
+scaleX sx = TransformFunction $ fn "scaleX" [val sx]
+
+-- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-scaley
+
+scaleY :: Number -> TransformFunction
+scaleY sy = TransformFunction $ fn "scaleY" [val sy]
+
+-- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-rotate
+
+rotate :: forall a. AngleTag a => Measure a -> TransformFunction
+rotate angle = TransformFunction $ fn "rotate" [val angle]
+
+-- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-skew
+
+-- `skew` has been omitted because, per spec, it "should not be used" anymore.
+
+-- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-skewx
+
+skewX :: forall a. AngleTag a => Measure a -> TransformFunction
+skewX angle = TransformFunction $ fn "skewX" [val angle]
+
+-- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-skewy
+
+skewY :: forall a. AngleTag a => Measure a -> TransformFunction
+skewY angle = TransformFunction $ fn "skewY" [val angle]
+
+-- https://www.w3.org/TR/css-transforms-2/#funcdef-matrix3d
+
+matrix3d
+  :: forall a1 b1 c1 d1 a2 b2 c2 d2 a3 b3 c3 d3 a4 b4 c4 d4
+   . ToNumber a1
+  => ToNumber b1
+  => ToNumber c1
+  => ToNumber d1
+  => ToNumber a2
+  => ToNumber b2
+  => ToNumber c2
+  => ToNumber d2
+  => ToNumber a3
+  => ToNumber b3
+  => ToNumber c3
+  => ToNumber d3
+  => ToNumber a4
+  => ToNumber b4
+  => ToNumber c4
+  => ToNumber d4
+  => a1
+  -> b1
+  -> c1
+  -> d1
+  -> a2
+  -> b2
+  -> c2
+  -> d2
+  -> a3
+  -> b3
+  -> c3
+  -> d3
+  -> a4
+  -> b4
+  -> c4
+  -> d4
+  -> TransformFunction
+matrix3d a1 b1 c1 d1 a2 b2 c2 d2 a3 b3 c3 d3 a4 b4 c4 d4 =
+  TransformFunction $
+    fn
+      "matrix3d"
+      [ val $ toNumber a1
+      , val $ toNumber b1
+      , val $ toNumber c1
+      , val $ toNumber d1
+      , val $ toNumber a2
+      , val $ toNumber b2
+      , val $ toNumber c2
+      , val $ toNumber d2
+      , val $ toNumber a3
+      , val $ toNumber b3
+      , val $ toNumber c3
+      , val $ toNumber d3
+      , val $ toNumber a4
+      , val $ toNumber b4
+      , val $ toNumber c4
+      , val $ toNumber d4
+      ]
+
+-- https://www.w3.org/TR/css-transforms-2/#funcdef-translate3d
+
+translate3d
+  :: forall x y z
+   . LengthPercentageTag x
+  => LengthPercentageTag y
+  => LengthTag z
+  => Measure x
+  -> Measure y
+  -> Measure z
+  -> TransformFunction
+translate3d tx ty tz =
+  TransformFunction $ fn "translate3d" [val tx, val ty, val tz]
+
+-- https://www.w3.org/TR/css-transforms-2/#funcdef-translatez
+
+translateZ :: forall a. LengthTag a => Measure a -> TransformFunction
+translateZ tz = TransformFunction $ fn "translateZ" [val tz]
+
+-- https://www.w3.org/TR/css-transforms-2/#funcdef-scale3d
+
+scale3d
+  :: forall x y z
+   . ToNumber x
+  => ToNumber y
+  => ToNumber z
+  => x
+  -> y
+  -> z
+  -> TransformFunction
+scale3d sx sy sz =
+  TransformFunction $
+    fn
+      "scale3d"
+      [ val $ toNumber sx
+      , val $ toNumber sy
+      , val $ toNumber sz
+      ]
+
+-- https://www.w3.org/TR/css-transforms-2/#funcdef-scalez
+
+scaleZ :: forall a. ToNumber a => a -> TransformFunction
+scaleZ sz = TransformFunction $ fn "scaleZ" [val $ toNumber sz]
+
+-- https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/rotate3d
+
+rotate3d
+  :: forall x y z a
+   . ToNumber x
+  => ToNumber y
+  => ToNumber z
+  => AngleTag a
+  => x
+  -> y
+  -> z
+  -> Measure a
+  -> TransformFunction
+rotate3d x y z a =
+  TransformFunction $
+    fn
+      "rotate3d"
+      [ val $ toNumber x
+      , val $ toNumber y
+      , val $ toNumber z
+      , val a
+      ]
+
+-- https://www.w3.org/TR/css-transforms-2/#funcdef-rotatex
+
+rotateX :: forall a. AngleTag a => Measure a -> TransformFunction
+rotateX a = TransformFunction $ fn "rotateX" [val a]
+
+-- https://www.w3.org/TR/css-transforms-2/#funcdef-rotatey
+
+rotateY :: forall a. AngleTag a => Measure a -> TransformFunction
+rotateY a = TransformFunction $ fn "rotateY" [val a]
+
+-- https://www.w3.org/TR/css-transforms-2/#funcdef-rotatez
+
+rotateZ :: forall a. AngleTag a => Measure a -> TransformFunction
+rotateZ a = TransformFunction $ fn "rotateZ" [val a]
+
+-- https://www.w3.org/TR/css-transforms-2/#funcdef-perspective
+
+class ToVal a <= Perspective (a :: Type)
+instance Perspective None
+instance LengthTag a => Perspective (Measure a)
+
+perspective :: forall a. Perspective a => a -> TransformFunction
+perspective a = TransformFunction $ fn "perspective" [val a]
+
+-- https://www.w3.org/TR/css-transforms-1/#propdef-transform
+
+class ValTransform (a :: Type) where
+  valTransform :: a -> Val
+
+instance valTransformMultiple
+  :: ( ValTransform a
+     , ValTransform b
+     )
+  => ValTransform (a /\ b) where
+  valTransform (a /\ b) = valTransform a <> val " " <> valTransform b
+
+else instance valTransformSingle :: ValTransform TransformFunction where
+  valTransform = val
+
+instance propertyTransformCommonKeyword
+  :: Property "transform" CommonKeyword where
+  pval = const val
+
+else instance propertyTransformNone
+  :: Property "transform" None where
+  pval = const val
+
+else instance propertyTransformVal
+  :: ValTransform a
+  => Property "transform" a where
+  pval = const valTransform
 
 --------------------------------------------------------------------------------
 
