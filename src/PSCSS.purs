@@ -135,24 +135,20 @@ type SupportedDeclarations' (v :: Type) =
   , backgroundRepeat :: v
   , backgroundSize :: v
   , border :: v
-  , borderBottom :: v
   , borderBottomColor :: v
   , borderBottomLeftRadius :: v
   , borderBottomRightRadius :: v
   , borderBottomStyle :: v
   , borderBottomWidth :: v
   , borderColor :: v
-  , borderLeft :: v
   , borderLeftColor :: v
   , borderLeftStyle :: v
   , borderLeftWidth :: v
   , borderRadius :: v
-  , borderRight :: v
   , borderRightColor :: v
   , borderRightStyle :: v
   , borderRightWidth :: v
   , borderStyle :: v
-  , borderTop :: v
   , borderTopColor :: v
   , borderTopLeftRadius :: v
   , borderTopRightRadius :: v
@@ -201,24 +197,20 @@ defaultDeclarations =
   , backgroundRepeat: v
   , backgroundSize: v
   , border: v
-  , borderBottom: v
   , borderBottomColor: v
   , borderBottomLeftRadius: v
   , borderBottomRightRadius: v
   , borderBottomStyle: v
   , borderBottomWidth: v
   , borderColor: v
-  , borderLeft: v
   , borderLeftColor: v
   , borderLeftStyle: v
   , borderLeftWidth: v
   , borderRadius: v
-  , borderRight: v
   , borderRightColor: v
   , borderRightStyle: v
   , borderRightWidth: v
   , borderStyle: v
-  , borderTop: v
   , borderTopColor: v
   , borderTopLeftRadius: v
   , borderTopRightRadius: v
@@ -2146,99 +2138,6 @@ else instance propertyBorderWidthVal
   :: ValBorderWidth a
   => Property "borderWidth" a where
   pval = const valBorderWidth
-
--- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top
-
-class ValBorderTop (a :: Type) where
-  valBorderTop :: a -> Val
-
-instance valBorderTopLengthNone
-  :: ( LengthTag a
-     , IsColor c
-     )
-  => ValBorderTop (Measure a /\ None /\ c) where
-  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
-
-instance valBorderTopLineWidthNone
-  :: IsColor c
-  => ValBorderTop (LineWidth /\ None /\ c) where
-  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
-
-instance valBorderTopMediumNone
-  :: IsColor c
-  => ValBorderTop (Medium /\ None /\ c) where
-  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
-
-instance valBorderTopLengthHidden
-  :: ( LengthTag a
-     , IsColor c
-     )
-  => ValBorderTop (Measure a /\ Hidden /\ c) where
-  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
-
-instance valBorderTopLineWidthHidden
-  :: IsColor c
-  => ValBorderTop (LineWidth /\ Hidden /\ c) where
-  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
-
-instance valBorderTopMediumHidden
-  :: IsColor c
-  => ValBorderTop (Medium /\ Hidden /\ c) where
-  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
-
-instance valBorderTopLengthLineStyle
-  :: ( LengthTag a
-     , IsColor c
-     )
-  => ValBorderTop (Measure a /\ LineStyle /\ c) where
-  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
-
-instance valBorderTopLineWidthLineStyle
-  :: IsColor c
-  => ValBorderTop (LineWidth /\ LineStyle /\ c) where
-  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
-
-instance valBorderTopMediumLineStyle
-  :: IsColor c
-  => ValBorderTop (Medium /\ LineStyle /\ c) where
-  valBorderTop (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
-
-instance propertyBorderTopCommonKeyword
-  :: Property "borderTop" CommonKeyword where
-  pval = const val
-
-else instance propertyBorderTopVal
-  :: ValBorderTop a
-  => Property "borderTop" a where
-  pval = const valBorderTop
-
--- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-right
-
-instance propertyBorderRightBorderTop
-  :: Property "borderTop" a
-  => Property "borderRight" a where
-  pval = const $ pval (Proxy :: _ "borderTop")
-
--- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-bottom
-
-instance propertyBorderBottomBorderTop
-  :: Property "borderTop" a
-  => Property "borderBottom" a where
-  pval = const $ pval (Proxy :: _ "borderTop")
-
--- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-left
-
-instance propertyBorderLeftBorderTop
-  :: Property "borderTop" a
-  => Property "borderLeft" a where
-  pval = const $ pval (Proxy :: _ "borderTop")
-
--- https://www.w3.org/TR/css-backgrounds-3/#propdef-border
-
-instance propertyBorderBorderTop
-  :: Property "borderTop" a
-  => Property "border" a where
-  pval = const $ pval (Proxy :: _ "borderTop")
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-left-radius
 
