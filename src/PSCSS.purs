@@ -178,6 +178,7 @@ type SupportedDeclarations' (v :: Type) =
   , paddingRight :: v
   , paddingTop :: v
   , transform :: v
+  , transformOrigin :: v
   , width :: v
   )
 
@@ -243,6 +244,7 @@ defaultDeclarations =
   , paddingTop: v
   , opacity: v
   , transform: v
+  , transformOrigin: v
   , width: v
   }
   where
@@ -3301,6 +3303,33 @@ else instance propertyTransformVal
   :: ValTransform a
   => Property "transform" a where
   pval = const valTransform
+
+-- https://www.w3.org/TR/css-transforms-1/#propdef-transform-origin
+
+class ValTransformOrigin (a :: Type) where
+  valTransformOrigin :: a -> Val
+
+instance valTransformOrigin3d
+  :: (At2 x y, LengthTag z)
+  => ValTransformOrigin (x /\ y /\ Measure z) where
+  valTransformOrigin (x /\ y /\ z) = joinVals (val " ") [val x, val y, val z]
+
+else instance valTransformOrigin2d 
+  :: At2 x y
+  => ValTransformOrigin (x /\ y) where
+  valTransformOrigin (x /\ y) = val x <> val " " <> val y
+
+else instance valTransformOriginX :: At1 a => ValTransformOrigin a where
+  valTransformOrigin = val
+
+instance propertyTransformOriginCommonKeyword
+  :: Property "transformOrigin" CommonKeyword where
+  pval = const val
+
+else instance propertyTransformOriginVal
+  :: ValTransformOrigin a
+  => Property "transformOrigin" a where
+  pval = const valTransformOrigin
 
 --------------------------------------------------------------------------------
 

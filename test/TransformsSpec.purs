@@ -3,10 +3,10 @@
 
 module Test.TransformsSpec where
 
-import Prelude
+import Prelude hiding (top, bottom)
 
 import Data.Tuple.Nested ((/\))
-import PSCSS (deg, inherit, initial, matrix, matrix3d, none, pct, perspective, px, rad, rotate, rotate3d, rotateX, rotateY, rotateZ, scale, scale3d, scaleX, scaleY, scaleZ, skewX, skewY, translate, translate3d, translateX, translateY, translateZ, turn, unset)
+import PSCSS (bottom, center, deg, inherit, initial, left, matrix, matrix3d, none, pct, perspective, px, rad, right, rotate, rotate3d, rotateX, rotateY, rotateZ, scale, scale3d, scaleX, scaleY, scaleZ, skewX, skewY, top, translate, translate3d, translateX, translateY, translateZ, turn, unset)
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -117,3 +117,101 @@ spec =
       "transform:rotateX(45deg) translateX(-10px) scaleX(1.5)"
         `isRenderedFrom`
         { transform: rotateX (deg 45) /\ translateX (px (-10)) /\ scaleX 1.5 }
+
+    describe "transform-origin property" do
+
+      "transform-origin:inherit" `isRenderedFrom` { transformOrigin: inherit }
+
+      "transform-origin:initial" `isRenderedFrom` { transformOrigin: initial }
+
+      "transform-origin:unset" `isRenderedFrom` { transformOrigin: unset }
+
+      "transform-origin:left" `isRenderedFrom` { transformOrigin: left }
+
+      "transform-origin:center" `isRenderedFrom` { transformOrigin: center }
+
+      "transform-origin:right" `isRenderedFrom` { transformOrigin: right }
+
+      "transform-origin:top" `isRenderedFrom` { transformOrigin: top }
+
+      "transform-origin:bottom" `isRenderedFrom` { transformOrigin: bottom }
+
+      "transform-origin:10px" `isRenderedFrom` { transformOrigin: px 10 }
+
+      "transform-origin:10%" `isRenderedFrom` { transformOrigin: pct 10 }
+
+      "transform-origin:left top"
+        `isRenderedFrom`
+        { transformOrigin: left /\ top }
+
+      "transform-origin:center top"
+        `isRenderedFrom`
+        { transformOrigin: center /\ top }
+
+      "transform-origin:right top"
+        `isRenderedFrom`
+        { transformOrigin: right /\ top }
+
+      "transform-origin:left center"
+        `isRenderedFrom`
+        { transformOrigin: left /\ center }
+
+      "transform-origin:center center"
+        `isRenderedFrom`
+        { transformOrigin: center /\ center }
+
+      "transform-origin:right center"
+        `isRenderedFrom`
+        { transformOrigin: right /\ center }
+
+      "transform-origin:left bottom"
+        `isRenderedFrom`
+        { transformOrigin: left /\ bottom }
+
+      "transform-origin:center bottom"
+        `isRenderedFrom`
+        { transformOrigin: center /\ bottom }
+
+      "transform-origin:right bottom"
+        `isRenderedFrom`
+        { transformOrigin: right /\ bottom }
+
+      "transform-origin:10px 20%"
+        `isRenderedFrom`
+        { transformOrigin: px 10 /\ pct 20 }
+
+      "transform-origin:20% 10px"
+        `isRenderedFrom`
+        { transformOrigin: pct 20 /\ px 10 }
+
+      "transform-origin:10px top"
+        `isRenderedFrom`
+        { transformOrigin: px 10 /\ top }
+
+      "transform-origin:10% bottom"
+        `isRenderedFrom`
+        { transformOrigin: pct 10 /\ bottom }
+
+      "transform-origin:left 10px"
+        `isRenderedFrom`
+        { transformOrigin: left /\ px 10 }
+
+      "transform-origin:right 20%"
+        `isRenderedFrom`
+        { transformOrigin: right /\ pct 20 }
+
+      "transform-origin:left 20% 10px"
+        `isRenderedFrom`
+        { transformOrigin: left /\ pct 20 /\ px 10 }
+
+      "transform-origin:10px top 20px"
+        `isRenderedFrom`
+        { transformOrigin: px 10 /\ top /\ px 20 }
+
+      "transform-origin:10px 20% 10px"
+        `isRenderedFrom`
+        { transformOrigin: px 10 /\ pct 20 /\ px 10 }
+
+      "transform-origin:20% 10px 20px"
+        `isRenderedFrom`
+        { transformOrigin: pct 20 /\ px 10 /\ px 20 }
