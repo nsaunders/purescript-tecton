@@ -6,7 +6,7 @@ import Prelude hiding (bottom, top)
 
 import Color (black, rgb, rgba, white)
 import Data.Tuple.Nested ((/\))
-import PSCSS (at2, at3, at4, auto, bgSize2, borderBox, bottom, center, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local, medium, nil, noRepeat, none, outset, paddingBox, pct, px, radialGradient1, repeat, repeat2, repeatX, repeatY, ridge, right, round, scroll, shadow, shadow', solid, space, stop, thick, thin, top, transparent, unset, url)
+import PSCSS (at, at2, auto, bgSize2, borderBox, bottom, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local, medium, nil, noRepeat, none, outset, paddingBox, pct, px, radialGradient1, repeat, repeat2, repeatX, repeatY, ridge, right, round, scroll, shadow, shadow', solid, space, stop, thick, thin, top, transparent, unset, url)
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -146,33 +146,23 @@ spec =
 
       "background-position:unset" `isRenderedFrom` { backgroundPosition: unset }
        
-      "background-position:top" `isRenderedFrom` { backgroundPosition: top } 
+      "background-position:top" `isRenderedFrom` { backgroundPosition: at top } 
 
-      "background-position:right" `isRenderedFrom` { backgroundPosition: right } 
+      "background-position:right"
+        `isRenderedFrom`
+        { backgroundPosition: at right } 
 
       "background-position:bottom"
         `isRenderedFrom`
-        { backgroundPosition: bottom } 
+        { backgroundPosition: at bottom } 
 
-      "background-position:left" `isRenderedFrom` { backgroundPosition: left } 
+      "background-position:left"
+        `isRenderedFrom`
+        { backgroundPosition: at left } 
 
       "background-position:left top"
         `isRenderedFrom`
         { backgroundPosition: at2 left top } 
-
-      "background-position:left 10px top"
-        `isRenderedFrom`
-        { backgroundPosition: at3 left (px 10) top } 
-
-      "background-position:left 10px top 15px"
-        `isRenderedFrom`
-        { backgroundPosition: at4 left (px 10) top (px 15) } 
-
-      "background-position:center bottom,left 15px,center top -5px"
-        `isRenderedFrom`
-        { backgroundPosition:
-            at2 center bottom /\ at2 left (px 15) /\ at3 center top (px (-5))
-        } 
 
     describe "background-clip property" do
 

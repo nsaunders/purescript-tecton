@@ -742,49 +742,6 @@ instance
 at2 :: forall x y. At2 x y => x -> y -> Position
 at2 x y = Position $ val x <> val " " <> val y
 
-class (ToVal a, ToVal b, ToVal c) <= At3 (a :: Type) (b :: Type) (c :: Type)
-instance LengthPercentageTag a => At3 Left (Measure a) Top
-instance LengthPercentageTag a => At3 Left (Measure a) Center
-instance LengthPercentageTag a => At3 Left (Measure a) Bottom
-instance LengthPercentageTag a => At3 Left Top (Measure a)
-instance LengthPercentageTag a => At3 Left Bottom (Measure a)
-instance LengthPercentageTag a => At3 Right (Measure a) Top
-instance LengthPercentageTag a => At3 Right (Measure a) Center
-instance LengthPercentageTag a => At3 Right (Measure a) Bottom
-instance LengthPercentageTag a => At3 Right Top (Measure a)
-instance LengthPercentageTag a => At3 Right Bottom (Measure a)
-instance LengthPercentageTag a => At3 Center Top (Measure a)
-instance LengthPercentageTag a => At3 Center Bottom (Measure a)
-
-at3 :: forall a b c. At3 a b c => a -> b -> c -> Position
-at3 a b c = Position $ joinVals (val " ") [val a, val b, val c]
-
-class
-  ( ToVal x
-  , ToVal xo
-  , ToVal y
-  , ToVal yo
-  ) <= At4 (x :: Type) (xo :: Type) (y :: Type)  (yo :: Type)
-instance
-  ( LengthPercentageTag xo
-  , LengthPercentageTag yo
-  ) => At4 Left (Measure xo) Top (Measure yo)
-instance
-  ( LengthPercentageTag xo
-  , LengthPercentageTag yo
-  ) => At4 Left (Measure xo) Bottom (Measure yo)
-instance
-  ( LengthPercentageTag xo
-  , LengthPercentageTag yo
-  ) => At4 Right (Measure xo) Top (Measure yo)
-instance
-  ( LengthPercentageTag xo
-  , LengthPercentageTag yo
-  ) => At4 Right (Measure xo) Bottom (Measure yo)
-
-at4 :: forall x xo y yo. At4 x xo y yo => x -> xo -> y -> yo -> Position
-at4 x xo y yo = Position $ joinVals (val " ") [val x, val xo, val y, val yo]
-
 --------------------------------------------------------------------------------
 
 -- https://www.w3.org/TR/mediaqueries-3/
@@ -1750,9 +1707,6 @@ instance valBackgroundPositionMultiple
 
 else instance valBackgroundPositionPosition
   :: ValBackgroundPosition Position where
-  valBackgroundPosition = val
-
-else instance valBackgroundPositionAt1 :: At1 a => ValBackgroundPosition a where
   valBackgroundPosition = val
 
 instance propertyBackgroundPositionCommonKeyword
@@ -3205,30 +3159,24 @@ else instance propertyTransformVal
 
 -- https://www.w3.org/TR/css-transforms-1/#propdef-transform-origin
 
-class ValTransformOrigin (a :: Type) where
-  valTransformOrigin :: a -> Val
+newtype Position3d = Position3d Val
 
-instance valTransformOrigin3d
-  :: (At2 x y, LengthTag z)
-  => ValTransformOrigin (x /\ y /\ Measure z) where
-  valTransformOrigin (x /\ y /\ z) = joinVals (val " ") [val x, val y, val z]
+derive newtype instance ToVal Position3d
 
-else instance valTransformOrigin2d 
-  :: At2 x y
-  => ValTransformOrigin (x /\ y) where
-  valTransformOrigin (x /\ y) = val x <> val " " <> val y
-
-else instance valTransformOriginX :: At1 a => ValTransformOrigin a where
-  valTransformOrigin = val
+at3 :: forall x y z. At2 x y => LengthTag z => x -> y -> Measure z -> Position3d
+at3 x y z = Position3d $ (val $ at2 x y) <> val " " <> val z
 
 instance propertyTransformOriginCommonKeyword
   :: Property "transformOrigin" CommonKeyword where
   pval = const val
 
-else instance propertyTransformOriginVal
-  :: ValTransformOrigin a
-  => Property "transformOrigin" a where
-  pval = const valTransformOrigin
+instance propertyTransformOriginPosition
+  :: Property "transformOrigin" Position where
+  pval = const val
+
+instance propertyTransformOriginPosition3d
+  :: Property "transformOrigin" Position3d where
+  pval = const val
 
 --------------------------------------------------------------------------------
 
