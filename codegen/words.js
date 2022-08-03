@@ -258,6 +258,16 @@ const code = [
     attribute: true
   },
   {
+    typeName: "FullSizeKana",
+    varName: "fullSizeKana",
+    value: "full-size-kana",
+  },
+  {
+    typeName: "FullWidth",
+    varName: "fullWidth",
+    value: "full-width",
+  },
+  {
     typeName: "Headers",
     varName: "headers",
     value: "headers",

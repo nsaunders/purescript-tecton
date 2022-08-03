@@ -173,6 +173,7 @@ type SupportedDeclarations' (v :: Type) =
   , paddingLeft :: v
   , paddingRight :: v
   , paddingTop :: v
+  , textTransform :: v
   , transform :: v
   , transformOrigin :: v
   , width :: v
@@ -235,6 +236,7 @@ defaultDeclarations =
   , paddingRight: v
   , paddingTop: v
   , opacity: v
+  , textTransform: v
   , transform: v
   , transformOrigin: v
   , width: v
@@ -2889,7 +2891,61 @@ fitContent a = ContentSizingValue $ fn "fit-content" [val a]
 
 --------------------------------------------------------------------------------
 
+-- https://www.w3.org/TR/css-text-4/#text-transform-property
+
+newtype TextTransform = TextTransform String
+
+derive newtype instance ToVal TextTransform
+
+capitalize :: TextTransform
+capitalize = TextTransform "capitalize"
+
+uppercase :: TextTransform
+uppercase = TextTransform "uppercase"
+
+lowercase :: TextTransform
+lowercase = TextTransform "lowercase"
+
+instance propertyTextTransformCommonKeyword
+  :: Property "textTransform" CommonKeyword where
+  pval = const val
+
+instance propertyTextTransformNone
+  :: Property "textTransform" None where
+  pval = const val
+
+instance propertyTextTransformTextTransform
+  :: Property "textTransform" TextTransform where
+  pval = const val
+
+instance propertyTextTransformFullWidth
+  :: Property "textTransform" FullWidth where
+  pval = const val
+
+instance propertyTextTransformFullSizeKana
+  :: Property "textTransform" FullSizeKana where
+  pval = const val
+
+instance propertyTextTransformTextTransformFullSizeKana
+  :: Property "textTransform" (TextTransform /\ FullSizeKana) where
+  pval _ (a /\ b) = val a <> val " " <> val b
+
+instance propertyTextTransformTextTransformFullWidth
+  :: Property "textTransform" (TextTransform /\ FullWidth) where
+  pval _ (a /\ b) = val a <> val " " <> val b
+
+instance propertyTextTransformFullWidthFullSizeKana
+  :: Property "textTransform" (FullWidth /\ FullSizeKana) where
+  pval _ (a /\ b) = val a <> val " " <> val b
+
+instance propertyTextTransformTextTransformFullWidthFullSizeKana
+  :: Property "textTransform" (TextTransform /\ FullWidth /\ FullSizeKana) where
+  pval _ (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+
+--------------------------------------------------------------------------------
+
 -- https://www.w3.org/TR/css-transforms-1/
+-- https://www.w3.org/TR/css-transforms-2/
 
 newtype TransformFunction = TransformFunction Val
 
@@ -3410,6 +3466,14 @@ data Formaction = Formaction
 instance ToVal Formaction where val _ = val "formaction"
 formaction = Formaction :: Formaction
 instance IsAttribute Formaction
+
+data FullSizeKana = FullSizeKana
+instance ToVal FullSizeKana where val _ = val "full-size-kana"
+fullSizeKana = FullSizeKana :: FullSizeKana
+
+data FullWidth = FullWidth
+instance ToVal FullWidth where val _ = val "full-width"
+fullWidth = FullWidth :: FullWidth
 
 data Headers = Headers
 instance ToVal Headers where val _ = val "headers"

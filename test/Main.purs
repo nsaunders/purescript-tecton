@@ -12,6 +12,7 @@ import Test.ImagesSpec as Images
 import Test.MediaQueriesSpec as MediaQueries
 import Test.SelectorsSpec as Selectors
 import Test.SizingSpec as Sizing
+import Test.TextSpec as Text
 import Test.TransformsSpec as Transforms
 import Test.Spec.Reporter (consoleReporter)
 import Test.Spec.Runner (runSpec)
@@ -26,4 +27,5 @@ main = launchAff_ $ runSpec [consoleReporter] do
   MediaQueries.spec
   Selectors.spec
   Sizing.spec
+  Text.spec
   Transforms.spec
