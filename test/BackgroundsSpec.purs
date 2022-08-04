@@ -6,7 +6,7 @@ import Prelude hiding (bottom, top)
 
 import Color (black, rgb, rgba, white)
 import Data.Tuple.Nested ((/\))
-import PSCSS (at, at2, auto, bgSize2, borderBox, bottom, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local, medium, nil, noRepeat, none, outset, paddingBox, pct, px, radialGradient1, repeat, repeat2, repeatX, repeatY, ridge, right, round, scroll, shadow, shadow', solid, space, stop, thick, thin, top, transparent, unset, url)
+import PSCSS (at, at2, auto, borderBox, bottom, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local, medium, nil, noRepeat, none, outset, paddingBox, pct, px, radialGradient1, repeat, repeat2, repeatX, repeatY, ridge, right, round, scroll, shadow, shadow', solid, space, stop, thick, thin, top, transparent, unset, url, (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -232,20 +232,20 @@ spec =
 
       "background-size:50% 100px"
         `isRenderedFrom`
-        { backgroundSize: bgSize2 (pct 50) (px 100) }
+        { backgroundSize: pct 50 ~ px 100 }
 
       "background-size:25% auto"
         `isRenderedFrom`
-        { backgroundSize: bgSize2 (pct 25) auto }
+        { backgroundSize: pct 25 ~ auto }
 
       "background-size:auto 5px"
         `isRenderedFrom`
-        { backgroundSize: bgSize2 auto (px 5) }
+        { backgroundSize: auto ~ px 5 }
 
       "background-size:50%,50px,auto 100px,auto,cover,contain"
         `isRenderedFrom`
         { backgroundSize:
-            pct 50 /\ px 50 /\ bgSize2 auto (px 100) /\ auto /\ cover /\ contain
+            pct 50 /\ px 50 /\ auto ~ px 100 /\ auto /\ cover /\ contain
         }
 
     describe "border-top-color property" do
@@ -662,11 +662,11 @@ spec =
 
       "border-top-left-radius:1px 10%"
         `isRenderedFrom`
-        { borderTopLeftRadius: px 1 /\ pct 10 }
+        { borderTopLeftRadius: px 1 ~ pct 10 }
 
       "border-top-left-radius:10% 1px"
         `isRenderedFrom`
-        { borderTopLeftRadius: pct 10 /\ px 1 }
+        { borderTopLeftRadius: pct 10 ~ px 1 }
 
     describe "border-top-right-radius property" do
 
@@ -692,11 +692,11 @@ spec =
 
       "border-top-right-radius:1px 10%"
         `isRenderedFrom`
-        { borderTopRightRadius: px 1 /\ pct 10 }
+        { borderTopRightRadius: px 1 ~ pct 10 }
 
       "border-top-right-radius:10% 1px"
         `isRenderedFrom`
-        { borderTopRightRadius: pct 10 /\ px 1 }
+        { borderTopRightRadius: pct 10 ~ px 1 }
 
     describe "border-radius property" do
 
@@ -710,9 +710,33 @@ spec =
 
       "border-radius:10%" `isRenderedFrom` { borderRadius: pct 10 }
 
-      "border-radius:1px/10%" `isRenderedFrom` { borderRadius: px 1 /\ pct 10 }
+      "border-radius:1px/10%" `isRenderedFrom` { borderRadius: px 1 ~ pct 10 }
 
-      "border-radius:10%/1px" `isRenderedFrom` { borderRadius: pct 10 /\ px 1 }
+      "border-radius:10%/1px" `isRenderedFrom` { borderRadius: pct 10 ~ px 1 }
+
+      "border-radius:25% 50%"
+        `isRenderedFrom`
+        { borderRadius: pct 25 /\ pct 50 }
+
+      "border-radius:1px 2px/5% 10%"
+        `isRenderedFrom`
+        { borderRadius: px 1 ~ pct 5 /\ px 2 ~ pct 10 }
+
+      "border-radius:10% 10px 30%"
+        `isRenderedFrom`
+        { borderRadius: pct 10 /\ px 10 /\ pct 30 }
+
+      "border-radius:10px 10% 30px/1px 2px 3px"
+        `isRenderedFrom`
+        { borderRadius: px 10 ~ px 1 /\ pct 10 ~ px 2 /\ px 30 ~ px 3 }
+
+      "border-radius:10% 10px 30% 2px"
+        `isRenderedFrom`
+        { borderRadius: pct 10 /\ px 10 /\ pct 30 /\ px 2 }
+
+      "border-radius:10% 10px 30% 2px/1px 10px 30% 2px"
+        `isRenderedFrom`
+        { borderRadius: pct 10 ~ px 1 /\ px 10 /\ pct 30 /\ px 2 }
 
     describe "box-shadow property" do
 

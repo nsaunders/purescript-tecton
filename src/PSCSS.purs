@@ -12,16 +12,17 @@ import Data.FoldableWithIndex (class FoldableWithIndex, foldlWithIndex)
 import Data.Int as Int
 import Data.List (List(Nil), (:))
 import Data.Maybe (Maybe(..))
-import Data.NonEmpty (NonEmpty)
+import Data.NonEmpty (NonEmpty, (:|))
 import Data.NonEmpty as NE
 import Data.Number.Format as Number
 import Data.Ord (abs)
+import Data.String (joinWith)
 import Data.String as String
 import Data.String.Regex (regex)
 import Data.String.Regex as Regex
 import Data.String.Regex.Flags (global)
 import Data.Symbol (class IsSymbol, reflectSymbol)
-import Data.Tuple (curry)
+import Data.Tuple (Tuple(..), curry, fst, snd)
 import Data.Tuple.Nested (type (/\), (/\))
 import Prim.Row as Row
 import Prim.RowList (class RowToList, RowList)
@@ -463,6 +464,15 @@ instance ToNumber Int where
 instance ToNumber Number where
   toNumber = identity
 
+newtype Pair a b = Pair (Tuple a b)
+
+infixr 7 type Pair as ~
+
+pair :: forall a b. a -> b -> Pair a b
+pair a b = Pair $ Tuple a b
+
+infixr 7 pair as ~
+
 data Measure (tag :: Type)
   = MeasureVal Val
   | Measure Number String
@@ -621,7 +631,7 @@ add =
       a /\ b ->
         MeasureVal $ calc Add a b
 
-infixl 7 add as @+@
+infixl 8 add as @+@
 
 subtract
   :: forall a b c
@@ -637,7 +647,7 @@ subtract =
       a /\ b ->
         MeasureVal $ calc Subtract a b
 
-infixl 7 subtract as @-@
+infixl 8 subtract as @-@
 
 multiply
   :: forall a b
@@ -655,7 +665,7 @@ multiply =
       a /\ b ->
         MeasureVal $ calc Multiply a b
 
-infixl 8 multiply as @*
+infixl 9 multiply as @*
 
 multiplyFlipped
   :: forall a b
@@ -673,7 +683,7 @@ multiplyFlipped =
       b /\ a ->
         MeasureVal $ calc Multiply b a
 
-infixl 8 multiplyFlipped as *@
+infixl 9 multiplyFlipped as *@
 
 divide
   :: forall a b
@@ -691,7 +701,7 @@ divide =
       a /\ b ->
         MeasureVal $ calc Divide a b
 
-infixl 8 divide as @/
+infixl 9 divide as @/
 
 -- https://www.w3.org/TR/css-values-3/#url-value
 
@@ -1766,22 +1776,9 @@ instance propertyBackgroundOriginBackgroundClip
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-size
 
-newtype BgSize = BgSize Val
-
-derive newtype instance ToVal BgSize
-
-class (ToVal x, ToVal y) <= BgSize2 (x :: Type) (y :: Type)
-instance LengthPercentageTag x => BgSize2 Auto Auto
-instance LengthPercentageTag x => BgSize2 (Measure x) Auto
-instance LengthPercentageTag y => BgSize2 Auto (Measure y)
-instance
-  ( LengthPercentageTag x
-  , LengthPercentageTag y
-  )
-  => BgSize2 (Measure x) (Measure y)
-
-bgSize2 :: forall x y. BgSize2 x y => x -> y -> BgSize
-bgSize2 x y = BgSize $ val x <> val " " <> val y
+class ToVal a <= ValBackgroundSize1d (a :: Type)
+instance ValBackgroundSize1d Auto
+instance LengthPercentageTag a => ValBackgroundSize1d (Measure a)
 
 class ValBackgroundSize (a :: Type) where
   valBackgroundSize :: a -> Val
@@ -1796,19 +1793,21 @@ instance valBackgroundSizeMultiple
     <> Val (\{ separator } -> "," <> separator)
     <> valBackgroundSize b
 
-instance LengthPercentageTag a => ValBackgroundSize (Measure a) where
+else instance valBackgroundSizeCover :: ValBackgroundSize Cover where
   valBackgroundSize = val
 
-instance ValBackgroundSize Auto where
+else instance valBackgroundSizeContain :: ValBackgroundSize Contain where
   valBackgroundSize = val
 
-instance ValBackgroundSize Cover where
-  valBackgroundSize = val
+else instance valBackgroundSize2d
+  :: ( ValBackgroundSize1d x
+     , ValBackgroundSize1d y
+     )
+  => ValBackgroundSize (x ~ y) where
+  valBackgroundSize (Pair (x /\ y)) = val x <> val " " <> val y
 
-instance ValBackgroundSize Contain where
-  valBackgroundSize = val
-
-instance ValBackgroundSize BgSize where
+else instance valBackgroundSizeVal1d
+  :: ValBackgroundSize1d a => ValBackgroundSize a where
   valBackgroundSize = val
 
 instance propertyBackgroundSizeCommonKeyword
@@ -2104,8 +2103,8 @@ instance valBorderTopLeftRadius2
   :: ( LengthPercentageTag a
      , LengthPercentageTag b
      )
-  => ValBorderTopLeftRadius (Measure a /\ Measure b) where
-  valBorderTopLeftRadius (a /\ b) = val a <> val " " <> val b
+  => ValBorderTopLeftRadius (Measure a ~ Measure b) where
+  valBorderTopLeftRadius (Pair (a /\ b)) = val a <> val " " <> val b
 
 instance valBorderTopLeftRadius1
   :: LengthPercentageTag a
@@ -2144,20 +2143,78 @@ instance propertyBorderBottomLeftRadiusBorderTopLeftRadius
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-radius
 
+class ValBorderRadiusXY (a :: Type) where
+  valBorderRadiusXY :: a -> Val /\ Val
+
+instance valBorderRadiusXYLengthPercentage
+  :: LengthPercentageTag a
+  => ValBorderRadiusXY (Measure a) where
+  valBorderRadiusXY x = val x /\ val x
+
+instance valBorderRadiusXYPair
+  :: ( LengthPercentageTag x
+     , LengthPercentageTag y
+     )
+  => ValBorderRadiusXY (Measure x ~ Measure y) where
+  valBorderRadiusXY (Pair (x /\ y)) = val x /\ val y
+
+mkBorderRadius :: NonEmpty Array (Val /\ Val) -> Val
+mkBorderRadius pairs =
+  Val \c@{ separator } ->
+    let
+      xs = joinWith " " $ runVal c <<< fst <$> Array.fromFoldable pairs
+      ys = joinWith " " $ runVal c <<< snd <$> Array.fromFoldable pairs
+    in
+      if xs == ys
+        then xs
+        else xs <> separator <> "/" <> separator <> ys
+
 class ValBorderRadius (a :: Type) where
   valBorderRadius :: a -> Val
 
-instance valBorderRadius2
-  :: ( LengthPercentageTag a
-     , LengthPercentageTag b
+instance valBorderRadius4
+  :: ( ValBorderRadiusXY a
+     , ValBorderRadiusXY b
+     , ValBorderRadiusXY c
+     , ValBorderRadiusXY d
      )
-  => ValBorderRadius (Measure a /\ Measure b) where
-  valBorderRadius (a /\ b) = val a <> val "/" <> val b
+  => ValBorderRadius (a /\ b /\ c /\ d) where
+  valBorderRadius (a /\ b /\ c /\ d) =
+    mkBorderRadius
+      ( valBorderRadiusXY a :|
+      [ valBorderRadiusXY b
+      , valBorderRadiusXY c
+      , valBorderRadiusXY d
+      ])
 
-instance valBorderRadius1
-  :: LengthPercentageTag a
-  => ValBorderRadius (Measure a) where
-  valBorderRadius = val
+else instance valBorderRadius3
+  :: ( ValBorderRadiusXY a
+     , ValBorderRadiusXY b
+     , ValBorderRadiusXY c
+     )
+  => ValBorderRadius (a /\ b /\ c) where
+  valBorderRadius (a /\ b /\ c) =
+    mkBorderRadius
+      ( valBorderRadiusXY a :|
+      [ valBorderRadiusXY b
+      , valBorderRadiusXY c
+      ])
+
+else instance valBorderRadius2
+  :: ( ValBorderRadiusXY a
+     , ValBorderRadiusXY b
+     )
+  => ValBorderRadius (a /\ b) where
+  valBorderRadius (a /\ b) =
+    mkBorderRadius
+      ( valBorderRadiusXY a :|
+      [ valBorderRadiusXY b
+      ])
+
+else instance valBorderRadius1
+  :: ValBorderRadiusXY a
+  => ValBorderRadius a where
+  valBorderRadius = mkBorderRadius <<< NE.singleton <<< valBorderRadiusXY
 
 instance propertyBorderRadiusCommonKeyword
   :: Property "borderRadius" CommonKeyword where
