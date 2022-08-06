@@ -164,6 +164,18 @@ spec =
         `isRenderedFrom`
         { backgroundPosition: left ~ top } 
 
+      "background-position:10px 50%"
+        `isRenderedFrom`
+        { backgroundPosition: px 10 ~ pct 50 }
+
+      "background-position:50% 10px"
+        `isRenderedFrom`
+        { backgroundPosition: pct 50 ~ px 10 }
+
+      "background-position:top,left top,50px,center"
+        `isRenderedFrom`
+        { backgroundPosition: top /\ left ~ top /\ px 50 /\ center }
+
     describe "background-clip property" do
 
       "background-clip:inherit" `isRenderedFrom` { backgroundClip: inherit }
