@@ -6,7 +6,7 @@ import Prelude hiding (bottom, top)
 
 import Color (black, rgb, rgba, white)
 import Data.Tuple.Nested ((/\))
-import PSCSS (at, at2, auto, borderBox, bottom, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local, medium, nil, noRepeat, none, outset, paddingBox, pct, px, radialGradient1, repeat, repeat2, repeatX, repeatY, ridge, right, round, scroll, shadow, shadow', solid, space, stop, thick, thin, top, transparent, unset, url, (~))
+import PSCSS (at, at2, auto, borderBox, bottom, center, circle, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local, medium, nil, noRepeat, none, outset, paddingBox, pct, px, radialGradient, repeat, repeat2, repeatX, repeatY, ridge, right, round, scroll, shadow, shadow', solid, space, stop, thick, thin, top, transparent, unset, url, (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -54,10 +54,10 @@ spec =
         `isRenderedFrom`
         { backgroundImage: url "tl.png" /\ url "tr.png" }
 
-      "background-image:radial-gradient(at right bottom,transparent,#ffffff)"
+      "background-image:radial-gradient(circle at center,transparent,#ffffff)"
         `isRenderedFrom`
         { backgroundImage:
-            radialGradient1 (at2 right bottom) # stop transparent # stop white
+            radialGradient circle center # stop transparent # stop white
         }
 
       "background-image:none,url(\"cat.jpg\")"

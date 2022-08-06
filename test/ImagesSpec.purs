@@ -4,8 +4,8 @@ module Test.ImagesSpec where
 
 import Prelude hiding (top)
 
-import Color (black, rgb, white)
-import PSCSS (at, at2, circle, closestSide, currentColor, deg, ellipse, farthestCorner, hint, linearGradient, linearGradient1, pct, px, radialGradient, radialGradient1, radialGradient2, radialGradient3, radialGradient4, repeating, right, stop, stop2, to, to2, top, transparent)
+import Color (black, rgb)
+import PSCSS (bottom, center, circle, closestSide, currentColor, deg, ellipse, farthestCorner, hint, left, linearGradient, nil, pct, px, radialGradient, repeating, right, stop, stop2, top, transparent, (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -15,141 +15,83 @@ spec =
 
     describe "linear-gradient()" do
 
-      "linear-gradient(#0000ff,#008000)"
+      "linear-gradient(0,#0000ff,#008000)"
         `isRenderedFrom` do
-        linearGradient # stop (rgb 0 0 255) # stop (rgb 0 128 0)
+        linearGradient nil # stop (rgb 0 0 255) # stop (rgb 0 128 0)
 
       "linear-gradient(45deg,#0000ff,#008000)"
         `isRenderedFrom` do
-        linearGradient1 (deg 45) # stop (rgb 0 0 255) # stop (rgb 0 128 0)
+        linearGradient (deg 45) # stop (rgb 0 0 255) # stop (rgb 0 128 0)
 
-      "linear-gradient(to top,#0000ff,#008000 40%,#ff0000)"
+      "linear-gradient(90deg,#0000ff,#008000 40%,#ff0000)"
         `isRenderedFrom` do
-        linearGradient1 (to top)
+        linearGradient (deg 90)
           # stop (rgb 0 0 255)
           # stop2 (rgb 0 128 0) (pct 40)
           # stop (rgb 255 0 0)
 
-      "linear-gradient(to top right,currentColor,10%,transparent)"
+      "linear-gradient(45deg,currentColor,10%,transparent)"
         `isRenderedFrom` do
-        linearGradient1 (to2 top right)
+        linearGradient (deg 45)
           # stop currentColor
           # hint (pct 10)
           # stop transparent
 
     describe "radial-gradient()" do
 
-      "radial-gradient(#000080,30px,#800000)"
+      "radial-gradient(circle at center,#000080,30px,#800000)"
         `isRenderedFrom` do
-        radialGradient # stop (rgb 0 0 128) # hint (px 30) # stop (rgb 128 0 0)
+        radialGradient circle center
+          # stop (rgb 0 0 128)
+          # hint (px 30)
+          # stop (rgb 128 0 0)
 
-      "radial-gradient(circle,#000000,#ffffff)"
+      "radial-gradient(ellipse at center,#ff9900,#0099ff)"
         `isRenderedFrom` do
-        radialGradient1 circle # stop black # stop white
+        radialGradient ellipse center
+          # stop (rgb 255 153 0)
+          # stop (rgb 0 153 255)
 
-      "radial-gradient(ellipse,#ff9900,#0099ff)"
+      "radial-gradient(circle farthest-corner at center,#ffff00,#000000)"
         `isRenderedFrom` do
-        radialGradient1 ellipse # stop (rgb 255 153 0) # stop (rgb 0 153 255)
+        radialGradient (circle ~ farthestCorner) center
+          # stop (rgb 255 255 0)
+          # stop black
 
-      "radial-gradient(farthest-corner,#ffff00,#000000)"
+      "radial-gradient(ellipse farthest-corner at left top,#808000,#800080)"
         `isRenderedFrom` do
-        radialGradient1 farthestCorner # stop (rgb 255 255 0) # stop black
-
-      "radial-gradient(at top,#99ff00,#ffff00)"
-        `isRenderedFrom` do
-        radialGradient1 (at top) # stop (rgb 153 255 0) # stop (rgb 255 255 0)
-
-      "radial-gradient(10px,#009900,#009999)"
-        `isRenderedFrom` do
-        radialGradient1 (px 10) # stop (rgb 0 153 0) # stop (rgb 0 153 153)
-
-      "radial-gradient(circle farthest-corner,#000000,#ffffff)"
-        `isRenderedFrom` do
-        radialGradient2 circle farthestCorner # stop black # stop white
-
-      "radial-gradient(ellipse farthest-corner,#808000,#800080)"
-        `isRenderedFrom` do
-        radialGradient2 ellipse farthestCorner
+        radialGradient (ellipse ~ farthestCorner) (left ~ top)
           # stop (rgb 128 128 0)
           # stop (rgb 128 0 128)
 
-      "radial-gradient(circle at top,#ff0000,#0000ff)"
+      "radial-gradient(10px at left,#009900,#009999)"
         `isRenderedFrom` do
-        radialGradient2 circle (at top)
-          # stop (rgb 255 0 0)
-          # stop (rgb 0 0 255)
+        radialGradient (px 10) left # stop (rgb 0 153 0) # stop (rgb 0 153 153)
 
-      "radial-gradient(ellipse at top,transparent,currentColor)"
+      "radial-gradient(10px 20px at right bottom,#000000,transparent)"
         `isRenderedFrom` do
-        radialGradient2 ellipse (at top)
-          # stop transparent
-          # stop currentColor
-
-      "radial-gradient(circle 10px,#ffff00,#ff00ff)"
-        `isRenderedFrom` do
-        radialGradient2 circle (px 10)
-          # stop (rgb 255 255 0)
-          # stop (rgb 255 0 255)
-
-      "radial-gradient(10% 20px,#000000,transparent)"
-        `isRenderedFrom` do
-        radialGradient2 (pct 10) (px 20) # stop black # stop transparent
-
-      "radial-gradient(circle farthest-corner at top,#000000,#ffffff)"
-        `isRenderedFrom` do
-        radialGradient3 circle farthestCorner (at top)
+        radialGradient (px 10 ~ px 20) (right ~ bottom)
           # stop black
-          # stop white
-
-      "radial-gradient(ellipse farthest-corner at top,transparent,currentColor)"
-        `isRenderedFrom` do
-        radialGradient3 ellipse farthestCorner (at top)
           # stop transparent
-          # stop currentColor
-
-      "radial-gradient(circle 10px at top,transparent,#ffff00)"
-        `isRenderedFrom` do
-        radialGradient3 circle (px 10) (at top)
-          # stop transparent
-          # stop (rgb 255 255 0)
-
-      "radial-gradient(ellipse 10px 20%,#008000,#ffffff)"
-        `isRenderedFrom` do
-        radialGradient3 ellipse (px 10) (pct 20)
-          # stop (rgb 0 128 0)
-          # stop white
 
       "radial-gradient(10% 20% at top,#ff0000,#0000ff)"
         `isRenderedFrom` do
-        radialGradient3 (pct 10) (pct 20) (at top)
+        radialGradient (pct 10 ~ pct 20) top
           # stop (rgb 255 0 0)
           # stop (rgb 0 0 255)
 
-      "radial-gradient(ellipse 5% 10px at top,#000000,#ffffff)"
-        `isRenderedFrom` do
-        radialGradient4 ellipse (pct 5) (px 10) (at top)
-          # stop black
-          # stop white
-
     describe "repeating-linear-gradient()" do
  
-      "repeating-linear-gradient(#ff0000,#0000ff 20px,#ff0000 40px)"
+      "repeating-linear-gradient(0,#ff0000,#0000ff 20px,#ff0000 40px)"
         `isRenderedFrom` do
-        repeating linearGradient
+        (repeating $ linearGradient nil)
           # stop (rgb 255 0 0)
           # stop2 (rgb 0 0 255) (px 20)
           # stop2 (rgb 255 0 0) (px 40)
 
-      "repeating-linear-gradient(#ff0000,#0000ff 20px,#ff0000 40px)"
+      "repeating-linear-gradient(90deg,#ff0000,#0000ff 20px,#ff0000 40px)"
         `isRenderedFrom` do
-        repeating linearGradient
-          # stop (rgb 255 0 0)
-          # stop2 (rgb 0 0 255) (px 20)
-          # stop2 (rgb 255 0 0) (px 40)
-
-      "repeating-linear-gradient(to right,#ff0000,#0000ff 20px,#ff0000 40px)"
-        `isRenderedFrom` do
-        (repeating $ linearGradient1 $ to right)
+        (repeating $ linearGradient $ deg 90)
           # stop (rgb 255 0 0)
           # stop2 (rgb 0 0 255) (px 20)
           # stop2 (rgb 255 0 0) (px 40)
@@ -158,7 +100,7 @@ spec =
 
       "repeating-radial-gradient(circle closest-side at 20px 30px,#ff0000,#ffff00,#00ff00 100%,#ffff00 150%,#ff0000 200%)"
         `isRenderedFrom` do
-        (repeating $ radialGradient3 circle closestSide $ at2 (px 20) (px 30))
+        (repeating $ radialGradient (circle ~ closestSide) (px 20 ~ px 30))
             # stop (rgb 255 0 0)
             # stop (rgb 255 255 0)
             # stop2 (rgb 0 255 0) (pct 100)

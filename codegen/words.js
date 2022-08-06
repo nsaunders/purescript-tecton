@@ -224,6 +224,11 @@ const code = [
     attribute: true
   },
   {
+    typeName: "Ellipse",
+    varName: "ellipse",
+    value: "ellipse",
+  },
+  {
     typeName: "Enctype",
     varName: "enctype",
     value: "enctype",

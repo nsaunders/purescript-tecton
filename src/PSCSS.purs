@@ -22,7 +22,7 @@ import Data.String.Regex (regex)
 import Data.String.Regex as Regex
 import Data.String.Regex.Flags (global)
 import Data.Symbol (class IsSymbol, reflectSymbol)
-import Data.Tuple (Tuple(..), curry, fst, snd)
+import Data.Tuple (curry, fst, snd)
 import Data.Tuple.Nested (type (/\), (/\))
 import Prim.Row as Row
 import Prim.RowList (class RowToList, RowList)
@@ -464,14 +464,11 @@ instance ToNumber Int where
 instance ToNumber Number where
   toNumber = identity
 
-newtype Pair a b = Pair (Tuple a b)
+data Pair a b = Pair a b
 
 infixr 7 type Pair as ~
 
-pair :: forall a b. a -> b -> Pair a b
-pair a b = Pair $ Tuple a b
-
-infixr 7 pair as ~
+infixr 7 Pair as ~
 
 data Measure (tag :: Type)
   = MeasureVal Val
@@ -753,6 +750,46 @@ instance
 
 at2 :: forall x y. At2 x y => x -> y -> Position
 at2 x y = Position $ val x <> val " " <> val y
+
+class ValPosition (a :: Type) where
+  valPosition :: a -> Val
+
+instance ValPosition Left where
+  valPosition = val
+
+instance ValPosition Center where
+  valPosition = val
+
+instance ValPosition Right where
+  valPosition = val
+
+instance ValPosition Top where
+  valPosition = val
+
+instance ValPosition Bottom where
+  valPosition = val
+
+instance LengthPercentageTag a => ValPosition (Measure a) where
+  valPosition = val
+
+class ToVal a <= ValPositionX (a :: Type)
+instance ValPositionX Left
+instance ValPositionX Center
+instance ValPositionX Right
+instance LengthPercentageTag a => ValPositionX (Measure a)
+
+class ToVal a <= ValPositionY (a :: Type)
+instance ValPositionY Top
+instance ValPositionY Center
+instance ValPositionY Bottom
+instance LengthPercentageTag a => ValPositionY (Measure a)
+
+instance valPositionXY
+  :: ( ValPositionX x
+     , ValPositionY y
+     )
+  => ValPosition (x ~ y) where
+  valPosition (x ~ y) = val x <> val " " <> val y
 
 --------------------------------------------------------------------------------
 
@@ -1804,7 +1841,7 @@ else instance valBackgroundSize2d
      , ValBackgroundSize1d y
      )
   => ValBackgroundSize (x ~ y) where
-  valBackgroundSize (Pair (x /\ y)) = val x <> val " " <> val y
+  valBackgroundSize (x ~ y) = val x <> val " " <> val y
 
 else instance valBackgroundSizeVal1d
   :: ValBackgroundSize1d a => ValBackgroundSize a where
@@ -2104,7 +2141,7 @@ instance valBorderTopLeftRadius2
      , LengthPercentageTag b
      )
   => ValBorderTopLeftRadius (Measure a ~ Measure b) where
-  valBorderTopLeftRadius (Pair (a /\ b)) = val a <> val " " <> val b
+  valBorderTopLeftRadius (a ~ b) = val a <> val " " <> val b
 
 instance valBorderTopLeftRadius1
   :: LengthPercentageTag a
@@ -2156,7 +2193,7 @@ instance valBorderRadiusXYPair
      , LengthPercentageTag y
      )
   => ValBorderRadiusXY (Measure x ~ Measure y) where
-  valBorderRadiusXY (Pair (x /\ y)) = val x /\ val y
+  valBorderRadiusXY (x ~ y) = val x /\ val y
 
 mkBorderRadius :: NonEmpty Array (Val /\ Val) -> Val
 mkBorderRadius pairs =
@@ -2658,43 +2695,10 @@ hint
   -> Gradient repeating ColorStop TransitionHint
 hint = addGradientDetail
 
-newtype GradientAngle = GradientAngle Val
-
-derive newtype instance ToVal GradientAngle
-
-class ToVal a <= To1 (a :: Type)
-instance To1 Top
-instance To1 Right
-instance To1 Bottom
-instance To1 Left
-
-to :: forall a. To1 a => a -> GradientAngle
-to = GradientAngle <<< (val "to " <> _) <<< val
-
-class (ToVal y, ToVal x) <= To2 (y :: Type) (x :: Type)
-instance To2 Top Left
-instance To2 Top Right
-instance To2 Bottom Left
-instance To2 Bottom Right
-
-to2 :: forall y x. To2 y x => y -> x -> GradientAngle
-to2 y x = GradientAngle $ val "to " <> val y <> val " " <> val x
-
-class ToVal a <= IsGradientAngle (a :: Type)
-instance IsGradientAngle GradientAngle
-instance AngleTag a => IsGradientAngle (Measure a)
-
 -- https://www.w3.org/TR/css-images-3/#linear-gradient-syntax
 
-linearGradient :: Gradient Unit Unit Unit
-linearGradient = mkGradient "linear"
-
-linearGradient1
-  :: forall angle
-   . IsGradientAngle angle
-  => angle
-  -> Gradient Unit Unit Unit
-linearGradient1 = flip addGradientDetail linearGradient
+linearGradient :: forall a. AngleTag a => Measure a -> Gradient Unit Unit Unit
+linearGradient = flip addGradientDetail $ mkGradient "linear"
 
 -- https://www.w3.org/TR/css-images-3/#radial-gradient-syntax
 
@@ -2714,154 +2718,44 @@ farthestCorner = Extent "farthest-corner"
 farthestSide :: Extent
 farthestSide = Extent "farthest-side"
 
-data Ellipse = Ellipse
-instance ToVal Ellipse where val _ = val "ellipse"
-ellipse = Ellipse :: Ellipse
+class ValRadialGradientDimensions (a :: Type) where
+  valRadialGradientDimensions :: a -> Val
 
-radialGradient :: Gradient Unit Unit Unit
-radialGradient = mkGradient "radial"
-  
-class RadialGradient1 (a :: Type) where
-  radialGradient1 :: a -> Gradient Unit Unit Unit
+instance ValRadialGradientDimensions Circle where
+  valRadialGradientDimensions = val
 
-instance RadialGradient1 Circle where
-  radialGradient1 = flip addGradientDetail radialGradient
+instance ValRadialGradientDimensions Ellipse where
+  valRadialGradientDimensions = val
 
-instance RadialGradient1 Ellipse where
-  radialGradient1 = flip addGradientDetail radialGradient
+instance ValRadialGradientDimensions (Circle ~ Extent) where
+  valRadialGradientDimensions (cir ~ ext) = val cir <> val " " <> val ext
 
-instance RadialGradient1 Extent where
-  radialGradient1 = flip addGradientDetail radialGradient
+instance ValRadialGradientDimensions (Ellipse ~ Extent) where
+  valRadialGradientDimensions (ell ~ ext) = val ell <> val " " <> val ext
 
-instance RadialGradient1 Position where
-  radialGradient1 =
-    flip addGradientDetail radialGradient <<< (val "at " <> _) <<< val
+instance LengthTag a => ValRadialGradientDimensions (Measure a) where
+  valRadialGradientDimensions = val
 
-instance LengthTag length => RadialGradient1 (Measure length) where
-  radialGradient1 = flip addGradientDetail radialGradient
+instance valRadialGradientDimensionsPair
+  :: ( LengthPercentageTag x
+     , LengthPercentageTag y
+     )
+  => ValRadialGradientDimensions (Measure x ~ Measure y) where
+  valRadialGradientDimensions (x ~ y) = val x <> val " " <> val y
 
-class RadialGradient2 (a :: Type) (b :: Type) where
-  radialGradient2 :: a -> b -> Gradient Unit Unit Unit
-
-instance RadialGradient2 Circle Extent where
-  radialGradient2 endingShape extent =
-    radialGradient
-      # addGradientDetail (val endingShape <> val " " <> val extent)
-
-instance RadialGradient2 Ellipse Extent where
-  radialGradient2 endingShape extent =
-    radialGradient
-      # addGradientDetail (val endingShape <> val " " <> val extent)
-
-instance RadialGradient2 Circle Position where
-  radialGradient2 endingShape position =
-    radialGradient
-      # addGradientDetail (val endingShape <> val " at " <> val position)
-
-instance RadialGradient2 Ellipse Position where
-  radialGradient2 endingShape position =
-    radialGradient
-      # addGradientDetail (val endingShape <> val " at " <> val position)
-
-instance LengthTag length => RadialGradient2 Circle (Measure length) where
-  radialGradient2 endingShape radius =
-    radialGradient
-      # addGradientDetail (val endingShape <> val " " <> val radius)
-
-instance
-  ( LengthPercentageTag lengthPercentage1
-  , LengthPercentageTag lengthPercentage2
-  ) => RadialGradient2 (Measure lengthPercentage1) (Measure lengthPercentage2) where
-  radialGradient2 x y =
-    radialGradient # addGradientDetail (val x <> val " " <> val y)
-
-class RadialGradient3 (a :: Type) (b :: Type) (c :: Type) where
-  radialGradient3 :: a -> b -> c -> Gradient Unit Unit Unit
-
-instance RadialGradient3 Circle Extent Position where
-  radialGradient3 endingShape extent position =
-    radialGradient
-      # addGradientDetail
-        ( joinVals
-            (val " ")
-            [ val endingShape
-            , val extent
-            , val "at"
-            , val position
-            ]
-        )
-
-instance RadialGradient3 Ellipse Extent Position where
-  radialGradient3 endingShape extent position =
-    radialGradient
-      # addGradientDetail
-        ( joinVals
-            (val " ")
-            [ val endingShape
-            , val extent
-            , val "at"
-            , val position
-            ]
-        )
-
-instance LengthTag length => RadialGradient3 Circle (Measure length) Position where
-  radialGradient3 endingShape radius position =
-    radialGradient
-      # addGradientDetail
-        ( joinVals
-            (val " ")
-            [ val endingShape
-            , val radius
-            , val "at"
-            , val position
-            ]
-        )
-
-instance
-  ( LengthPercentageTag lengthPercentage1
-  , LengthPercentageTag lengthPercentage2
-  )
-  => RadialGradient3 (Measure lengthPercentage1) (Measure lengthPercentage2) Position where
-  radialGradient3 x y position =
-    radialGradient
-      # addGradientDetail
-        ( joinVals
-            (val " ")
-            [ val x
-            , val y
-            , val "at"
-            , val position
-            ]
-        )
-
-instance
-  ( LengthPercentageTag lengthPercentage1
-  , LengthPercentageTag lengthPercentage2
-  ) => RadialGradient3 Ellipse (Measure lengthPercentage1) (Measure lengthPercentage2) where
-  radialGradient3 endingShape x y =
-    radialGradient
-      # addGradientDetail (joinVals (val " ") [val endingShape, val x, val y])
-
-radialGradient4
-  :: forall x y
-   . LengthPercentageTag x
-  => LengthPercentageTag y
-  => Ellipse
-  -> (Measure x)
-  -> (Measure y)
-  -> Position
+radialGradient
+  :: forall dimensions position
+   . ValRadialGradientDimensions dimensions
+  => ValPosition position
+  => dimensions
+  -> position
   -> Gradient Unit Unit Unit
-radialGradient4 endingShape x y position =
-  radialGradient
+radialGradient dimensions position =
+  mkGradient "radial"
     # addGradientDetail
-      ( joinVals
-          (val " ")
-          [ val endingShape
-          , val x
-          , val y
-          , val "at"
-          , val position
-          ]
+      ( valRadialGradientDimensions dimensions
+        <> val " at "
+        <> valPosition position
       )
 
 --------------------------------------------------------------------------------
@@ -3495,6 +3389,10 @@ data Draggable = Draggable
 instance ToVal Draggable where val _ = val "draggable"
 draggable = Draggable :: Draggable
 instance IsAttribute Draggable
+
+data Ellipse = Ellipse
+instance ToVal Ellipse where val _ = val "ellipse"
+ellipse = Ellipse :: Ellipse
 
 data Enctype = Enctype
 instance ToVal Enctype where val _ = val "enctype"
