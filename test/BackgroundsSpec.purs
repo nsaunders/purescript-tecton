@@ -6,7 +6,7 @@ import Prelude hiding (bottom, top)
 
 import Color (black, rgb, rgba, white)
 import Data.Tuple.Nested ((/\))
-import PSCSS (at, at2, auto, borderBox, bottom, center, circle, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local, medium, nil, noRepeat, none, outset, paddingBox, pct, px, radialGradient, repeat, repeat2, repeatX, repeatY, ridge, right, round, scroll, shadow, shadow', solid, space, stop, thick, thin, top, transparent, unset, url, (~))
+import PSCSS (auto, borderBox, bottom, center, circle, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local, medium, nil, noRepeat, none, outset, paddingBox, pct, px, radialGradient, repeat, repeat2, repeatX, repeatY, ridge, right, round, scroll, shadow, shadow', solid, space, stop, thick, thin, top, transparent, unset, url, (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -146,23 +146,23 @@ spec =
 
       "background-position:unset" `isRenderedFrom` { backgroundPosition: unset }
        
-      "background-position:top" `isRenderedFrom` { backgroundPosition: at top } 
+      "background-position:top" `isRenderedFrom` { backgroundPosition: top } 
 
       "background-position:right"
         `isRenderedFrom`
-        { backgroundPosition: at right } 
+        { backgroundPosition: right } 
 
       "background-position:bottom"
         `isRenderedFrom`
-        { backgroundPosition: at bottom } 
+        { backgroundPosition: bottom } 
 
       "background-position:left"
         `isRenderedFrom`
-        { backgroundPosition: at left } 
+        { backgroundPosition: left } 
 
       "background-position:left top"
         `isRenderedFrom`
-        { backgroundPosition: at2 left top } 
+        { backgroundPosition: left ~ top } 
 
     describe "background-clip property" do
 

@@ -1754,9 +1754,10 @@ instance valBackgroundPositionMultiple
     <> Val (\{ separator } -> "," <> separator)
     <> valBackgroundPosition b
 
-else instance valBackgroundPositionPosition
-  :: ValBackgroundPosition Position where
-  valBackgroundPosition = val
+else instance valBackgroundPositionValPosition
+  :: ValPosition a
+  => ValBackgroundPosition a where
+  valBackgroundPosition = valPosition
 
 instance propertyBackgroundPositionCommonKeyword
   :: Property "backgroundPosition" CommonKeyword where
