@@ -758,20 +758,21 @@ spec =
 
       "box-shadow:unset" `isRenderedFrom` { boxShadow: unset }
 
-      "box-shadow:4px 8px" `isRenderedFrom` { boxShadow: shadow' (px 4) (px 8) }
+      "box-shadow:4px 4px" `isRenderedFrom` { boxShadow: shadow' (px 4) }
+
+      "box-shadow:4px 8px" `isRenderedFrom` { boxShadow: shadow' (px 4 ~ px 8) }
 
       "box-shadow:64px 64px 12px 40px #000000"
         `isRenderedFrom`
         { boxShadow:
-            shadow (px 64) (px 64) { blur: px 12, spread: px 40, color: black }
+            shadow (px 64) { blur: px 12, spread: px 40, color: black }
         }
 
       "box-shadow:8px 16px 0 8px #00000066 inset"
         `isRenderedFrom`
         { boxShadow:
             shadow
-              (px 8)
-              (px 16)
+              (px 8 ~ px 16)
               { blur: nil
               , spread: px 8
               , color: rgba 0 0 0 0.4
@@ -782,9 +783,8 @@ spec =
       "box-shadow:5px 5px 10px #000000 inset,-5px -5px 10px #0000ff inset"
         `isRenderedFrom`
         { boxShadow:
-            shadow (px 5) (px 5) { blur: px 10, color: black, inset: true }
+            shadow (px 5) { blur: px 10, color: black, inset: true }
             /\ shadow
-                 (px (-5))
                  (px (-5))
                  { blur: px 10
                  , color: rgb 0 0 255

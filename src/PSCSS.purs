@@ -2228,6 +2228,19 @@ newtype Shadow = Shadow Val
 
 derive newtype instance ToVal Shadow
 
+class ValShadowOffset (a :: Type) where
+  valShadowOffset :: a -> Val
+
+instance valShadowOffsetPair
+  :: ( LengthTag x
+     , LengthTag y
+     )
+  => ValShadowOffset (Measure x ~ Measure y) where
+  valShadowOffset (x ~ y) = val x <> val " " <> val y
+
+instance LengthTag a => ValShadowOffset (Measure a) where
+  valShadowOffset xy = val xy <> val " " <> val xy
+
 type AllShadowDetails =
   ( blur :: Maybe Val
   , color :: Maybe Val
@@ -2254,19 +2267,17 @@ instance shadowSpreadLength
   convertOption _ _ = pure <<< val
 
 shadow
-  :: forall xo yo providedShadowDetails
-   . LengthTag xo
-  => LengthTag yo
+  :: forall offset providedShadowDetails
+   . ValShadowOffset offset
   => ConvertOptionsWithDefaults
        Shadow'
        { | AllShadowDetails }
        { | providedShadowDetails }
        { | AllShadowDetails }
-  => Measure xo
-  -> Measure yo
+  => offset
   -> { | providedShadowDetails }
   -> Shadow
-shadow xo yo providedShadowDetails =
+shadow offset providedShadowDetails =
   let
     { blur, color, inset, spread } =
       convertOptionsWithDefaults
@@ -2281,22 +2292,15 @@ shadow xo yo providedShadowDetails =
     Shadow $
       joinVals (val " ") $
         catMaybes
-          [ pure $ val xo
-          , pure $ val yo
+          [ pure $ valShadowOffset offset
           , blur
           , spread
           , color
           , if inset then pure (val "inset") else Nothing
           ]
 
-shadow'
-  :: forall xo yo
-   . LengthTag xo
-  => LengthTag yo
-  => Measure xo
-  -> Measure yo
-  -> Shadow
-shadow' xo yo = shadow xo yo {}
+shadow' :: forall offset. ValShadowOffset offset => offset -> Shadow
+shadow' = flip shadow {}
 
 class ValBoxShadow (a :: Type) where
   valBoxShadow :: a -> Val
