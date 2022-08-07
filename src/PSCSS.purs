@@ -1671,12 +1671,6 @@ round = RepeatStyle "round"
 noRepeat :: RepeatStyle Unit
 noRepeat = RepeatStyle "no-repeat"
 
-repeat2
-  :: RepeatStyle Unit
-  -> RepeatStyle Unit
-  -> RepeatStyle (RepeatStyle Unit)
-repeat2 (RepeatStyle a) (RepeatStyle b) = RepeatStyle $ a <> " " <> b
-
 class ValBackgroundRepeat (a :: Type) where
   valBackgroundRepeat :: a -> Val
 
@@ -1692,6 +1686,10 @@ instance valBackgroundRepeatMultiple
 
 instance ValBackgroundRepeat (RepeatStyle a) where
   valBackgroundRepeat = val
+
+instance valBackgroundRepeatXY
+  :: ValBackgroundRepeat (RepeatStyle Unit ~ RepeatStyle Unit) where
+  valBackgroundRepeat (x ~ y) = val x <> val " " <> val y
 
 instance propertyBackgroundRepeatCommonKeyword
   :: Property "backgroundRepeat" CommonKeyword where

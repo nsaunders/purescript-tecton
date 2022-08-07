@@ -6,7 +6,7 @@ import Prelude hiding (bottom, top)
 
 import Color (black, rgb, rgba, white)
 import Data.Tuple.Nested ((/\))
-import PSCSS (auto, borderBox, bottom, center, circle, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local, medium, nil, noRepeat, none, outset, paddingBox, pct, px, radialGradient, repeat, repeat2, repeatX, repeatY, ridge, right, round, scroll, shadow, shadow', solid, space, stop, thick, thin, top, transparent, unset, url, (~))
+import PSCSS (auto, borderBox, bottom, center, circle, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local, medium, nil, noRepeat, none, outset, paddingBox, pct, px, radialGradient, repeat, repeatX, repeatY, ridge, right, round, scroll, shadow, shadow', solid, space, stop, thick, thin, top, transparent, unset, url, (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -98,11 +98,11 @@ spec =
 
       "background-repeat:repeat no-repeat"
         `isRenderedFrom`
-        { backgroundRepeat: repeat2 repeat noRepeat }
+        { backgroundRepeat: repeat ~ noRepeat }
 
       "background-repeat:space round,repeat-x"
         `isRenderedFrom`
-        { backgroundRepeat: repeat2 space round /\ repeatX }
+        { backgroundRepeat: space ~ round /\ repeatX }
 
     describe "background-attachment property" do
 
