@@ -6,7 +6,7 @@ module Test.TransformsSpec where
 import Prelude hiding (top, bottom)
 
 import Data.Tuple.Nested ((/\))
-import PSCSS (at, at2, at3, bottom, center, deg, inherit, initial, left, matrix, matrix3d, none, pct, perspective, px, rad, right, rotate, rotate3d, rotateX, rotateY, rotateZ, scale, scale3d, scaleX, scaleY, scaleZ, skewX, skewY, top, translate, translate3d, translateX, translateY, translateZ, turn, unset)
+import PSCSS (bottom, center, deg, inherit, initial, left, matrix, matrix3d, none, pct, perspective, px, rad, right, rotate, rotate3d, rotateX, rotateY, rotateZ, scale, scale3d, scaleX, scaleY, scaleZ, skewX, skewY, top, translate, translate3d, translateX, translateY, translateZ, turn, unset, (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -126,92 +126,92 @@ spec =
 
       "transform-origin:unset" `isRenderedFrom` { transformOrigin: unset }
 
-      "transform-origin:left" `isRenderedFrom` { transformOrigin: at left }
+      "transform-origin:left" `isRenderedFrom` { transformOrigin: left }
 
-      "transform-origin:center" `isRenderedFrom` { transformOrigin: at center }
+      "transform-origin:center" `isRenderedFrom` { transformOrigin: center }
 
-      "transform-origin:right" `isRenderedFrom` { transformOrigin: at right }
+      "transform-origin:right" `isRenderedFrom` { transformOrigin: right }
 
-      "transform-origin:top" `isRenderedFrom` { transformOrigin: at top }
+      "transform-origin:top" `isRenderedFrom` { transformOrigin: top }
 
-      "transform-origin:bottom" `isRenderedFrom` { transformOrigin: at bottom }
+      "transform-origin:bottom" `isRenderedFrom` { transformOrigin: bottom }
 
-      "transform-origin:10px" `isRenderedFrom` { transformOrigin: at $ px 10 }
+      "transform-origin:10px" `isRenderedFrom` { transformOrigin: px 10 }
 
-      "transform-origin:10%" `isRenderedFrom` { transformOrigin: at $ pct 10 }
+      "transform-origin:10%" `isRenderedFrom` { transformOrigin: pct 10 }
 
       "transform-origin:left top"
         `isRenderedFrom`
-        { transformOrigin: at2 left top }
+        { transformOrigin: left ~ top }
 
       "transform-origin:center top"
         `isRenderedFrom`
-        { transformOrigin: at2 center top }
+        { transformOrigin: center ~ top }
 
       "transform-origin:right top"
         `isRenderedFrom`
-        { transformOrigin: at2 right top }
+        { transformOrigin: right ~ top }
 
       "transform-origin:left center"
         `isRenderedFrom`
-        { transformOrigin: at2 left center }
+        { transformOrigin: left ~ center }
 
       "transform-origin:center center"
         `isRenderedFrom`
-        { transformOrigin: at2 center center }
+        { transformOrigin: center ~ center }
 
       "transform-origin:right center"
         `isRenderedFrom`
-        { transformOrigin: at2 right center }
+        { transformOrigin: right ~ center }
 
       "transform-origin:left bottom"
         `isRenderedFrom`
-        { transformOrigin: at2 left bottom }
+        { transformOrigin: left ~ bottom }
 
       "transform-origin:center bottom"
         `isRenderedFrom`
-        { transformOrigin: at2 center bottom }
+        { transformOrigin: center ~ bottom }
 
       "transform-origin:right bottom"
         `isRenderedFrom`
-        { transformOrigin: at2 right bottom }
+        { transformOrigin: right ~ bottom }
 
       "transform-origin:10px 20%"
         `isRenderedFrom`
-        { transformOrigin: at2 (px 10) (pct 20) }
+        { transformOrigin: px 10 ~ pct 20 }
 
       "transform-origin:20% 10px"
         `isRenderedFrom`
-        { transformOrigin: at2 (pct 20) (px 10) }
+        { transformOrigin: pct 20 ~ px 10 }
 
       "transform-origin:10px top"
         `isRenderedFrom`
-        { transformOrigin: at2 (px 10) top }
+        { transformOrigin: px 10 ~ top }
 
       "transform-origin:10% bottom"
         `isRenderedFrom`
-        { transformOrigin: at2 (pct 10) bottom }
+        { transformOrigin: pct 10 ~ bottom }
 
       "transform-origin:left 10px"
         `isRenderedFrom`
-        { transformOrigin: at2 left (px 10) }
+        { transformOrigin: left ~ px 10 }
 
       "transform-origin:right 20%"
         `isRenderedFrom`
-        { transformOrigin: at2 right (pct 20) }
+        { transformOrigin: right ~ pct 20 }
 
       "transform-origin:left 20% 10px"
         `isRenderedFrom`
-        { transformOrigin: at3 left (pct 20) (px 10) }
+        { transformOrigin: left ~ pct 20 ~ px 10 }
 
       "transform-origin:10px top 20px"
         `isRenderedFrom`
-        { transformOrigin: at3 (px 10) top (px 20) }
+        { transformOrigin: px 10 ~ top ~ px 20 }
 
       "transform-origin:10px 20% 10px"
         `isRenderedFrom`
-        { transformOrigin: at3 (px 10) (pct 20) (px 10) }
+        { transformOrigin: px 10 ~ pct 20 ~ px 10 }
 
       "transform-origin:20% 10px 20px"
         `isRenderedFrom`
-        { transformOrigin: at3 (pct 20) (px 10) (px 20) }
+        { transformOrigin: pct 20 ~ px 10 ~ px 20 }

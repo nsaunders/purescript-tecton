@@ -2,7 +2,7 @@
 
 module Test.ImagesSpec where
 
-import Prelude hiding (top)
+import Prelude hiding (bottom, top)
 
 import Color (black, rgb)
 import PSCSS (bottom, center, circle, closestSide, currentColor, deg, ellipse, farthestCorner, hint, left, linearGradient, nil, pct, px, radialGradient, repeating, right, stop, stop2, top, transparent, (~))

@@ -712,45 +712,6 @@ url = URL
 
 -- https://www.w3.org/TR/css-values-4/#typedef-position
 
-newtype Position = Position Val
-
-derive newtype instance ToVal Position
-
-class ToVal a <= At1 (a :: Type)
-instance At1 Left
-instance At1 Center
-instance At1 Right
-instance At1 Top
-instance At1 Bottom
-instance LengthPercentageTag a => At1 (Measure a)
-
-at :: forall a. At1 a => a -> Position
-at = Position <<< val
-
-class (ToVal x, ToVal y) <= At2 x y
-instance At2 Left Top
-instance At2 Left Center
-instance At2 Left Bottom
-instance At2 Center Top
-instance At2 Center Center
-instance At2 Center Bottom
-instance At2 Right Top
-instance At2 Right Center
-instance At2 Right Bottom
-instance LengthPercentageTag x => At2 (Measure x) Top
-instance LengthPercentageTag x => At2 (Measure x) Center
-instance LengthPercentageTag x => At2 (Measure x) Bottom
-instance LengthPercentageTag y => At2 Left (Measure y)
-instance LengthPercentageTag y => At2 Center (Measure y)
-instance LengthPercentageTag y => At2 Right (Measure y)
-instance
-  ( LengthPercentageTag x
-  , LengthPercentageTag y
-  ) => At2 (Measure x) (Measure y)
-
-at2 :: forall x y. At2 x y => x -> y -> Position
-at2 x y = Position $ val x <> val " " <> val y
-
 class ValPosition (a :: Type) where
   valPosition :: a -> Val
 
@@ -3165,24 +3126,21 @@ else instance propertyTransformVal
 
 -- https://www.w3.org/TR/css-transforms-1/#propdef-transform-origin
 
-newtype Position3d = Position3d Val
-
-derive newtype instance ToVal Position3d
-
-at3 :: forall x y z. At2 x y => LengthTag z => x -> y -> Measure z -> Position3d
-at3 x y z = Position3d $ (val $ at2 x y) <> val " " <> val z
-
 instance propertyTransformOriginCommonKeyword
   :: Property "transformOrigin" CommonKeyword where
   pval = const val
 
-instance propertyTransformOriginPosition
-  :: Property "transformOrigin" Position where
-  pval = const val
+else instance propertyTransformOriginPosition3d
+  :: ( ValPosition (x ~ y)
+     , LengthTag z
+     )
+  => Property "transformOrigin" (x ~ y ~ Measure z) where
+  pval _ (x ~ y ~ z) = valPosition (x ~ y) <> val " " <> val z
 
-instance propertyTransformOriginPosition3d
-  :: Property "transformOrigin" Position3d where
-  pval = const val
+else instance propertyTransformOriginPosition
+  :: ValPosition xy
+  => Property "transformOrigin" xy where
+  pval = const valPosition
 
 --------------------------------------------------------------------------------
 
