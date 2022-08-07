@@ -177,6 +177,7 @@ type SupportedDeclarations' (v :: Type) =
   , textTransform :: v
   , transform :: v
   , transformOrigin :: v
+  , whiteSpace :: v
   , width :: v
   )
 
@@ -240,6 +241,7 @@ defaultDeclarations =
   , textTransform: v
   , transform: v
   , transformOrigin: v
+  , whiteSpace: v
   , width: v
   }
   where
@@ -2806,6 +2808,8 @@ fitContent a = ContentSizingValue $ fn "fit-content" [val a]
 
 --------------------------------------------------------------------------------
 
+-- https://www.w3.org/TR/css-text-4/
+
 -- https://www.w3.org/TR/css-text-4/#text-transform-property
 
 newtype TextTransform = TextTransform String
@@ -2856,6 +2860,39 @@ instance propertyTextTransformFullWidthFullSizeKana
 instance propertyTextTransformTextTransformFullWidthFullSizeKana
   :: Property "textTransform" (TextTransform /\ FullWidth /\ FullSizeKana) where
   pval _ (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+
+-- https://www.w3.org/TR/css-text-4/#propdef-white-space
+
+newtype WhiteSpace = WhiteSpace String
+
+derive newtype instance ToVal WhiteSpace
+
+pre :: WhiteSpace
+pre = WhiteSpace "pre"
+
+nowrap :: WhiteSpace
+nowrap = WhiteSpace "nowrap"
+
+preWrap :: WhiteSpace
+preWrap = WhiteSpace "pre-wrap"
+
+breakSpaces :: WhiteSpace
+breakSpaces = WhiteSpace "break-spaces"
+
+preLine :: WhiteSpace
+preLine = WhiteSpace "pre-line"
+
+instance propertyWhiteSpaceCommonKeyword
+  :: Property "whiteSpace" CommonKeyword where
+  pval = const val
+
+instance propertyWhiteSpaceNormal
+  :: Property "whiteSpace" Normal where
+  pval = const val
+
+instance propertyWhiteSpaceWhiteSpace
+  :: Property "whiteSpace" WhiteSpace where
+  pval = const val
 
 --------------------------------------------------------------------------------
 
