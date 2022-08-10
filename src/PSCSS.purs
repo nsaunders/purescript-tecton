@@ -4,14 +4,14 @@ import Prelude hiding (add)
 
 import Color (Color, cssStringHSLA, toHexString)
 import Control.Monad.Writer (Writer, execWriter, tell)
-import ConvertableOptions (class ConvertOption, class ConvertOptionsWithDefaults, convertOptionsWithDefaults)
+import ConvertableOptions (class ConvertOption, class ConvertOptionsWithDefaults, convertOption, convertOptionsWithDefaults)
 import Data.Array (catMaybes, replicate)
 import Data.Array as Array
 import Data.Either as Either
 import Data.FoldableWithIndex (class FoldableWithIndex, foldlWithIndex)
 import Data.Int as Int
 import Data.List (List(Nil), (:))
-import Data.Maybe (Maybe(..))
+import Data.Maybe (Maybe(..), fromMaybe)
 import Data.NonEmpty (NonEmpty, (:|))
 import Data.NonEmpty as NE
 import Data.Number.Format as Number
@@ -252,7 +252,10 @@ type SupportedDeclarations = SupportedDeclarations' (Maybe Val)
 class Property (p :: Symbol) (v :: Type) where
   pval :: Proxy p -> v -> Val
 
-instance Property p v => ConvertOption Declaration p v (Maybe Val) where
+instance Property p v => ConvertOption Declaration p (Maybe v) (Maybe Val) where
+  convertOption _ = map <<< pval
+
+else instance Property p v => ConvertOption Declaration p v (Maybe Val) where
   convertOption _ p = pure <<< pval p
 
 --------------------------------------------------------------------------------
@@ -872,7 +875,11 @@ type SupportedMediaFeatures = SupportedMediaFeatures' (Maybe Val)
 data MediaFeature' = MediaFeature'
 
 class ToVal v <= MediaFeature (f :: Symbol) (v :: Type)
-instance MediaFeature f v => ConvertOption MediaFeature' f v (Maybe Val) where
+
+instance MediaFeature f v => ConvertOption MediaFeature' f (Maybe v) (Maybe Val) where
+  convertOption _ _ = map val
+
+else instance MediaFeature f v => ConvertOption MediaFeature' f v (Maybe Val) where
   convertOption _ _ = pure <<< val
 
 -- https://www.w3.org/TR/mediaqueries-3/#width
@@ -2252,21 +2259,28 @@ type AllShadowDetails =
 
 data Shadow' = Shadow'
 
-instance shadowBlurLength
-  :: LengthTag a => ConvertOption Shadow' "blur" (Measure a) (Maybe Val) where
-  convertOption _ _ = pure <<< val
+instance shadowBlurLengthMaybe
+  :: LengthTag a
+  => ConvertOption Shadow' "blur" (Maybe (Measure a)) (Maybe Val) where
+  convertOption _ _ = map val
 
-instance shadowColor
-  :: IsColor a => ConvertOption Shadow' "color" a (Maybe Val) where
-  convertOption _ _ = pure <<< val
+else instance shadowColor
+  :: IsColor a
+  => ConvertOption Shadow' "color" (Maybe a) (Maybe Val) where
+  convertOption _ _ = map val
 
-instance shadowInset
-  :: ConvertOption Shadow' "inset" Boolean Boolean where
-  convertOption _ _ = identity
+else instance shadowInset
+  :: ConvertOption Shadow' "inset" (Maybe Boolean) Boolean where
+  convertOption _ _ = fromMaybe false
 
-instance shadowSpreadLength
-  :: LengthTag a => ConvertOption Shadow' "spread" (Measure a) (Maybe Val) where
-  convertOption _ _ = pure <<< val
+else instance shadowSpreadLength
+  :: LengthTag a => ConvertOption Shadow' "spread" (Maybe (Measure a)) (Maybe Val) where
+  convertOption _ _ = map val
+
+else instance shadowNonMaybe
+  :: ConvertOption Shadow' label (Maybe a) b
+  => ConvertOption Shadow' label a b where
+  convertOption t p = convertOption t p <<< Just
 
 shadow
   :: forall offset providedShadowDetails

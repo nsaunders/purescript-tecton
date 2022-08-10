@@ -5,8 +5,8 @@ module Test.MediaQueriesSpec where
 import Prelude
 
 import PSCSS (all, dpcm, dpi, landscape, media, portrait, print, px, screen, universal, (:/), (?))
-import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Spec (Spec, describe, it)
+import Test.Util (assertRenderedGuarded, isRenderedFrom)
 
 spec :: Spec Unit
 spec =
@@ -21,6 +21,18 @@ spec =
       "@media print{*{}}" `isRenderedFrom` do media print {} ? universal ? {}
 
     describe "Media features" do
+
+      it "can each be guarded on a condition" do
+        assertRenderedGuarded
+          "@media all{*{}}"
+          "@media all and (min-width:600px){*{}}"
+          \g -> media all { minWidth: g $ px 600 } ? universal ? {}
+        assertRenderedGuarded
+          "@media all and (device-width:600px){*{}}"
+          "@media all and (orientation:landscape) and (device-width:600px){*{}}"
+          \g ->
+            media all { deviceWidth: px 600, orientation: g landscape } ?
+              universal ? {}
 
       describe "width" do
 
