@@ -718,37 +718,163 @@ spec =
 
       "border-radius:unset" `isRenderedFrom` { borderRadius: unset }
 
+      "border-radius:1px 2px 3px 4px/10% 20% 30% 40%"
+        `isRenderedFrom`
+        { borderRadius:
+            px 1 ~ px 2 ~ px 3 ~ px 4 /\ pct 10 ~ pct 20 ~ pct 30 ~ pct 40
+        }
+
+      "border-radius:10% 20% 30% 40%/1px 2px 3px 4px"
+        `isRenderedFrom`
+        { borderRadius:
+            pct 10 ~ pct 20 ~ pct 30 ~ pct 40 /\ px 1 ~ px 2 ~ px 3 ~ px 4 
+        }
+
+      "border-radius:1px 2px 3px 4px/10% 20% 30%"
+        `isRenderedFrom`
+        { borderRadius: px 1 ~ px 2 ~ px 3 ~ px 4 /\ pct 10 ~ pct 20 ~ pct 30 }
+
+      "border-radius:10% 20% 30% 40%/1px 2px 3px"
+        `isRenderedFrom`
+        { borderRadius:
+            pct 10 ~ pct 20 ~ pct 30 ~ pct 40 /\ px 1 ~ px 2 ~ px 3
+        }
+
+      "border-radius:1px 2px 3px 4px/10% 20%"
+        `isRenderedFrom`
+        { borderRadius: px 1 ~ px 2 ~ px 3 ~ px 4 /\ pct 10 ~ pct 20 }
+
+      "border-radius:10% 20% 30% 40%/1px 2px"
+        `isRenderedFrom`
+        { borderRadius: pct 10 ~ pct 20 ~ pct 30 ~ pct 40 /\ px 1 ~ px 2 }
+
+      "border-radius:1px 2px 3px 4px/10%"
+        `isRenderedFrom`
+        { borderRadius: px 1 ~ px 2 ~ px 3 ~ px 4 /\ pct 10 }
+
+      "border-radius:10% 20% 30% 40%/1px"
+        `isRenderedFrom`
+        { borderRadius: pct 10 ~ pct 20 ~ pct 30 ~ pct 40 /\ px 1 }
+
+      "border-radius:1px 2px 3px 4px"
+        `isRenderedFrom`
+        { borderRadius: px 1 ~ px 2 ~ px 3 ~ px 4 }
+
+      "border-radius:10% 20% 30% 40%"
+        `isRenderedFrom`
+        { borderRadius: pct 10 ~ pct 20 ~ pct 30 ~ pct 40 }
+
+      "border-radius:1px 2px 3px/10% 20% 30% 40%"
+        `isRenderedFrom`
+        { borderRadius:
+            px 1 ~ px 2 ~ px 3 /\ pct 10 ~ pct 20 ~ pct 30 ~ pct 40
+        }
+
+      "border-radius:10% 20% 30%/1px 2px 3px 4px"
+        `isRenderedFrom`
+        { borderRadius: pct 10 ~ pct 20 ~ pct 30 /\ px 1 ~ px 2 ~ px 3 ~ px 4 }
+
+      "border-radius:1px 2px 3px/10% 20% 30%"
+        `isRenderedFrom`
+        { borderRadius: px 1 ~ px 2 ~ px 3 /\ pct 10 ~ pct 20 ~ pct 30 }
+
+      "border-radius:10% 20% 30%/1px 2px 3px"
+        `isRenderedFrom`
+        { borderRadius: pct 10 ~ pct 20 ~ pct 30 /\ px 1 ~ px 2 ~ px 3 }
+
+      "border-radius:1px 2px 3px/10% 20%"
+        `isRenderedFrom`
+        { borderRadius: px 1 ~ px 2 ~ px 3 /\ pct 10 ~ pct 20 }
+
+      "border-radius:10% 20% 30%/1px 2px"
+        `isRenderedFrom`
+        { borderRadius: pct 10 ~ pct 20 ~ pct 30 /\ px 1 ~ px 2 }
+
+      "border-radius:1px 2px 3px/10%"
+        `isRenderedFrom`
+        { borderRadius: px 1 ~ px 2 ~ px 3 /\ pct 10 }
+
+      "border-radius:10% 20% 30%/1px"
+        `isRenderedFrom`
+        { borderRadius: pct 10 ~ pct 20 ~ pct 30 /\ px 1 }
+
+      "border-radius:1px 2px 3px"
+        `isRenderedFrom`
+        { borderRadius: px 1 ~ px 2 ~ px 3 }
+
+      "border-radius:10% 20% 30%"
+        `isRenderedFrom`
+        { borderRadius: pct 10 ~ pct 20 ~ pct 30 }
+
+      "border-radius:1px 2px/10% 20% 30% 40%"
+        `isRenderedFrom`
+        { borderRadius:
+            px 1 ~ px 2 /\ pct 10 ~ pct 20 ~ pct 30 ~ pct 40
+        }
+
+      "border-radius:10% 20%/1px 2px 3px 4px"
+        `isRenderedFrom`
+        { borderRadius: pct 10 ~ pct 20 /\ px 1 ~ px 2 ~ px 3 ~ px 4 }
+
+      "border-radius:1px 2px/10% 20% 30%"
+        `isRenderedFrom`
+        { borderRadius: px 1 ~ px 2 /\ pct 10 ~ pct 20 ~ pct 30 }
+
+      "border-radius:10% 20%/1px 2px 3px"
+        `isRenderedFrom`
+        { borderRadius: pct 10 ~ pct 20 /\ px 1 ~ px 2 ~ px 3 }
+
+      "border-radius:1px 2px/10% 20%"
+        `isRenderedFrom`
+        { borderRadius: px 1 ~ px 2 /\ pct 10 ~ pct 20 }
+
+      "border-radius:10% 20%/1px 2px"
+        `isRenderedFrom`
+        { borderRadius: pct 10 ~ pct 20 /\ px 1 ~ px 2 }
+
+      "border-radius:1px 2px/10%"
+        `isRenderedFrom`
+        { borderRadius: px 1 ~ px 2 /\ pct 10 }
+
+      "border-radius:10% 20%/1px"
+        `isRenderedFrom`
+        { borderRadius: pct 10 ~ pct 20 /\ px 1 }
+
+      "border-radius:1px 2px" `isRenderedFrom` { borderRadius: px 1 ~ px 2 }
+
+      "border-radius:10% 20%" `isRenderedFrom` { borderRadius: pct 10 ~ pct 20 }
+
+      "border-radius:1px/10% 20% 30% 40%"
+        `isRenderedFrom`
+        { borderRadius: px 1 /\ pct 10 ~ pct 20 ~ pct 30 ~ pct 40 }
+
+      "border-radius:10%/1px 2px 3px 4px"
+        `isRenderedFrom`
+        { borderRadius: pct 10 /\ px 1 ~ px 2 ~ px 3 ~ px 4 }
+
+      "border-radius:1px/10% 20% 30%"
+        `isRenderedFrom`
+        { borderRadius: px 1 /\ pct 10 ~ pct 20 ~ pct 30 }
+
+      "border-radius:10%/1px 2px 3px"
+        `isRenderedFrom`
+        { borderRadius: pct 10 /\ px 1 ~ px 2 ~ px 3 }
+
+      "border-radius:1px/10% 20%"
+        `isRenderedFrom`
+        { borderRadius: px 1 /\ pct 10 ~ pct 20 }
+
+      "border-radius:10%/1px 2px"
+        `isRenderedFrom`
+        { borderRadius: pct 10 /\ px 1 ~ px 2 }
+
+      "border-radius:1px/10%" `isRenderedFrom` { borderRadius: px 1 /\ pct 10 }
+
+      "border-radius:10%/1px" `isRenderedFrom` { borderRadius: pct 10 /\ px 1 }
+
       "border-radius:1px" `isRenderedFrom` { borderRadius: px 1 }
 
       "border-radius:10%" `isRenderedFrom` { borderRadius: pct 10 }
-
-      "border-radius:1px/10%" `isRenderedFrom` { borderRadius: px 1 ~ pct 10 }
-
-      "border-radius:10%/1px" `isRenderedFrom` { borderRadius: pct 10 ~ px 1 }
-
-      "border-radius:25% 50%"
-        `isRenderedFrom`
-        { borderRadius: pct 25 /\ pct 50 }
-
-      "border-radius:1px 2px/5% 10%"
-        `isRenderedFrom`
-        { borderRadius: px 1 ~ pct 5 /\ px 2 ~ pct 10 }
-
-      "border-radius:10% 10px 30%"
-        `isRenderedFrom`
-        { borderRadius: pct 10 /\ px 10 /\ pct 30 }
-
-      "border-radius:10px 10% 30px/1px 2px 3px"
-        `isRenderedFrom`
-        { borderRadius: px 10 ~ px 1 /\ pct 10 ~ px 2 /\ px 30 ~ px 3 }
-
-      "border-radius:10% 10px 30% 2px"
-        `isRenderedFrom`
-        { borderRadius: pct 10 /\ px 10 /\ pct 30 /\ px 2 }
-
-      "border-radius:10% 10px 30% 2px/1px 10px 30% 2px"
-        `isRenderedFrom`
-        { borderRadius: pct 10 ~ px 1 /\ px 10 /\ pct 30 /\ px 2 }
 
     describe "box-shadow property" do
 

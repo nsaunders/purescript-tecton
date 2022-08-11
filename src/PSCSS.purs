@@ -12,17 +12,16 @@ import Data.FoldableWithIndex (class FoldableWithIndex, foldlWithIndex)
 import Data.Int as Int
 import Data.List (List(Nil), (:))
 import Data.Maybe (Maybe(..))
-import Data.NonEmpty (NonEmpty, (:|))
+import Data.NonEmpty (NonEmpty)
 import Data.NonEmpty as NE
 import Data.Number.Format as Number
 import Data.Ord (abs)
-import Data.String (joinWith)
 import Data.String as String
 import Data.String.Regex (regex)
 import Data.String.Regex as Regex
 import Data.String.Regex.Flags (global)
 import Data.Symbol (class IsSymbol, reflectSymbol)
-import Data.Tuple (curry, fst, snd)
+import Data.Tuple (curry)
 import Data.Tuple.Nested (type (/\), (/\))
 import Prim.Row as Row
 import Prim.RowList (class RowToList, RowList)
@@ -2147,78 +2146,230 @@ instance propertyBorderBottomLeftRadiusBorderTopLeftRadius
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-radius
 
-class ValBorderRadiusXY (a :: Type) where
-  valBorderRadiusXY :: a -> Val /\ Val
-
-instance valBorderRadiusXYLengthPercentage
-  :: LengthPercentageTag a
-  => ValBorderRadiusXY (Measure a) where
-  valBorderRadiusXY x = val x /\ val x
-
-instance valBorderRadiusXYPair
-  :: ( LengthPercentageTag x
-     , LengthPercentageTag y
-     )
-  => ValBorderRadiusXY (Measure x ~ Measure y) where
-  valBorderRadiusXY (x ~ y) = val x /\ val y
-
-mkBorderRadius :: NonEmpty Array (Val /\ Val) -> Val
-mkBorderRadius pairs =
-  Val \c@{ separator } ->
+mkBorderRadius :: Array Val -> Array Val -> Val
+mkBorderRadius xs [] = joinVals (val " ") xs
+mkBorderRadius xs ys =
+  Val \c ->
     let
-      xs = joinWith " " $ runVal c <<< fst <$> Array.fromFoldable pairs
-      ys = joinWith " " $ runVal c <<< snd <$> Array.fromFoldable pairs
+      xs' = runVal c $ joinVals (val " ") xs
+      ys' = runVal c $ joinVals (val " ") ys
     in
-      if xs == ys
-        then xs
-        else xs <> separator <> "/" <> separator <> ys
+      xs' <> c.separator <> "/" <> c.separator <> ys'
 
 class ValBorderRadius (a :: Type) where
   valBorderRadius :: a -> Val
 
-instance valBorderRadius4
-  :: ( ValBorderRadiusXY a
-     , ValBorderRadiusXY b
-     , ValBorderRadiusXY c
-     , ValBorderRadiusXY d
+instance valBorderRadius4X4Y
+  :: ( LengthPercentageTag tlx
+     , LengthPercentageTag trx
+     , LengthPercentageTag brx
+     , LengthPercentageTag blx
+     , LengthPercentageTag tly
+     , LengthPercentageTag try
+     , LengthPercentageTag bry
+     , LengthPercentageTag bly
      )
-  => ValBorderRadius (a /\ b /\ c /\ d) where
-  valBorderRadius (a /\ b /\ c /\ d) =
+  => ValBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly) where
+  valBorderRadius (tlx ~ trx ~ brx ~ blx /\ tly ~ try ~ bry ~ bly) =
     mkBorderRadius
-      ( valBorderRadiusXY a :|
-      [ valBorderRadiusXY b
-      , valBorderRadiusXY c
-      , valBorderRadiusXY d
-      ])
+      [val tlx, val trx, val brx, val blx]
+      [val tly, val try, val bry, val bly]
 
-else instance valBorderRadius3
-  :: ( ValBorderRadiusXY a
-     , ValBorderRadiusXY b
-     , ValBorderRadiusXY c
+instance valBorderRadius4X3Y
+  :: ( LengthPercentageTag tlx
+     , LengthPercentageTag trx
+     , LengthPercentageTag brx
+     , LengthPercentageTag blx
+     , LengthPercentageTag tly
+     , LengthPercentageTag trbly
+     , LengthPercentageTag bry
      )
-  => ValBorderRadius (a /\ b /\ c) where
-  valBorderRadius (a /\ b /\ c) =
+  => ValBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure tly ~ Measure trbly ~ Measure bry) where
+  valBorderRadius (tlx ~ trx ~ brx ~ blx /\ tly ~ trbly ~ bry) =
     mkBorderRadius
-      ( valBorderRadiusXY a :|
-      [ valBorderRadiusXY b
-      , valBorderRadiusXY c
-      ])
+      [val tlx, val trx, val brx, val blx]
+      [val tly, val trbly, val bry]
 
-else instance valBorderRadius2
-  :: ( ValBorderRadiusXY a
-     , ValBorderRadiusXY b
+instance valBorderRadius4X2Y
+  :: ( LengthPercentageTag tlx
+     , LengthPercentageTag trx
+     , LengthPercentageTag brx
+     , LengthPercentageTag blx
+     , LengthPercentageTag tlbry
+     , LengthPercentageTag trbly
      )
-  => ValBorderRadius (a /\ b) where
-  valBorderRadius (a /\ b) =
-    mkBorderRadius
-      ( valBorderRadiusXY a :|
-      [ valBorderRadiusXY b
-      ])
+  => ValBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure tlbry ~ Measure trbly) where
+  valBorderRadius (tlx ~ trx ~ brx ~ blx /\ tlbry ~ trbly) =
+    mkBorderRadius [val tlx, val trx, val brx, val blx] [val tlbry, val trbly]
 
-else instance valBorderRadius1
-  :: ValBorderRadiusXY a
-  => ValBorderRadius a where
-  valBorderRadius = mkBorderRadius <<< NE.singleton <<< valBorderRadiusXY
+instance valBorderRadius4X1Y
+  :: ( LengthPercentageTag tlx
+     , LengthPercentageTag trx
+     , LengthPercentageTag brx
+     , LengthPercentageTag blx
+     , LengthPercentageTag y
+     )
+  => ValBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure y) where
+  valBorderRadius (tlx ~ trx ~ brx ~ blx /\ y) =
+    mkBorderRadius [val tlx, val trx, val brx, val blx] [val y]
+
+instance valBorderRadius4X0Y
+  :: ( LengthPercentageTag tlx
+     , LengthPercentageTag trx
+     , LengthPercentageTag brx
+     , LengthPercentageTag blx
+     )
+  => ValBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx) where
+  valBorderRadius (tlx ~ trx ~ brx ~ blx) =
+    mkBorderRadius [val tlx, val trx, val brx, val blx] []
+
+instance valBorderRadius3X4Y
+  :: ( LengthPercentageTag tlx
+     , LengthPercentageTag trblx
+     , LengthPercentageTag brx
+     , LengthPercentageTag tly
+     , LengthPercentageTag try
+     , LengthPercentageTag bry
+     , LengthPercentageTag bly
+     )
+  => ValBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly) where
+  valBorderRadius (tlx ~ trblx ~ brx /\ tly ~ try ~ bry ~ bly) =
+    mkBorderRadius
+      [val tlx, val trblx, val brx]
+      [val tly, val try, val bry, val bly]
+
+instance valBorderRadius3X3Y
+  :: ( LengthPercentageTag tlx
+     , LengthPercentageTag trblx
+     , LengthPercentageTag brx
+     , LengthPercentageTag tly
+     , LengthPercentageTag trbly
+     , LengthPercentageTag bry
+     )
+  => ValBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure tly ~ Measure trbly ~ Measure bry) where
+  valBorderRadius (tlx ~ trblx ~ brx /\ tly ~ trbly ~ bry) =
+    mkBorderRadius [val tlx, val trblx, val brx] [val tly, val trbly, val bry]
+
+instance valBorderRadius3X2Y
+  :: ( LengthPercentageTag tlx
+     , LengthPercentageTag trblx
+     , LengthPercentageTag brx
+     , LengthPercentageTag tlbry
+     , LengthPercentageTag trbly
+     )
+  => ValBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure tlbry ~ Measure trbly) where
+  valBorderRadius (tlx ~ trblx ~ brx /\ tlbry ~ trbly) =
+    mkBorderRadius [val tlx, val trblx, val brx] [val tlbry, val trbly]
+
+instance valBorderRadius3X1Y
+  :: ( LengthPercentageTag tlx
+     , LengthPercentageTag trblx
+     , LengthPercentageTag brx
+     , LengthPercentageTag y
+     )
+  => ValBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure y) where
+  valBorderRadius (tlx ~ trblx ~ brx /\ y) =
+    mkBorderRadius [val tlx, val trblx, val brx] [val y]
+
+instance valBorderRadius3X0Y
+  :: ( LengthPercentageTag tlx
+     , LengthPercentageTag trblx
+     , LengthPercentageTag brx
+     )
+  => ValBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx) where
+  valBorderRadius (tlx ~ trblx ~ brx) =
+    mkBorderRadius [val tlx, val trblx, val brx] []
+
+instance valBorderRadius2X4Y
+  :: ( LengthPercentageTag tlbrx
+     , LengthPercentageTag trblx
+     , LengthPercentageTag tly
+     , LengthPercentageTag try
+     , LengthPercentageTag bry
+     , LengthPercentageTag bly
+     )
+  => ValBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly) where
+  valBorderRadius (tlbrx ~ trblx /\ tly ~ try ~ bry ~ bly) =
+    mkBorderRadius [val tlbrx, val trblx] [val tly, val try, val bry, val bly]
+
+instance valBorderRadius2X3Y
+  :: ( LengthPercentageTag tlbrx
+     , LengthPercentageTag trblx
+     , LengthPercentageTag tly
+     , LengthPercentageTag trbly
+     , LengthPercentageTag bry
+     )
+  => ValBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure tly ~ Measure trbly ~ Measure bry) where
+  valBorderRadius (tlbrx ~ trblx /\ tly ~ trbly ~ bry) =
+    mkBorderRadius [val tlbrx, val trblx] [val tly, val trbly, val bry]
+
+instance valBorderRadius2X2Y
+  :: ( LengthPercentageTag tlbrx
+     , LengthPercentageTag trblx
+     , LengthPercentageTag tlbry
+     , LengthPercentageTag trbly
+     )
+  => ValBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure tlbry ~ Measure trbly) where
+  valBorderRadius (tlbrx ~ trblx /\ tlbry ~ trbly) =
+    mkBorderRadius [val tlbrx, val trblx] [val tlbry, val trbly]
+
+instance valBorderRadius2X1Y
+  :: ( LengthPercentageTag tlbrx
+     , LengthPercentageTag trblx
+     , LengthPercentageTag y
+     )
+  => ValBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure y) where
+  valBorderRadius (tlbrx ~ trblx /\ y) =
+    mkBorderRadius [val tlbrx, val trblx] [val y]
+
+instance valBorderRadius2X0Y
+  :: ( LengthPercentageTag tlbrx
+     , LengthPercentageTag trblx
+     )
+  => ValBorderRadius (Measure tlbrx ~ Measure trblx) where
+  valBorderRadius (tlbrx ~ trblx) = mkBorderRadius [val tlbrx, val trblx] []
+
+instance valBorderRadius1X4Y
+  :: ( LengthPercentageTag x
+     , LengthPercentageTag tly
+     , LengthPercentageTag try
+     , LengthPercentageTag bry
+     , LengthPercentageTag bly
+     )
+  => ValBorderRadius (Measure x /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly) where
+  valBorderRadius (x /\ tly ~ try ~ bry ~ bly) =
+    mkBorderRadius [val x] [val tly, val try, val bry, val bly]
+
+instance valBorderRadius1X3Y
+  :: ( LengthPercentageTag x
+     , LengthPercentageTag tly
+     , LengthPercentageTag trbly
+     , LengthPercentageTag bry
+     )
+  => ValBorderRadius (Measure x /\ Measure tly ~ Measure trbly ~ Measure bry) where
+  valBorderRadius (x /\ tly ~ trbly ~ bry) =
+    mkBorderRadius [val x] [val tly, val trbly, val bry]
+
+instance valBorderRadius1X2Y
+  :: ( LengthPercentageTag x
+     , LengthPercentageTag tlbry
+     , LengthPercentageTag trbly
+     )
+  => ValBorderRadius (Measure x /\ Measure tlbry ~ Measure trbly) where
+  valBorderRadius (x /\ tlbry ~ trbly) =
+    mkBorderRadius [val x] [val tlbry, val trbly]
+
+instance valBorderRadius1X1Y
+  :: ( LengthPercentageTag x
+     , LengthPercentageTag y
+     )
+  => ValBorderRadius (Measure x /\ Measure y) where
+  valBorderRadius (x /\ y) = mkBorderRadius [val x] [val y]
+
+instance valBorderRadius1X0Y
+  :: LengthPercentageTag x
+  => ValBorderRadius (Measure x) where
+  valBorderRadius x = mkBorderRadius [val x] []
 
 instance propertyBorderRadiusCommonKeyword
   :: Property "borderRadius" CommonKeyword where
