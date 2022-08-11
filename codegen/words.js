@@ -321,6 +321,11 @@ const code = [
     attribute: true
   },
   {
+    typeName: "Inset",
+    varName: "inset",
+    value: "inset"
+  },
+  {
     typeName: "Ismap",
     varName: "ismap",
     value: "ismap",

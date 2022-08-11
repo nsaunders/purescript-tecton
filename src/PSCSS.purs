@@ -232,12 +232,12 @@ defaultDeclarations =
   , maxWidth: v
   , minHeight: v
   , minWidth: v
+  , opacity: v
   , padding: v
   , paddingBottom: v
   , paddingLeft: v
   , paddingRight: v
   , paddingTop: v
-  , opacity: v
   , textTransform: v
   , transform: v
   , transformOrigin: v
@@ -1925,9 +1925,6 @@ groove = LineStyle "groove"
 ridge :: LineStyle
 ridge = LineStyle "ridge"
 
-inset :: LineStyle
-inset = LineStyle "inset"
-
 outset :: LineStyle
 outset = LineStyle "outset"
 
@@ -1935,6 +1932,7 @@ class ToVal a <= ValBorderTopStyle (a :: Type)
 
 instance ValBorderTopStyle None
 instance ValBorderTopStyle Hidden
+instance ValBorderTopStyle Inset
 instance ValBorderTopStyle LineStyle
 
 instance propertyBorderTopStyleCommonKeyword
@@ -2237,86 +2235,59 @@ newtype Shadow = Shadow Val
 
 derive newtype instance ToVal Shadow
 
-class ValShadowOffset (a :: Type) where
-  valShadowOffset :: a -> Val
+class ValShadowDimensions (a :: Type) where
+  valShadowDimensions :: a -> Val
 
-instance valShadowOffsetPair
-  :: ( LengthTag x
-     , LengthTag y
+instance valShadowDimensions4
+  :: ( LengthTag a
+     , LengthTag b
+     , LengthTag c
+     , LengthTag d
      )
-  => ValShadowOffset (Measure x ~ Measure y) where
-  valShadowOffset (x ~ y) = val x <> val " " <> val y
+  => ValShadowDimensions (Measure a ~ Measure b ~ Measure c ~ Measure d) where
+  valShadowDimensions (a ~ b ~ c ~ d) =
+    joinVals (val " ") [val a, val b, val c, val d]
 
-instance LengthTag a => ValShadowOffset (Measure a) where
-  valShadowOffset xy = val xy <> val " " <> val xy
+instance valShadowDimensions3
+  :: ( LengthTag a
+     , LengthTag b
+     , LengthTag c
+     )
+  => ValShadowDimensions (Measure a ~ Measure b ~ Measure c) where
+  valShadowDimensions (a ~ b ~ c) = joinVals (val " ") [val a, val b, val c]
 
-type AllShadowDetails =
-  ( blur :: Maybe Val
-  , color :: Maybe Val
-  , inset :: Boolean
-  , spread :: Maybe Val
-  )
+instance valShadowDimensions2
+  :: ( LengthTag a
+     , LengthTag b
+     )
+  => ValShadowDimensions (Measure a ~ Measure b) where
+  valShadowDimensions (a ~ b) = val a <> val " " <> val b
 
-data Shadow' = Shadow'
+class ValShadowOptions (a :: Type) where
+  valShadowOptions :: a -> Val
 
-instance shadowBlurLengthMaybe
-  :: LengthTag a
-  => ConvertOption Shadow' "blur" (Maybe (Measure a)) (Maybe Val) where
-  convertOption _ _ = map val
+instance valShadowOptionsColorInset
+  :: IsColor color
+  => ValShadowOptions (color ~ Inset) where
+  valShadowOptions (color ~ _) = val color <> val " " <> val inset
 
-else instance shadowColor
-  :: IsColor a
-  => ConvertOption Shadow' "color" (Maybe a) (Maybe Val) where
-  convertOption _ _ = map val
+else instance valShadowOptionsInset :: ValShadowOptions Inset where
+  valShadowOptions = const $ val inset
 
-else instance shadowInset
-  :: ConvertOption Shadow' "inset" (Maybe Boolean) Boolean where
-  convertOption _ _ = fromMaybe false
-
-else instance shadowSpreadLength
-  :: LengthTag a => ConvertOption Shadow' "spread" (Maybe (Measure a)) (Maybe Val) where
-  convertOption _ _ = map val
-
-else instance shadowNonMaybe
-  :: ConvertOption Shadow' label (Maybe a) b
-  => ConvertOption Shadow' label a b where
-  convertOption t p = convertOption t p <<< Just
+else instance valShadowOptionsColor
+  :: IsColor color
+  => ValShadowOptions color where
+  valShadowOptions = val
 
 shadow
-  :: forall offset providedShadowDetails
-   . ValShadowOffset offset
-  => ConvertOptionsWithDefaults
-       Shadow'
-       { | AllShadowDetails }
-       { | providedShadowDetails }
-       { | AllShadowDetails }
-  => offset
-  -> { | providedShadowDetails }
+  :: forall d o
+   . ValShadowDimensions d
+  => ValShadowOptions o
+  => d
+  -> o
   -> Shadow
-shadow offset providedShadowDetails =
-  let
-    { blur, color, inset, spread } =
-      convertOptionsWithDefaults
-        Shadow'
-        { blur: Nothing
-        , color: Nothing
-        , inset: false
-        , spread: Nothing
-        }
-        providedShadowDetails
-  in
-    Shadow $
-      joinVals (val " ") $
-        catMaybes
-          [ pure $ valShadowOffset offset
-          , blur
-          , spread
-          , color
-          , if inset then pure (val "inset") else Nothing
-          ]
-
-shadow' :: forall offset. ValShadowOffset offset => offset -> Shadow
-shadow' = flip shadow {}
+shadow dimensions options =
+  Shadow $ valShadowDimensions dimensions <> val " " <> valShadowOptions options
 
 class ValBoxShadow (a :: Type) where
   valBoxShadow :: a -> Val
@@ -3481,6 +3452,10 @@ data Id = Id
 instance ToVal Id where val _ = val "id"
 id = Id :: Id
 instance IsAttribute Id
+
+data Inset = Inset
+instance ToVal Inset where val _ = val "inset"
+inset = Inset :: Inset
 
 data Ismap = Ismap
 instance ToVal Ismap where val _ = val "ismap"
