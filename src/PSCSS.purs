@@ -4,14 +4,14 @@ import Prelude hiding (add)
 
 import Color (Color, cssStringHSLA, toHexString)
 import Control.Monad.Writer (Writer, execWriter, tell)
-import ConvertableOptions (class ConvertOption, class ConvertOptionsWithDefaults, convertOption, convertOptionsWithDefaults)
-import Data.Array (catMaybes, replicate)
+import ConvertableOptions (class ConvertOption, class ConvertOptionsWithDefaults, convertOptionsWithDefaults)
+import Data.Array (replicate)
 import Data.Array as Array
 import Data.Either as Either
 import Data.FoldableWithIndex (class FoldableWithIndex, foldlWithIndex)
 import Data.Int as Int
 import Data.List (List(Nil), (:))
-import Data.Maybe (Maybe(..), fromMaybe)
+import Data.Maybe (Maybe(..))
 import Data.NonEmpty (NonEmpty, (:|))
 import Data.NonEmpty as NE
 import Data.Number.Format as Number
@@ -1868,8 +1868,8 @@ instance valBorderColor4
      , IsColor c
      , IsColor d
      )
-  => ValBorderColor (a /\ b /\ c /\ d) where
-  valBorderColor (a /\ b /\ c /\ d) =
+  => ValBorderColor (a ~ b ~ c ~ d) where
+  valBorderColor (a ~ b ~ c ~ d) =
     joinVals (val " ") [val a, val b, val c, val d]
 
 else instance valBorderColor3
@@ -1877,15 +1877,15 @@ else instance valBorderColor3
      , IsColor b
      , IsColor c
      )
-  => ValBorderColor (a /\ b /\ c) where
-  valBorderColor (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+  => ValBorderColor (a ~ b ~ c) where
+  valBorderColor (a ~ b ~ c) = joinVals (val " ") [val a, val b, val c]
 
 else instance valBorderColor2
   :: ( IsColor a
      , IsColor b
      )
-  => ValBorderColor (a /\ b) where
-  valBorderColor (a /\ b) = joinVals (val " ") [val a, val b]
+  => ValBorderColor (a ~ b) where
+  valBorderColor (a ~ b) = joinVals (val " ") [val a, val b]
    
 else instance valBorderColor1
   :: IsColor a
@@ -1976,8 +1976,8 @@ instance valBorderStyle4
      , ValBorderTopStyle c
      , ValBorderTopStyle d
      )
-  => ValBorderStyle (a /\ b /\ c /\ d) where
-  valBorderStyle (a /\ b /\ c /\ d) =
+  => ValBorderStyle (a ~ b ~ c ~ d) where
+  valBorderStyle (a ~ b ~ c ~ d) =
     joinVals (val " ") [val a, val b, val c, val d]
 
 else instance valBorderStyle3
@@ -1985,15 +1985,15 @@ else instance valBorderStyle3
      , ValBorderTopStyle b
      , ValBorderTopStyle c
      )
-  => ValBorderStyle (a /\ b /\ c) where
-  valBorderStyle (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+  => ValBorderStyle (a ~ b ~ c) where
+  valBorderStyle (a ~ b ~ c) = joinVals (val " ") [val a, val b, val c]
 
 else instance valBorderStyle2
   :: ( ValBorderTopStyle a
      , ValBorderTopStyle b
      )
-  => ValBorderStyle (a /\ b) where
-  valBorderStyle (a /\ b) = joinVals (val " ") [val a, val b]
+  => ValBorderStyle (a ~ b) where
+  valBorderStyle (a ~ b) = joinVals (val " ") [val a, val b]
 
 else instance valBorderStyle1
   :: ValBorderTopStyle a
@@ -2067,8 +2067,8 @@ instance valBorderWidth4
      , ValBorderTopWidth c
      , ValBorderTopWidth d
      )
-  => ValBorderWidth (a /\ b /\ c /\ d) where
-  valBorderWidth (a /\ b /\ c /\ d) =
+  => ValBorderWidth (a ~ b ~ c ~ d) where
+  valBorderWidth (a ~ b ~ c ~ d) =
     joinVals (val " ") [val a, val b, val c, val d]
 
 else instance valBorderWidth3
@@ -2076,15 +2076,15 @@ else instance valBorderWidth3
      , ValBorderTopWidth b
      , ValBorderTopWidth c
      )
-  => ValBorderWidth (a /\ b /\ c) where
-  valBorderWidth (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+  => ValBorderWidth (a ~ b ~ c) where
+  valBorderWidth (a ~ b ~ c) = joinVals (val " ") [val a, val b, val c]
 
 else instance valBorderWidth2
   :: ( ValBorderTopWidth a
      , ValBorderTopWidth b
      )
-  => ValBorderWidth (a /\ b) where
-  valBorderWidth (a /\ b) = val a <> val " " <> val b
+  => ValBorderWidth (a ~ b) where
+  valBorderWidth (a ~ b) = val a <> val " " <> val b
 
 else instance valBorderWidth1 :: ValBorderTopWidth a => ValBorderWidth a where
   valBorderWidth = val
@@ -2364,8 +2364,8 @@ instance propertyMarginValMarginTop4
      , ValMarginTop c
      , ValMarginTop d
      )
-  => Property "margin" (a /\ b /\ c /\ d) where
-  pval _ (a /\ b /\ c /\ d) =
+  => Property "margin" (a ~ b ~ c ~ d) where
+  pval _ (a ~ b ~ c ~ d) =
     joinVals
       (val " ")
       [ valMarginTop a
@@ -2379,16 +2379,16 @@ else instance propertyMarginValMarginTop3
      , ValMarginTop b
      , ValMarginTop c
      )
-  => Property "margin" (a /\ b /\ c) where
-  pval _ (a /\ b /\ c) =
+  => Property "margin" (a ~ b ~ c) where
+  pval _ (a ~ b ~ c) =
     joinVals (val " ") [valMarginTop a, valMarginTop b, valMarginTop c]
 
 else instance propertyMarginValMarginTop2
   :: ( ValMarginTop a
      , ValMarginTop b
      )
-  => Property "margin" (a /\ b) where
-  pval _ (a /\ b) = joinVals (val " ") [valMarginTop a, valMarginTop b]
+  => Property "margin" (a ~ b) where
+  pval _ (a ~ b) = joinVals (val " ") [valMarginTop a, valMarginTop b]
 
 else instance propertyMarginMarginTop
   :: Property "marginTop" a
@@ -2435,23 +2435,23 @@ instance paddingLengthPercentage4
      , LengthPercentageTag c
      , LengthPercentageTag d
      )
-  => Property "padding" (Measure a /\ Measure b /\ Measure c /\ Measure d) where
-  pval _ (a /\ b /\ c /\ d) = joinVals (val " ") [val a, val b, val c, val d]
+  => Property "padding" (Measure a ~ Measure b ~ Measure c ~ Measure d) where
+  pval _ (a ~ b ~ c ~ d) = joinVals (val " ") [val a, val b, val c, val d]
 
 else instance paddingLengthPercentage3
   :: ( LengthPercentageTag a
      , LengthPercentageTag b
      , LengthPercentageTag c
      )
-  => Property "padding" (Measure a /\ Measure b /\ Measure c) where
-  pval _ (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+  => Property "padding" (Measure a ~ Measure b ~ Measure c) where
+  pval _ (a ~ b ~ c) = joinVals (val " ") [val a, val b, val c]
 
 else instance paddingLengthPercentage2
   :: ( LengthPercentageTag a
      , LengthPercentageTag b
      )
-  => Property "padding" (Measure a /\ Measure b) where
-  pval _ (a /\ b) = joinVals (val " ") [val a, val b]
+  => Property "padding" (Measure a ~ Measure b) where
+  pval _ (a ~ b) = joinVals (val " ") [val a, val b]
 
 else instance paddingPaddingTop
   :: Property "paddingTop" a

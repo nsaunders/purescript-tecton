@@ -4,8 +4,7 @@ module Test.BoxSpec where
 
 import Prelude
 
-import Data.Tuple.Nested ((/\))
-import PSCSS (auto, em, inherit, initial, pct, px, unset)
+import PSCSS (auto, em, inherit, initial, pct, px, unset, (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -81,13 +80,13 @@ spec =
 
       "margin:10%" `isRenderedFrom` { margin: pct 10 }
 
-      "margin:1px 10%" `isRenderedFrom` { margin: px 1 /\ pct 10 }
+      "margin:1px 10%" `isRenderedFrom` { margin: px 1 ~ pct 10 }
 
-      "margin:10% 1px 25%" `isRenderedFrom` { margin: pct 10 /\ px 1 /\ pct 25 }
+      "margin:10% 1px 25%" `isRenderedFrom` { margin: pct 10 ~ px 1 ~ pct 25 }
 
       "margin:1px 1em 25% auto"
         `isRenderedFrom`
-        { margin: px 1 /\ em 1 /\ pct 25 /\ auto }
+        { margin: px 1 ~ em 1 ~ pct 25 ~ auto }
 
     describe "padding-top property" do
 
@@ -149,10 +148,10 @@ spec =
 
       "padding:10%" `isRenderedFrom` { padding: pct 10 }
 
-      "padding:10% 20%" `isRenderedFrom` { padding: pct 10 /\ pct 20 }
+      "padding:10% 20%" `isRenderedFrom` { padding: pct 10 ~ pct 20 }
 
-      "padding:1px 10% 2em" `isRenderedFrom` { padding: px 1 /\ pct 10 /\ em 2 }
+      "padding:1px 10% 2em" `isRenderedFrom` { padding: px 1 ~ pct 10 ~ em 2 }
 
       "padding:2em 1% 1px 10%"
         `isRenderedFrom`
-        { padding: em 2 /\ pct 1 /\ px 1 /\ pct 10 }
+        { padding: em 2 ~ pct 1 ~ px 1 ~ pct 10 }

@@ -342,15 +342,15 @@ spec =
 
       "border-color:currentColor #0000ff"
         `isRenderedFrom`
-        { borderColor: currentColor /\ rgb 0 0 255 }
+        { borderColor: currentColor ~ rgb 0 0 255 }
 
       "border-color:#008000 #000000 #0000ff"
         `isRenderedFrom`
-        { borderColor: rgb 0 128 0 /\ black /\ rgb 0 0 255 }
+        { borderColor: rgb 0 128 0 ~ black ~ rgb 0 0 255 }
 
       "border-color:#008000 #000000 #0000ff #ffffff"
         `isRenderedFrom`
-        { borderColor: rgb 0 128 0 /\ black /\ rgb 0 0 255 /\ rgb 255 255 255 }
+        { borderColor: rgb 0 128 0 ~ black ~ rgb 0 0 255 ~ rgb 255 255 255 }
 
     describe "border-top-style property" do
 
@@ -514,27 +514,27 @@ spec =
 
       "border-style:none ridge"
         `isRenderedFrom`
-        { borderStyle: none /\ ridge }
+        { borderStyle: none ~ ridge }
 
       "border-style:hidden groove"
         `isRenderedFrom`
-        { borderStyle: hidden /\ groove }
+        { borderStyle: hidden ~ groove }
 
       "border-style:dotted solid groove"
         `isRenderedFrom`
-        { borderStyle: dotted /\ solid /\ groove }
+        { borderStyle: dotted ~ solid ~ groove }
 
       "border-style:double dashed hidden"
         `isRenderedFrom`
-        { borderStyle: double /\ dashed /\ hidden }
+        { borderStyle: double ~ dashed ~ hidden }
 
       "border-style:none dotted solid double"
         `isRenderedFrom`
-        { borderStyle: none /\ dotted /\ solid /\ double }
+        { borderStyle: none ~ dotted ~ solid ~ double }
 
       "border-style:outset inset ridge groove"
         `isRenderedFrom`
-        { borderStyle: outset /\ inset /\ ridge /\ groove }
+        { borderStyle: outset ~ inset ~ ridge ~ groove }
 
     describe "border-top-width" do
 
@@ -628,27 +628,27 @@ spec =
 
       "border-width:1px medium"
         `isRenderedFrom`
-        { borderWidth: px 1 /\ medium }
+        { borderWidth: px 1 ~ medium }
 
       "border-width:thick thin"
         `isRenderedFrom`
-        { borderWidth: thick /\ thin }
+        { borderWidth: thick ~ thin }
 
       "border-width:medium 1px thick"
         `isRenderedFrom`
-        { borderWidth: medium /\ px 1 /\ thick }
+        { borderWidth: medium ~ px 1 ~ thick }
 
       "border-width:thin 1px 2px"
         `isRenderedFrom`
-        { borderWidth: thin /\ px 1 /\ px 2 }
+        { borderWidth: thin ~ px 1 ~ px 2 }
 
       "border-width:1px thin 1px 2px"
         `isRenderedFrom`
-        { borderWidth: px 1 /\ thin /\ px 1 /\ px 2 }
+        { borderWidth: px 1 ~ thin ~ px 1 ~ px 2 }
 
       "border-width:medium thin 1px thick"
         `isRenderedFrom`
-        { borderWidth: medium /\ thin /\ px 1 /\ thick }
+        { borderWidth: medium ~ thin ~ px 1 ~ thick }
 
     describe "border-top-left-radius property" do
 
