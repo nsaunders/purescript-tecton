@@ -5,7 +5,7 @@ module Test.TextSpec where
 import Prelude
 
 import Data.Tuple.Nested ((/\))
-import PSCSS (breakSpaces, capitalize, fullSizeKana, fullWidth, inherit, initial, lowercase, none, normal, nowrap, pre, preLine, preWrap, unset, uppercase)
+import PSCSS (breakSpaces, capitalize, fullSizeKana, fullWidth, inherit, initial, lowercase, none, normal, nowrap, pre, preLine, preWrap, unset, uppercase, (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -31,19 +31,19 @@ spec =
 
       "text-transform:full-width full-size-kana"
         `isRenderedFrom`
-        { textTransform: fullWidth /\ fullSizeKana }
+        { textTransform: fullWidth ~ fullSizeKana }
 
       "text-transform:capitalize full-width"
         `isRenderedFrom`
-        { textTransform: capitalize /\ fullWidth }
+        { textTransform: capitalize ~ fullWidth }
 
       "text-transform:capitalize full-size-kana"
         `isRenderedFrom`
-        { textTransform: capitalize /\ fullSizeKana }
+        { textTransform: capitalize ~ fullSizeKana }
 
       "text-transform:capitalize full-width full-size-kana"
         `isRenderedFrom`
-        { textTransform: capitalize /\ fullWidth /\ fullSizeKana }
+        { textTransform: capitalize ~ fullWidth ~ fullSizeKana }
 
     describe "white-space property" do
 

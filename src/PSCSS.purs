@@ -2802,20 +2802,20 @@ instance propertyTextTransformFullSizeKana
   pval = const val
 
 instance propertyTextTransformTextTransformFullSizeKana
-  :: Property "textTransform" (TextTransform /\ FullSizeKana) where
-  pval _ (a /\ b) = val a <> val " " <> val b
+  :: Property "textTransform" (TextTransform ~ FullSizeKana) where
+  pval = const val
 
 instance propertyTextTransformTextTransformFullWidth
-  :: Property "textTransform" (TextTransform /\ FullWidth) where
-  pval _ (a /\ b) = val a <> val " " <> val b
+  :: Property "textTransform" (TextTransform ~ FullWidth) where
+  pval = const val
 
 instance propertyTextTransformFullWidthFullSizeKana
-  :: Property "textTransform" (FullWidth /\ FullSizeKana) where
-  pval _ (a /\ b) = val a <> val " " <> val b
+  :: Property "textTransform" (FullWidth ~ FullSizeKana) where
+  pval = const val
 
 instance propertyTextTransformTextTransformFullWidthFullSizeKana
-  :: Property "textTransform" (TextTransform /\ FullWidth /\ FullSizeKana) where
-  pval _ (a /\ b /\ c) = joinVals (val " ") [val a, val b, val c]
+  :: Property "textTransform" (TextTransform ~ FullWidth ~ FullSizeKana) where
+  pval = const val
 
 -- https://www.w3.org/TR/css-text-4/#propdef-white-space
 
