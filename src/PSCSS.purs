@@ -2553,73 +2553,46 @@ stepEnd = EasingFunction $ val "step-end"
 class IsImage (a :: Type)
 instance IsImage URL
 
+class IsColorStopListHead (a :: Type)
+instance (IsColor color, LengthPercentageTag pos) => IsColorStopListHead (color ~ Measure pos)
+else instance IsColor color => IsColorStopListHead color
+
+class IsColorStopListTail (a :: Type)
+instance (LengthPercentageTag hint, IsColor color, LengthPercentageTag pos, IsColorStopListTail tail) => IsColorStopListTail (Measure hint /\ color ~ Measure pos /\ tail)
+else instance (LengthPercentageTag hint, IsColor color, IsColorStopListTail tail) => IsColorStopListTail (Measure hint /\ color /\ tail)
+else instance (IsColor color, LengthPercentageTag pos, IsColorStopListTail tail) => IsColorStopListTail (color ~ Measure pos /\ tail)
+else instance (LengthPercentageTag hint, IsColor color, LengthPercentageTag pos) => IsColorStopListTail (Measure hint /\ color ~ Measure pos)
+else instance (LengthPercentageTag hint, IsColor color) => IsColorStopListTail (Measure hint /\ color)
+else instance (IsColor color, LengthPercentageTag pos) => IsColorStopListTail (color ~ Measure pos)
+else instance (IsColor color, IsColorStopListTail tail) => IsColorStopListTail (color /\ tail)
+else instance IsColor color => IsColorStopListTail color
+
+newtype Gradient (repeating :: Type) = Gradient (String /\ Array Val)
+
+instance IsImage (Gradient a)
+
+instance ToVal (Gradient a) where
+  val (Gradient (ty /\ details)) = fn (ty <> "-gradient") details
+
 data Repeating
 
-data ColorStop
-
-data TransitionHint
-
-class IsColorStopListItem (a :: Type)
-instance IsColorStopListItem ColorStop
-instance IsColorStopListItem TransitionHint
-
-newtype Gradient (repeating :: Type) (previous :: Type) (last :: Type) =
-  Gradient (String /\ List Val)
-
-instance
-  IsColorStopListItem previous
-  => ToVal (Gradient repeating previous ColorStop) where
-  val (Gradient (f /\ args)) = fn f $ Array.reverse $ Array.fromFoldable args
-
-instance IsColorStopListItem previous
-  => IsImage (Gradient repeating previous ColorStop)
-
-mkGradient :: String -> Gradient Unit Unit Unit
-mkGradient ty = Gradient $ (ty <> "-gradient") /\ Nil
-
-repeating :: Gradient Unit Unit Unit -> Gradient Repeating Unit Unit
-repeating (Gradient (f /\ args)) = Gradient $ ("repeating-" <> f) /\ args
-
-addGradientDetail
-  :: forall a repeating previous last next
-   . ToVal a
-  => a
-  -> Gradient repeating previous last
-  -> Gradient repeating last next
-addGradientDetail arg (Gradient (f /\ args)) = Gradient $ f /\ val arg : args
- 
-stop
-  :: forall color repeating previous last
-   . IsColor color
-  => ToVal color
-  => color
-  -> Gradient repeating previous last
-  -> Gradient repeating last ColorStop
-stop = addGradientDetail
-
-stop2
-  :: forall color lengthPercentage repeating previous last
-   . IsColor color
-  => ToVal color
-  => LengthPercentageTag lengthPercentage
-  => color
-  -> Measure lengthPercentage
-  -> Gradient repeating previous last
-  -> Gradient repeating last ColorStop
-stop2 color pos = addGradientDetail $ val color <> val " " <> val pos
-
-hint
-  :: forall lengthPercentage repeating previous
-   . LengthPercentageTag lengthPercentage
-  => Measure lengthPercentage
-  -> Gradient repeating previous ColorStop
-  -> Gradient repeating ColorStop TransitionHint
-hint = addGradientDetail
+repeating :: Gradient Unit -> Gradient Repeating
+repeating (Gradient (ty /\ details)) =
+  Gradient $ ("repeating-" <> ty) /\ details
 
 -- https://www.w3.org/TR/css-images-3/#linear-gradient-syntax
 
-linearGradient :: forall a. AngleTag a => Measure a -> Gradient Unit Unit Unit
-linearGradient = flip addGradientDetail $ mkGradient "linear"
+linearGradient
+  :: forall a csh cst
+   . AngleTag a
+  => IsColorStopListHead csh
+  => IsColorStopListTail cst
+  => MultiVal (csh /\ cst)
+  => Measure a
+  -> (csh /\ cst)
+  -> Gradient Unit
+linearGradient angle colorStops =
+  Gradient $ "linear" /\ Array.cons (val angle) (multiVal colorStops)
 
 -- https://www.w3.org/TR/css-images-3/#radial-gradient-syntax
 
@@ -2639,46 +2612,39 @@ farthestCorner = Extent "farthest-corner"
 farthestSide :: Extent
 farthestSide = Extent "farthest-side"
 
-class ValRadialGradientDimensions (a :: Type) where
-  valRadialGradientDimensions :: a -> Val
-
-instance ValRadialGradientDimensions Circle where
-  valRadialGradientDimensions = val
-
-instance ValRadialGradientDimensions Ellipse where
-  valRadialGradientDimensions = val
-
-instance ValRadialGradientDimensions (Circle ~ Extent) where
-  valRadialGradientDimensions (cir ~ ext) = val cir <> val " " <> val ext
-
-instance ValRadialGradientDimensions (Ellipse ~ Extent) where
-  valRadialGradientDimensions (ell ~ ext) = val ell <> val " " <> val ext
-
-instance LengthTag a => ValRadialGradientDimensions (Measure a) where
-  valRadialGradientDimensions = val
-
-instance valRadialGradientDimensionsPair
+class IsRadialGradientDimensions (a :: Type)
+instance IsRadialGradientDimensions Circle
+instance IsRadialGradientDimensions Ellipse
+instance IsRadialGradientDimensions (Circle ~ Extent)
+instance IsRadialGradientDimensions (Ellipse ~ Extent)
+instance LengthTag a => IsRadialGradientDimensions (Measure a)
+instance isRadialGradientDimensionsPair
   :: ( LengthPercentageTag x
      , LengthPercentageTag y
      )
-  => ValRadialGradientDimensions (Measure x ~ Measure y) where
-  valRadialGradientDimensions (x ~ y) = val x <> val " " <> val y
+  => IsRadialGradientDimensions (Measure x ~ Measure y)
 
 radialGradient
-  :: forall dimensions position
-   . ValRadialGradientDimensions dimensions
-  => ToVal position
+  :: forall dimensions position csh cst
+   . IsRadialGradientDimensions dimensions
+  => ToVal dimensions
   => IsPosition position
+  => ToVal position
+  => IsColorStopListHead csh
+  => IsColorStopListTail cst
+  => MultiVal (csh /\ cst)
   => dimensions
   -> position
-  -> Gradient Unit Unit Unit
-radialGradient dimensions position =
-  mkGradient "radial"
-    # addGradientDetail
-      ( valRadialGradientDimensions dimensions
-        <> val " at "
-        <> val position
-      )
+  -> (csh /\ cst)
+  -> Gradient Unit
+radialGradient dimensions position colorStops =
+  let
+    details =
+      Array.cons
+        (val dimensions <> val " at " <> val position)
+        (multiVal colorStops)
+  in
+    Gradient $ "radial" /\ details
 
 --------------------------------------------------------------------------------
 

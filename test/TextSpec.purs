@@ -4,7 +4,6 @@ module Test.TextSpec where
 
 import Prelude
 
-import Data.Tuple.Nested ((/\))
 import PSCSS (breakSpaces, capitalize, fullSizeKana, fullWidth, inherit, initial, lowercase, none, normal, nowrap, pre, preLine, preWrap, unset, uppercase, (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
