@@ -2,7 +2,7 @@ const fs = require("fs/promises");
 const path = require("path");
 
 const prefix =
-  "-- WARNING: The following is generated code. Edit with care!\n\n";
+  "-- WARNING: The following is generated code. Do not edit.\n\n";
 
 const code = [
   {
@@ -321,6 +321,11 @@ const code = [
     attribute: true
   },
   {
+    typeName: "Infinite",
+    varName: "infinite",
+    value: "infinite"
+  },
+  {
     typeName: "Inset",
     varName: "inset",
     value: "inset"
@@ -359,6 +364,11 @@ const code = [
     varName: "list",
     value: "list",
     attribute: true
+  },
+  {
+    typeName: "Local",
+    varName: "local",
+    value: "local"
   },
   {
     typeName: "Loop",
@@ -872,6 +882,11 @@ const code = [
     varName: "optimum",
     value: "optimum",
     attribute: true
+  },
+  {
+    typeName: "PaddingBox",
+    varName: "paddingBox",
+    value: "padding-box"
   },
   {
     typeName: "Pattern",

@@ -10,7 +10,7 @@ import Data.Array as Array
 import Data.Either as Either
 import Data.FoldableWithIndex (class FoldableWithIndex, foldlWithIndex)
 import Data.Int as Int
-import Data.List (List(Nil), (:))
+import Data.List (List(..), (:))
 import Data.Maybe (Maybe(..))
 import Data.NonEmpty (NonEmpty)
 import Data.NonEmpty as NE
@@ -95,6 +95,22 @@ instance ToVal Number where
 
 instance ToVal Int where
   val = val <<< Int.toNumber
+
+instance (ToVal a, ToVal b) => ToVal (Pair a b) where
+  val (a ~ b) = val a <> val " " <> val b
+
+class MultiVal (a :: Type) where
+  multiValImpl :: List Val -> a -> List Val
+
+instance multiValImplXXS
+  :: (ToVal x, MultiVal xs) => MultiVal (x /\ xs) where
+  multiValImpl acc (x /\ xs) = multiValImpl (val x : acc) xs
+
+else instance multiValImplX :: ToVal x => MultiVal x where
+  multiValImpl acc x = val x : acc
+
+multiVal :: forall a. MultiVal a => a -> Array Val
+multiVal = Array.reverse <<< Array.fromFoldable <<< multiValImpl Nil
 
 joinVals 
   :: forall s f
@@ -716,45 +732,32 @@ url = URL
 
 -- https://www.w3.org/TR/css-values-4/#typedef-position
 
-class ValPosition (a :: Type) where
-  valPosition :: a -> Val
+class IsPosition (a :: Type)
 
-instance ValPosition Left where
-  valPosition = val
+instance IsPosition Left
+instance IsPosition Center
+instance IsPosition Right
+instance IsPosition Top
+instance IsPosition Bottom
+instance LengthPercentageTag a => IsPosition (Measure a)
 
-instance ValPosition Center where
-  valPosition = val
+class IsPositionX (a :: Type)
+instance IsPositionX Left
+instance IsPositionX Center
+instance IsPositionX Right
+instance LengthPercentageTag a => IsPositionX (Measure a)
 
-instance ValPosition Right where
-  valPosition = val
+class IsPositionY (a :: Type)
+instance IsPositionY Top
+instance IsPositionY Center
+instance IsPositionY Bottom
+instance LengthPercentageTag a => IsPositionY (Measure a)
 
-instance ValPosition Top where
-  valPosition = val
-
-instance ValPosition Bottom where
-  valPosition = val
-
-instance LengthPercentageTag a => ValPosition (Measure a) where
-  valPosition = val
-
-class ToVal a <= ValPositionX (a :: Type)
-instance ValPositionX Left
-instance ValPositionX Center
-instance ValPositionX Right
-instance LengthPercentageTag a => ValPositionX (Measure a)
-
-class ToVal a <= ValPositionY (a :: Type)
-instance ValPositionY Top
-instance ValPositionY Center
-instance ValPositionY Bottom
-instance LengthPercentageTag a => ValPositionY (Measure a)
-
-instance valPositionXY
-  :: ( ValPositionX x
-     , ValPositionY y
+instance isPositionPair
+  :: ( IsPositionX x
+     , IsPositionY y
      )
-  => ValPosition (x ~ y) where
-  valPosition (x ~ y) = val x <> val " " <> val y
+  => IsPosition (x ~ y)
 
 --------------------------------------------------------------------------------
 
@@ -1300,225 +1303,158 @@ byAfter = closeSelector <<< appendSelectorDetail (val "::after")
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-name
 
-class ValAnimationName (a :: Type) where
-  valAnimationName :: a -> Val
-
-instance valAnimationNameNone :: ValAnimationName None where
-  valAnimationName = val
-
-instance valAnimationNameKeyframesName :: ValAnimationName KeyframesName where
-  valAnimationName = val
-
-instance
-  valAnimationNameMultiple
-  :: (ValAnimationName a, ValAnimationName b)
-  => ValAnimationName (a /\ b) where
-  valAnimationName (a /\ b) =
-    joinVals
-      (Val \c -> "," <> c.separator)
-      [ valAnimationName a
-      , valAnimationName b
-      ]
+class IsAnimationName (a :: Type)
+instance IsAnimationName None
+instance IsAnimationName KeyframesName
+instance isAnimationNameMultiple
+  :: ( IsAnimationName x
+     , IsAnimationName xs
+     )
+  => IsAnimationName (x /\ xs)
 
 instance propertyAnimationNameCommonKeyword
   :: Property "animationName" CommonKeyword where
   pval = const val
 
-else instance propertyAnimationNameNone
-  :: ValAnimationName a
+else instance propertyAnimationNameVal
+  :: ( IsAnimationName a
+     , MultiVal a
+     )
   => Property "animationName" a where
-  pval = const valAnimationName
+  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-duration
 
-class ValAnimationDuration (a :: Type) where
-  valAnimationDuration :: a -> Val
-
-instance valAnimationDurationNone :: ValAnimationDuration None where
-  valAnimationDuration = val
-
-instance valAnimationDurationTime
-  :: TimeTag a
-  => ValAnimationDuration (Measure a) where
-  valAnimationDuration = val
-
-instance valAnimationDurationMultiple
-  :: ( ValAnimationDuration a
-     , ValAnimationDuration b
+class IsAnimationDuration (a :: Type)
+instance IsAnimationDuration None
+instance TimeTag a => IsAnimationDuration (Measure a)
+instance isAnimationDurationMultiple
+  :: ( IsAnimationDuration x
+     , IsAnimationDuration xs
      )
-  => ValAnimationDuration (a /\ b) where
-  valAnimationDuration (a /\ b) =
-    joinVals
-      (Val \c -> "," <> c.separator)
-      [ valAnimationDuration a
-      , valAnimationDuration b
-      ]
+  => IsAnimationDuration (x /\ xs)
 
 instance propertyAnimationDurationCommonKeyword
   :: Property "animationDuration" CommonKeyword where
   pval = const val
 
-else instance propertyAnimationDurationNone
-  :: ValAnimationDuration a
+else instance propertyAnimationDurationIs
+  :: ( IsAnimationDuration a
+     , MultiVal a
+     )
   => Property "animationDuration" a where
-  pval = const valAnimationDuration
+  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 --------------------------------------------------------------------------------
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-timing-function
 
-class ValAnimationTimingFunction (a :: Type) where
-  valAnimationTimingFunction :: a -> Val
-
-instance valAnimationTimingFunctionSingle
-  :: ValAnimationTimingFunction EasingFunction where
-  valAnimationTimingFunction = val
-
-instance valAnimationTimingFunctionMultiple
-  :: ( ValAnimationTimingFunction a
-     , ValAnimationTimingFunction b
+class IsAnimationTimingFunction (a :: Type)
+instance IsAnimationTimingFunction EasingFunction
+instance isAnimationTimingFunctionMultiple
+  :: ( IsAnimationTimingFunction x
+     , IsAnimationTimingFunction xs
      )
-  => ValAnimationTimingFunction (a /\ b) where
-  valAnimationTimingFunction (a /\ b) =
-    joinVals
-      (Val \{ separator } -> "," <> separator)
-      [ valAnimationTimingFunction a, valAnimationTimingFunction b]
+  => IsAnimationTimingFunction (x /\ xs)
 
 instance propertyAnimationTimingFunctionCommonKeyword
   :: Property "animationTimingFunction" CommonKeyword where
   pval = const val
 
-else instance propertyAnimationTimingFunctionVal
-  :: ValAnimationTimingFunction a
+else instance propertyAnimationTimingFunctionIs
+  :: ( IsAnimationTimingFunction a
+     , MultiVal a
+     )
   => Property "animationTimingFunction" a where
-  pval = const valAnimationTimingFunction
+  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-iteration-count
 
-data Infinite = Infinite
-infinite = Infinite :: Infinite
-instance ToVal Infinite where val _ = val "infinite"
-
-class ToVal a <= SingleAnimationIterationCountCompatible (a :: Type)
-instance SingleAnimationIterationCountCompatible Infinite
-instance SingleAnimationIterationCountCompatible Int
-
-class ValAnimationIterationCount (a :: Type) where
-  valAnimationIterationCount :: a -> Val
-
-instance valAnimationIterationCountMultiple
-  :: ( ValAnimationIterationCount a
-     , ValAnimationIterationCount b
+class IsAnimationIterationCount (a :: Type)
+instance IsAnimationIterationCount Infinite
+instance IsAnimationIterationCount Int
+instance isAnimationIterationCountMultiple
+  :: ( IsAnimationIterationCount x
+     , IsAnimationIterationCount xs
      )
-  => ValAnimationIterationCount (a /\ b) where
-  valAnimationIterationCount (a /\ b) =
-    joinVals
-      (Val \{ separator } -> "," <> separator)
-      [ valAnimationIterationCount a
-      , valAnimationIterationCount b
-      ]
-
-else instance valAnimationIterationCountSingle
-  :: SingleAnimationIterationCountCompatible a
-  => ValAnimationIterationCount a where
-  valAnimationIterationCount = val
+  => IsAnimationIterationCount (x /\ xs)
 
 instance propertyAnimationIterationCountCommonKeyword
   :: Property "animationIterationCount" CommonKeyword where
   pval = const val
 
-else instance propertyAnimationIterationCountVal
-  :: ValAnimationIterationCount a
+else instance propertyAnimationIterationCountIs
+  :: ( IsAnimationIterationCount a
+     , MultiVal a
+     )
   => Property "animationIterationCount" a where
-  pval = const valAnimationIterationCount
+  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-direction
 
-newtype SingleAnimationDirection = SingleAnimationDirection String
+newtype AnimationDirection' = AnimationDirection' String
 
-derive newtype instance ToVal SingleAnimationDirection
+derive newtype instance ToVal AnimationDirection'
 
-reverse :: SingleAnimationDirection
-reverse = SingleAnimationDirection "reverse"
+reverse :: AnimationDirection'
+reverse = AnimationDirection' "reverse"
 
-alternate :: SingleAnimationDirection
-alternate = SingleAnimationDirection "alternate"
+alternate :: AnimationDirection'
+alternate = AnimationDirection' "alternate"
 
-alternateReverse :: SingleAnimationDirection
-alternateReverse = SingleAnimationDirection "alternate-reverse"
+alternateReverse :: AnimationDirection'
+alternateReverse = AnimationDirection' "alternate-reverse"
 
-class ToVal a <= SingleAnimationDirectionCompatible (a :: Type)
-instance SingleAnimationDirectionCompatible Normal
-instance SingleAnimationDirectionCompatible SingleAnimationDirection
-
-class ValAnimationDirection (a :: Type) where
-  valAnimationDirection :: a -> Val
-
-instance valAnimationDirectionMultiple
-  :: ( ValAnimationDirection a
-     , ValAnimationDirection b
+class IsAnimationDirection (a :: Type)
+instance IsAnimationDirection Normal
+instance IsAnimationDirection AnimationDirection'
+instance isAnimationDirectionMultiple
+  :: ( IsAnimationDirection x
+     , IsAnimationDirection xs
      )
-  => ValAnimationDirection (a /\ b) where
-  valAnimationDirection (a /\ b) =
-    joinVals
-      (Val \{ separator } -> "," <> separator)
-      [ valAnimationDirection a
-      , valAnimationDirection b
-      ]
-
-else instance valAnimationDirectionSingle
-  :: SingleAnimationDirectionCompatible a
-  => ValAnimationDirection a where
-  valAnimationDirection = val
+  => IsAnimationDirection (x /\ xs)
 
 instance propertyAnimationDirectionCommonKeyword
   :: Property "animationDirection" CommonKeyword where
   pval = const val
 
-else instance propertyAnimationDirection
-  :: ValAnimationDirection a
+else instance propertyAnimationDirectionIs
+  :: ( IsAnimationDirection a
+     , MultiVal a
+     )
   => Property "animationDirection" a where
-  pval = const valAnimationDirection
+  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-play-state
 
-newtype SingleAnimationPlayState = SingleAnimationPlayState String
+newtype AnimationPlayState' = AnimationPlayState' String
 
-derive newtype instance ToVal SingleAnimationPlayState
+derive newtype instance ToVal AnimationPlayState'
 
-running :: SingleAnimationPlayState
-running = SingleAnimationPlayState "running"
+running :: AnimationPlayState'
+running = AnimationPlayState' "running"
 
-paused :: SingleAnimationPlayState
-paused = SingleAnimationPlayState "paused"
+paused :: AnimationPlayState'
+paused = AnimationPlayState' "paused"
 
-class ValAnimationPlayState (a :: Type) where
-  valAnimationPlayState :: a -> Val
-
-instance valAnimationPlayStateMultiple
-  :: ( ValAnimationPlayState a
-     , ValAnimationPlayState b
+class IsAnimationPlayState (a :: Type)
+instance IsAnimationPlayState AnimationPlayState'
+instance isAnimationPlayStateMultiple
+  :: ( IsAnimationPlayState x
+     , IsAnimationPlayState xs
      )
-  => ValAnimationPlayState (a /\ b) where
-  valAnimationPlayState (a /\ b) =
-    joinVals
-      (Val \{ separator } -> "," <> separator)
-      [ valAnimationPlayState a
-      , valAnimationPlayState b
-      ]
-
-instance valAnimationPlayStateSingle
-  :: ValAnimationPlayState SingleAnimationPlayState where
-  valAnimationPlayState = val
+  => IsAnimationPlayState (x /\ xs)
 
 instance propertyAnimationPlayStateCommonKeyword
   :: Property "animationPlayState" CommonKeyword where
   pval = const val
 
-else instance propertyAnimationPlayStateValAnimationPlayState
-  :: ValAnimationPlayState a
+else instance propertyAnimationPlayStateIs
+  :: ( IsAnimationPlayState a
+     , MultiVal a
+     )
   => Property "animationPlayState" a where
-  pval = const valAnimationPlayState
+  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-delay
 
@@ -1529,48 +1465,36 @@ instance propertyAnimationDelay
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-fill-mode
 
-newtype SingleAnimationFillMode = SingleAnimationFillMode String
+newtype AnimationFillMode' = AnimationFillMode' String
 
-derive newtype instance ToVal SingleAnimationFillMode
+derive newtype instance ToVal AnimationFillMode'
 
-forwards :: SingleAnimationFillMode
-forwards = SingleAnimationFillMode "forwards"
+forwards :: AnimationFillMode'
+forwards = AnimationFillMode' "forwards"
 
-backwards :: SingleAnimationFillMode
-backwards = SingleAnimationFillMode "backwards"
+backwards :: AnimationFillMode'
+backwards = AnimationFillMode' "backwards"
 
-class ToVal a <= SingleAnimationFillModeCompatible (a :: Type)
-instance SingleAnimationFillModeCompatible SingleAnimationFillMode
-instance SingleAnimationFillModeCompatible None
-instance SingleAnimationFillModeCompatible Both
-
-class ValAnimationFillMode (a :: Type) where
-  valAnimationFillMode :: a -> Val
-
-instance valAnimationFillModeMultiple
-  :: ( ValAnimationFillMode a
-     , ValAnimationFillMode b
+class IsAnimationFillMode (a :: Type)
+instance IsAnimationFillMode AnimationFillMode'
+instance IsAnimationFillMode None
+instance IsAnimationFillMode Both
+instance isAnimationFillModeMultiple
+  :: ( IsAnimationFillMode x
+     , IsAnimationFillMode xs
      )
-  => ValAnimationFillMode (a /\ b) where
-  valAnimationFillMode (a /\ b) =
-    joinVals
-      (Val \{ separator } -> "," <> separator)
-      [ valAnimationFillMode a
-      , valAnimationFillMode b
-      ]
-
-else instance valAnimationFillModeSingle
-  :: SingleAnimationFillModeCompatible a
-  => ValAnimationFillMode a where
-  valAnimationFillMode = val
+  => IsAnimationFillMode (x /\ xs)
 
 instance propertyAnimationFillModeCommonKeyword
   :: Property "animationFillMode" CommonKeyword where
   pval = const val
 
-else instance propertyAnimationFillModeVal
-  :: ValAnimationFillMode a => Property "animationFillMode" a where
-  pval = const valAnimationFillMode
+else instance propertyAnimationFillModeIs
+  :: ( IsAnimationFillMode a
+     , MultiVal a
+     )
+  => Property "animationFillMode" a where
+  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 --------------------------------------------------------------------------------
 
@@ -1583,38 +1507,34 @@ instance propertyBackgroundColorCommonKeyword
   pval = const val
 
 else instance propertyBackgroundColorColor
-  :: IsColor a => Property "backgroundColor" a where
+  :: ( IsColor a
+     , ToVal a
+     )
+  => Property "backgroundColor" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-image
 
-class ValBackgroundImage (a :: Type) where
-  valBackgroundImage :: a -> Val
+class IsBackgroundImage (a :: Type)
 
-instance valBackgroundImageMultiple
-  :: ( ValBackgroundImage a
-     , ValBackgroundImage b
+instance isBackgroundImageMultiple
+  :: ( IsBackgroundImage x
+     , IsBackgroundImage xs
      )
-  => ValBackgroundImage (a /\ b) where
-  valBackgroundImage (a /\ b) =
-    valBackgroundImage a
-    <> (Val \c -> "," <> c.separator)
-    <> valBackgroundImage b
-
-else instance ValBackgroundImage None where
-  valBackgroundImage = val
-
-else instance IsImage a => ValBackgroundImage a where
-  valBackgroundImage = val
+  => IsBackgroundImage (x /\ xs)
+else instance IsBackgroundImage None
+else instance IsImage a => IsBackgroundImage a
 
 instance propertyBackgroundImageCommonKeyword
   :: Property "backgroundImage" CommonKeyword where
   pval = const val
 
-else instance propertyBackgroundImageVal
-  :: ValBackgroundImage a
+else instance propertyBackgroundImageIs
+  :: ( IsBackgroundImage a
+     , MultiVal a
+     )
   => Property "backgroundImage" a where
-  pval = const valBackgroundImage
+  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-repeat
 
@@ -1640,137 +1560,93 @@ round = RepeatStyle "round"
 noRepeat :: RepeatStyle Unit
 noRepeat = RepeatStyle "no-repeat"
 
-class ValBackgroundRepeat (a :: Type) where
-  valBackgroundRepeat :: a -> Val
-
-instance valBackgroundRepeatMultiple
-  :: ( ValBackgroundRepeat a
-     , ValBackgroundRepeat b
+class IsBackgroundRepeat (a :: Type)
+instance IsBackgroundRepeat (RepeatStyle a)
+instance isBackgroundRepeatPair
+  :: IsBackgroundRepeat (RepeatStyle Unit ~ RepeatStyle Unit)
+instance isBackgroundRepeatMultiple
+  :: ( IsBackgroundRepeat x
+     , IsBackgroundRepeat xs
      )
-  => ValBackgroundRepeat (a /\ b) where
-  valBackgroundRepeat (a /\ b) =
-    valBackgroundRepeat a
-      <> Val (\{ separator } -> "," <> separator)
-      <> valBackgroundRepeat b
-
-instance ValBackgroundRepeat (RepeatStyle a) where
-  valBackgroundRepeat = val
-
-instance valBackgroundRepeatXY
-  :: ValBackgroundRepeat (RepeatStyle Unit ~ RepeatStyle Unit) where
-  valBackgroundRepeat (x ~ y) = val x <> val " " <> val y
+  => IsBackgroundRepeat (x /\ xs)
 
 instance propertyBackgroundRepeatCommonKeyword
   :: Property "backgroundRepeat" CommonKeyword where
   pval = const val
 
-else instance propertyBackgroundRepeatVal
-  :: ValBackgroundRepeat a
+else instance propertyBackgroundRepeatIs
+  :: ( IsBackgroundRepeat a
+     , MultiVal a
+     )
   => Property "backgroundRepeat" a where
-  pval = const valBackgroundRepeat
+  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-attachment
 
-data Local = Local
-instance ToVal Local where val _ = val "local"
-local = Local :: Local
-
-class ValBackgroundAttachment (a :: Type) where
-  valBackgroundAttachment :: a -> Val
-
-instance valBackgroundAttachmentMultiple
-  :: ( ValBackgroundAttachment a
-     , ValBackgroundAttachment b
+class IsBackgroundAttachment (a :: Type)
+instance IsBackgroundAttachment Fixed
+instance IsBackgroundAttachment Local
+instance IsBackgroundAttachment Scroll
+instance isBackgroundAttachmentMultiple
+  :: ( IsBackgroundAttachment x
+     , IsBackgroundAttachment xs
      )
-  => ValBackgroundAttachment (a /\ b) where
-    valBackgroundAttachment (a /\ b) =
-      valBackgroundAttachment a
-      <> Val (\{ separator } -> "," <> separator)
-      <> valBackgroundAttachment b
-
-instance ValBackgroundAttachment Fixed where
-  valBackgroundAttachment = val
-
-instance ValBackgroundAttachment Local where
-  valBackgroundAttachment = val
-
-instance ValBackgroundAttachment Scroll where
-  valBackgroundAttachment = val
+  => IsBackgroundAttachment (x /\ xs)
 
 instance propertyBackgrondAttachmentCommonKeyword
   :: Property "backgroundAttachment" CommonKeyword where
   pval = const val
 
-else instance propertyBackgrondAttachmentVal
-  :: ValBackgroundAttachment a
+else instance propertyBackgrondAttachmentIs
+  :: ( IsBackgroundAttachment a
+     , MultiVal a
+     )
   => Property "backgroundAttachment" a where
-  pval = const valBackgroundAttachment
+  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-position
 
-class ValBackgroundPosition (a :: Type) where
-  valBackgroundPosition :: a -> Val
-
-instance valBackgroundPositionMultiple
-  :: ( ValBackgroundPosition a
-     , ValBackgroundPosition b
+class IsBackgroundPosition (a :: Type)
+instance isBackgroundPositionMultiple
+  :: ( IsPosition x
+     , IsBackgroundPosition xs
      )
-  => ValBackgroundPosition (a /\ b) where
-  valBackgroundPosition (a /\ b) =
-    valBackgroundPosition a
-    <> Val (\{ separator } -> "," <> separator)
-    <> valBackgroundPosition b
-
-else instance valBackgroundPositionValPosition
-  :: ValPosition a
-  => ValBackgroundPosition a where
-  valBackgroundPosition = valPosition
+  => IsBackgroundPosition (x /\ xs)
+else instance IsPosition a => IsBackgroundPosition a
 
 instance propertyBackgroundPositionCommonKeyword
   :: Property "backgroundPosition" CommonKeyword where
   pval = const val
 
 else instance propertyBackgroundPositionVal
-  :: ValBackgroundPosition a
+  :: ( IsBackgroundPosition a
+     , MultiVal a
+     )
   => Property "backgroundPosition" a where
-  pval = const valBackgroundPosition
+  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-clip
 
-data PaddingBox = PaddingBox
-instance ToVal PaddingBox where val _ = val "padding-box"
-paddingBox = PaddingBox :: PaddingBox
-
-class ValBackgroundClip (a :: Type) where
-  valBackgroundClip :: a -> Val
-
-instance valBackgroundClipMultiple
-  :: ( ValBackgroundClip a
-     , ValBackgroundClip b
+class IsBackgroundClip (a :: Type)
+instance IsBackgroundClip BorderBox
+instance IsBackgroundClip PaddingBox
+instance IsBackgroundClip ContentBox
+instance isBackgroundClipMultiple
+  :: ( IsBackgroundClip x
+     , IsBackgroundClip xs
      )
-  => ValBackgroundClip (a /\ b) where
-  valBackgroundClip (a /\ b) =
-    valBackgroundClip a
-    <> Val (\{ separator } -> "," <> separator)
-    <> valBackgroundClip b
-
-instance ValBackgroundClip BorderBox where
-  valBackgroundClip = val
-
-instance ValBackgroundClip PaddingBox where
-  valBackgroundClip = val
-
-instance ValBackgroundClip ContentBox where
-  valBackgroundClip = val
+  => IsBackgroundClip (x /\ xs)
 
 instance propertyBackgroundClipCommonKeyword
   :: Property "backgroundClip" CommonKeyword where
   pval = const val
 
-else instance propertyBackgroundClipVal
-  :: ValBackgroundClip a
+else instance propertyBackgroundClipIs
+  :: ( IsBackgroundClip a
+     , MultiVal a
+     )
   => Property "backgroundClip" a where
-  pval = const valBackgroundClip
+  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-origin
 
@@ -1781,48 +1657,39 @@ instance propertyBackgroundOriginBackgroundClip
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-size
 
-class ToVal a <= ValBackgroundSize1d (a :: Type)
-instance ValBackgroundSize1d Auto
-instance LengthPercentageTag a => ValBackgroundSize1d (Measure a)
-
-class ValBackgroundSize (a :: Type) where
-  valBackgroundSize :: a -> Val
-
-instance valBackgroundSizeMultiple
-  :: ( ValBackgroundSize a
-     , ValBackgroundSize b
+class IsBackgroundSize (a :: Type)
+instance IsBackgroundSize Cover
+instance IsBackgroundSize Contain
+instance IsBackgroundSize Auto
+instance LengthPercentageTag a => IsBackgroundSize (Measure a)
+instance isBackgroundSizeAutoAuto :: IsBackgroundSize (Auto ~ Auto)
+instance isBackgroundSizeAutoLengthPercentage
+  :: LengthPercentageTag y
+  => IsBackgroundSize (Auto ~ Measure y)
+instance isBackgroundSizeLengthPercentageAuto
+  :: LengthPercentageTag x
+  => IsBackgroundSize (Measure x ~ Auto)
+instance isBackgroundSizeLengthPercentageLengthPercentage
+  :: ( LengthPercentageTag x
+     , LengthPercentageTag y
      )
-  => ValBackgroundSize (a /\ b) where
-  valBackgroundSize (a /\ b) =
-    valBackgroundSize a
-    <> Val (\{ separator } -> "," <> separator)
-    <> valBackgroundSize b
-
-else instance valBackgroundSizeCover :: ValBackgroundSize Cover where
-  valBackgroundSize = val
-
-else instance valBackgroundSizeContain :: ValBackgroundSize Contain where
-  valBackgroundSize = val
-
-else instance valBackgroundSize2d
-  :: ( ValBackgroundSize1d x
-     , ValBackgroundSize1d y
+  => IsBackgroundSize (Measure x ~ Measure y)
+instance isBackgroundSizeMultiple
+  :: ( IsBackgroundSize x
+     , IsBackgroundSize xs
      )
-  => ValBackgroundSize (x ~ y) where
-  valBackgroundSize (x ~ y) = val x <> val " " <> val y
-
-else instance valBackgroundSizeVal1d
-  :: ValBackgroundSize1d a => ValBackgroundSize a where
-  valBackgroundSize = val
+  => IsBackgroundSize (x /\ xs)
 
 instance propertyBackgroundSizeCommonKeyword
   :: Property "backgroundSize" CommonKeyword where
   pval = const val
 
 else instance propertyBackgroundSizeVal
-  :: ValBackgroundSize a
+  :: ( IsBackgroundSize a
+     , MultiVal a
+     )
   => Property "backgroundSize" a where
-  pval = const valBackgroundSize
+  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-color
 
@@ -1831,7 +1698,9 @@ instance propertyBorderTopColorCommonKeyword
   pval = const val
 
 else instance propertyBorderTopColorColor
-  :: IsColor a
+  :: ( IsColor a
+     , ToVal a
+     )
   => Property "borderTopColor" a where
   pval = const val
 
@@ -1858,47 +1727,49 @@ instance propertyBorderLeftColorBorderTopColor
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-color
 
-class ValBorderColor (a :: Type) where
-  valBorderColor :: a -> Val
-
-instance valBorderColor4
-  :: ( IsColor a
-     , IsColor b
-     , IsColor c
-     , IsColor d
-     )
-  => ValBorderColor (a ~ b ~ c ~ d) where
-  valBorderColor (a ~ b ~ c ~ d) =
-    joinVals (val " ") [val a, val b, val c, val d]
-
-else instance valBorderColor3
-  :: ( IsColor a
-     , IsColor b
-     , IsColor c
-     )
-  => ValBorderColor (a ~ b ~ c) where
-  valBorderColor (a ~ b ~ c) = joinVals (val " ") [val a, val b, val c]
-
-else instance valBorderColor2
-  :: ( IsColor a
-     , IsColor b
-     )
-  => ValBorderColor (a ~ b) where
-  valBorderColor (a ~ b) = joinVals (val " ") [val a, val b]
-   
-else instance valBorderColor1
-  :: IsColor a
-  => ValBorderColor a where
-  valBorderColor = val
-
 instance propertyBorderColorCommonKeyword
   :: Property "borderColor" CommonKeyword where
   pval = const val
 
-else instance propertyBorderColorVal
-  :: ValBorderColor a
+else instance propertyBorderColor4
+  :: ( IsColor t
+     , ToVal t
+     , IsColor r
+     , ToVal r
+     , IsColor b
+     , ToVal b
+     , IsColor l
+     , ToVal l
+     )
+  => Property "borderColor" (t ~ r ~ b ~ l) where
+  pval = const val
+
+else instance propertyBorderColor3
+  :: ( IsColor t
+     , ToVal t
+     , IsColor x
+     , ToVal x
+     , IsColor b
+     , ToVal b
+     )
+  => Property "borderColor" (t ~ x ~ b) where
+  pval = const val
+
+else instance propertyBorderColor2
+  :: ( IsColor y
+     , ToVal y
+     , IsColor x
+     , ToVal x
+     )
+  => Property "borderColor" (y ~ x) where
+  pval = const val
+
+else instance propertyBorderColor1
+  :: ( IsColor a
+     , ToVal a
+     )
   => Property "borderColor" a where
-  pval = const valBorderColor
+  pval = const val
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-style
 
@@ -1927,19 +1798,21 @@ ridge = LineStyle "ridge"
 outset :: LineStyle
 outset = LineStyle "outset"
 
-class ToVal a <= ValBorderTopStyle (a :: Type)
+class IsBorderTopStyle (a :: Type)
 
-instance ValBorderTopStyle None
-instance ValBorderTopStyle Hidden
-instance ValBorderTopStyle Inset
-instance ValBorderTopStyle LineStyle
+instance IsBorderTopStyle None
+instance IsBorderTopStyle Hidden
+instance IsBorderTopStyle Inset
+instance IsBorderTopStyle LineStyle
 
 instance propertyBorderTopStyleCommonKeyword
   :: Property "borderTopStyle" CommonKeyword where
   pval = const val
 
-else instance propertyBorderTopStyleVal
-  :: ValBorderTopStyle a
+else instance propertyBorderTopStyleIs
+  :: ( IsBorderTopStyle a
+     , ToVal a
+     )
   => Property "borderTopStyle" a where
   pval = const val
 
@@ -1966,47 +1839,49 @@ instance propertyBorderLeftStyleBorderTopStyle
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-style
 
-class ValBorderStyle (a :: Type) where
-  valBorderStyle :: a -> Val
-
-instance valBorderStyle4
-  :: ( ValBorderTopStyle a
-     , ValBorderTopStyle b
-     , ValBorderTopStyle c
-     , ValBorderTopStyle d
-     )
-  => ValBorderStyle (a ~ b ~ c ~ d) where
-  valBorderStyle (a ~ b ~ c ~ d) =
-    joinVals (val " ") [val a, val b, val c, val d]
-
-else instance valBorderStyle3
-  :: ( ValBorderTopStyle a
-     , ValBorderTopStyle b
-     , ValBorderTopStyle c
-     )
-  => ValBorderStyle (a ~ b ~ c) where
-  valBorderStyle (a ~ b ~ c) = joinVals (val " ") [val a, val b, val c]
-
-else instance valBorderStyle2
-  :: ( ValBorderTopStyle a
-     , ValBorderTopStyle b
-     )
-  => ValBorderStyle (a ~ b) where
-  valBorderStyle (a ~ b) = joinVals (val " ") [val a, val b]
-
-else instance valBorderStyle1
-  :: ValBorderTopStyle a
-  => ValBorderStyle a where
-  valBorderStyle = val
-
 instance propertyBorderStyleCommonKeyword
   :: Property "borderStyle" CommonKeyword where
   pval = const val
 
-else instance propertyBorderStyleVal
-  :: ValBorderStyle a
+else instance propertyBorderStyle4
+  :: ( IsBorderTopStyle t
+     , ToVal t
+     , IsBorderTopStyle r
+     , ToVal r
+     , IsBorderTopStyle b
+     , ToVal b
+     , IsBorderTopStyle l
+     , ToVal l
+     )
+  => Property "borderStyle" (t ~ r ~ b ~ l) where
+  pval = const val
+
+else instance propertyBorderStyle3
+  :: ( IsBorderTopStyle t
+     , ToVal t
+     , IsBorderTopStyle x
+     , ToVal x
+     , IsBorderTopStyle b
+     , ToVal b
+     )
+  => Property "borderStyle" (t ~ x ~ b) where
+  pval = const val
+
+else instance propertyBorderStyle2
+  :: ( IsBorderTopStyle y
+     , ToVal y
+     , IsBorderTopStyle x
+     , ToVal x
+     )
+  => Property "borderStyle" (y ~ x) where
+  pval = const val
+
+else instance propertyBorderStyle1
+  :: ( IsBorderTopStyle a
+     , ToVal a
+     )
   => Property "borderStyle" a where
-  pval = const valBorderStyle
+  pval = const val
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-width
 
@@ -2020,17 +1895,19 @@ thin = LineWidth "thin"
 thick :: LineWidth
 thick = LineWidth "thick"
 
-class ToVal a <= ValBorderTopWidth (a :: Type)
-instance LengthTag a => ValBorderTopWidth (Measure a)
-instance ValBorderTopWidth LineWidth
-instance ValBorderTopWidth Medium
+class IsBorderTopWidth (a :: Type)
+instance LengthTag a => IsBorderTopWidth (Measure a)
+instance IsBorderTopWidth LineWidth
+instance IsBorderTopWidth Medium
 
 instance propertyBorderTopWidthCommonKeyword
   :: Property "borderTopWidth" CommonKeyword where
   pval = const val
 
-else instance propertyBorderTopWidthVal
-  :: ValBorderTopWidth a
+else instance propertyBorderTopWidthIs
+  :: ( IsBorderTopWidth a
+     , ToVal a
+     )
   => Property "borderTopWidth" a where
   pval = const val
 
@@ -2057,71 +1934,67 @@ instance propertyBorderLeftWidthBorderTopWidth
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-width
 
-class ValBorderWidth (a :: Type) where
-  valBorderWidth :: a -> Val
-
-instance valBorderWidth4
-  :: ( ValBorderTopWidth a
-     , ValBorderTopWidth b
-     , ValBorderTopWidth c
-     , ValBorderTopWidth d
-     )
-  => ValBorderWidth (a ~ b ~ c ~ d) where
-  valBorderWidth (a ~ b ~ c ~ d) =
-    joinVals (val " ") [val a, val b, val c, val d]
-
-else instance valBorderWidth3
-  :: ( ValBorderTopWidth a
-     , ValBorderTopWidth b
-     , ValBorderTopWidth c
-     )
-  => ValBorderWidth (a ~ b ~ c) where
-  valBorderWidth (a ~ b ~ c) = joinVals (val " ") [val a, val b, val c]
-
-else instance valBorderWidth2
-  :: ( ValBorderTopWidth a
-     , ValBorderTopWidth b
-     )
-  => ValBorderWidth (a ~ b) where
-  valBorderWidth (a ~ b) = val a <> val " " <> val b
-
-else instance valBorderWidth1 :: ValBorderTopWidth a => ValBorderWidth a where
-  valBorderWidth = val
-
 instance propertyBorderWidthCommonKeyword
   :: Property "borderWidth" CommonKeyword where
   pval = const val
 
-else instance propertyBorderWidthVal
-  :: ValBorderWidth a
+else instance propertyBorderWidth4
+  :: ( IsBorderTopWidth t
+     , ToVal t
+     , IsBorderTopWidth r
+     , ToVal r
+     , IsBorderTopWidth b
+     , ToVal b
+     , IsBorderTopWidth l
+     , ToVal l
+     )
+  => Property "borderWidth" (t ~ r ~ b ~ l) where
+  pval = const val
+
+else instance propertyBorderWidth3
+  :: ( IsBorderTopWidth t
+     , ToVal t
+     , IsBorderTopWidth x
+     , ToVal x
+     , IsBorderTopWidth b
+     , ToVal b
+     )
+  => Property "borderWidth" (t ~ x ~ b) where
+  pval = const val
+
+else instance propertyBorderWidth2
+  :: ( IsBorderTopWidth y
+     , ToVal y
+     , IsBorderTopWidth x
+     , ToVal x
+     )
+  => Property "borderWidth" (y ~ x) where
+  pval = const val
+
+else instance propertyBorderWidthBorderTopWidth
+  :: ( IsBorderTopWidth a
+     , ToVal a
+     )
   => Property "borderWidth" a where
-  pval = const valBorderWidth
+  pval = const val
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-left-radius
-
-class ValBorderTopLeftRadius (a :: Type) where
-  valBorderTopLeftRadius :: a -> Val
-
-instance valBorderTopLeftRadius2
-  :: ( LengthPercentageTag a
-     , LengthPercentageTag b
-     )
-  => ValBorderTopLeftRadius (Measure a ~ Measure b) where
-  valBorderTopLeftRadius (a ~ b) = val a <> val " " <> val b
-
-instance valBorderTopLeftRadius1
-  :: LengthPercentageTag a
-  => ValBorderTopLeftRadius (Measure a) where
-  valBorderTopLeftRadius = val
 
 instance propertyBorderTopLeftRadiusCommonKeyword
   :: Property "borderTopLeftRadius" CommonKeyword where
   pval = const val
 
-else instance propertyBorderTopLeftRadiusVal
-  :: ValBorderTopLeftRadius a
-  => Property "borderTopLeftRadius" a where
-  pval = const valBorderTopLeftRadius
+instance propertyBorderTopLeftRadius2
+  :: ( LengthPercentageTag x
+     , LengthPercentageTag y
+     )
+  => Property "borderTopLeftRadius" (Measure x ~ Measure y) where
+  pval = const val
+
+instance propertyBorderTopLeftRadius1
+  :: LengthPercentageTag a
+  => Property "borderTopLeftRadius" (Measure a) where
+  pval = const val
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-right-radius
 
@@ -2146,20 +2019,19 @@ instance propertyBorderBottomLeftRadiusBorderTopLeftRadius
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-radius
 
-mkBorderRadius :: Array Val -> Array Val -> Val
-mkBorderRadius xs [] = joinVals (val " ") xs
-mkBorderRadius xs ys =
-  Val \c ->
+mkBorderRadius :: forall x y. ToVal x => ToVal y => (x /\ y) -> Val
+mkBorderRadius (x /\ y) =
+  Val \c@{ separator } ->
     let
-      xs' = runVal c $ joinVals (val " ") xs
-      ys' = runVal c $ joinVals (val " ") ys
+      x' = runVal c $ val x
+      y' = runVal c $ val y
     in
-      xs' <> c.separator <> "/" <> c.separator <> ys'
+      if y' == mempty
+        then x'
+        else x' <> separator <> "/" <> separator <> y'
 
-class ValBorderRadius (a :: Type) where
-  valBorderRadius :: a -> Val
-
-instance valBorderRadius4X4Y
+class IsBorderRadius (a :: Type)
+instance isBorderRadius4X4Y
   :: ( LengthPercentageTag tlx
      , LengthPercentageTag trx
      , LengthPercentageTag brx
@@ -2169,13 +2041,8 @@ instance valBorderRadius4X4Y
      , LengthPercentageTag bry
      , LengthPercentageTag bly
      )
-  => ValBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly) where
-  valBorderRadius (tlx ~ trx ~ brx ~ blx /\ tly ~ try ~ bry ~ bly) =
-    mkBorderRadius
-      [val tlx, val trx, val brx, val blx]
-      [val tly, val try, val bry, val bly]
-
-instance valBorderRadius4X3Y
+  => IsBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly)
+instance isBorderRadius4X3Y
   :: ( LengthPercentageTag tlx
      , LengthPercentageTag trx
      , LengthPercentageTag brx
@@ -2184,13 +2051,8 @@ instance valBorderRadius4X3Y
      , LengthPercentageTag trbly
      , LengthPercentageTag bry
      )
-  => ValBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure tly ~ Measure trbly ~ Measure bry) where
-  valBorderRadius (tlx ~ trx ~ brx ~ blx /\ tly ~ trbly ~ bry) =
-    mkBorderRadius
-      [val tlx, val trx, val brx, val blx]
-      [val tly, val trbly, val bry]
-
-instance valBorderRadius4X2Y
+  => IsBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure tly ~ Measure trbly ~ Measure bry)
+instance isBorderRadius4X2Y
   :: ( LengthPercentageTag tlx
      , LengthPercentageTag trx
      , LengthPercentageTag brx
@@ -2198,32 +2060,23 @@ instance valBorderRadius4X2Y
      , LengthPercentageTag tlbry
      , LengthPercentageTag trbly
      )
-  => ValBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure tlbry ~ Measure trbly) where
-  valBorderRadius (tlx ~ trx ~ brx ~ blx /\ tlbry ~ trbly) =
-    mkBorderRadius [val tlx, val trx, val brx, val blx] [val tlbry, val trbly]
-
-instance valBorderRadius4X1Y
+  => IsBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure tlbry ~ Measure trbly)
+instance isBorderRadius4X1Y
   :: ( LengthPercentageTag tlx
      , LengthPercentageTag trx
      , LengthPercentageTag brx
      , LengthPercentageTag blx
      , LengthPercentageTag y
      )
-  => ValBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure y) where
-  valBorderRadius (tlx ~ trx ~ brx ~ blx /\ y) =
-    mkBorderRadius [val tlx, val trx, val brx, val blx] [val y]
-
-instance valBorderRadius4X0Y
+  => IsBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure y)
+instance isBorderRadius4X0Y
   :: ( LengthPercentageTag tlx
      , LengthPercentageTag trx
      , LengthPercentageTag brx
      , LengthPercentageTag blx
      )
-  => ValBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx) where
-  valBorderRadius (tlx ~ trx ~ brx ~ blx) =
-    mkBorderRadius [val tlx, val trx, val brx, val blx] []
-
-instance valBorderRadius3X4Y
+  => IsBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx)
+instance isBorderRadius3X4Y
   :: ( LengthPercentageTag tlx
      , LengthPercentageTag trblx
      , LengthPercentageTag brx
@@ -2232,13 +2085,8 @@ instance valBorderRadius3X4Y
      , LengthPercentageTag bry
      , LengthPercentageTag bly
      )
-  => ValBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly) where
-  valBorderRadius (tlx ~ trblx ~ brx /\ tly ~ try ~ bry ~ bly) =
-    mkBorderRadius
-      [val tlx, val trblx, val brx]
-      [val tly, val try, val bry, val bly]
-
-instance valBorderRadius3X3Y
+  => IsBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly)
+instance isBorderRadius3X3Y
   :: ( LengthPercentageTag tlx
      , LengthPercentageTag trblx
      , LengthPercentageTag brx
@@ -2246,41 +2094,29 @@ instance valBorderRadius3X3Y
      , LengthPercentageTag trbly
      , LengthPercentageTag bry
      )
-  => ValBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure tly ~ Measure trbly ~ Measure bry) where
-  valBorderRadius (tlx ~ trblx ~ brx /\ tly ~ trbly ~ bry) =
-    mkBorderRadius [val tlx, val trblx, val brx] [val tly, val trbly, val bry]
-
-instance valBorderRadius3X2Y
+  => IsBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure tly ~ Measure trbly ~ Measure bry)
+instance isBorderRadius3X2Y
   :: ( LengthPercentageTag tlx
      , LengthPercentageTag trblx
      , LengthPercentageTag brx
      , LengthPercentageTag tlbry
      , LengthPercentageTag trbly
      )
-  => ValBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure tlbry ~ Measure trbly) where
-  valBorderRadius (tlx ~ trblx ~ brx /\ tlbry ~ trbly) =
-    mkBorderRadius [val tlx, val trblx, val brx] [val tlbry, val trbly]
-
-instance valBorderRadius3X1Y
+  => IsBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure tlbry ~ Measure trbly)
+instance isBorderRadius3X1Y
   :: ( LengthPercentageTag tlx
      , LengthPercentageTag trblx
      , LengthPercentageTag brx
      , LengthPercentageTag y
      )
-  => ValBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure y) where
-  valBorderRadius (tlx ~ trblx ~ brx /\ y) =
-    mkBorderRadius [val tlx, val trblx, val brx] [val y]
-
-instance valBorderRadius3X0Y
+  => IsBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure y)
+instance isBorderRadius3X0Y
   :: ( LengthPercentageTag tlx
      , LengthPercentageTag trblx
      , LengthPercentageTag brx
      )
-  => ValBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx) where
-  valBorderRadius (tlx ~ trblx ~ brx) =
-    mkBorderRadius [val tlx, val trblx, val brx] []
-
-instance valBorderRadius2X4Y
+  => IsBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx)
+instance isBorderRadius2X4Y
   :: ( LengthPercentageTag tlbrx
      , LengthPercentageTag trblx
      , LengthPercentageTag tly
@@ -2288,97 +2124,74 @@ instance valBorderRadius2X4Y
      , LengthPercentageTag bry
      , LengthPercentageTag bly
      )
-  => ValBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly) where
-  valBorderRadius (tlbrx ~ trblx /\ tly ~ try ~ bry ~ bly) =
-    mkBorderRadius [val tlbrx, val trblx] [val tly, val try, val bry, val bly]
-
-instance valBorderRadius2X3Y
+  => IsBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly)
+instance isBorderRadius2X3Y
   :: ( LengthPercentageTag tlbrx
      , LengthPercentageTag trblx
      , LengthPercentageTag tly
      , LengthPercentageTag trbly
      , LengthPercentageTag bry
      )
-  => ValBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure tly ~ Measure trbly ~ Measure bry) where
-  valBorderRadius (tlbrx ~ trblx /\ tly ~ trbly ~ bry) =
-    mkBorderRadius [val tlbrx, val trblx] [val tly, val trbly, val bry]
-
-instance valBorderRadius2X2Y
+  => IsBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure tly ~ Measure trbly ~ Measure bry)
+instance isBorderRadius2X2Y
   :: ( LengthPercentageTag tlbrx
      , LengthPercentageTag trblx
      , LengthPercentageTag tlbry
      , LengthPercentageTag trbly
      )
-  => ValBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure tlbry ~ Measure trbly) where
-  valBorderRadius (tlbrx ~ trblx /\ tlbry ~ trbly) =
-    mkBorderRadius [val tlbrx, val trblx] [val tlbry, val trbly]
-
-instance valBorderRadius2X1Y
+  => IsBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure tlbry ~ Measure trbly)
+instance isBorderRadius2X1Y
   :: ( LengthPercentageTag tlbrx
      , LengthPercentageTag trblx
      , LengthPercentageTag y
      )
-  => ValBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure y) where
-  valBorderRadius (tlbrx ~ trblx /\ y) =
-    mkBorderRadius [val tlbrx, val trblx] [val y]
-
-instance valBorderRadius2X0Y
+  => IsBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure y)
+instance isBorderRadius2X0Y
   :: ( LengthPercentageTag tlbrx
      , LengthPercentageTag trblx
      )
-  => ValBorderRadius (Measure tlbrx ~ Measure trblx) where
-  valBorderRadius (tlbrx ~ trblx) = mkBorderRadius [val tlbrx, val trblx] []
-
-instance valBorderRadius1X4Y
+  => IsBorderRadius (Measure tlbrx ~ Measure trblx)
+instance isBorderRadius1X4Y
   :: ( LengthPercentageTag x
      , LengthPercentageTag tly
      , LengthPercentageTag try
      , LengthPercentageTag bry
      , LengthPercentageTag bly
      )
-  => ValBorderRadius (Measure x /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly) where
-  valBorderRadius (x /\ tly ~ try ~ bry ~ bly) =
-    mkBorderRadius [val x] [val tly, val try, val bry, val bly]
-
-instance valBorderRadius1X3Y
+  => IsBorderRadius (Measure x /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly)
+instance isBorderRadius1X3Y
   :: ( LengthPercentageTag x
      , LengthPercentageTag tly
      , LengthPercentageTag trbly
      , LengthPercentageTag bry
      )
-  => ValBorderRadius (Measure x /\ Measure tly ~ Measure trbly ~ Measure bry) where
-  valBorderRadius (x /\ tly ~ trbly ~ bry) =
-    mkBorderRadius [val x] [val tly, val trbly, val bry]
-
-instance valBorderRadius1X2Y
+  => IsBorderRadius (Measure x /\ Measure tly ~ Measure trbly ~ Measure bry)
+instance isBorderRadius1X2Y
   :: ( LengthPercentageTag x
      , LengthPercentageTag tlbry
      , LengthPercentageTag trbly
      )
-  => ValBorderRadius (Measure x /\ Measure tlbry ~ Measure trbly) where
-  valBorderRadius (x /\ tlbry ~ trbly) =
-    mkBorderRadius [val x] [val tlbry, val trbly]
-
-instance valBorderRadius1X1Y
+  => IsBorderRadius (Measure x /\ Measure tlbry ~ Measure trbly)
+instance isBorderRadius1X1Y
   :: ( LengthPercentageTag x
      , LengthPercentageTag y
      )
-  => ValBorderRadius (Measure x /\ Measure y) where
-  valBorderRadius (x /\ y) = mkBorderRadius [val x] [val y]
-
-instance valBorderRadius1X0Y
+  => IsBorderRadius (Measure x /\ Measure y)
+instance isBorderRadius1X0Y
   :: LengthPercentageTag x
-  => ValBorderRadius (Measure x) where
-  valBorderRadius x = mkBorderRadius [val x] []
+  => IsBorderRadius (Measure x)
 
 instance propertyBorderRadiusCommonKeyword
   :: Property "borderRadius" CommonKeyword where
   pval = const val
 
-else instance propertyBorderRadiusVal
-  :: ValBorderRadius a
+else instance propertyBorderRadiusIs
+  :: ( IsBorderRadius a
+     , MultiVal a
+     )
   => Property "borderRadius" a where
-  pval = const valBorderRadius
+  pval =
+    const $ joinVals (Val \c -> c.separator <> "/" <> c.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-box-shadow
 
@@ -2418,7 +2231,9 @@ class ValShadowOptions (a :: Type) where
   valShadowOptions :: a -> Val
 
 instance valShadowOptionsColorInset
-  :: IsColor color
+  :: ( IsColor color
+     , ToVal color
+     )
   => ValShadowOptions (color ~ Inset) where
   valShadowOptions (color ~ _) = val color <> val " " <> val inset
 
@@ -2426,7 +2241,9 @@ else instance valShadowOptionsInset :: ValShadowOptions Inset where
   valShadowOptions = const $ val inset
 
 else instance valShadowOptionsColor
-  :: IsColor color
+  :: ( IsColor color
+     , ToVal color
+     )
   => ValShadowOptions color where
   valShadowOptions = val
 
@@ -2466,25 +2283,20 @@ else instance propertyBoxShadowVal
 
 -- https://www.w3.org/TR/css-box-3/#propdef-margin-top
 
-class ValMarginTop (a :: Type) where
-  valMarginTop :: a -> Val
-
-instance valMarginTopLengthPercentage
-  :: LengthPercentageTag a
-  => ValMarginTop (Measure a) where
-  valMarginTop = val
-
-instance valMarginTopAuto :: ValMarginTop Auto where
-  valMarginTop = val
+class IsMarginTop (a :: Type)
+instance LengthPercentageTag a => IsMarginTop (Measure a)
+instance IsMarginTop Auto
 
 instance propertyMarginTopCommonKeyword
   :: Property "marginTop" CommonKeyword where
   pval = const val
 
-else instance propertyMarginTopVal
-  :: ValMarginTop a
+else instance propertyMarginTopIs
+  :: ( IsMarginTop a
+     , ToVal a
+     )
   => Property "marginTop" a where
-  pval = const valMarginTop
+  pval = const val
 
 -- https://www.w3.org/TR/css-box-3/#propdef-margin-right
 
@@ -2509,37 +2321,38 @@ instance propertyMarginLeftMarginTop
 
 -- https://www.w3.org/TR/css-box-3/#propdef-margin
 
-instance propertyMarginValMarginTop4
-  :: ( ValMarginTop a
-     , ValMarginTop b
-     , ValMarginTop c
-     , ValMarginTop d
+instance propertyMarginIsMarginTop4
+  :: ( IsMarginTop t
+     , ToVal t
+     , IsMarginTop r
+     , ToVal r
+     , IsMarginTop b
+     , ToVal b
+     , IsMarginTop l
+     , ToVal l
      )
-  => Property "margin" (a ~ b ~ c ~ d) where
-  pval _ (a ~ b ~ c ~ d) =
-    joinVals
-      (val " ")
-      [ valMarginTop a
-      , valMarginTop b
-      , valMarginTop c
-      , valMarginTop d
-      ]
+  => Property "margin" (t ~ r ~ b ~ l) where
+  pval = const val
 
-else instance propertyMarginValMarginTop3
-  :: ( ValMarginTop a
-     , ValMarginTop b
-     , ValMarginTop c
+else instance propertyMarginIsMarginTop3
+  :: ( IsMarginTop t
+     , ToVal t
+     , IsMarginTop x
+     , ToVal x
+     , IsMarginTop b
+     , ToVal b
      )
-  => Property "margin" (a ~ b ~ c) where
-  pval _ (a ~ b ~ c) =
-    joinVals (val " ") [valMarginTop a, valMarginTop b, valMarginTop c]
+  => Property "margin" (t ~ x ~ b) where
+  pval = const val
 
-else instance propertyMarginValMarginTop2
-  :: ( ValMarginTop a
-     , ValMarginTop b
+else instance propertyMarginIsMarginTop2
+  :: ( IsMarginTop y
+     , ToVal y
+     , IsMarginTop x
+     , ToVal x
      )
-  => Property "margin" (a ~ b) where
-  pval _ (a ~ b) = joinVals (val " ") [valMarginTop a, valMarginTop b]
+  => Property "margin" (y ~ x) where
+  pval = const val
 
 else instance propertyMarginMarginTop
   :: Property "marginTop" a
@@ -2581,28 +2394,28 @@ instance propertyPaddingLeftPaddingTop
 -- https://www.w3.org/TR/css-box-3/#propdef-padding
 
 instance paddingLengthPercentage4
-  :: ( LengthPercentageTag a
+  :: ( LengthPercentageTag t
+     , LengthPercentageTag r
      , LengthPercentageTag b
-     , LengthPercentageTag c
-     , LengthPercentageTag d
+     , LengthPercentageTag l
      )
-  => Property "padding" (Measure a ~ Measure b ~ Measure c ~ Measure d) where
-  pval _ (a ~ b ~ c ~ d) = joinVals (val " ") [val a, val b, val c, val d]
+  => Property "padding" (Measure t ~ Measure r ~ Measure b ~ Measure l) where
+  pval = const val
 
 else instance paddingLengthPercentage3
-  :: ( LengthPercentageTag a
+  :: ( LengthPercentageTag t
+     , LengthPercentageTag x
      , LengthPercentageTag b
-     , LengthPercentageTag c
      )
-  => Property "padding" (Measure a ~ Measure b ~ Measure c) where
-  pval _ (a ~ b ~ c) = joinVals (val " ") [val a, val b, val c]
+  => Property "padding" (Measure t ~ Measure x ~ Measure b) where
+  pval = const val
 
 else instance paddingLengthPercentage2
-  :: ( LengthPercentageTag a
-     , LengthPercentageTag b
+  :: ( LengthPercentageTag y
+     , LengthPercentageTag x
      )
-  => Property "padding" (Measure a ~ Measure b) where
-  pval _ (a ~ b) = joinVals (val " ") [val a, val b]
+  => Property "padding" (Measure y ~ Measure x) where
+  pval = const val
 
 else instance paddingPaddingTop
   :: Property "paddingTop" a
@@ -2618,7 +2431,11 @@ else instance paddingPaddingTop
 instance propertyColorCommonKeyword :: Property "color" CommonKeyword where
   pval = const val
 
-else instance propertyColorIsColor :: IsColor a => Property "color" a where
+else instance propertyColorIsColor
+  :: ( IsColor a
+     , ToVal a
+     )
+  => Property "color" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-color-4/#propdef-opacity
@@ -2643,7 +2460,7 @@ transparent = CSSColor "transparent"
 
 instance ToVal Color where val c = Val \cfg -> cfg.color c
 
-class ToVal a <= IsColor (a :: Type)
+class IsColor (a :: Type)
 instance IsColor Color
 instance IsColor CSSColor
 
@@ -2733,7 +2550,7 @@ stepEnd = EasingFunction $ val "step-end"
 
 -- https://www.w3.org/TR/css-images-3/#typedef-image
 
-class ToVal a <= IsImage (a :: Type)
+class IsImage (a :: Type)
 instance IsImage URL
 
 data Repeating
@@ -2774,6 +2591,7 @@ addGradientDetail arg (Gradient (f /\ args)) = Gradient $ f /\ val arg : args
 stop
   :: forall color repeating previous last
    . IsColor color
+  => ToVal color
   => color
   -> Gradient repeating previous last
   -> Gradient repeating last ColorStop
@@ -2782,6 +2600,7 @@ stop = addGradientDetail
 stop2
   :: forall color lengthPercentage repeating previous last
    . IsColor color
+  => ToVal color
   => LengthPercentageTag lengthPercentage
   => color
   -> Measure lengthPercentage
@@ -2848,7 +2667,8 @@ instance valRadialGradientDimensionsPair
 radialGradient
   :: forall dimensions position
    . ValRadialGradientDimensions dimensions
-  => ValPosition position
+  => ToVal position
+  => IsPosition position
   => dimensions
   -> position
   -> Gradient Unit Unit Unit
@@ -2857,7 +2677,7 @@ radialGradient dimensions position =
     # addGradientDetail
       ( valRadialGradientDimensions dimensions
         <> val " at "
-        <> valPosition position
+        <> val position
       )
 
 --------------------------------------------------------------------------------
@@ -3266,27 +3086,20 @@ rotateZ a = TransformFunction $ fn "rotateZ" [val a]
 
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-perspective
 
-class ToVal a <= Perspective (a :: Type)
-instance Perspective None
-instance LengthTag a => Perspective (Measure a)
+class IsPerspective (a :: Type)
+instance IsPerspective None
+instance LengthTag a => IsPerspective (Measure a)
 
-perspective :: forall a. Perspective a => a -> TransformFunction
+perspective :: forall a. IsPerspective a => ToVal a => a -> TransformFunction
 perspective a = TransformFunction $ fn "perspective" [val a]
 
 -- https://www.w3.org/TR/css-transforms-1/#propdef-transform
 
-class ValTransform (a :: Type) where
-  valTransform :: a -> Val
-
-instance valTransformMultiple
-  :: ( ValTransform a
-     , ValTransform b
-     )
-  => ValTransform (a /\ b) where
-  valTransform (a /\ b) = valTransform a <> val " " <> valTransform b
-
-else instance valTransformSingle :: ValTransform TransformFunction where
-  valTransform = val
+class IsTransform (a :: Type)
+instance IsTransform TransformFunction
+instance isTransformMultiple
+  :: IsTransform xs
+  => IsTransform (TransformFunction /\ xs)
 
 instance propertyTransformCommonKeyword
   :: Property "transform" CommonKeyword where
@@ -3296,10 +3109,12 @@ else instance propertyTransformNone
   :: Property "transform" None where
   pval = const val
 
-else instance propertyTransformVal
-  :: ValTransform a
+else instance propertyTransformIs
+  :: ( IsTransform a
+     , MultiVal a
+     )
   => Property "transform" a where
-  pval = const valTransform
+  pval = const $ joinVals (val " ") <<< multiVal
 
 -- https://www.w3.org/TR/css-transforms-1/#propdef-transform-origin
 
@@ -3308,16 +3123,21 @@ instance propertyTransformOriginCommonKeyword
   pval = const val
 
 else instance propertyTransformOriginPosition3d
-  :: ( ValPosition (x ~ y)
+  :: ( IsPositionX x
+     , ToVal x
+     , IsPositionY y
+     , ToVal y
      , LengthTag z
      )
   => Property "transformOrigin" (x ~ y ~ Measure z) where
-  pval _ (x ~ y ~ z) = valPosition (x ~ y) <> val " " <> val z
+  pval = const val
 
-else instance propertyTransformOriginPosition
-  :: ValPosition xy
+else instance propertyTransformOriginIsPosition
+  :: ( IsPosition xy
+     , ToVal xy
+     )
   => Property "transformOrigin" xy where
-  pval = const valPosition
+  pval = const val
 
 --------------------------------------------------------------------------------
 
@@ -3340,9 +3160,9 @@ unset = CommonKeyword "unset"
 
 --------------------------------------------------------------------------------
 
--- Misc/common words
+-- Various unit types representing keywords, attributes, etc.
 
--- WARNING: The following is generated code. Edit with care!
+-- WARNING: The following is generated code. Do not edit.
 
 data Accept = Accept
 instance ToVal Accept where val _ = val "accept"
@@ -3604,6 +3424,10 @@ instance ToVal Id where val _ = val "id"
 id = Id :: Id
 instance IsAttribute Id
 
+data Infinite = Infinite
+instance ToVal Infinite where val _ = val "infinite"
+infinite = Infinite :: Infinite
+
 data Inset = Inset
 instance ToVal Inset where val _ = val "inset"
 inset = Inset :: Inset
@@ -3636,6 +3460,10 @@ data List' = List'
 instance ToVal List' where val _ = val "list"
 list = List' :: List'
 instance IsAttribute List'
+
+data Local = Local
+instance ToVal Local where val _ = val "local"
+local = Local :: Local
 
 data Loop = Loop
 instance ToVal Loop where val _ = val "loop"
@@ -4063,6 +3891,10 @@ data Optimum = Optimum
 instance ToVal Optimum where val _ = val "optimum"
 optimum = Optimum :: Optimum
 instance IsAttribute Optimum
+
+data PaddingBox = PaddingBox
+instance ToVal PaddingBox where val _ = val "padding-box"
+paddingBox = PaddingBox :: PaddingBox
 
 data Pattern = Pattern
 instance ToVal Pattern where val _ = val "pattern"
