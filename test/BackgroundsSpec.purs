@@ -6,7 +6,7 @@ import Prelude hiding (bottom, top)
 
 import Color (black, rgb, rgba, white)
 import Data.Tuple.Nested ((/\))
-import PSCSS (auto, borderBox, bottom, center, circle, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local, medium, nil, noRepeat, none, outset, paddingBox, pct, px, radialGradient, repeat, repeatX, repeatY, ridge, right, round, scroll, shadow, solid, space, thick, thin, top, transparent, unset, url, (~))
+import PSCSS (auto, borderBox, bottom, center, circle, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local, medium, nil, noRepeat, none, outset, paddingBox, pct, px, radialGradient, repeat, repeatX, repeatY, ridge, right, round, scroll, solid, space, thick, thin, top, transparent, unset, url, (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -884,30 +884,29 @@ spec =
 
       "box-shadow:unset" `isRenderedFrom` { boxShadow: unset }
 
-      "box-shadow:4px 8px currentColor"
+      "box-shadow:4px 8px"
         `isRenderedFrom`
-        { boxShadow: shadow (px 4 ~ px 8) currentColor }
+        { boxShadow: px 4 ~ px 8 }
 
-      "box-shadow:4px 8px 4px currentColor inset"
+      "box-shadow:4px 8px 4px inset"
         `isRenderedFrom`
-        { boxShadow: shadow (px 4 ~ px 8 ~ px 4) $ currentColor ~ inset }
+        { boxShadow: px 4 ~ px 8 ~ px 4 ~ inset }
 
-      "box-shadow:64px 64px 12px 40px #000000"
+      "box-shadow:#000000 64px 64px 12px 40px"
         `isRenderedFrom`
-        { boxShadow: shadow (px 64 ~ px 64 ~ px 12 ~ px 40) black }
+        { boxShadow: black ~ px 64 ~ px 64 ~ px 12 ~ px 40 }
 
       "box-shadow:64px 64px 12px 40px inset"
         `isRenderedFrom`
-        { boxShadow: shadow (px 64 ~ px 64 ~ px 12 ~ px 40) inset }
+        { boxShadow: px 64 ~ px 64 ~ px 12 ~ px 40 ~ inset }
 
-      "box-shadow:8px 16px 0 8px #00000066 inset"
+      "box-shadow:#00000066 8px 16px 0 8px inset"
         `isRenderedFrom`
-        { boxShadow: shadow (px 8 ~ px 16 ~ nil ~ px 8) $ rgba 0 0 0 0.4 ~ inset
-        }
+        { boxShadow: rgba 0 0 0 0.4 ~ px 8 ~ px 16 ~ nil ~ px 8 ~ inset }
 
-      "box-shadow:5px 5px 10px #000000 inset,-5px -5px 10px #0000ff inset"
+      "box-shadow:#000000 5px 5px 10px inset,#0000ff -5px -5px 10px inset"
         `isRenderedFrom`
         { boxShadow:
-            shadow (px 5 ~ px 5 ~ px 10) (black ~ inset) /\
-            shadow (px (-5) ~ px (-5) ~ px 10) (rgb 0 0 255 ~ inset)
+            black ~ px 5 ~ px 5 ~ px 10 ~ inset /\
+            rgb 0 0 255 ~ px (-5) ~ px (-5) ~ px 10 ~ inset
         }

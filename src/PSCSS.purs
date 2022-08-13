@@ -2199,83 +2199,114 @@ newtype Shadow = Shadow Val
 
 derive newtype instance ToVal Shadow
 
-class ValShadowDimensions (a :: Type) where
-  valShadowDimensions :: a -> Val
+class IsShadow (a :: Type)
 
-instance valShadowDimensions4
-  :: ( LengthTag a
-     , LengthTag b
-     , LengthTag c
-     , LengthTag d
-     )
-  => ValShadowDimensions (Measure a ~ Measure b ~ Measure c ~ Measure d) where
-  valShadowDimensions (a ~ b ~ c ~ d) =
-    joinVals (val " ") [val a, val b, val c, val d]
-
-instance valShadowDimensions3
-  :: ( LengthTag a
-     , LengthTag b
-     , LengthTag c
-     )
-  => ValShadowDimensions (Measure a ~ Measure b ~ Measure c) where
-  valShadowDimensions (a ~ b ~ c) = joinVals (val " ") [val a, val b, val c]
-
-instance valShadowDimensions2
-  :: ( LengthTag a
-     , LengthTag b
-     )
-  => ValShadowDimensions (Measure a ~ Measure b) where
-  valShadowDimensions (a ~ b) = val a <> val " " <> val b
-
-class ValShadowOptions (a :: Type) where
-  valShadowOptions :: a -> Val
-
-instance valShadowOptionsColorInset
+instance isShadowColor4dInset
   :: ( IsColor color
-     , ToVal color
+     , LengthTag xo
+     , LengthTag yo
+     , LengthTag blur
+     , LengthTag spread
      )
-  => ValShadowOptions (color ~ Inset) where
-  valShadowOptions (color ~ _) = val color <> val " " <> val inset
+  => IsShadow (color ~ Measure xo ~ Measure yo ~ Measure blur ~ Measure spread ~ Inset)
 
-else instance valShadowOptionsInset :: ValShadowOptions Inset where
-  valShadowOptions = const $ val inset
-
-else instance valShadowOptionsColor
+instance isShadowColor4d
   :: ( IsColor color
-     , ToVal color
+     , LengthTag xo
+     , LengthTag yo
+     , LengthTag blur
+     , LengthTag spread
      )
-  => ValShadowOptions color where
-  valShadowOptions = val
+  => IsShadow (color ~ Measure xo ~ Measure yo ~ Measure blur ~ Measure spread)
 
-shadow
-  :: forall d o
-   . ValShadowDimensions d
-  => ValShadowOptions o
-  => d
-  -> o
-  -> Shadow
-shadow dimensions options =
-  Shadow $ valShadowDimensions dimensions <> val " " <> valShadowOptions options
+instance isShadow4dInset
+  :: ( LengthTag xo
+     , LengthTag yo
+     , LengthTag blur
+     , LengthTag spread
+     )
+  => IsShadow (Measure xo ~ Measure yo ~ Measure blur ~ Measure spread ~ Inset)
 
-class ValBoxShadow (a :: Type) where
-  valBoxShadow :: a -> Val
+else instance isShadowColor3dInset
+  :: ( IsColor color
+     , LengthTag xo
+     , LengthTag yo
+     , LengthTag blur
+     )
+  => IsShadow (color ~ Measure xo ~ Measure yo ~ Measure blur ~ Inset)
 
-instance valBoxShadowShadow :: ValBoxShadow Shadow where
-  valBoxShadow = val
+instance isShadow4d
+  :: ( LengthTag xo
+     , LengthTag yo
+     , LengthTag blur
+     , LengthTag spread
+     )
+  => IsShadow (Measure xo ~ Measure yo ~ Measure blur ~ Measure spread)
 
-instance valBoxShadowMultiple
-  :: ValBoxShadow b
-  => ValBoxShadow (Shadow /\ b) where
-  valBoxShadow (a /\ b) = val a <> val "," <> valBoxShadow b
+else instance isShadowColor3d
+  :: ( IsColor color
+     , LengthTag xo
+     , LengthTag yo
+     , LengthTag blur
+     )
+  => IsShadow (color ~ Measure xo ~ Measure yo ~ Measure blur)
+
+instance isShadow3dInset
+  :: ( LengthTag xo
+     , LengthTag yo
+     , LengthTag blur
+     )
+  => IsShadow (Measure xo ~ Measure yo ~ Measure blur ~ Inset)
+
+else instance isShadowColor2dInset
+  :: ( IsColor color
+     , LengthTag xo
+     , LengthTag yo
+     )
+  => IsShadow (color ~ Measure xo ~ Measure yo ~ Inset)
+
+instance isShadow3d
+  :: ( LengthTag xo
+     , LengthTag yo
+     , LengthTag blur
+     )
+  => IsShadow (Measure xo ~ Measure yo ~ Measure blur)
+
+else instance isShadow2dInset
+  :: ( LengthTag xo
+     , LengthTag yo
+     )
+  => IsShadow (Measure xo ~ Measure yo ~ Inset)
+
+else instance isShadowColor2d
+  :: ( IsColor color
+     , LengthTag xo
+     , LengthTag yo
+     )
+  => IsShadow (color ~ Measure xo ~ Measure yo)
+
+instance isShadow2d
+  :: ( LengthTag xo
+     , LengthTag yo
+     )
+  => IsShadow (Measure xo ~ Measure yo)
+
+instance isShadowMultiple
+  :: ( IsShadow x
+     , IsShadow xs
+     )
+  => IsShadow (x /\ xs)
 
 instance propertyBoxShadowCommonKeyword
   :: Property "boxShadow" CommonKeyword where
   pval = const val
 
-else instance propertyBoxShadowVal
-  :: ValBoxShadow a
+else instance propertyBoxShadowIsShadow
+  :: ( IsShadow a
+     , MultiVal a
+     )
   => Property "boxShadow" a where
-  pval = const valBoxShadow
+  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 --------------------------------------------------------------------------------
 
