@@ -19,6 +19,7 @@ import Test.Spec.Reporter (consoleReporter)
 import Test.Spec.Runner (runSpec)
 import Test.TextSpec as Text
 import Test.TransformsSpec as Transforms
+import Test.WritingModesSpec as WritingModes
 import Test.Util (assertRenderedGuarded)
 
 main :: Effect Unit
@@ -46,3 +47,4 @@ main =
       Sizing.spec
       Text.spec
       Transforms.spec
+      WritingModes.spec

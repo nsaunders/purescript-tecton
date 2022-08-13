@@ -173,6 +173,7 @@ type SupportedDeclarations' (v :: Type) =
   , borderWidth :: v
   , boxShadow :: v
   , color :: v
+  , direction :: v
   , height :: v
   , margin :: v
   , marginBottom :: v
@@ -237,6 +238,7 @@ defaultDeclarations =
   , borderWidth: v
   , boxShadow: v
   , color: v
+  , direction: v
   , height: v
   , margin: v
   , marginBottom: v
@@ -3134,6 +3136,30 @@ else instance propertyTransformOriginIsPosition
      , ToVal xy
      )
   => Property "transformOrigin" xy where
+  pval = const val
+
+--------------------------------------------------------------------------------
+
+-- https://www.w3.org/TR/css-writing-modes-4/
+
+-- https://www.w3.org/TR/css-writing-modes-4/#propdef-direction
+
+newtype Direction' = Direction' String
+
+derive newtype instance ToVal Direction'
+
+ltr :: Direction'
+ltr = Direction' "ltr"
+
+rtl :: Direction'
+rtl = Direction' "rtl"
+
+instance propertyDirectionCommonKeyword
+  :: Property "direction" CommonKeyword where
+  pval = const val
+
+instance propertyDirectionIs
+  :: Property "direction" Direction' where
   pval = const val
 
 --------------------------------------------------------------------------------
