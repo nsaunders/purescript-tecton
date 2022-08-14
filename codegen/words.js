@@ -231,7 +231,12 @@ const code = [
   {
     typeName: "Ellipse",
     varName: "ellipse",
-    value: "ellipse",
+    value: "ellipse"
+  },
+  {
+    typeName: "Ellipsis",
+    varName: "ellipsis",
+    value: "ellipsis"
   },
   {
     typeName: "Enctype",

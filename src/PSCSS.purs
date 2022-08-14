@@ -193,6 +193,7 @@ type SupportedDeclarations' (v :: Type) =
   , paddingLeft :: v
   , paddingRight :: v
   , paddingTop :: v
+  , textOverflow :: v
   , textTransform :: v
   , transform :: v
   , transformOrigin :: v
@@ -261,6 +262,7 @@ defaultDeclarations =
   , paddingLeft: v
   , paddingRight: v
   , paddingTop: v
+  , textOverflow: v
   , textTransform: v
   , transform: v
   , transformOrigin: v
@@ -2732,6 +2734,23 @@ else instance propertyOverflowOverflowX
   => Property "overflow" a where
   pval = const $ pval (Proxy :: _ "overflowX")
 
+-- https://www.w3.org/TR/css-overflow-3/#propdef-text-overflow
+
+class IsTextOverflow (a :: Type)
+instance IsTextOverflow Clip
+instance IsTextOverflow Ellipsis
+
+instance propertyTextOverflowCommonKeyword
+  :: Property "textOverflow" CommonKeyword where
+  pval = const val
+
+else instance propertyTextOverflowIs
+  :: ( IsTextOverflow a
+     , ToVal a
+     )
+  => Property "textOverflow" a where
+  pval = const val
+
 --------------------------------------------------------------------------------
 
 -- https://www.w3.org/TR/css-sizing-3/
@@ -3427,6 +3446,10 @@ instance IsAttribute Draggable
 data Ellipse = Ellipse
 instance ToVal Ellipse where val _ = val "ellipse"
 ellipse = Ellipse :: Ellipse
+
+data Ellipsis = Ellipsis
+instance ToVal Ellipsis where val _ = val "ellipsis"
+ellipsis = Ellipsis :: Ellipsis
 
 data Enctype = Enctype
 instance ToVal Enctype where val _ = val "enctype"
