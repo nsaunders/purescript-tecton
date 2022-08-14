@@ -185,6 +185,9 @@ type SupportedDeclarations' (v :: Type) =
   , minHeight :: v
   , minWidth :: v
   , opacity :: v
+  , overflow :: v
+  , overflowX :: v
+  , overflowY :: v
   , padding :: v
   , paddingBottom :: v
   , paddingLeft :: v
@@ -250,6 +253,9 @@ defaultDeclarations =
   , minHeight: v
   , minWidth: v
   , opacity: v
+  , overflow: v
+  , overflowX: v
+  , overflowY: v
   , padding: v
   , paddingBottom: v
   , paddingLeft: v
@@ -2681,6 +2687,53 @@ radialGradient dimensions position colorStops =
 
 --------------------------------------------------------------------------------
 
+-- https://www.w3.org/TR/css-overflow-3/
+
+-- https://www.w3.org/TR/css-overflow-3/#propdef-overflow-x
+
+class IsOverflow (a :: Type)
+instance IsOverflow Visible
+instance IsOverflow Hidden
+instance IsOverflow Clip
+instance IsOverflow Scroll
+instance IsOverflow Auto
+
+instance propertyOverflowXCommonKeyword
+  :: Property "overflowX" CommonKeyword where
+  pval = const val
+
+else instance propertyOverflowXIsOverflow
+  :: ( IsOverflow a
+     , ToVal a
+     )
+  => Property "overflowX" a where
+  pval = const val
+
+-- https://www.w3.org/TR/css-overflow-3/#propdef-overflow-y
+
+instance propertyOverflowYOverflowX
+  :: Property "overflowX" a
+  => Property "overflowY" a where
+  pval = const $ pval (Proxy :: _ "overflowX")
+
+-- https://www.w3.org/TR/css-overflow-3/#propdef-overflow
+
+instance propertyOverflowIsOverflowPair
+  :: ( IsOverflow x
+     , ToVal x
+     , IsOverflow y
+     , ToVal y
+     )
+  => Property "overflow" (x ~ y) where
+  pval = const val
+
+else instance propertyOverflowOverflowX
+  :: Property "overflowX" a
+  => Property "overflow" a where
+  pval = const $ pval (Proxy :: _ "overflowX")
+
+--------------------------------------------------------------------------------
+
 -- https://www.w3.org/TR/css-sizing-3/
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-width
@@ -3279,6 +3332,10 @@ data Class = Class
 instance ToVal Class where val _ = val "class"
 class' = Class :: Class
 instance IsAttribute Class
+
+data Clip = Clip
+instance ToVal Clip where val _ = val "clip"
+clip = Clip :: Clip
 
 data Cols = Cols
 instance ToVal Cols where val _ = val "cols"
@@ -4090,6 +4147,10 @@ data Value = Value
 instance ToVal Value where val _ = val "value"
 value = Value :: Value
 instance IsAttribute Value
+
+data Visible = Visible
+instance ToVal Visible where val _ = val "visible"
+visible = Visible :: Visible
 
 data Width = Width
 instance ToVal Width where val _ = val "width"

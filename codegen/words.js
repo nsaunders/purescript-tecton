@@ -119,6 +119,11 @@ const code = [
     attribute: true
   },
   {
+    typeName: "Clip",
+    varName: "clip",
+    value: "clip"
+  },
+  {
     typeName: "Cols",
     varName: "cols",
     value: "cols",
@@ -1094,6 +1099,11 @@ const code = [
     varName: "value",
     value: "value",
     attribute: true
+  },
+  {
+    typeName: "Visible",
+    varName: "visible",
+    value: "visible"
   },
   {
     typeName: "Width",

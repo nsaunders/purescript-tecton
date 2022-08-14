@@ -12,6 +12,7 @@ import Test.BoxSpec as Box
 import Test.ColorSpec as Color
 import Test.ImagesSpec as Images
 import Test.MediaQueriesSpec as MediaQueries
+import Test.OverflowSpec as Overflow
 import Test.SelectorsSpec as Selectors
 import Test.SizingSpec as Sizing
 import Test.Spec (describe, it)
@@ -43,6 +44,7 @@ main =
       Color.spec
       Images.spec
       MediaQueries.spec
+      Overflow.spec
       Selectors.spec
       Sizing.spec
       Text.spec
