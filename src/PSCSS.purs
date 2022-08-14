@@ -194,6 +194,7 @@ type SupportedDeclarations' (v :: Type) =
   , paddingRight :: v
   , paddingTop :: v
   , textOverflow :: v
+  , textShadow :: v
   , textTransform :: v
   , transform :: v
   , transformOrigin :: v
@@ -263,6 +264,7 @@ defaultDeclarations =
   , paddingRight: v
   , paddingTop: v
   , textOverflow: v
+  , textShadow: v
   , textTransform: v
   , transform: v
   , transformOrigin: v
@@ -2311,6 +2313,10 @@ instance propertyBoxShadowCommonKeyword
   :: Property "boxShadow" CommonKeyword where
   pval = const val
 
+else instance propertyBoxShadowNone
+  :: Property "boxShadow" None where
+  pval = const val
+
 else instance propertyBoxShadowIsShadow
   :: ( IsShadow a
      , MultiVal a
@@ -2920,6 +2926,63 @@ instance propertyWhiteSpaceNormal
 instance propertyWhiteSpaceWhiteSpace
   :: Property "whiteSpace" WhiteSpace where
   pval = const val
+
+--------------------------------------------------------------------------------
+
+-- https://www.w3.org/TR/css-text-decor-3/
+
+-- https://www.w3.org/TR/css-text-decor-3/#propdef-text-shadow
+
+class IsTextShadow (a :: Type)
+
+instance isTextShadowColorOffsetsBlur
+  :: ( IsColor color
+     , LengthTag xo
+     , LengthTag yo
+     , LengthTag blur
+     )
+  => IsTextShadow (color ~ Measure xo ~ Measure yo ~ Measure blur)
+
+instance isTextShadowOffsetsBlur
+  :: ( LengthTag xo
+     , LengthTag yo
+     , LengthTag blur
+     )
+  => IsTextShadow (Measure xo ~ Measure yo ~ Measure blur)
+
+else instance isTextShadowColorOffsets
+  :: ( IsColor color
+     , LengthTag xo
+     , LengthTag yo
+     )
+  => IsTextShadow (color ~ Measure xo ~ Measure yo)
+
+instance isTextShadowOffsets
+  :: ( LengthTag xo
+     , LengthTag yo
+     )
+  => IsTextShadow (Measure xo ~ Measure yo)
+
+instance isTextShadowMultiple
+  :: ( IsTextShadow x
+     , IsTextShadow xs
+     )
+  => IsTextShadow (x /\ xs)
+
+instance propertyTextShadowCommonKeyword
+  :: Property "textShadow" CommonKeyword where
+  pval = const val
+
+else instance propertyTextShadowNone
+  :: Property "textShadow" None where
+  pval = const val
+
+else instance propertyTextShadowIs
+  :: ( IsTextShadow a
+     , MultiVal a
+     )
+  => Property "textShadow" a where
+  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 --------------------------------------------------------------------------------
 

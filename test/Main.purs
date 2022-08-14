@@ -19,6 +19,7 @@ import Test.Spec (describe, it)
 import Test.Spec.Reporter (consoleReporter)
 import Test.Spec.Runner (runSpec)
 import Test.TextSpec as Text
+import Test.TextDecorSpec as TextDecor
 import Test.TransformsSpec as Transforms
 import Test.WritingModesSpec as WritingModes
 import Test.Util (assertRenderedGuarded)
@@ -48,5 +49,6 @@ main =
       Selectors.spec
       Sizing.spec
       Text.spec
+      TextDecor.spec
       Transforms.spec
       WritingModes.spec

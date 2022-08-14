@@ -884,6 +884,8 @@ spec =
 
       "box-shadow:unset" `isRenderedFrom` { boxShadow: unset }
 
+      "box-shadow:none" `isRenderedFrom` { boxShadow: none }
+
       "box-shadow:4px 8px"
         `isRenderedFrom`
         { boxShadow: px 4 ~ px 8 }
