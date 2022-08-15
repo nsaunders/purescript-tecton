@@ -193,6 +193,7 @@ type SupportedDeclarations' (v :: Type) =
   , paddingLeft :: v
   , paddingRight :: v
   , paddingTop :: v
+  , textDecorationColor :: v
   , textDecorationLine :: v
   , textDecorationStyle :: v
   , textOverflow :: v
@@ -265,6 +266,7 @@ defaultDeclarations =
   , paddingLeft: v
   , paddingRight: v
   , paddingTop: v
+  , textDecorationColor: v
   , textDecorationLine: v
   , textDecorationStyle: v
   , textOverflow: v
@@ -2976,6 +2978,19 @@ else instance propertyTextDecorationStyleIs
      , ToVal a
      )
   => Property "textDecorationStyle" a where
+  pval = const val
+
+-- https://www.w3.org/TR/css-text-decor-3/#propdef-text-decoration
+
+instance propertyTextDecorationColorCommonKeyword
+  :: Property "textDecorationColor" CommonKeyword where
+  pval = const val
+
+else instance propertyTextDecorationColorIsColor
+  :: ( IsColor a
+     , ToVal a
+     )
+  => Property "textDecorationColor" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-text-decor-3/#propdef-text-shadow

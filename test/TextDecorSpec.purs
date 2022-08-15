@@ -122,6 +122,24 @@ spec =
         `isRenderedFrom`
         { textDecorationStyle: wavy }
 
+    describe "text-decoration-color property" do
+
+      "text-decoration-color:inherit"
+        `isRenderedFrom`
+        { textDecorationColor: inherit }
+
+      "text-decoration-color:initial"
+        `isRenderedFrom`
+        { textDecorationColor: initial }
+
+      "text-decoration-color:unset"
+        `isRenderedFrom`
+        { textDecorationColor: unset }
+
+      "text-decoration-color:#ff0000"
+        `isRenderedFrom`
+        { textDecorationColor: rgb 255 0 0 }
+
     describe "text-shadow property" do
 
       "text-shadow:inherit" `isRenderedFrom` { textShadow: inherit }
