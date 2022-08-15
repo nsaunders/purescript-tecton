@@ -6,13 +6,87 @@ import Prelude
 
 import Color (rgb)
 import Data.Tuple.Nested ((/\))
-import PSCSS (em, inherit, initial, nil, none, px, unset, (~))
+import PSCSS (blink, em, inherit, initial, lineThrough, nil, overline, none, px, underline, unset, (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
 spec :: Spec Unit
 spec =
   describe "Text Decoration Module" do
+
+    describe "text-decoration-line" do
+
+      "text-decoration-line:inherit"
+        `isRenderedFrom`
+        { textDecorationLine: inherit }
+
+      "text-decoration-line:initial"
+        `isRenderedFrom`
+        { textDecorationLine: initial }
+
+      "text-decoration-line:unset"
+        `isRenderedFrom`
+        { textDecorationLine: unset }
+
+      "text-decoration-line:none"
+        `isRenderedFrom`
+        { textDecorationLine: none }
+
+      "text-decoration-line:underline overline line-through blink"
+        `isRenderedFrom`
+        { textDecorationLine: underline ~ overline ~ lineThrough ~ blink }
+
+      "text-decoration-line:overline line-through blink"
+        `isRenderedFrom`
+        { textDecorationLine: overline ~ lineThrough ~ blink }
+
+      "text-decoration-line:underline line-through blink"
+        `isRenderedFrom`
+        { textDecorationLine: underline ~ lineThrough ~ blink }
+
+      "text-decoration-line:underline overline blink"
+        `isRenderedFrom`
+        { textDecorationLine: underline ~ overline ~ blink }
+
+      "text-decoration-line:underline overline line-through"
+        `isRenderedFrom`
+        { textDecorationLine: underline ~ overline ~ lineThrough }
+
+      "text-decoration-line:line-through blink"
+        `isRenderedFrom`
+        { textDecorationLine: lineThrough ~ blink }
+
+      "text-decoration-line:underline blink"
+        `isRenderedFrom`
+        { textDecorationLine: underline ~ blink }
+
+      "text-decoration-line:underline overline"
+        `isRenderedFrom`
+        { textDecorationLine: underline ~ overline }
+
+      "text-decoration-line:underline line-through"
+        `isRenderedFrom`
+        { textDecorationLine: underline ~ lineThrough }
+
+      "text-decoration-line:overline blink"
+        `isRenderedFrom`
+        { textDecorationLine: overline ~ blink }
+
+      "text-decoration-line:underline"
+        `isRenderedFrom`
+        { textDecorationLine: underline }
+
+      "text-decoration-line:overline"
+        `isRenderedFrom`
+        { textDecorationLine: overline }
+
+      "text-decoration-line:line-through"
+        `isRenderedFrom`
+        { textDecorationLine: lineThrough }
+
+      "text-decoration-line:blink"
+        `isRenderedFrom`
+        { textDecorationLine: blink }
 
     describe "text-shadow property" do
 

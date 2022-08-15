@@ -70,24 +70,29 @@ const code = [
     attribute: true
   },
   {
+    typeName: "Blink",
+    varName: "blink",
+    value: "blink"
+  },
+  {
     typeName: "BorderBox",
     varName: "borderBox",
-    value: "border-box",
+    value: "border-box"
   },
   {
     typeName: "Both",
     varName: "both",
-    value: "both",
+    value: "both"
   },
   {
     typeName: "Bottom",
     varName: "bottom",
-    value: "bottom",
+    value: "bottom"
   },
   {
     typeName: "Center",
     varName: "center",
-    value: "center",
+    value: "center"
   },
   {
     typeName: "Charset",
@@ -368,6 +373,11 @@ const code = [
     typeName: "Left",
     varName: "left",
     value: "left",
+  },
+  {
+    typeName: "LineThrough",
+    varName: "lineThrough",
+    value: "line-through",
   },
   {
     typeName: "List'",
@@ -894,6 +904,11 @@ const code = [
     attribute: true
   },
   {
+    typeName: "Overline",
+    varName: "overline",
+    value: "overline"
+  },
+  {
     typeName: "PaddingBox",
     varName: "paddingBox",
     value: "padding-box"
@@ -1092,6 +1107,11 @@ const code = [
     varName: "type'",
     value: "type",
     attribute: true
+  },
+  {
+    typeName: "Underline",
+    varName: "underline",
+    value: "underline"
   },
   {
     typeName: "Usemap",

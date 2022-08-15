@@ -193,6 +193,7 @@ type SupportedDeclarations' (v :: Type) =
   , paddingLeft :: v
   , paddingRight :: v
   , paddingTop :: v
+  , textDecorationLine :: v
   , textOverflow :: v
   , textShadow :: v
   , textTransform :: v
@@ -263,6 +264,7 @@ defaultDeclarations =
   , paddingLeft: v
   , paddingRight: v
   , paddingTop: v
+  , textDecorationLine: v
   , textOverflow: v
   , textShadow: v
   , textTransform: v
@@ -2931,6 +2933,37 @@ instance propertyWhiteSpaceWhiteSpace
 
 -- https://www.w3.org/TR/css-text-decor-3/
 
+-- https://www.w3.org/TR/css-text-decor-3/#propdef-text-decoration-line
+
+class IsTextDecorationLine (a :: Type)
+instance IsTextDecorationLine None
+instance IsTextDecorationLine (Underline ~ Overline ~ LineThrough ~ Blink)
+instance IsTextDecorationLine (Overline ~ LineThrough ~ Blink)
+instance IsTextDecorationLine (Underline ~ LineThrough ~ Blink)
+instance IsTextDecorationLine (Underline ~ Overline ~ Blink)
+instance IsTextDecorationLine (Underline ~ Overline ~ LineThrough)
+instance IsTextDecorationLine (Underline ~ Overline)
+instance IsTextDecorationLine (Underline ~ LineThrough)
+instance IsTextDecorationLine (Underline ~ Blink)
+instance IsTextDecorationLine (Overline ~ LineThrough)
+instance IsTextDecorationLine (Overline ~ Blink)
+instance IsTextDecorationLine (LineThrough ~ Blink)
+instance IsTextDecorationLine Underline
+instance IsTextDecorationLine Overline
+instance IsTextDecorationLine LineThrough
+instance IsTextDecorationLine Blink
+
+instance propertyTextDecorationLineCommonKeyword
+  :: Property "textDecorationLine" CommonKeyword where
+  pval = const val
+
+else instance propertyTextDecorationLineIs
+  :: ( IsTextDecorationLine a
+     , ToVal a
+     )
+  => Property "textDecorationLine" a where
+  pval = const val
+
 -- https://www.w3.org/TR/css-text-decor-3/#propdef-text-shadow
 
 class IsTextShadow (a :: Type)
@@ -3375,6 +3408,10 @@ instance ToVal Autoplay where val _ = val "autoplay"
 autoplay = Autoplay :: Autoplay
 instance IsAttribute Autoplay
 
+data Blink = Blink
+instance ToVal Blink where val _ = val "blink"
+blink = Blink :: Blink
+
 data BorderBox = BorderBox
 instance ToVal BorderBox where val _ = val "border-box"
 borderBox = BorderBox :: BorderBox
@@ -3621,6 +3658,10 @@ instance IsAttribute Lang
 data Left = Left
 instance ToVal Left where val _ = val "left"
 left = Left :: Left
+
+data LineThrough = LineThrough
+instance ToVal LineThrough where val _ = val "line-through"
+lineThrough = LineThrough :: LineThrough
 
 data List' = List'
 instance ToVal List' where val _ = val "list"
@@ -4058,6 +4099,10 @@ instance ToVal Optimum where val _ = val "optimum"
 optimum = Optimum :: Optimum
 instance IsAttribute Optimum
 
+data Overline = Overline
+instance ToVal Overline where val _ = val "overline"
+overline = Overline :: Overline
+
 data PaddingBox = PaddingBox
 instance ToVal PaddingBox where val _ = val "padding-box"
 paddingBox = PaddingBox :: PaddingBox
@@ -4223,6 +4268,10 @@ data Type' = Type'
 instance ToVal Type' where val _ = val "type"
 type' = Type' :: Type'
 instance IsAttribute Type'
+
+data Underline = Underline
+instance ToVal Underline where val _ = val "underline"
+underline = Underline :: Underline
 
 data Usemap = Usemap
 instance ToVal Usemap where val _ = val "usemap"
