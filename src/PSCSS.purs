@@ -1406,22 +1406,22 @@ else instance propertyAnimationIterationCountIs
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-direction
 
-newtype AnimationDirection' = AnimationDirection' String
+newtype AnimationDirection = AnimationDirection String
 
-derive newtype instance ToVal AnimationDirection'
+derive newtype instance ToVal AnimationDirection
 
-reverse :: AnimationDirection'
-reverse = AnimationDirection' "reverse"
+reverse :: AnimationDirection
+reverse = AnimationDirection "reverse"
 
-alternate :: AnimationDirection'
-alternate = AnimationDirection' "alternate"
+alternate :: AnimationDirection
+alternate = AnimationDirection "alternate"
 
-alternateReverse :: AnimationDirection'
-alternateReverse = AnimationDirection' "alternate-reverse"
+alternateReverse :: AnimationDirection
+alternateReverse = AnimationDirection "alternate-reverse"
 
 class IsAnimationDirection (a :: Type)
 instance IsAnimationDirection Normal
-instance IsAnimationDirection AnimationDirection'
+instance IsAnimationDirection AnimationDirection
 instance isAnimationDirectionMultiple
   :: ( IsAnimationDirection x
      , IsAnimationDirection xs
@@ -1441,18 +1441,18 @@ else instance propertyAnimationDirectionIs
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-play-state
 
-newtype AnimationPlayState' = AnimationPlayState' String
+newtype AnimationPlayState = AnimationPlayState String
 
-derive newtype instance ToVal AnimationPlayState'
+derive newtype instance ToVal AnimationPlayState
 
-running :: AnimationPlayState'
-running = AnimationPlayState' "running"
+running :: AnimationPlayState
+running = AnimationPlayState "running"
 
-paused :: AnimationPlayState'
-paused = AnimationPlayState' "paused"
+paused :: AnimationPlayState
+paused = AnimationPlayState "paused"
 
 class IsAnimationPlayState (a :: Type)
-instance IsAnimationPlayState AnimationPlayState'
+instance IsAnimationPlayState AnimationPlayState
 instance isAnimationPlayStateMultiple
   :: ( IsAnimationPlayState x
      , IsAnimationPlayState xs
@@ -1479,18 +1479,18 @@ instance propertyAnimationDelay
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-fill-mode
 
-newtype AnimationFillMode' = AnimationFillMode' String
+newtype AnimationFillMode = AnimationFillMode String
 
-derive newtype instance ToVal AnimationFillMode'
+derive newtype instance ToVal AnimationFillMode
 
-forwards :: AnimationFillMode'
-forwards = AnimationFillMode' "forwards"
+forwards :: AnimationFillMode
+forwards = AnimationFillMode "forwards"
 
-backwards :: AnimationFillMode'
-backwards = AnimationFillMode' "backwards"
+backwards :: AnimationFillMode
+backwards = AnimationFillMode "backwards"
 
 class IsAnimationFillMode (a :: Type)
-instance IsAnimationFillMode AnimationFillMode'
+instance IsAnimationFillMode AnimationFillMode
 instance IsAnimationFillMode None
 instance IsAnimationFillMode Both
 instance isAnimationFillModeMultiple
@@ -3312,22 +3312,22 @@ else instance propertyTransformOriginIsPosition
 
 -- https://www.w3.org/TR/css-writing-modes-4/#propdef-direction
 
-newtype Direction' = Direction' String
+newtype Direction = Direction String
 
-derive newtype instance ToVal Direction'
+derive newtype instance ToVal Direction
 
-ltr :: Direction'
-ltr = Direction' "ltr"
+ltr :: Direction
+ltr = Direction "ltr"
 
-rtl :: Direction'
-rtl = Direction' "rtl"
+rtl :: Direction
+rtl = Direction "rtl"
 
 instance propertyDirectionCommonKeyword
   :: Property "direction" CommonKeyword where
   pval = const val
 
 instance propertyDirectionIs
-  :: Property "direction" Direction' where
+  :: Property "direction" Direction where
   pval = const val
 
 --------------------------------------------------------------------------------
