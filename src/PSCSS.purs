@@ -194,6 +194,7 @@ type SupportedDeclarations' (v :: Type) =
   , paddingRight :: v
   , paddingTop :: v
   , textDecorationLine :: v
+  , textDecorationStyle :: v
   , textOverflow :: v
   , textShadow :: v
   , textTransform :: v
@@ -265,6 +266,7 @@ defaultDeclarations =
   , paddingRight: v
   , paddingTop: v
   , textDecorationLine: v
+  , textDecorationStyle: v
   , textOverflow: v
   , textShadow: v
   , textTransform: v
@@ -1791,18 +1793,6 @@ newtype LineStyle = LineStyle String
 
 derive newtype instance ToVal LineStyle
 
-dotted :: LineStyle
-dotted = LineStyle "dotted"
-
-dashed :: LineStyle
-dashed = LineStyle "dashed"
-
-solid :: LineStyle
-solid = LineStyle "solid"
-
-double :: LineStyle
-double = LineStyle "double"
-
 groove :: LineStyle
 groove = LineStyle "groove"
 
@@ -1815,8 +1805,12 @@ outset = LineStyle "outset"
 class IsBorderTopStyle (a :: Type)
 
 instance IsBorderTopStyle None
+instance IsBorderTopStyle Dashed
+instance IsBorderTopStyle Dotted
+instance IsBorderTopStyle Double
 instance IsBorderTopStyle Hidden
 instance IsBorderTopStyle Inset
+instance IsBorderTopStyle Solid
 instance IsBorderTopStyle LineStyle
 
 instance propertyBorderTopStyleCommonKeyword
@@ -2964,6 +2958,26 @@ else instance propertyTextDecorationLineIs
   => Property "textDecorationLine" a where
   pval = const val
 
+-- https://www.w3.org/TR/css-text-decor-3/#propdef-text-decoration-style
+
+class IsTextDecorationStyle (a :: Type)
+instance IsTextDecorationStyle Solid
+instance IsTextDecorationStyle Double
+instance IsTextDecorationStyle Dotted
+instance IsTextDecorationStyle Dashed
+instance IsTextDecorationStyle Wavy
+
+instance propertyTextDecorationStyleCommonKeyword
+  :: Property "textDecorationStyle" CommonKeyword where
+  pval = const val
+
+else instance propertyTextDecorationStyleIs
+  :: ( IsTextDecorationStyle a
+     , ToVal a
+     )
+  => Property "textDecorationStyle" a where
+  pval = const val
+
 -- https://www.w3.org/TR/css-text-decor-3/#propdef-text-shadow
 
 class IsTextShadow (a :: Type)
@@ -3498,6 +3512,10 @@ data Cover = Cover
 instance ToVal Cover where val _ = val "cover"
 cover = Cover :: Cover
 
+data Dashed = Dashed
+instance ToVal Dashed where val _ = val "dashed"
+dashed = Dashed :: Dashed
+
 data Data = Data
 instance ToVal Data where val _ = val "data"
 data' = Data :: Data
@@ -3532,6 +3550,14 @@ data Disabled = Disabled
 instance ToVal Disabled where val _ = val "disabled"
 disabled = Disabled :: Disabled
 instance IsAttribute Disabled
+
+data Dotted = Dotted
+instance ToVal Dotted where val _ = val "dotted"
+dotted = Dotted :: Dotted
+
+data Double = Double
+instance ToVal Double where val _ = val "double"
+double = Double :: Double
 
 data Download = Download
 instance ToVal Download where val _ = val "download"
@@ -4195,6 +4221,10 @@ instance ToVal Sizes where val _ = val "sizes"
 sizes = Sizes :: Sizes
 instance IsAttribute Sizes
 
+data Solid = Solid
+instance ToVal Solid where val _ = val "solid"
+solid = Solid :: Solid
+
 data Span = Span
 instance ToVal Span where val _ = val "span"
 span = Span :: Span
@@ -4286,6 +4316,10 @@ instance IsAttribute Value
 data Visible = Visible
 instance ToVal Visible where val _ = val "visible"
 visible = Visible :: Visible
+
+data Wavy = Wavy
+instance ToVal Wavy where val _ = val "wavy"
+wavy = Wavy :: Wavy
 
 data Width = Width
 instance ToVal Width where val _ = val "width"

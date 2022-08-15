@@ -6,7 +6,7 @@ import Prelude
 
 import Color (rgb)
 import Data.Tuple.Nested ((/\))
-import PSCSS (blink, em, inherit, initial, lineThrough, nil, overline, none, px, underline, unset, (~))
+import PSCSS (blink, dashed, dotted, double, em, inherit, initial, lineThrough, nil, none, overline, px, solid, underline, unset, wavy, (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -87,6 +87,40 @@ spec =
       "text-decoration-line:blink"
         `isRenderedFrom`
         { textDecorationLine: blink }
+
+    describe "text-decoration-style" do
+
+      "text-decoration-style:inherit"
+        `isRenderedFrom`
+        { textDecorationStyle: inherit }
+
+      "text-decoration-style:initial"
+        `isRenderedFrom`
+        { textDecorationStyle: initial }
+
+      "text-decoration-style:unset"
+        `isRenderedFrom`
+        { textDecorationStyle: unset }
+
+      "text-decoration-style:solid"
+        `isRenderedFrom`
+        { textDecorationStyle: solid }
+
+      "text-decoration-style:double"
+        `isRenderedFrom`
+        { textDecorationStyle: double }
+
+      "text-decoration-style:dotted"
+        `isRenderedFrom`
+        { textDecorationStyle: dotted }
+
+      "text-decoration-style:dashed"
+        `isRenderedFrom`
+        { textDecorationStyle: dashed }
+
+      "text-decoration-style:wavy"
+        `isRenderedFrom`
+        { textDecorationStyle: wavy }
 
     describe "text-shadow property" do
 

@@ -180,6 +180,11 @@ const code = [
     value: "cover",
   },
   {
+    typeName: "Dashed",
+    varName: "dashed",
+    value: "dashed"
+  },
+  {
     typeName: "Data",
     varName: "data'",
     value: "data",
@@ -220,6 +225,16 @@ const code = [
     varName: "disabled",
     value: "disabled",
     attribute: true
+  },
+  {
+    typeName: "Dotted",
+    varName: "dotted",
+    value: "dotted"
+  },
+  {
+    typeName: "Double",
+    varName: "double",
+    value: "double"
   },
   {
     typeName: "Download",
@@ -1020,6 +1035,11 @@ const code = [
     attribute: true
   },
   {
+    typeName: "Solid",
+    varName: "solid",
+    value: "solid",
+  },
+  {
     typeName: "Span",
     varName: "span",
     value: "span",
@@ -1129,6 +1149,11 @@ const code = [
     typeName: "Visible",
     varName: "visible",
     value: "visible"
+  },
+  {
+    typeName: "Wavy",
+    varName: "wavy",
+    value: "wavy"
   },
   {
     typeName: "Width",
