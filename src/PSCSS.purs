@@ -193,6 +193,7 @@ type SupportedDeclarations' (v :: Type) =
   , paddingLeft :: v
   , paddingRight :: v
   , paddingTop :: v
+  , textAlign :: v
   , textDecorationColor :: v
   , textDecorationLine :: v
   , textDecorationStyle :: v
@@ -266,6 +267,7 @@ defaultDeclarations =
   , paddingLeft: v
   , paddingRight: v
   , paddingTop: v
+  , textAlign: v
   , textDecorationColor: v
   , textDecorationLine: v
   , textDecorationStyle: v
@@ -2924,6 +2926,40 @@ instance propertyWhiteSpaceNormal
 instance propertyWhiteSpaceWhiteSpace
   :: Property "whiteSpace" WhiteSpace where
   pval = const val
+
+-- https://www.w3.org/TR/css-text-3/#propdef-text-align
+
+newtype TextAlign = TextAlign String
+
+derive newtype instance ToVal TextAlign
+
+justify :: TextAlign
+justify = TextAlign "justify"
+
+matchParent :: TextAlign
+matchParent = TextAlign "match-parent"
+
+justifyAll :: TextAlign
+justifyAll = TextAlign "justify-all"
+
+class IsTextAlign (a :: Type)
+instance IsTextAlign Start
+instance IsTextAlign End
+instance IsTextAlign Left
+instance IsTextAlign Right
+instance IsTextAlign Center
+instance IsTextAlign TextAlign
+
+instance propertyTextAlignCommonKeyword
+  :: Property "textAlign" CommonKeyword where
+  pval = const val
+
+else instance propertyTextAlignIs
+  :: ( IsTextAlign a
+     , ToVal a
+     )
+  => Property "textAlign" a where
+  pval = const val 
 
 --------------------------------------------------------------------------------
 

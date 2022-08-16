@@ -4,7 +4,7 @@ module Test.TextSpec where
 
 import Prelude
 
-import PSCSS (breakSpaces, capitalize, fullSizeKana, fullWidth, inherit, initial, lowercase, none, normal, nowrap, pre, preLine, preWrap, unset, uppercase, (~))
+import PSCSS (breakSpaces, capitalize, center, end, fullSizeKana, fullWidth, inherit, initial, justify, justifyAll, left, lowercase, matchParent, none, normal, nowrap, pre, preLine, preWrap, right, start, unset, uppercase, (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -63,3 +63,27 @@ spec =
       "white-space:break-spaces" `isRenderedFrom` { whiteSpace: breakSpaces }
 
       "white-space:pre-line" `isRenderedFrom` { whiteSpace: preLine }
+
+    describe "text-align property" do
+
+      "text-align:inherit" `isRenderedFrom` { textAlign: inherit }
+
+      "text-align:initial" `isRenderedFrom` { textAlign: initial }
+
+      "text-align:unset" `isRenderedFrom` { textAlign: unset }
+
+      "text-align:start" `isRenderedFrom` { textAlign: start }
+
+      "text-align:end" `isRenderedFrom` { textAlign: end }
+
+      "text-align:left" `isRenderedFrom` { textAlign: left }
+
+      "text-align:right" `isRenderedFrom` { textAlign: right }
+
+      "text-align:center" `isRenderedFrom` { textAlign: center }
+
+      "text-align:justify" `isRenderedFrom` { textAlign: justify }
+
+      "text-align:match-parent" `isRenderedFrom` { textAlign: matchParent }
+
+      "text-align:justify-all" `isRenderedFrom` { textAlign: justifyAll }
