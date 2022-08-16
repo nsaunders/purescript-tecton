@@ -174,6 +174,7 @@ type SupportedProperties' (v :: Type) =
   , boxShadow :: v
   , color :: v
   , direction :: v
+  , flexDirection :: v
   , height :: v
   , letterSpacing :: v
   , margin :: v
@@ -251,6 +252,7 @@ defaultDeclarations =
   , boxShadow: v
   , color: v
   , direction: v
+  , flexDirection: v
   , height: v
   , letterSpacing: v
   , margin: v
@@ -2596,6 +2598,36 @@ stepStart = EasingFunction $ val "step-start"
 
 stepEnd :: EasingFunction
 stepEnd = EasingFunction $ val "step-end"
+
+--------------------------------------------------------------------------------
+
+-- https://www.w3.org/TR/css-flexbox-1/
+
+-- https://www.w3.org/TR/css-flexbox-1/#propdef-flex-direction
+
+newtype FlexDirection = FlexDirection String
+
+derive newtype instance ToVal FlexDirection
+
+row :: FlexDirection
+row = FlexDirection "row"
+
+rowReverse :: FlexDirection
+rowReverse = FlexDirection "row-reverse"
+
+column :: FlexDirection
+column = FlexDirection "column"
+
+columnReverse :: FlexDirection
+columnReverse = FlexDirection "column-reverse"
+
+instance propertyFlexDirectionCommonKeyword
+  :: Property "flexDirection" CommonKeyword where
+  pval = const val
+
+instance propertyFlexDirectionFlexDirection
+  :: Property "flexDirection" FlexDirection where
+  pval = const val
 
 --------------------------------------------------------------------------------
 
