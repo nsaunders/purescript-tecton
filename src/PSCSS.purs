@@ -131,9 +131,9 @@ runVal x (Val f) = f x
 
 -- Supported style properties
 
-data Declaration = Declaration
+data Property' = Property'
 
-type SupportedDeclarations' (v :: Type) =
+type SupportedProperties' (v :: Type) =
   ( animationDelay :: v
   , animationDirection :: v
   , animationDuration :: v
@@ -208,7 +208,7 @@ type SupportedDeclarations' (v :: Type) =
   , width :: v
   )
 
-defaultDeclarations :: { | SupportedDeclarations }
+defaultDeclarations :: { | SupportedProperties }
 defaultDeclarations =
   { animationDelay: v
   , animationDirection: v
@@ -286,15 +286,15 @@ defaultDeclarations =
   where
     v = Nothing
 
-type SupportedDeclarations = SupportedDeclarations' (Maybe Val)
+type SupportedProperties = SupportedProperties' (Maybe Val)
 
 class Property (p :: Symbol) (v :: Type) where
   pval :: Proxy p -> v -> Val
 
-instance Property p v => ConvertOption Declaration p (Maybe v) (Maybe Val) where
+instance Property p v => ConvertOption Property' p (Maybe v) (Maybe Val) where
   convertOption _ = map <<< pval
 
-else instance Property p v => ConvertOption Declaration p v (Maybe Val) where
+else instance Property p v => ConvertOption Property' p v (Maybe Val) where
   convertOption _ p = pure <<< pval p
 
 --------------------------------------------------------------------------------
@@ -338,20 +338,20 @@ else instance Statement' Keyframes (Writer (Array KeyframeBlock) Unit) (Writer (
         Ruleset ((Selector <<< val) <$> selectors) declarations
 else instance
   ConvertOptionsWithDefaults
-    Declaration
-    { | SupportedDeclarations }
-    { | providedDeclarations }
-    { | SupportedDeclarations }
-  => Statement' (NonEmpty Array (Measure Percentage)) { | providedDeclarations } (Writer (Array KeyframeBlock) Unit) where
+    Property'
+    { | SupportedProperties }
+    { | providedProperties }
+    { | SupportedProperties }
+  => Statement' (NonEmpty Array (Measure Percentage)) { | providedProperties } (Writer (Array KeyframeBlock) Unit) where
   statement selectors provided =
     tell $ pure $ KeyframeBlock selectors $ declarationBlock provided
 else instance
   ConvertOptionsWithDefaults
-    Declaration
-    { | SupportedDeclarations }
-    { | providedDeclarations }
-    { | SupportedDeclarations }
-  => Statement' (NonEmpty Array (Selector tag)) { | providedDeclarations } (Writer (Array Statement) Unit) where
+    Property'
+    { | SupportedProperties }
+    { | providedProperties }
+    { | SupportedProperties }
+  => Statement' (NonEmpty Array (Selector tag)) { | providedProperties } (Writer (Array Statement) Unit) where
   statement selectors provided =
     tell $ pure $ Ruleset (closeSelector <$> selectors) $ declarationBlock provided
 else instance Statement' (NonEmpty Array a) b c => Statement' a b c where
@@ -399,14 +399,14 @@ instance
           rest
 
 declarationBlock
-  :: forall providedDeclarations rl
-   . RowToList SupportedDeclarations rl
-  => CollectDeclarations rl SupportedDeclarations
-  => ConvertOptionsWithDefaults Declaration
-       { | SupportedDeclarations }
-       { | providedDeclarations }
-       { | SupportedDeclarations }
-  => { | providedDeclarations }
+  :: forall providedProperties rl
+   . RowToList SupportedProperties rl
+  => CollectDeclarations rl SupportedProperties
+  => ConvertOptionsWithDefaults Property'
+       { | SupportedProperties }
+       { | providedProperties }
+       { | SupportedProperties }
+  => { | providedProperties }
   -> Val
 declarationBlock provided =
   Val \config@{ newline, finalSemicolon } ->
@@ -426,7 +426,7 @@ declarationBlock provided =
           )
     ) <> if finalSemicolon then ";" else mempty
   where
-  all' = convertOptionsWithDefaults Declaration defaultDeclarations provided
+    all' = convertOptionsWithDefaults Property' defaultDeclarations provided
 
 --------------------------------------------------------------------------------
 
@@ -476,11 +476,11 @@ instance Render (Writer (Array Statement) Unit) where
 
 else instance
   ConvertOptionsWithDefaults
-    Declaration
-    { | SupportedDeclarations }
-    { | providedDeclarations }
-    { | SupportedDeclarations }
-  => Render (Record providedDeclarations) where
+    Property'
+    { | SupportedProperties }
+    { | providedProperties }
+    { | SupportedProperties }
+  => Render (Record providedProperties) where
   render c =
     runVal c { newline = if c.newline /= mempty then " " else mempty }
       <<< declarationBlock
