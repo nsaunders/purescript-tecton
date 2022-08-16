@@ -447,6 +447,11 @@ const code = [
     attribute: true
   },
   {
+    typeName: "Middle",
+    varName: "middle",
+    value: "middle"
+  },
+  {
     typeName: "Min",
     varName: "min",
     value: "min",

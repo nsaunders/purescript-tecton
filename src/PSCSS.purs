@@ -203,6 +203,7 @@ type SupportedProperties' (v :: Type) =
   , textTransform :: v
   , transform :: v
   , transformOrigin :: v
+  , verticalAlign :: v
   , whiteSpace :: v
   , wordSpacing :: v
   , width :: v
@@ -279,6 +280,7 @@ defaultDeclarations =
   , textTransform: v
   , transform: v
   , transformOrigin: v
+  , verticalAlign: v
   , whiteSpace: v
   , wordSpacing: v
   , width: v
@@ -3399,6 +3401,49 @@ else instance propertyTransformOriginIsPosition
 
 --------------------------------------------------------------------------------
 
+-- https://www.w3.org/TR/CSS2/visudet.html
+
+-- https://www.w3.org/TR/CSS2/visudet.html#propdef-vertical-align
+
+newtype VerticalAlign = VerticalAlign String
+
+derive newtype instance ToVal VerticalAlign
+
+baseline :: VerticalAlign
+baseline = VerticalAlign "baseline"
+
+sub :: VerticalAlign
+sub = VerticalAlign "sub"
+
+super :: VerticalAlign
+super = VerticalAlign "super"
+
+textTop :: VerticalAlign
+textTop = VerticalAlign "text-top"
+
+textBottom :: VerticalAlign
+textBottom = VerticalAlign "text-bottom"
+
+class IsVerticalAlign (a :: Type)
+instance IsVerticalAlign VerticalAlign
+instance IsVerticalAlign Top
+instance IsVerticalAlign Middle
+instance IsVerticalAlign Bottom
+instance LengthPercentageTag a => IsVerticalAlign (Measure a)
+
+instance propertyVerticalAlignCommonKeyword
+  :: Property "verticalAlign" CommonKeyword where
+  pval = const val
+
+else instance propertyVerticalAlignIs
+  :: ( IsVerticalAlign a
+     , ToVal a
+     )
+  => Property "verticalAlign" a where
+  pval = const val
+
+--------------------------------------------------------------------------------
+
 -- https://www.w3.org/TR/css-writing-modes-4/
 
 -- https://www.w3.org/TR/css-writing-modes-4/#propdef-direction
@@ -3808,6 +3853,10 @@ data Method = Method
 instance ToVal Method where val _ = val "method"
 method = Method :: Method
 instance IsAttribute Method
+
+data Middle = Middle
+instance ToVal Middle where val _ = val "middle"
+middle = Middle :: Middle
 
 data Min = Min
 instance ToVal Min where val _ = val "min"

@@ -21,6 +21,7 @@ import Test.Spec.Runner (runSpec)
 import Test.TextSpec as Text
 import Test.TextDecorSpec as TextDecor
 import Test.TransformsSpec as Transforms
+import Test.VisudetSpec as Visudet
 import Test.WritingModesSpec as WritingModes
 import Test.Util (assertRenderedGuarded)
 
@@ -51,4 +52,5 @@ main =
       Text.spec
       TextDecor.spec
       Transforms.spec
+      Visudet.spec
       WritingModes.spec
