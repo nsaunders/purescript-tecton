@@ -4,7 +4,7 @@ module Test.TextSpec where
 
 import Prelude
 
-import PSCSS (breakSpaces, capitalize, center, end, fullSizeKana, fullWidth, inherit, initial, justify, justifyAll, left, lowercase, matchParent, none, normal, nowrap, pre, preLine, preWrap, right, start, unset, uppercase, (~))
+import PSCSS (breakSpaces, capitalize, center, em, end, fullSizeKana, fullWidth, inherit, initial, justify, justifyAll, left, lowercase, matchParent, none, normal, nowrap, pre, preLine, preWrap, right, start, unset, uppercase, (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -87,3 +87,27 @@ spec =
       "text-align:match-parent" `isRenderedFrom` { textAlign: matchParent }
 
       "text-align:justify-all" `isRenderedFrom` { textAlign: justifyAll }
+
+    describe "word-spacing" do
+
+      "word-spacing:inherit" `isRenderedFrom` { wordSpacing: inherit }
+
+      "word-spacing:initial" `isRenderedFrom` { wordSpacing: initial }
+
+      "word-spacing:unset" `isRenderedFrom` { wordSpacing: unset }
+
+      "word-spacing:normal" `isRenderedFrom` { wordSpacing: normal }
+
+      "word-spacing:0.025em" `isRenderedFrom` { wordSpacing: em 0.025 }
+
+    describe "letter-spacing" do
+
+      "letter-spacing:inherit" `isRenderedFrom` { letterSpacing: inherit }
+
+      "letter-spacing:initial" `isRenderedFrom` { letterSpacing: initial }
+
+      "letter-spacing:unset" `isRenderedFrom` { letterSpacing: unset }
+
+      "letter-spacing:normal" `isRenderedFrom` { letterSpacing: normal }
+
+      "letter-spacing:0.025em" `isRenderedFrom` { letterSpacing: em 0.025 }

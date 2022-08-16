@@ -175,6 +175,7 @@ type SupportedDeclarations' (v :: Type) =
   , color :: v
   , direction :: v
   , height :: v
+  , letterSpacing :: v
   , margin :: v
   , marginBottom :: v
   , marginLeft :: v
@@ -203,6 +204,7 @@ type SupportedDeclarations' (v :: Type) =
   , transform :: v
   , transformOrigin :: v
   , whiteSpace :: v
+  , wordSpacing :: v
   , width :: v
   )
 
@@ -249,6 +251,7 @@ defaultDeclarations =
   , color: v
   , direction: v
   , height: v
+  , letterSpacing: v
   , margin: v
   , marginBottom: v
   , marginLeft: v
@@ -277,6 +280,7 @@ defaultDeclarations =
   , transform: v
   , transformOrigin: v
   , whiteSpace: v
+  , wordSpacing: v
   , width: v
   }
   where
@@ -2960,6 +2964,28 @@ else instance propertyTextAlignIs
      )
   => Property "textAlign" a where
   pval = const val 
+
+-- https://www.w3.org/TR/css-text-3/#propdef-word-spacing
+
+instance propertyWordSpacingCommonKeyword
+  :: Property "wordSpacing" CommonKeyword where
+  pval = const val
+
+instance propertyWordSpacingNormal
+  :: Property "wordSpacing" Normal where
+  pval = const val
+
+instance propertyWordSpacingLength
+  :: LengthTag a
+  => Property "wordSpacing" (Measure a) where
+  pval = const val
+
+-- https://www.w3.org/TR/css-text-3/#propdef-letter-spacing
+
+instance propertyLetterSpacingWordSpacing
+  :: Property "wordSpacing" a
+  => Property "letterSpacing" a where
+  pval = const $ pval (Proxy :: _ "wordSpacing")
 
 --------------------------------------------------------------------------------
 
