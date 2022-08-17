@@ -492,6 +492,11 @@ const code = [
     attribute: true
   },
   {
+    typeName: "Nowrap",
+    varName: "nowrap",
+    value: "nowrap"
+  },
+  {
     typeName: "Onabort",
     varName: "onabort",
     value: "onabort",
@@ -1171,6 +1176,11 @@ const code = [
     varName: "wrap",
     value: "wrap",
     attribute: true
+  },
+  {
+    typeName: "WrapReverse",
+    varName: "wrapReverse",
+    value: "wrap-reverse"
   }
 ]
   .map(({ typeName, varName, value, attribute }) => [

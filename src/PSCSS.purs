@@ -175,6 +175,7 @@ type SupportedProperties' (v :: Type) =
   , color :: v
   , direction :: v
   , flexDirection :: v
+  , flexWrap :: v
   , height :: v
   , letterSpacing :: v
   , margin :: v
@@ -253,6 +254,7 @@ defaultDeclarations =
   , color: v
   , direction: v
   , flexDirection: v
+  , flexWrap: v
   , height: v
   , letterSpacing: v
   , margin: v
@@ -2629,6 +2631,24 @@ instance propertyFlexDirectionFlexDirection
   :: Property "flexDirection" FlexDirection where
   pval = const val
 
+-- https://www.w3.org/TR/css-flexbox-1/#propdef-flex-wrap
+
+class IsFlexWrap (a :: Type)
+instance IsFlexWrap Nowrap
+instance IsFlexWrap Wrap
+instance IsFlexWrap WrapReverse
+
+instance propertyFlexWrapCommonKeyword
+  :: Property "flexWrap" CommonKeyword where
+  pval = const val
+
+else instance propertyFlexWrapIs
+  :: ( IsFlexWrap a
+     , ToVal a
+     )
+  => Property "flexWrap" a where
+  pval = const val
+
 --------------------------------------------------------------------------------
 
 -- https://www.w3.org/TR/css-images-3/
@@ -2941,9 +2961,6 @@ derive newtype instance ToVal WhiteSpace
 pre :: WhiteSpace
 pre = WhiteSpace "pre"
 
-nowrap :: WhiteSpace
-nowrap = WhiteSpace "nowrap"
-
 preWrap :: WhiteSpace
 preWrap = WhiteSpace "pre-wrap"
 
@@ -2953,16 +2970,20 @@ breakSpaces = WhiteSpace "break-spaces"
 preLine :: WhiteSpace
 preLine = WhiteSpace "pre-line"
 
+class IsWhiteSpace (a :: Type)
+instance IsWhiteSpace WhiteSpace
+instance IsWhiteSpace Normal
+instance IsWhiteSpace Nowrap
+
 instance propertyWhiteSpaceCommonKeyword
   :: Property "whiteSpace" CommonKeyword where
   pval = const val
 
-instance propertyWhiteSpaceNormal
-  :: Property "whiteSpace" Normal where
-  pval = const val
-
-instance propertyWhiteSpaceWhiteSpace
-  :: Property "whiteSpace" WhiteSpace where
+else instance propertyWhiteSpaceIs
+  :: ( IsWhiteSpace a
+     , ToVal a
+     )
+  => Property "whiteSpace" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-text-3/#propdef-text-align
@@ -3923,6 +3944,10 @@ instance ToVal Novalidate where val _ = val "novalidate"
 novalidate = Novalidate :: Novalidate
 instance IsAttribute Novalidate
 
+data Nowrap = Nowrap
+instance ToVal Nowrap where val _ = val "nowrap"
+nowrap = Nowrap :: Nowrap
+
 data Onabort = Onabort
 instance ToVal Onabort where val _ = val "onabort"
 onabort = Onabort :: Onabort
@@ -4488,3 +4513,7 @@ data Wrap = Wrap
 instance ToVal Wrap where val _ = val "wrap"
 wrap = Wrap :: Wrap
 instance IsAttribute Wrap
+
+data WrapReverse = WrapReverse
+instance ToVal WrapReverse where val _ = val "wrap-reverse"
+wrapReverse = WrapReverse :: WrapReverse

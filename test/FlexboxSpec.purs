@@ -4,7 +4,7 @@ module Test.FlexboxSpec where
 
 import Prelude
 
-import PSCSS (column, columnReverse, inherit, initial, row, rowReverse, unset)
+import PSCSS (column, columnReverse, inherit, initial, nowrap, row, rowReverse, unset, wrap, wrapReverse)
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -31,3 +31,21 @@ spec =
       "flex-direction:column-reverse"
         `isRenderedFrom`
         { flexDirection: columnReverse }
+
+      "flex-direction:column-reverse"
+        `isRenderedFrom`
+        { flexDirection: columnReverse }
+
+    describe "flex-wrap property" do
+
+      "flex-wrap:inherit" `isRenderedFrom` { flexWrap: inherit }
+
+      "flex-wrap:initial" `isRenderedFrom` { flexWrap: initial }
+
+      "flex-wrap:unset" `isRenderedFrom` { flexWrap: unset }
+
+      "flex-wrap:nowrap" `isRenderedFrom` { flexWrap: nowrap }
+
+      "flex-wrap:wrap" `isRenderedFrom` { flexWrap: wrap }
+
+      "flex-wrap:wrap-reverse" `isRenderedFrom` { flexWrap: wrapReverse }
