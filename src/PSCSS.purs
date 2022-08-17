@@ -1353,11 +1353,7 @@ byAfter = closeSelector <<< appendSelectorDetail (val "::after")
 class IsAnimationName (a :: Type)
 instance IsAnimationName None
 instance IsAnimationName KeyframesName
-instance isAnimationNameMultiple
-  :: ( IsAnimationName x
-     , IsAnimationName xs
-     )
-  => IsAnimationName (x /\ xs)
+instance (IsAnimationName x, IsAnimationName xs) => IsAnimationName (x /\ xs)
 
 instance propertyAnimationNameVal
   :: ( IsAnimationName a
@@ -1371,11 +1367,10 @@ instance propertyAnimationNameVal
 class IsAnimationDuration (a :: Type)
 instance IsAnimationDuration None
 instance TimeTag a => IsAnimationDuration (Measure a)
-instance isAnimationDurationMultiple
-  :: ( IsAnimationDuration x
-     , IsAnimationDuration xs
-     )
-  => IsAnimationDuration (x /\ xs)
+instance
+  ( IsAnimationDuration x
+  , IsAnimationDuration xs
+  ) => IsAnimationDuration (x /\ xs)
 
 instance propertyAnimationDurationIs
   :: ( IsAnimationDuration a
@@ -1390,11 +1385,10 @@ instance propertyAnimationDurationIs
 
 class IsAnimationTimingFunction (a :: Type)
 instance IsAnimationTimingFunction EasingFunction
-instance isAnimationTimingFunctionMultiple
-  :: ( IsAnimationTimingFunction x
-     , IsAnimationTimingFunction xs
-     )
-  => IsAnimationTimingFunction (x /\ xs)
+instance
+  ( IsAnimationTimingFunction x
+  , IsAnimationTimingFunction xs
+  ) => IsAnimationTimingFunction (x /\ xs)
 
 instance propertyAnimationTimingFunctionIs
   :: ( IsAnimationTimingFunction a
@@ -1408,11 +1402,10 @@ instance propertyAnimationTimingFunctionIs
 class IsAnimationIterationCount (a :: Type)
 instance IsAnimationIterationCount Infinite
 instance IsAnimationIterationCount Int
-instance isAnimationIterationCountMultiple
-  :: ( IsAnimationIterationCount x
-     , IsAnimationIterationCount xs
-     )
-  => IsAnimationIterationCount (x /\ xs)
+instance
+  ( IsAnimationIterationCount x
+  , IsAnimationIterationCount xs
+  ) => IsAnimationIterationCount (x /\ xs)
 
 instance propertyAnimationIterationCountIs
   :: ( IsAnimationIterationCount a
@@ -1439,11 +1432,10 @@ alternateReverse = AnimationDirection "alternate-reverse"
 class IsAnimationDirection (a :: Type)
 instance IsAnimationDirection Normal
 instance IsAnimationDirection AnimationDirection
-instance isAnimationDirectionMultiple
-  :: ( IsAnimationDirection x
-     , IsAnimationDirection xs
-     )
-  => IsAnimationDirection (x /\ xs)
+instance
+  ( IsAnimationDirection x
+  , IsAnimationDirection xs
+  ) => IsAnimationDirection (x /\ xs)
 
 instance propertyAnimationDirectionIs
   :: ( IsAnimationDirection a
@@ -1466,11 +1458,10 @@ paused = AnimationPlayState "paused"
 
 class IsAnimationPlayState (a :: Type)
 instance IsAnimationPlayState AnimationPlayState
-instance isAnimationPlayStateMultiple
-  :: ( IsAnimationPlayState x
-     , IsAnimationPlayState xs
-     )
-  => IsAnimationPlayState (x /\ xs)
+instance
+  ( IsAnimationPlayState x
+  , IsAnimationPlayState xs
+  ) => IsAnimationPlayState (x /\ xs)
 
 instance propertyAnimationPlayStateIs
   :: ( IsAnimationPlayState a
@@ -1502,11 +1493,10 @@ class IsAnimationFillMode (a :: Type)
 instance IsAnimationFillMode AnimationFillMode
 instance IsAnimationFillMode None
 instance IsAnimationFillMode Both
-instance isAnimationFillModeMultiple
-  :: ( IsAnimationFillMode x
-     , IsAnimationFillMode xs
-     )
-  => IsAnimationFillMode (x /\ xs)
+instance
+  ( IsAnimationFillMode x
+  , IsAnimationFillMode xs
+  ) => IsAnimationFillMode (x /\ xs)
 
 instance propertyAnimationFillModeIs
   :: ( IsAnimationFillMode a
@@ -1531,12 +1521,10 @@ instance propertyBackgroundColorColor
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-image
 
 class IsBackgroundImage (a :: Type)
-
-instance isBackgroundImageMultiple
-  :: ( IsBackgroundImage x
-     , IsBackgroundImage xs
-     )
-  => IsBackgroundImage (x /\ xs)
+instance
+  ( IsBackgroundImage x
+  , IsBackgroundImage xs
+  ) => IsBackgroundImage (x /\ xs)
 else instance IsBackgroundImage None
 else instance IsImage a => IsBackgroundImage a
 
@@ -1573,13 +1561,11 @@ noRepeat = RepeatStyle "no-repeat"
 
 class IsBackgroundRepeat (a :: Type)
 instance IsBackgroundRepeat (RepeatStyle a)
-instance isBackgroundRepeatPair
-  :: IsBackgroundRepeat (RepeatStyle Unit ~ RepeatStyle Unit)
-instance isBackgroundRepeatMultiple
-  :: ( IsBackgroundRepeat x
-     , IsBackgroundRepeat xs
-     )
-  => IsBackgroundRepeat (x /\ xs)
+instance IsBackgroundRepeat (RepeatStyle Unit ~ RepeatStyle Unit)
+instance
+  ( IsBackgroundRepeat x
+  , IsBackgroundRepeat xs
+  ) => IsBackgroundRepeat (x /\ xs)
 
 instance propertyBackgroundRepeatIs
   :: ( IsBackgroundRepeat a
@@ -1594,11 +1580,10 @@ class IsBackgroundAttachment (a :: Type)
 instance IsBackgroundAttachment Fixed
 instance IsBackgroundAttachment Local
 instance IsBackgroundAttachment Scroll
-instance isBackgroundAttachmentMultiple
-  :: ( IsBackgroundAttachment x
-     , IsBackgroundAttachment xs
-     )
-  => IsBackgroundAttachment (x /\ xs)
+instance
+  ( IsBackgroundAttachment x
+  , IsBackgroundAttachment xs
+  ) => IsBackgroundAttachment (x /\ xs)
 
 instance propertyBackgrondAttachmentIs
   :: ( IsBackgroundAttachment a
@@ -1610,11 +1595,10 @@ instance propertyBackgrondAttachmentIs
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-position
 
 class IsBackgroundPosition (a :: Type)
-instance isBackgroundPositionMultiple
-  :: ( IsPosition x
-     , IsBackgroundPosition xs
-     )
-  => IsBackgroundPosition (x /\ xs)
+instance
+  ( IsPosition x
+  , IsBackgroundPosition xs
+  ) => IsBackgroundPosition (x /\ xs)
 else instance IsPosition a => IsBackgroundPosition a
 
 instance propertyBackgroundPositionVal
@@ -1630,11 +1614,10 @@ class IsBackgroundClip (a :: Type)
 instance IsBackgroundClip BorderBox
 instance IsBackgroundClip PaddingBox
 instance IsBackgroundClip ContentBox
-instance isBackgroundClipMultiple
-  :: ( IsBackgroundClip x
-     , IsBackgroundClip xs
-     )
-  => IsBackgroundClip (x /\ xs)
+instance
+  ( IsBackgroundClip x
+  , IsBackgroundClip xs
+  ) => IsBackgroundClip (x /\ xs)
 
 instance propertyBackgroundClipIs
   :: ( IsBackgroundClip a
@@ -1657,23 +1640,17 @@ instance IsBackgroundSize Cover
 instance IsBackgroundSize Contain
 instance IsBackgroundSize Auto
 instance LengthPercentageTag a => IsBackgroundSize (Measure a)
-instance isBackgroundSizeAutoAuto :: IsBackgroundSize (Auto ~ Auto)
-instance isBackgroundSizeAutoLengthPercentage
-  :: LengthPercentageTag y
-  => IsBackgroundSize (Auto ~ Measure y)
-instance isBackgroundSizeLengthPercentageAuto
-  :: LengthPercentageTag x
-  => IsBackgroundSize (Measure x ~ Auto)
-instance isBackgroundSizeLengthPercentageLengthPercentage
-  :: ( LengthPercentageTag x
-     , LengthPercentageTag y
-     )
-  => IsBackgroundSize (Measure x ~ Measure y)
-instance isBackgroundSizeMultiple
-  :: ( IsBackgroundSize x
-     , IsBackgroundSize xs
-     )
-  => IsBackgroundSize (x /\ xs)
+instance IsBackgroundSize (Auto ~ Auto)
+instance LengthPercentageTag y => IsBackgroundSize (Auto ~ Measure y)
+instance LengthPercentageTag x => IsBackgroundSize (Measure x ~ Auto)
+instance
+  ( LengthPercentageTag x
+  , LengthPercentageTag y
+  ) => IsBackgroundSize (Measure x ~ Measure y)
+instance
+  ( IsBackgroundSize x
+  , IsBackgroundSize xs
+  ) => IsBackgroundSize (x /\ xs)
 
 instance propertyBackgroundSizeVal
   :: ( IsBackgroundSize a
@@ -1986,155 +1963,154 @@ mkBorderRadius (x /\ y) =
         else x' <> separator <> "/" <> separator <> y'
 
 class IsBorderRadius (a :: Type)
-instance isBorderRadius4X4Y
-  :: ( LengthPercentageTag tlx
-     , LengthPercentageTag trx
-     , LengthPercentageTag brx
-     , LengthPercentageTag blx
-     , LengthPercentageTag tly
-     , LengthPercentageTag try
-     , LengthPercentageTag bry
-     , LengthPercentageTag bly
-     )
-  => IsBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly)
-instance isBorderRadius4X3Y
-  :: ( LengthPercentageTag tlx
-     , LengthPercentageTag trx
-     , LengthPercentageTag brx
-     , LengthPercentageTag blx
-     , LengthPercentageTag tly
-     , LengthPercentageTag trbly
-     , LengthPercentageTag bry
-     )
-  => IsBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure tly ~ Measure trbly ~ Measure bry)
-instance isBorderRadius4X2Y
-  :: ( LengthPercentageTag tlx
-     , LengthPercentageTag trx
-     , LengthPercentageTag brx
-     , LengthPercentageTag blx
-     , LengthPercentageTag tlbry
-     , LengthPercentageTag trbly
-     )
-  => IsBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure tlbry ~ Measure trbly)
-instance isBorderRadius4X1Y
-  :: ( LengthPercentageTag tlx
-     , LengthPercentageTag trx
-     , LengthPercentageTag brx
-     , LengthPercentageTag blx
-     , LengthPercentageTag y
-     )
-  => IsBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure y)
-instance isBorderRadius4X0Y
-  :: ( LengthPercentageTag tlx
-     , LengthPercentageTag trx
-     , LengthPercentageTag brx
-     , LengthPercentageTag blx
-     )
-  => IsBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx)
-instance isBorderRadius3X4Y
-  :: ( LengthPercentageTag tlx
-     , LengthPercentageTag trblx
-     , LengthPercentageTag brx
-     , LengthPercentageTag tly
-     , LengthPercentageTag try
-     , LengthPercentageTag bry
-     , LengthPercentageTag bly
-     )
-  => IsBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly)
-instance isBorderRadius3X3Y
-  :: ( LengthPercentageTag tlx
-     , LengthPercentageTag trblx
-     , LengthPercentageTag brx
-     , LengthPercentageTag tly
-     , LengthPercentageTag trbly
-     , LengthPercentageTag bry
-     )
-  => IsBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure tly ~ Measure trbly ~ Measure bry)
-instance isBorderRadius3X2Y
-  :: ( LengthPercentageTag tlx
-     , LengthPercentageTag trblx
-     , LengthPercentageTag brx
-     , LengthPercentageTag tlbry
-     , LengthPercentageTag trbly
-     )
-  => IsBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure tlbry ~ Measure trbly)
-instance isBorderRadius3X1Y
-  :: ( LengthPercentageTag tlx
-     , LengthPercentageTag trblx
-     , LengthPercentageTag brx
-     , LengthPercentageTag y
-     )
-  => IsBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure y)
-instance isBorderRadius3X0Y
-  :: ( LengthPercentageTag tlx
-     , LengthPercentageTag trblx
-     , LengthPercentageTag brx
-     )
-  => IsBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx)
-instance isBorderRadius2X4Y
-  :: ( LengthPercentageTag tlbrx
-     , LengthPercentageTag trblx
-     , LengthPercentageTag tly
-     , LengthPercentageTag try
-     , LengthPercentageTag bry
-     , LengthPercentageTag bly
-     )
-  => IsBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly)
-instance isBorderRadius2X3Y
-  :: ( LengthPercentageTag tlbrx
-     , LengthPercentageTag trblx
-     , LengthPercentageTag tly
-     , LengthPercentageTag trbly
-     , LengthPercentageTag bry
-     )
-  => IsBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure tly ~ Measure trbly ~ Measure bry)
-instance isBorderRadius2X2Y
-  :: ( LengthPercentageTag tlbrx
-     , LengthPercentageTag trblx
-     , LengthPercentageTag tlbry
-     , LengthPercentageTag trbly
-     )
-  => IsBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure tlbry ~ Measure trbly)
-instance isBorderRadius2X1Y
-  :: ( LengthPercentageTag tlbrx
-     , LengthPercentageTag trblx
-     , LengthPercentageTag y
-     )
-  => IsBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure y)
-instance isBorderRadius2X0Y
-  :: ( LengthPercentageTag tlbrx
-     , LengthPercentageTag trblx
-     )
-  => IsBorderRadius (Measure tlbrx ~ Measure trblx)
-instance isBorderRadius1X4Y
-  :: ( LengthPercentageTag x
-     , LengthPercentageTag tly
-     , LengthPercentageTag try
-     , LengthPercentageTag bry
-     , LengthPercentageTag bly
-     )
-  => IsBorderRadius (Measure x /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly)
-instance isBorderRadius1X3Y
-  :: ( LengthPercentageTag x
-     , LengthPercentageTag tly
-     , LengthPercentageTag trbly
-     , LengthPercentageTag bry
-     )
-  => IsBorderRadius (Measure x /\ Measure tly ~ Measure trbly ~ Measure bry)
-instance isBorderRadius1X2Y
-  :: ( LengthPercentageTag x
-     , LengthPercentageTag tlbry
-     , LengthPercentageTag trbly
-     )
-  => IsBorderRadius (Measure x /\ Measure tlbry ~ Measure trbly)
-instance isBorderRadius1X1Y
-  :: ( LengthPercentageTag x
-     , LengthPercentageTag y
-     )
-  => IsBorderRadius (Measure x /\ Measure y)
-instance isBorderRadius1X0Y
-  :: LengthPercentageTag x
-  => IsBorderRadius (Measure x)
+
+instance
+  ( LengthPercentageTag tlx
+  , LengthPercentageTag trx
+  , LengthPercentageTag brx
+  , LengthPercentageTag blx
+  , LengthPercentageTag tly
+  , LengthPercentageTag try
+  , LengthPercentageTag bry
+  , LengthPercentageTag bly
+  ) => IsBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly)
+ 
+instance
+  ( LengthPercentageTag tlx
+  , LengthPercentageTag trx
+  , LengthPercentageTag brx
+  , LengthPercentageTag blx
+  , LengthPercentageTag tly
+  , LengthPercentageTag trbly
+  , LengthPercentageTag bry
+  ) => IsBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure tly ~ Measure trbly ~ Measure bry)
+ 
+instance
+  ( LengthPercentageTag tlx
+  , LengthPercentageTag trx
+  , LengthPercentageTag brx
+  , LengthPercentageTag blx
+  , LengthPercentageTag tlbry
+  , LengthPercentageTag trbly
+  ) => IsBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure tlbry ~ Measure trbly)
+
+instance
+  ( LengthPercentageTag tlx
+  , LengthPercentageTag trx
+  , LengthPercentageTag brx
+  , LengthPercentageTag blx
+  , LengthPercentageTag y
+  ) => IsBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx /\ Measure y)
+
+instance
+  ( LengthPercentageTag tlx
+  , LengthPercentageTag trx
+  , LengthPercentageTag brx
+  , LengthPercentageTag blx
+  ) => IsBorderRadius (Measure tlx ~ Measure trx ~ Measure brx ~ Measure blx)
+
+instance
+  ( LengthPercentageTag tlx
+  , LengthPercentageTag trblx
+  , LengthPercentageTag brx
+  , LengthPercentageTag tly
+  , LengthPercentageTag try
+  , LengthPercentageTag bry
+  , LengthPercentageTag bly
+  ) => IsBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly)
+ 
+instance
+  ( LengthPercentageTag tlx
+  , LengthPercentageTag trblx
+  , LengthPercentageTag brx
+  , LengthPercentageTag tly
+  , LengthPercentageTag trbly
+  , LengthPercentageTag bry
+  ) => IsBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure tly ~ Measure trbly ~ Measure bry)
+ 
+instance
+  ( LengthPercentageTag tlx
+  , LengthPercentageTag trblx
+  , LengthPercentageTag brx
+  , LengthPercentageTag tlbry
+  , LengthPercentageTag trbly
+  ) => IsBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure tlbry ~ Measure trbly)
+ 
+instance
+  ( LengthPercentageTag tlx
+  , LengthPercentageTag trblx
+  , LengthPercentageTag brx
+  , LengthPercentageTag y
+  ) => IsBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx /\ Measure y)
+ 
+instance
+  ( LengthPercentageTag tlx
+  , LengthPercentageTag trblx
+  , LengthPercentageTag brx
+  ) => IsBorderRadius (Measure tlx ~ Measure trblx ~ Measure brx)
+ 
+instance
+  ( LengthPercentageTag tlbrx
+  , LengthPercentageTag trblx
+  , LengthPercentageTag tly
+  , LengthPercentageTag try
+  , LengthPercentageTag bry
+  , LengthPercentageTag bly
+  ) => IsBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly)
+ 
+instance
+  ( LengthPercentageTag tlbrx
+  , LengthPercentageTag trblx
+  , LengthPercentageTag tly
+  , LengthPercentageTag trbly
+  , LengthPercentageTag bry
+  ) => IsBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure tly ~ Measure trbly ~ Measure bry)
+ 
+instance
+  ( LengthPercentageTag tlbrx
+  , LengthPercentageTag trblx
+  , LengthPercentageTag tlbry
+  , LengthPercentageTag trbly
+  ) => IsBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure tlbry ~ Measure trbly)
+ 
+instance
+  ( LengthPercentageTag tlbrx
+  , LengthPercentageTag trblx
+  , LengthPercentageTag y
+  ) => IsBorderRadius (Measure tlbrx ~ Measure trblx /\ Measure y)
+ 
+instance
+  ( LengthPercentageTag tlbrx
+  , LengthPercentageTag trblx
+  ) => IsBorderRadius (Measure tlbrx ~ Measure trblx)
+ 
+instance
+  ( LengthPercentageTag x
+  , LengthPercentageTag tly
+  , LengthPercentageTag try
+  , LengthPercentageTag bry
+  , LengthPercentageTag bly
+  ) => IsBorderRadius (Measure x /\ Measure tly ~ Measure try ~ Measure bry ~ Measure bly)
+ 
+instance
+  ( LengthPercentageTag x
+  , LengthPercentageTag tly
+  , LengthPercentageTag trbly
+  , LengthPercentageTag bry
+  ) => IsBorderRadius (Measure x /\ Measure tly ~ Measure trbly ~ Measure bry)
+ 
+instance
+  ( LengthPercentageTag x
+  , LengthPercentageTag tlbry
+  , LengthPercentageTag trbly
+  ) => IsBorderRadius (Measure x /\ Measure tlbry ~ Measure trbly)
+
+instance
+  ( LengthPercentageTag x
+  , LengthPercentageTag y
+  ) => IsBorderRadius (Measure x /\ Measure y)
+
+instance LengthPercentageTag x => IsBorderRadius (Measure x)
 
 instance propertyBorderRadiusIs
   :: ( IsBorderRadius a
@@ -2152,101 +2128,82 @@ derive newtype instance ToVal Shadow
 
 class IsShadow (a :: Type)
 
-instance isShadowColor4dInset
-  :: ( IsColor color
-     , LengthTag xo
-     , LengthTag yo
-     , LengthTag blur
-     , LengthTag spread
-     )
-  => IsShadow (color ~ Measure xo ~ Measure yo ~ Measure blur ~ Measure spread ~ Inset)
+instance
+  ( IsColor color
+  , LengthTag xo
+  , LengthTag yo
+  , LengthTag blur
+  , LengthTag spread
+  ) => IsShadow (color ~ Measure xo ~ Measure yo ~ Measure blur ~ Measure spread ~ Inset)
 
-instance isShadowColor4d
-  :: ( IsColor color
-     , LengthTag xo
-     , LengthTag yo
-     , LengthTag blur
-     , LengthTag spread
-     )
-  => IsShadow (color ~ Measure xo ~ Measure yo ~ Measure blur ~ Measure spread)
+instance
+  ( IsColor color
+  , LengthTag xo
+  , LengthTag yo
+  , LengthTag blur
+  , LengthTag spread
+  ) => IsShadow (color ~ Measure xo ~ Measure yo ~ Measure blur ~ Measure spread)
 
-instance isShadow4dInset
-  :: ( LengthTag xo
-     , LengthTag yo
-     , LengthTag blur
-     , LengthTag spread
-     )
-  => IsShadow (Measure xo ~ Measure yo ~ Measure blur ~ Measure spread ~ Inset)
+instance
+  ( LengthTag xo
+  , LengthTag yo
+  , LengthTag blur
+  , LengthTag spread
+  ) => IsShadow (Measure xo ~ Measure yo ~ Measure blur ~ Measure spread ~ Inset)
 
-else instance isShadowColor3dInset
-  :: ( IsColor color
-     , LengthTag xo
-     , LengthTag yo
-     , LengthTag blur
-     )
-  => IsShadow (color ~ Measure xo ~ Measure yo ~ Measure blur ~ Inset)
+else instance
+  ( IsColor color
+  , LengthTag xo
+  , LengthTag yo
+  , LengthTag blur
+  ) => IsShadow (color ~ Measure xo ~ Measure yo ~ Measure blur ~ Inset)
 
-instance isShadow4d
-  :: ( LengthTag xo
-     , LengthTag yo
-     , LengthTag blur
-     , LengthTag spread
-     )
-  => IsShadow (Measure xo ~ Measure yo ~ Measure blur ~ Measure spread)
+instance
+  ( LengthTag xo
+  , LengthTag yo
+  , LengthTag blur
+  , LengthTag spread
+  ) => IsShadow (Measure xo ~ Measure yo ~ Measure blur ~ Measure spread)
 
-else instance isShadowColor3d
-  :: ( IsColor color
-     , LengthTag xo
-     , LengthTag yo
-     , LengthTag blur
-     )
-  => IsShadow (color ~ Measure xo ~ Measure yo ~ Measure blur)
+else instance
+  ( IsColor color
+  , LengthTag xo
+  , LengthTag yo
+  , LengthTag blur
+  ) => IsShadow (color ~ Measure xo ~ Measure yo ~ Measure blur)
 
-instance isShadow3dInset
-  :: ( LengthTag xo
-     , LengthTag yo
-     , LengthTag blur
-     )
-  => IsShadow (Measure xo ~ Measure yo ~ Measure blur ~ Inset)
+instance
+  ( LengthTag xo
+  , LengthTag yo
+  , LengthTag blur
+  ) => IsShadow (Measure xo ~ Measure yo ~ Measure blur ~ Inset)
 
-else instance isShadowColor2dInset
-  :: ( IsColor color
-     , LengthTag xo
-     , LengthTag yo
-     )
-  => IsShadow (color ~ Measure xo ~ Measure yo ~ Inset)
+else instance
+  ( IsColor color
+  , LengthTag xo
+  , LengthTag yo
+  ) => IsShadow (color ~ Measure xo ~ Measure yo ~ Inset)
 
-instance isShadow3d
-  :: ( LengthTag xo
-     , LengthTag yo
-     , LengthTag blur
-     )
-  => IsShadow (Measure xo ~ Measure yo ~ Measure blur)
+instance
+  ( LengthTag xo
+  , LengthTag yo
+  , LengthTag blur
+  ) => IsShadow (Measure xo ~ Measure yo ~ Measure blur)
 
-else instance isShadow2dInset
-  :: ( LengthTag xo
-     , LengthTag yo
-     )
-  => IsShadow (Measure xo ~ Measure yo ~ Inset)
+else instance
+  ( LengthTag xo
+  , LengthTag yo
+  ) => IsShadow (Measure xo ~ Measure yo ~ Inset)
 
-else instance isShadowColor2d
-  :: ( IsColor color
-     , LengthTag xo
-     , LengthTag yo
-     )
-  => IsShadow (color ~ Measure xo ~ Measure yo)
+else instance
+  ( IsColor color
+  , LengthTag xo
+  , LengthTag yo
+  ) => IsShadow (color ~ Measure xo ~ Measure yo)
 
-instance isShadow2d
-  :: ( LengthTag xo
-     , LengthTag yo
-     )
-  => IsShadow (Measure xo ~ Measure yo)
+instance (LengthTag xo, LengthTag yo) => IsShadow (Measure xo ~ Measure yo)
 
-instance isShadowMultiple
-  :: ( IsShadow x
-     , IsShadow xs
-     )
-  => IsShadow (x /\ xs)
+instance (IsShadow x, IsShadow xs) => IsShadow (x /\ xs)
 
 instance propertyBoxShadowNone
   :: Property "boxShadow" None where
@@ -2632,11 +2589,10 @@ instance IsRadialGradientDimensions Ellipse
 instance IsRadialGradientDimensions (Circle ~ Extent)
 instance IsRadialGradientDimensions (Ellipse ~ Extent)
 instance LengthTag a => IsRadialGradientDimensions (Measure a)
-instance isRadialGradientDimensionsPair
-  :: ( LengthPercentageTag x
-     , LengthPercentageTag y
-     )
-  => IsRadialGradientDimensions (Measure x ~ Measure y)
+instance
+  ( LengthPercentageTag x
+  , LengthPercentageTag y
+  ) => IsRadialGradientDimensions (Measure x ~ Measure y)
 
 radialGradient
   :: forall dimensions position csh cst
@@ -2980,39 +2936,28 @@ instance propertyTextDecorationColorIsColor
 
 class IsTextShadow (a :: Type)
 
-instance isTextShadowColorOffsetsBlur
-  :: ( IsColor color
-     , LengthTag xo
-     , LengthTag yo
-     , LengthTag blur
-     )
-  => IsTextShadow (color ~ Measure xo ~ Measure yo ~ Measure blur)
+instance
+  ( IsColor color
+  , LengthTag xo
+  , LengthTag yo
+  , LengthTag blur
+  ) => IsTextShadow (color ~ Measure xo ~ Measure yo ~ Measure blur)
 
-instance isTextShadowOffsetsBlur
-  :: ( LengthTag xo
-     , LengthTag yo
-     , LengthTag blur
-     )
-  => IsTextShadow (Measure xo ~ Measure yo ~ Measure blur)
+instance
+  ( LengthTag xo
+  , LengthTag yo
+  , LengthTag blur
+  ) => IsTextShadow (Measure xo ~ Measure yo ~ Measure blur)
 
-else instance isTextShadowColorOffsets
-  :: ( IsColor color
-     , LengthTag xo
-     , LengthTag yo
-     )
-  => IsTextShadow (color ~ Measure xo ~ Measure yo)
+else instance
+  ( IsColor color
+  , LengthTag xo
+  , LengthTag yo
+  ) => IsTextShadow (color ~ Measure xo ~ Measure yo)
 
-instance isTextShadowOffsets
-  :: ( LengthTag xo
-     , LengthTag yo
-     )
-  => IsTextShadow (Measure xo ~ Measure yo)
+instance (LengthTag xo, LengthTag yo) => IsTextShadow (Measure xo ~ Measure yo)
 
-instance isTextShadowMultiple
-  :: ( IsTextShadow x
-     , IsTextShadow xs
-     )
-  => IsTextShadow (x /\ xs)
+instance (IsTextShadow x, IsTextShadow xs) => IsTextShadow (x /\ xs)
 
 instance propertyTextShadowNone
   :: Property "textShadow" None where
@@ -3272,9 +3217,7 @@ perspective a = TransformFunction $ fn "perspective" [val a]
 
 class IsTransform (a :: Type)
 instance IsTransform TransformFunction
-instance isTransformMultiple
-  :: IsTransform xs
-  => IsTransform (TransformFunction /\ xs)
+instance IsTransform xs => IsTransform (TransformFunction /\ xs)
 
 instance propertyTransformNone
   :: Property "transform" None where
