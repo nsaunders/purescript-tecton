@@ -2,7 +2,7 @@
 
 module Test.VisudetSpec where
 
-import Prelude
+import Prelude hiding (bottom, sub, top)
 
 import PSCSS (baseline, bottom, inherit, initial, middle, pct, px, sub, super, textBottom, textTop, top, unset)
 import Test.Spec (Spec, describe)
