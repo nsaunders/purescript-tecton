@@ -791,11 +791,7 @@ instance IsPositionY Center
 instance IsPositionY Bottom
 instance LengthPercentageTag a => IsPositionY (Measure a)
 
-instance isPositionPair
-  :: ( IsPositionX x
-     , IsPositionY y
-     )
-  => IsPosition (x ~ y)
+instance (IsPositionX x, IsPositionY y) => IsPosition (x ~ y)
 
 --------------------------------------------------------------------------------
 
@@ -1066,12 +1062,13 @@ att = Attribute
 
 derive newtype instance ToVal Attribute
 
-class ToVal a <= IsAttribute (a :: Type)
+class IsAttribute (a :: Type)
 instance IsAttribute Attribute
 
 attCmp 
   :: forall a
    . IsAttribute a
+  => ToVal a
   => String
   -> a
   -> String
@@ -1081,12 +1078,19 @@ attCmp op att' val' =
   appendSelectorDetail $
     val "[" <> val att' <> val op <> val (quote val') <> val "]"
 
-byAtt :: forall a. IsAttribute a => a -> Selector Open -> Selector Open
+byAtt
+  :: forall a
+   . IsAttribute a
+  => ToVal a
+  => a
+  -> Selector Open
+  -> Selector Open
 byAtt a = appendSelectorDetail $ val "[" <> val a <> val "]"
 
 byAttEq
   :: forall a
    . IsAttribute a
+  => ToVal a
   => a
   -> String
   -> Selector Open
@@ -1097,6 +1101,7 @@ infixl 5 byAttEq as @=
 byAttElemWhitespace
   :: forall a
    . IsAttribute a
+  => ToVal a
   => a
   -> String
   -> Selector Open
@@ -1107,6 +1112,7 @@ infixl 5 byAttElemWhitespace as ~=
 byAttStartsWithHyphen
   :: forall a
    . IsAttribute a
+  => ToVal a
   => a
   -> String
   -> Selector Open
@@ -1117,6 +1123,7 @@ infixl 5 byAttStartsWithHyphen as |=
 byAttStartsWith
   :: forall a
    . IsAttribute a
+  => ToVal a
   => a
   -> String
   -> Selector Open
@@ -1127,6 +1134,7 @@ infixl 5 byAttStartsWith as ^=
 byAttEndsWith
   :: forall a
    . IsAttribute a
+  => ToVal a
   => a
   -> String
   -> Selector Open
@@ -1137,6 +1145,7 @@ infixl 5 byAttEndsWith as $=
 byAttContains
   :: forall a
    . IsAttribute a
+  => ToVal a
   => a
   -> String
   -> Selector Open
