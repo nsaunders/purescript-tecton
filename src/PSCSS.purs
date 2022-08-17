@@ -299,7 +299,13 @@ type SupportedProperties = SupportedProperties' (Maybe Val)
 class Property (p :: Symbol) (v :: Type) where
   pval :: Proxy p -> v -> Val
 
-instance Property p v => ConvertOption Property' p (Maybe v) (Maybe Val) where
+instance ConvertOption Property' p (Maybe CommonKeyword) (Maybe Val) where
+  convertOption _ _ = map val
+
+else instance ConvertOption Property' p CommonKeyword (Maybe Val) where
+  convertOption _ _ = pure <<< val
+
+else instance Property p v => ConvertOption Property' p (Maybe v) (Maybe Val) where
   convertOption _ = map <<< pval
 
 else instance Property p v => ConvertOption Property' p v (Maybe Val) where
@@ -1344,11 +1350,7 @@ instance isAnimationNameMultiple
      )
   => IsAnimationName (x /\ xs)
 
-instance propertyAnimationNameCommonKeyword
-  :: Property "animationName" CommonKeyword where
-  pval = const val
-
-else instance propertyAnimationNameVal
+instance propertyAnimationNameVal
   :: ( IsAnimationName a
      , MultiVal a
      )
@@ -1366,11 +1368,7 @@ instance isAnimationDurationMultiple
      )
   => IsAnimationDuration (x /\ xs)
 
-instance propertyAnimationDurationCommonKeyword
-  :: Property "animationDuration" CommonKeyword where
-  pval = const val
-
-else instance propertyAnimationDurationIs
+instance propertyAnimationDurationIs
   :: ( IsAnimationDuration a
      , MultiVal a
      )
@@ -1389,11 +1387,7 @@ instance isAnimationTimingFunctionMultiple
      )
   => IsAnimationTimingFunction (x /\ xs)
 
-instance propertyAnimationTimingFunctionCommonKeyword
-  :: Property "animationTimingFunction" CommonKeyword where
-  pval = const val
-
-else instance propertyAnimationTimingFunctionIs
+instance propertyAnimationTimingFunctionIs
   :: ( IsAnimationTimingFunction a
      , MultiVal a
      )
@@ -1411,11 +1405,7 @@ instance isAnimationIterationCountMultiple
      )
   => IsAnimationIterationCount (x /\ xs)
 
-instance propertyAnimationIterationCountCommonKeyword
-  :: Property "animationIterationCount" CommonKeyword where
-  pval = const val
-
-else instance propertyAnimationIterationCountIs
+instance propertyAnimationIterationCountIs
   :: ( IsAnimationIterationCount a
      , MultiVal a
      )
@@ -1446,11 +1436,7 @@ instance isAnimationDirectionMultiple
      )
   => IsAnimationDirection (x /\ xs)
 
-instance propertyAnimationDirectionCommonKeyword
-  :: Property "animationDirection" CommonKeyword where
-  pval = const val
-
-else instance propertyAnimationDirectionIs
+instance propertyAnimationDirectionIs
   :: ( IsAnimationDirection a
      , MultiVal a
      )
@@ -1477,11 +1463,7 @@ instance isAnimationPlayStateMultiple
      )
   => IsAnimationPlayState (x /\ xs)
 
-instance propertyAnimationPlayStateCommonKeyword
-  :: Property "animationPlayState" CommonKeyword where
-  pval = const val
-
-else instance propertyAnimationPlayStateIs
+instance propertyAnimationPlayStateIs
   :: ( IsAnimationPlayState a
      , MultiVal a
      )
@@ -1517,11 +1499,7 @@ instance isAnimationFillModeMultiple
      )
   => IsAnimationFillMode (x /\ xs)
 
-instance propertyAnimationFillModeCommonKeyword
-  :: Property "animationFillMode" CommonKeyword where
-  pval = const val
-
-else instance propertyAnimationFillModeIs
+instance propertyAnimationFillModeIs
   :: ( IsAnimationFillMode a
      , MultiVal a
      )
@@ -1534,11 +1512,7 @@ else instance propertyAnimationFillModeIs
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-color
 
-instance propertyBackgroundColorCommonKeyword
-  :: Property "backgroundColor" CommonKeyword where
-  pval = const val
-
-else instance propertyBackgroundColorColor
+instance propertyBackgroundColorColor
   :: ( IsColor a
      , ToVal a
      )
@@ -1557,11 +1531,7 @@ instance isBackgroundImageMultiple
 else instance IsBackgroundImage None
 else instance IsImage a => IsBackgroundImage a
 
-instance propertyBackgroundImageCommonKeyword
-  :: Property "backgroundImage" CommonKeyword where
-  pval = const val
-
-else instance propertyBackgroundImageIs
+instance propertyBackgroundImageIs
   :: ( IsBackgroundImage a
      , MultiVal a
      )
@@ -1602,11 +1572,7 @@ instance isBackgroundRepeatMultiple
      )
   => IsBackgroundRepeat (x /\ xs)
 
-instance propertyBackgroundRepeatCommonKeyword
-  :: Property "backgroundRepeat" CommonKeyword where
-  pval = const val
-
-else instance propertyBackgroundRepeatIs
+instance propertyBackgroundRepeatIs
   :: ( IsBackgroundRepeat a
      , MultiVal a
      )
@@ -1625,11 +1591,7 @@ instance isBackgroundAttachmentMultiple
      )
   => IsBackgroundAttachment (x /\ xs)
 
-instance propertyBackgrondAttachmentCommonKeyword
-  :: Property "backgroundAttachment" CommonKeyword where
-  pval = const val
-
-else instance propertyBackgrondAttachmentIs
+instance propertyBackgrondAttachmentIs
   :: ( IsBackgroundAttachment a
      , MultiVal a
      )
@@ -1646,11 +1608,7 @@ instance isBackgroundPositionMultiple
   => IsBackgroundPosition (x /\ xs)
 else instance IsPosition a => IsBackgroundPosition a
 
-instance propertyBackgroundPositionCommonKeyword
-  :: Property "backgroundPosition" CommonKeyword where
-  pval = const val
-
-else instance propertyBackgroundPositionVal
+instance propertyBackgroundPositionVal
   :: ( IsBackgroundPosition a
      , MultiVal a
      )
@@ -1669,11 +1627,7 @@ instance isBackgroundClipMultiple
      )
   => IsBackgroundClip (x /\ xs)
 
-instance propertyBackgroundClipCommonKeyword
-  :: Property "backgroundClip" CommonKeyword where
-  pval = const val
-
-else instance propertyBackgroundClipIs
+instance propertyBackgroundClipIs
   :: ( IsBackgroundClip a
      , MultiVal a
      )
@@ -1712,11 +1666,7 @@ instance isBackgroundSizeMultiple
      )
   => IsBackgroundSize (x /\ xs)
 
-instance propertyBackgroundSizeCommonKeyword
-  :: Property "backgroundSize" CommonKeyword where
-  pval = const val
-
-else instance propertyBackgroundSizeVal
+instance propertyBackgroundSizeVal
   :: ( IsBackgroundSize a
      , MultiVal a
      )
@@ -1725,11 +1675,7 @@ else instance propertyBackgroundSizeVal
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-color
 
-instance propertyBorderTopColorCommonKeyword
-  :: Property "borderTopColor" CommonKeyword where
-  pval = const val
-
-else instance propertyBorderTopColorColor
+instance propertyBorderTopColorColor
   :: ( IsColor a
      , ToVal a
      )
@@ -1759,11 +1705,7 @@ instance propertyBorderLeftColorBorderTopColor
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-color
 
-instance propertyBorderColorCommonKeyword
-  :: Property "borderColor" CommonKeyword where
-  pval = const val
-
-else instance propertyBorderColor4
+instance propertyBorderColor4
   :: ( IsColor t
      , ToVal t
      , IsColor r
@@ -1829,11 +1771,7 @@ instance IsBorderTopStyle Inset
 instance IsBorderTopStyle Solid
 instance IsBorderTopStyle LineStyle
 
-instance propertyBorderTopStyleCommonKeyword
-  :: Property "borderTopStyle" CommonKeyword where
-  pval = const val
-
-else instance propertyBorderTopStyleIs
+instance propertyBorderTopStyleIs
   :: ( IsBorderTopStyle a
      , ToVal a
      )
@@ -1863,11 +1801,7 @@ instance propertyBorderLeftStyleBorderTopStyle
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-style
 
-instance propertyBorderStyleCommonKeyword
-  :: Property "borderStyle" CommonKeyword where
-  pval = const val
-
-else instance propertyBorderStyle4
+instance propertyBorderStyle4
   :: ( IsBorderTopStyle t
      , ToVal t
      , IsBorderTopStyle r
@@ -1924,11 +1858,7 @@ instance LengthTag a => IsBorderTopWidth (Measure a)
 instance IsBorderTopWidth LineWidth
 instance IsBorderTopWidth Medium
 
-instance propertyBorderTopWidthCommonKeyword
-  :: Property "borderTopWidth" CommonKeyword where
-  pval = const val
-
-else instance propertyBorderTopWidthIs
+instance propertyBorderTopWidthIs
   :: ( IsBorderTopWidth a
      , ToVal a
      )
@@ -1958,11 +1888,7 @@ instance propertyBorderLeftWidthBorderTopWidth
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-width
 
-instance propertyBorderWidthCommonKeyword
-  :: Property "borderWidth" CommonKeyword where
-  pval = const val
-
-else instance propertyBorderWidth4
+instance propertyBorderWidth4
   :: ( IsBorderTopWidth t
      , ToVal t
      , IsBorderTopWidth r
@@ -2003,10 +1929,6 @@ else instance propertyBorderWidthBorderTopWidth
   pval = const val
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-left-radius
-
-instance propertyBorderTopLeftRadiusCommonKeyword
-  :: Property "borderTopLeftRadius" CommonKeyword where
-  pval = const val
 
 instance propertyBorderTopLeftRadius2
   :: ( LengthPercentageTag x
@@ -2205,11 +2127,7 @@ instance isBorderRadius1X0Y
   :: LengthPercentageTag x
   => IsBorderRadius (Measure x)
 
-instance propertyBorderRadiusCommonKeyword
-  :: Property "borderRadius" CommonKeyword where
-  pval = const val
-
-else instance propertyBorderRadiusIs
+instance propertyBorderRadiusIs
   :: ( IsBorderRadius a
      , MultiVal a
      )
@@ -2321,11 +2239,7 @@ instance isShadowMultiple
      )
   => IsShadow (x /\ xs)
 
-instance propertyBoxShadowCommonKeyword
-  :: Property "boxShadow" CommonKeyword where
-  pval = const val
-
-else instance propertyBoxShadowNone
+instance propertyBoxShadowNone
   :: Property "boxShadow" None where
   pval = const val
 
@@ -2346,11 +2260,7 @@ class IsMarginTop (a :: Type)
 instance LengthPercentageTag a => IsMarginTop (Measure a)
 instance IsMarginTop Auto
 
-instance propertyMarginTopCommonKeyword
-  :: Property "marginTop" CommonKeyword where
-  pval = const val
-
-else instance propertyMarginTopIs
+instance propertyMarginTopIs
   :: ( IsMarginTop a
      , ToVal a
      )
@@ -2420,10 +2330,6 @@ else instance propertyMarginMarginTop
 
 -- https://www.w3.org/TR/css-box-3/#propdef-padding-top
 
-instance propertyPaddingTopCommonKeyword
-  :: Property "paddingTop" CommonKeyword where
-  pval = const val
-
 instance propertyPaddingTopLengthPercentage
   :: LengthPercentageTag a
   => Property "paddingTop" (Measure a) where
@@ -2487,10 +2393,7 @@ else instance paddingPaddingTop
 
 -- https://www.w3.org/TR/css-color-4/#propdef-color
 
-instance propertyColorCommonKeyword :: Property "color" CommonKeyword where
-  pval = const val
-
-else instance propertyColorIsColor
+instance propertyColorIsColor
   :: ( IsColor a
      , ToVal a
      )
@@ -2499,10 +2402,7 @@ else instance propertyColorIsColor
 
 -- https://www.w3.org/TR/css-color-4/#propdef-opacity
 
-instance propertyOpacityCommonKeyword :: Property "opacity" CommonKeyword where
-  pval = const val
-
-else instance propertyOpacityNumber :: Property "opacity" Number where
+instance propertyOpacityNumber :: Property "opacity" Number where
   pval = const val
 
 -- https://www.w3.org/TR/css-color-4/#typedef-color
@@ -2625,10 +2525,6 @@ column = FlexDirection "column"
 columnReverse :: FlexDirection
 columnReverse = FlexDirection "column-reverse"
 
-instance propertyFlexDirectionCommonKeyword
-  :: Property "flexDirection" CommonKeyword where
-  pval = const val
-
 instance propertyFlexDirectionFlexDirection
   :: Property "flexDirection" FlexDirection where
   pval = const val
@@ -2640,11 +2536,7 @@ instance IsFlexWrap Nowrap
 instance IsFlexWrap Wrap
 instance IsFlexWrap WrapReverse
 
-instance propertyFlexWrapCommonKeyword
-  :: Property "flexWrap" CommonKeyword where
-  pval = const val
-
-else instance propertyFlexWrapIs
+instance propertyFlexWrapIs
   :: ( IsFlexWrap a
      , ToVal a
      )
@@ -2652,10 +2544,6 @@ else instance propertyFlexWrapIs
   pval = const val
 
 -- https://www.w3.org/TR/css-flexbox-1/#propdef-order
-
-instance propertyOrderCommonKeyword
-  :: Property "order" CommonKeyword where
-  pval = const val
 
 instance propertyOrderInt
   :: Property "order" Int where
@@ -2776,11 +2664,7 @@ instance IsOverflow Clip
 instance IsOverflow Scroll
 instance IsOverflow Auto
 
-instance propertyOverflowXCommonKeyword
-  :: Property "overflowX" CommonKeyword where
-  pval = const val
-
-else instance propertyOverflowXIsOverflow
+instance propertyOverflowXIsOverflow
   :: ( IsOverflow a
      , ToVal a
      )
@@ -2816,11 +2700,7 @@ class IsTextOverflow (a :: Type)
 instance IsTextOverflow Clip
 instance IsTextOverflow Ellipsis
 
-instance propertyTextOverflowCommonKeyword
-  :: Property "textOverflow" CommonKeyword where
-  pval = const val
-
-else instance propertyTextOverflowIs
+instance propertyTextOverflowIs
   :: ( IsTextOverflow a
      , ToVal a
      )
@@ -2832,9 +2712,6 @@ else instance propertyTextOverflowIs
 -- https://www.w3.org/TR/css-sizing-3/
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-width
-
-instance propertyWidthCommonKeyword :: Property "width" CommonKeyword where
-  pval = const val
 
 instance propertyWidthAuto :: Property "width" Auto where
   pval = const val
@@ -2870,10 +2747,6 @@ instance propertyMinWidthWidth
   pval = const $ pval (Proxy :: _ "width")
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-max-width
-
-instance propertyMaxWidthCommonKeyword
-  :: Property "maxWidth" CommonKeyword where
-  pval = const val
 
 instance propertyMaxWidthNone :: Property "maxWidth" None where
   pval = const val
@@ -2927,10 +2800,6 @@ uppercase = TextTransform "uppercase"
 
 lowercase :: TextTransform
 lowercase = TextTransform "lowercase"
-
-instance propertyTextTransformCommonKeyword
-  :: Property "textTransform" CommonKeyword where
-  pval = const val
 
 instance propertyTextTransformNone
   :: Property "textTransform" None where
@@ -2987,11 +2856,7 @@ instance IsWhiteSpace WhiteSpace
 instance IsWhiteSpace Normal
 instance IsWhiteSpace Nowrap
 
-instance propertyWhiteSpaceCommonKeyword
-  :: Property "whiteSpace" CommonKeyword where
-  pval = const val
-
-else instance propertyWhiteSpaceIs
+instance propertyWhiteSpaceIs
   :: ( IsWhiteSpace a
      , ToVal a
      )
@@ -3021,11 +2886,7 @@ instance IsTextAlign Right
 instance IsTextAlign Center
 instance IsTextAlign TextAlign
 
-instance propertyTextAlignCommonKeyword
-  :: Property "textAlign" CommonKeyword where
-  pval = const val
-
-else instance propertyTextAlignIs
+instance propertyTextAlignIs
   :: ( IsTextAlign a
      , ToVal a
      )
@@ -3033,10 +2894,6 @@ else instance propertyTextAlignIs
   pval = const val 
 
 -- https://www.w3.org/TR/css-text-3/#propdef-word-spacing
-
-instance propertyWordSpacingCommonKeyword
-  :: Property "wordSpacing" CommonKeyword where
-  pval = const val
 
 instance propertyWordSpacingNormal
   :: Property "wordSpacing" Normal where
@@ -3078,11 +2935,7 @@ instance IsTextDecorationLine Overline
 instance IsTextDecorationLine LineThrough
 instance IsTextDecorationLine Blink
 
-instance propertyTextDecorationLineCommonKeyword
-  :: Property "textDecorationLine" CommonKeyword where
-  pval = const val
-
-else instance propertyTextDecorationLineIs
+instance propertyTextDecorationLineIs
   :: ( IsTextDecorationLine a
      , ToVal a
      )
@@ -3098,11 +2951,7 @@ instance IsTextDecorationStyle Dotted
 instance IsTextDecorationStyle Dashed
 instance IsTextDecorationStyle Wavy
 
-instance propertyTextDecorationStyleCommonKeyword
-  :: Property "textDecorationStyle" CommonKeyword where
-  pval = const val
-
-else instance propertyTextDecorationStyleIs
+instance propertyTextDecorationStyleIs
   :: ( IsTextDecorationStyle a
      , ToVal a
      )
@@ -3111,11 +2960,7 @@ else instance propertyTextDecorationStyleIs
 
 -- https://www.w3.org/TR/css-text-decor-3/#propdef-text-decoration
 
-instance propertyTextDecorationColorCommonKeyword
-  :: Property "textDecorationColor" CommonKeyword where
-  pval = const val
-
-else instance propertyTextDecorationColorIsColor
+instance propertyTextDecorationColorIsColor
   :: ( IsColor a
      , ToVal a
      )
@@ -3160,11 +3005,7 @@ instance isTextShadowMultiple
      )
   => IsTextShadow (x /\ xs)
 
-instance propertyTextShadowCommonKeyword
-  :: Property "textShadow" CommonKeyword where
-  pval = const val
-
-else instance propertyTextShadowNone
+instance propertyTextShadowNone
   :: Property "textShadow" None where
   pval = const val
 
@@ -3426,11 +3267,7 @@ instance isTransformMultiple
   :: IsTransform xs
   => IsTransform (TransformFunction /\ xs)
 
-instance propertyTransformCommonKeyword
-  :: Property "transform" CommonKeyword where
-  pval = const val
-
-else instance propertyTransformNone
+instance propertyTransformNone
   :: Property "transform" None where
   pval = const val
 
@@ -3443,11 +3280,7 @@ else instance propertyTransformIs
 
 -- https://www.w3.org/TR/css-transforms-1/#propdef-transform-origin
 
-instance propertyTransformOriginCommonKeyword
-  :: Property "transformOrigin" CommonKeyword where
-  pval = const val
-
-else instance propertyTransformOriginPosition3d
+instance propertyTransformOriginPosition3d
   :: ( IsPositionX x
      , ToVal x
      , IsPositionY y
@@ -3496,11 +3329,7 @@ instance IsVerticalAlign Middle
 instance IsVerticalAlign Bottom
 instance LengthPercentageTag a => IsVerticalAlign (Measure a)
 
-instance propertyVerticalAlignCommonKeyword
-  :: Property "verticalAlign" CommonKeyword where
-  pval = const val
-
-else instance propertyVerticalAlignIs
+instance propertyVerticalAlignIs
   :: ( IsVerticalAlign a
      , ToVal a
      )
@@ -3522,10 +3351,6 @@ ltr = Direction "ltr"
 
 rtl :: Direction
 rtl = Direction "rtl"
-
-instance propertyDirectionCommonKeyword
-  :: Property "direction" CommonKeyword where
-  pval = const val
 
 instance propertyDirectionIs
   :: Property "direction" Direction where
