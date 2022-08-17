@@ -188,6 +188,7 @@ type SupportedProperties' (v :: Type) =
   , minHeight :: v
   , minWidth :: v
   , opacity :: v
+  , order :: v
   , overflow :: v
   , overflowX :: v
   , overflowY :: v
@@ -267,6 +268,7 @@ defaultDeclarations =
   , minHeight: v
   , minWidth: v
   , opacity: v
+  , order: v
   , overflow: v
   , overflowX: v
   , overflowY: v
@@ -2647,6 +2649,16 @@ else instance propertyFlexWrapIs
      , ToVal a
      )
   => Property "flexWrap" a where
+  pval = const val
+
+-- https://www.w3.org/TR/css-flexbox-1/#propdef-order
+
+instance propertyOrderCommonKeyword
+  :: Property "order" CommonKeyword where
+  pval = const val
+
+instance propertyOrderInt
+  :: Property "order" Int where
   pval = const val
 
 --------------------------------------------------------------------------------

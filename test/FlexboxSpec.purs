@@ -49,3 +49,13 @@ spec =
       "flex-wrap:wrap" `isRenderedFrom` { flexWrap: wrap }
 
       "flex-wrap:wrap-reverse" `isRenderedFrom` { flexWrap: wrapReverse }
+
+    describe "order property" do
+
+      "order:inherit" `isRenderedFrom` { order: inherit }
+
+      "order:initial" `isRenderedFrom` { order: initial }
+
+      "order:unset" `isRenderedFrom` { order: unset }
+
+      "order:12" `isRenderedFrom` { order: 12 }
