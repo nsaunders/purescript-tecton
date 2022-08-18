@@ -174,7 +174,10 @@ type SupportedProperties' (v :: Type) =
   , boxShadow :: v
   , color :: v
   , direction :: v
+  , flexBasis :: v
   , flexDirection :: v
+  , flexGrow :: v
+  , flexShrink :: v
   , flexWrap :: v
   , height :: v
   , letterSpacing :: v
@@ -254,7 +257,10 @@ defaultDeclarations =
   , boxShadow: v
   , color: v
   , direction: v
+  , flexBasis: v
   , flexDirection: v
+  , flexGrow: v
+  , flexShrink: v
   , flexWrap: v
   , height: v
   , letterSpacing: v
@@ -2514,6 +2520,27 @@ instance propertyFlexWrapIs
 instance propertyOrderInt
   :: Property "order" Int where
   pval = const val
+
+-- https://www.w3.org/TR/css-flexbox-1/#propdef-flex-grow
+
+instance propertyFlexGrowNumber :: ToNumber a => Property "flexGrow" a where
+  pval = const $ val <<< toNumber
+
+-- https://www.w3.org/TR/css-flexbox-1/#propdef-flex-shrink
+
+instance propertyFlexShrinkNumber :: ToNumber a => Property "flexShrink" a where
+  pval = const $ val <<< toNumber
+
+-- https://www.w3.org/TR/css-flexbox-1/#propdef-flex-basis
+
+instance propertyFlexBasisContent
+  :: Property "flexBasis" Content where
+  pval = const val
+
+else instance propertyFlexBasisWidth
+  :: Property "width" a
+  => Property "flexBasis" a where
+  pval = const $ pval (Proxy :: _ "width")
 
 --------------------------------------------------------------------------------
 

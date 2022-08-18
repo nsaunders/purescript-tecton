@@ -4,7 +4,7 @@ module Test.FlexboxSpec where
 
 import Prelude
 
-import PSCSS (column, columnReverse, inherit, initial, nowrap, row, rowReverse, unset, wrap, wrapReverse)
+import PSCSS (auto, column, columnReverse, content, em, inherit, initial, maxContent, minContent, nowrap, pct, px, row, rowReverse, unset, wrap, wrapReverse)
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -59,3 +59,49 @@ spec =
       "order:unset" `isRenderedFrom` { order: unset }
 
       "order:12" `isRenderedFrom` { order: 12 }
+
+    describe "flex-grow property" do
+
+      "flex-grow:inherit" `isRenderedFrom` { flexGrow: inherit }
+
+      "flex-grow:initial" `isRenderedFrom` { flexGrow: initial }
+
+      "flex-grow:unset" `isRenderedFrom` { flexGrow: unset }
+
+      "flex-grow:1" `isRenderedFrom` { flexGrow: 1 }
+
+      "flex-grow:1.5" `isRenderedFrom` { flexGrow: 1.5 }
+
+    describe "flex-shrink property" do
+
+      "flex-shrink:inherit" `isRenderedFrom` { flexShrink: inherit }
+
+      "flex-shrink:initial" `isRenderedFrom` { flexShrink: initial }
+
+      "flex-shrink:unset" `isRenderedFrom` { flexShrink: unset }
+
+      "flex-shrink:1" `isRenderedFrom` { flexShrink: 1 }
+
+      "flex-shrink:1.5" `isRenderedFrom` { flexShrink: 1.5 }
+
+    describe "flex-basis property" do
+
+      "flex-basis:inherit" `isRenderedFrom` { flexBasis: inherit }
+
+      "flex-basis:initial" `isRenderedFrom` { flexBasis: initial }
+
+      "flex-basis:unset" `isRenderedFrom` { flexBasis: unset }
+      
+      "flex-basis:10em" `isRenderedFrom` { flexBasis: em 10 }
+
+      "flex-basis:3px" `isRenderedFrom` { flexBasis: px 3 }
+
+      "flex-basis:50%" `isRenderedFrom` { flexBasis: pct 50 }
+
+      "flex-basis:auto" `isRenderedFrom` { flexBasis: auto }
+
+      "flex-basis:max-content" `isRenderedFrom` { flexBasis: maxContent }
+
+      "flex-basis:min-content" `isRenderedFrom` { flexBasis: minContent }
+
+      "flex-basis:content" `isRenderedFrom` { flexBasis: content }
