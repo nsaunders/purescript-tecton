@@ -177,6 +177,7 @@ type SupportedProperties' (v :: Type) =
   , boxShadow :: v
   , color :: v
   , direction :: v
+  , display :: v
   , flexBasis :: v
   , flexDirection :: v
   , flexGrow :: v
@@ -264,6 +265,7 @@ defaultDeclarations =
   , boxShadow: v
   , color: v
   , direction: v
+  , display: v
   , flexBasis: v
   , flexDirection: v
   , flexGrow: v
@@ -2405,6 +2407,83 @@ instance IsColor CSSColor
 
 --------------------------------------------------------------------------------
 
+-- https://www.w3.org/TR/css-display-3/#propdef-display
+
+newtype Display = Display String
+
+derive newtype instance ToVal Display
+
+block :: Display
+block = Display "block"
+
+inline :: Display
+inline = Display "inline"
+
+flowRoot :: Display
+flowRoot = Display "flow-root"
+
+flex :: Display
+flex = Display "flex"
+
+grid :: Display
+grid = Display "grid"
+
+listItem :: Display
+listItem = Display "list-item"
+
+tableRowGroup :: Display
+tableRowGroup = Display "table-row-group"
+
+tableHeaderGroup :: Display
+tableHeaderGroup = Display "table-header-group"
+
+tableFooterGroup :: Display
+tableFooterGroup = Display "table-footer-group"
+
+tableRow :: Display
+tableRow = Display "table-row"
+
+tableCell :: Display
+tableCell = Display "table-cell"
+
+tableColumnGroup :: Display
+tableColumnGroup = Display "table-column-group"
+
+tableColumn :: Display
+tableColumn = Display "table-column"
+
+tableCaption :: Display
+tableCaption = Display "table-caption"
+
+contents :: Display
+contents = Display "contents"
+
+inlineBlock :: Display
+inlineBlock = Display "inline-block"
+
+inlineTable :: Display
+inlineTable = Display "inline-table"
+
+inlineFlex :: Display
+inlineFlex = Display "inline-flex"
+
+inlineGrid :: Display
+inlineGrid = Display "inline-grid"
+
+class IsDisplay (a :: Type)
+instance IsDisplay Display
+instance IsDisplay Table
+instance IsDisplay None
+
+instance propertyDisplayIs
+  :: ( IsDisplay a
+     , ToVal a
+     )
+  => Property "display" a where
+  pval = const val
+
+--------------------------------------------------------------------------------
+
 -- https://www.w3.org/TR/css-easing-1/
 
 newtype EasingFunction = EasingFunction Val
@@ -4361,6 +4440,10 @@ data Tabindex = Tabindex
 instance ToVal Tabindex where val _ = val "tabindex"
 tabindex = Tabindex :: Tabindex
 instance IsAttribute Tabindex
+
+data Table = Table
+instance ToVal Table where val _ = val "table"
+table = Table :: Table
 
 data Target = Target
 instance ToVal Target where val _ = val "target"

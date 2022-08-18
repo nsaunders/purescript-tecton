@@ -10,6 +10,7 @@ import Test.AnimationsSpec as Animations
 import Test.BackgroundsSpec as Backgrounds
 import Test.BoxSpec as Box
 import Test.ColorSpec as Color
+import Test.DisplaySpec as Display
 import Test.FlexboxSpec as Flexbox
 import Test.ImagesSpec as Images
 import Test.MediaQueriesSpec as MediaQueries
@@ -45,6 +46,7 @@ main =
       Backgrounds.spec
       Box.spec
       Color.spec
+      Display.spec
       Flexbox.spec
       Images.spec
       MediaQueries.spec

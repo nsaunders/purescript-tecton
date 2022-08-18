@@ -1120,6 +1120,11 @@ const code = [
     attribute: true
   },
   {
+    typeName: "Table",
+    varName: "table",
+    value: "table"
+  },
+  {
     typeName: "Target",
     varName: "target",
     value: "target",
