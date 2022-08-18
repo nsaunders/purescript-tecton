@@ -167,3 +167,27 @@ spec =
       "align-self:baseline" `isRenderedFrom` { alignSelf: baseline }
 
       "align-self:stretch" `isRenderedFrom` { alignSelf: stretch }
+
+    describe "align-content property" do
+      
+      "align-content:inherit" `isRenderedFrom` { alignContent: inherit }
+
+      "align-content:initial" `isRenderedFrom` { alignContent: initial }
+
+      "align-content:unset" `isRenderedFrom` { alignContent: unset }
+
+      "align-content:flex-start" `isRenderedFrom` { alignContent: flexStart }
+
+      "align-content:flex-end" `isRenderedFrom` { alignContent: flexEnd }
+
+      "align-content:center" `isRenderedFrom` { alignContent: center }
+
+      "align-content:space-between"
+        `isRenderedFrom`
+        { alignContent: spaceBetween }
+
+      "align-content:space-around"
+        `isRenderedFrom`
+        { alignContent: spaceAround }
+
+      "align-content:stretch" `isRenderedFrom` { alignContent: stretch }

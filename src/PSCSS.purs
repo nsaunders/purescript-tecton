@@ -134,7 +134,8 @@ runVal x (Val f) = f x
 data Property' = Property'
 
 type SupportedProperties' (v :: Type) =
-  ( alignItems :: v
+  ( alignContent :: v
+  , alignItems :: v
   , alignSelf :: v
   , animationDelay :: v
   , animationDirection :: v
@@ -220,7 +221,8 @@ type SupportedProperties' (v :: Type) =
 
 defaultDeclarations :: { | SupportedProperties }
 defaultDeclarations =
-  { alignItems: v
+  { alignContent: v
+  , alignItems: v
   , alignSelf: v
   , animationDelay: v
   , animationDirection: v
@@ -2606,6 +2608,21 @@ else instance propertyAlignSelfAlignItems
   :: Property "alignItems" a
   => Property "alignSelf" a where
   pval = const $ pval (Proxy :: _ "alignItems")
+
+-- https://www.w3.org/TR/css-flexbox-1/#propdef-align-content
+
+class IsAlignContent (a :: Type)
+instance IsAlignContent FlexSide
+instance IsAlignContent Center
+instance IsAlignContent FlexDistribution
+instance IsAlignContent Stretch
+
+instance propertyAlignContentIs
+  :: ( IsAlignContent a
+     , ToVal a
+     )
+  => Property "alignContent" a where
+  pval = const val
 
 --------------------------------------------------------------------------------
 
