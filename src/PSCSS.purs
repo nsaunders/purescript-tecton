@@ -135,6 +135,7 @@ data Property' = Property'
 
 type SupportedProperties' (v :: Type) =
   ( alignItems :: v
+  , alignSelf :: v
   , animationDelay :: v
   , animationDirection :: v
   , animationDuration :: v
@@ -220,6 +221,7 @@ type SupportedProperties' (v :: Type) =
 defaultDeclarations :: { | SupportedProperties }
 defaultDeclarations =
   { alignItems: v
+  , alignSelf: v
   , animationDelay: v
   , animationDirection: v
   , animationDuration: v
@@ -2594,6 +2596,16 @@ instance propertyAlignItemsIs
      )
   => Property "alignItems" a where
   pval = const val
+
+-- https://www.w3.org/TR/css-flexbox-1/#propdef-align-self
+
+instance propertyAlignSelfAuto :: Property "alignSelf" Auto where
+  pval = const val
+
+else instance propertyAlignSelfAlignItems
+  :: Property "alignItems" a
+  => Property "alignSelf" a where
+  pval = const $ pval (Proxy :: _ "alignItems")
 
 --------------------------------------------------------------------------------
 
