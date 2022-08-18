@@ -4,7 +4,7 @@ module Test.FlexboxSpec where
 
 import Prelude
 
-import PSCSS (auto, column, columnReverse, content, em, inherit, initial, maxContent, minContent, nowrap, pct, px, row, rowReverse, unset, wrap, wrapReverse)
+import PSCSS (auto, baseline, center, column, columnReverse, content, em, flexEnd, flexStart, inherit, initial, maxContent, minContent, nowrap, pct, px, stretch, row, rowReverse, spaceAround, spaceBetween, unset, wrap, wrapReverse)
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFrom)
 
@@ -105,3 +105,39 @@ spec =
       "flex-basis:min-content" `isRenderedFrom` { flexBasis: minContent }
 
       "flex-basis:content" `isRenderedFrom` { flexBasis: content }
+
+    describe "justify-content property" do
+
+      "justify-content:inherit" `isRenderedFrom` { justifyContent: inherit }
+
+      "justify-content:initial" `isRenderedFrom` { justifyContent: initial }
+
+      "justify-content:unset" `isRenderedFrom` { justifyContent: unset }
+
+      "justify-content:flex-start"
+        `isRenderedFrom`
+        { justifyContent: flexStart }
+
+      "justify-content:flex-end" `isRenderedFrom` { justifyContent: flexEnd }
+
+      "justify-content:center" `isRenderedFrom` { justifyContent: center }
+
+      "justify-content:space-between"
+        `isRenderedFrom`
+        { justifyContent: spaceBetween }
+
+      "justify-content:space-around"
+        `isRenderedFrom`
+        { justifyContent: spaceAround }
+
+    describe "align-items property" do
+
+      "align-items:flex-start" `isRenderedFrom` { alignItems: flexStart }
+
+      "align-items:flex-end" `isRenderedFrom` { alignItems: flexEnd }
+
+      "align-items:center" `isRenderedFrom` { alignItems: center }
+
+      "align-items:baseline" `isRenderedFrom` { alignItems: baseline }
+
+      "align-items:stretch" `isRenderedFrom` { alignItems: stretch }

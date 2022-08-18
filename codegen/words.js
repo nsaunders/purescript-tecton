@@ -70,6 +70,11 @@ const code = [
     attribute: true
   },
   {
+    typeName: "Baseline",
+    varName: "baseline",
+    value: "baseline"
+  },
+  {
     typeName: "Blink",
     varName: "blink",
     value: "blink"
@@ -1096,6 +1101,11 @@ const code = [
     varName: "step",
     value: "step",
     attribute: true
+  },
+  {
+    typeName: "Stretch",
+    varName: "stretch",
+    value: "stretch"
   },
   {
     typeName: "Style",

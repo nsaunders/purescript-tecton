@@ -134,7 +134,8 @@ runVal x (Val f) = f x
 data Property' = Property'
 
 type SupportedProperties' (v :: Type) =
-  ( animationDelay :: v
+  ( alignItems :: v
+  , animationDelay :: v
   , animationDirection :: v
   , animationDuration :: v
   , animationFillMode :: v
@@ -179,6 +180,7 @@ type SupportedProperties' (v :: Type) =
   , flexGrow :: v
   , flexShrink :: v
   , flexWrap :: v
+  , justifyContent :: v
   , height :: v
   , letterSpacing :: v
   , margin :: v
@@ -217,7 +219,8 @@ type SupportedProperties' (v :: Type) =
 
 defaultDeclarations :: { | SupportedProperties }
 defaultDeclarations =
-  { animationDelay: v
+  { alignItems: v
+  , animationDelay: v
   , animationDirection: v
   , animationDuration: v
   , animationFillMode: v
@@ -262,6 +265,7 @@ defaultDeclarations =
   , flexGrow: v
   , flexShrink: v
   , flexWrap: v
+  , justifyContent: v
   , height: v
   , letterSpacing: v
   , margin: v
@@ -2542,6 +2546,55 @@ else instance propertyFlexBasisWidth
   => Property "flexBasis" a where
   pval = const $ pval (Proxy :: _ "width")
 
+-- https://www.w3.org/TR/css-flexbox-1/#propdef-justify-content
+
+newtype FlexSide = FlexSide String
+
+derive newtype instance ToVal FlexSide
+
+flexStart :: FlexSide
+flexStart = FlexSide "flex-start"
+
+flexEnd :: FlexSide
+flexEnd = FlexSide "flex-end"
+
+newtype FlexDistribution = FlexDistribution String
+
+derive newtype instance ToVal FlexDistribution
+
+spaceBetween :: FlexDistribution
+spaceBetween = FlexDistribution "space-between"
+
+spaceAround :: FlexDistribution
+spaceAround = FlexDistribution "space-around"
+
+class IsJustifyContent (a :: Type)
+instance IsJustifyContent FlexSide
+instance IsJustifyContent Center
+instance IsJustifyContent FlexDistribution
+
+instance propertyJustifyContentIs
+  :: ( IsJustifyContent a
+     , ToVal a
+     )
+  => Property "justifyContent" a where
+  pval = const val
+
+-- https://www.w3.org/TR/css-flexbox-1/#propdef-align-items
+
+class IsAlignItems (a :: Type)
+instance IsAlignItems FlexSide
+instance IsAlignItems Center
+instance IsAlignItems Baseline
+instance IsAlignItems Stretch
+
+instance propertyAlignItemsIs
+  :: ( IsAlignItems a
+     , ToVal a
+     )
+  => Property "alignItems" a where
+  pval = const val
+
 --------------------------------------------------------------------------------
 
 -- https://www.w3.org/TR/css-images-3/
@@ -3286,9 +3339,6 @@ newtype VerticalAlign = VerticalAlign String
 
 derive newtype instance ToVal VerticalAlign
 
-baseline :: VerticalAlign
-baseline = VerticalAlign "baseline"
-
 sub :: VerticalAlign
 sub = VerticalAlign "sub"
 
@@ -3303,6 +3353,7 @@ textBottom = VerticalAlign "text-bottom"
 
 class IsVerticalAlign (a :: Type)
 instance IsVerticalAlign VerticalAlign
+instance IsVerticalAlign Baseline
 instance IsVerticalAlign Top
 instance IsVerticalAlign Middle
 instance IsVerticalAlign Bottom
@@ -3412,6 +3463,10 @@ data Autoplay = Autoplay
 instance ToVal Autoplay where val _ = val "autoplay"
 autoplay = Autoplay :: Autoplay
 instance IsAttribute Autoplay
+
+data Baseline = Baseline
+instance ToVal Baseline where val _ = val "baseline"
+baseline = Baseline :: Baseline
 
 data Blink = Blink
 instance ToVal Blink where val _ = val "blink"
@@ -4263,6 +4318,10 @@ data Step = Step
 instance ToVal Step where val _ = val "step"
 step = Step :: Step
 instance IsAttribute Step
+
+data Stretch = Stretch
+instance ToVal Stretch where val _ = val "stretch"
+stretch = Stretch :: Stretch
 
 data Style = Style
 instance ToVal Style where val _ = val "style"
