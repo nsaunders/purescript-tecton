@@ -1122,7 +1122,8 @@ const code = [
   {
     typeName: "Table",
     varName: "table",
-    value: "table"
+    value: "table",
+    element: true
   },
   {
     typeName: "Target",
@@ -1198,11 +1199,12 @@ const code = [
     value: "wrap-reverse"
   }
 ]
-  .map(({ typeName, varName, value, attribute }) => [
+  .map(({ typeName, varName, value, attribute, element }) => [
     `data ${typeName} = ${typeName}`,
     `instance ToVal ${typeName} where val _ = val "${value}"`,
     `${varName} = ${typeName} :: ${typeName}`,
     ...attribute ? [`instance IsAttribute ${typeName}`] : [],
+    ...element ? [`instance IsSelector ${typeName}`] : [],
   ]
   .join("\n"))
   .join("\n\n");

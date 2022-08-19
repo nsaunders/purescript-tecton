@@ -337,9 +337,15 @@ data Closed
 
 newtype Selector (tag :: Type) = Selector Val
 
+derive newtype instance ToVal (Selector tag)
+
+class IsSelector (a :: Type)
+instance IsSelector (Selector x)
+instance (IsSelector x, IsSelector xs) => IsSelector (x /\ xs)
+
 data Statement
   = NestedAtRule NestedRule (Array Statement)
-  | Ruleset (NonEmpty Array (Selector Closed)) Val
+  | Ruleset (Array Val) Val
 
 newtype KeyframesName = KeyframesName String
 
@@ -353,7 +359,14 @@ newtype Keyframes = Keyframes KeyframesName
 keyframes :: KeyframesName -> Keyframes
 keyframes = Keyframes
 
-data KeyframeBlock = KeyframeBlock (NonEmpty Array (Measure Percentage)) Val
+data KeyframeBlock = KeyframeBlock (Array Val) Val
+
+class IsKeyframeSelector (a :: Type)
+instance PercentageTag a => IsKeyframeSelector (Measure a)
+instance
+  ( PercentageTag x
+  , IsKeyframeSelector xs
+  ) => IsKeyframeSelector (Measure x /\ xs)
 
 class Statement' (a :: Type) (b :: Type) (c :: Type) | a -> c where
   statement :: a -> b -> c
@@ -365,27 +378,40 @@ else instance Statement' Keyframes (Writer (Array KeyframeBlock) Unit) (Writer (
     tell $ pure $ NestedAtRule (NestedRule $ val $ "keyframes " <> k) $ keyframeBlockToStatement <$> execWriter keyframeBlocks
     where
       keyframeBlockToStatement (KeyframeBlock selectors declarations) =
-        Ruleset ((Selector <<< val) <$> selectors) declarations
-else instance
-  ConvertOptionsWithDefaults
-    Property'
-    { | SupportedProperties }
-    { | providedProperties }
-    { | SupportedProperties }
-  => Statement' (NonEmpty Array (Measure Percentage)) { | providedProperties } (Writer (Array KeyframeBlock) Unit) where
+        Ruleset (val <$> selectors) declarations
+else instance statementKeyframeMultipleSelector
+  :: ( IsKeyframeSelector (Measure x /\ xs)
+     , MultiVal (Measure x /\ xs)
+     , ConvertOptionsWithDefaults
+         Property'
+         { | SupportedProperties }
+         { | providedProperties }
+         { | SupportedProperties }
+     )
+     => Statement' (Measure x /\ xs) { | providedProperties } (Writer (Array KeyframeBlock) Unit) where
   statement selectors provided =
-    tell $ pure $ KeyframeBlock selectors $ declarationBlock provided
+    tell $ pure $ KeyframeBlock (multiVal selectors) $ declarationBlock provided
 else instance
-  ConvertOptionsWithDefaults
-    Property'
-    { | SupportedProperties }
-    { | providedProperties }
-    { | SupportedProperties }
-  => Statement' (NonEmpty Array (Selector tag)) { | providedProperties } (Writer (Array Statement) Unit) where
+  ( IsKeyframeSelector (Measure a)
+  , ConvertOptionsWithDefaults
+      Property'
+      { | SupportedProperties }
+      { | providedProperties }
+      { | SupportedProperties }
+  ) => Statement' (Measure a) { | providedProperties } (Writer (Array KeyframeBlock) Unit) where
+  statement selector provided =
+    tell $ pure $ KeyframeBlock [val selector] $ declarationBlock provided
+else instance
+  ( IsSelector s
+  , MultiVal s
+  , ConvertOptionsWithDefaults
+      Property'
+      { | SupportedProperties }
+      { | providedProperties }
+      { | SupportedProperties }
+  ) => Statement' s { | providedProperties } (Writer (Array Statement) Unit) where
   statement selectors provided =
-    tell $ pure $ Ruleset (closeSelector <$> selectors) $ declarationBlock provided
-else instance Statement' (NonEmpty Array a) b c => Statement' a b c where
-  statement selector = statement (NE.singleton selector :: NonEmpty Array a)
+    tell $ pure $ Ruleset (multiVal selectors) $ declarationBlock provided
 
 infixr 0 statement as ?
 
@@ -479,10 +505,8 @@ instance Render (Writer (Array Statement) Unit) where
         Ruleset selectors declarations ->
           let
             selector =
-              Val \c@{ separator } ->
-                String.joinWith ("," <> separator)
-                  $ Array.fromFoldable
-                  $ (\(Selector s) -> runVal c s) <$> selectors
+              joinVals (Val \c -> "," <> c.separator)
+                $ Array.fromFoldable selectors
           in
             nested selector declarations
         NestedAtRule (NestedRule nestedRule) statements ->
@@ -4444,6 +4468,7 @@ instance IsAttribute Tabindex
 data Table = Table
 instance ToVal Table where val _ = val "table"
 table = Table :: Table
+instance IsSelector Table
 
 data Target = Target
 instance ToVal Target where val _ = val "target"
