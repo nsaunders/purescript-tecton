@@ -339,9 +339,13 @@ newtype Selector (tag :: Type) = Selector Val
 
 derive newtype instance ToVal (Selector tag)
 
+class IsSelectorOpen (a :: Type)
+instance IsSelectorOpen (Selector Open)
+instance (IsSelectorOpen x, IsSelectorOpen xs) => IsSelectorOpen (x /\ xs)
+
 class IsSelector (a :: Type)
-instance IsSelector (Selector x)
-instance (IsSelector x, IsSelector xs) => IsSelector (x /\ xs)
+instance IsSelector (Selector Closed)
+else instance IsSelectorOpen a => IsSelector a
 
 data Statement
   = NestedAtRule NestedRule (Array Statement)
@@ -1059,39 +1063,74 @@ universal = Selector (val "*") :: Selector Open
 
 -- https://www.w3.org/TR/selectors-4/#combinators
 
-combine :: String -> Selector Open -> Selector Open -> Selector Open
-combine s (Selector a) (Selector b) =
-  Selector $
-    Val \c@{ separator } ->
-      let
-        s' | s == " " = " "
-        s' | otherwise = separator <> s <> separator
-      in
-        runVal c a <> s' <> runVal c b
+class Combine (b :: Type) (c :: Type) | b -> c where
+  combine :: forall a. IsSelectorOpen a => ToVal a => String -> a -> b -> c
+
+instance Combine (Selector Closed) (Selector Closed) where
+  combine s a b
+    | s == " " =
+        Selector $ val a <> val " " <> val b
+    | otherwise =
+        Selector $ val a <> (Val \c -> c.separator <> s <> c.separator) <> val b
+
+else instance (IsSelector b, ToVal b) => Combine b (Selector Open) where
+  combine s a b
+    | s == " " =
+        Selector $ val a <> val " " <> val b
+    | otherwise =
+        Selector $ val a <> (Val \c -> c.separator <> s <> c.separator) <> val b
 
 -- https://www.w3.org/TR/selectors-4/#descendant-combinators
 
-descendant :: Selector Open -> Selector Open -> Selector Open
+descendant
+  :: forall a b c
+   . IsSelectorOpen a
+  => ToVal a
+  => Combine b c
+  => a
+  -> b
+  -> c
 descendant = combine " "
-infixl 1 descendant as |*
+infixl 7 descendant as |*
 
 -- https://www.w3.org/TR/selectors-4/#child-combinators
 
-child :: Selector Open -> Selector Open -> Selector Open
+child
+  :: forall a b c
+   . IsSelectorOpen a
+  => ToVal a
+  => Combine b c
+  => a
+  -> b
+  -> c
 child = combine ">"
-infixl 1 child as |>
+infixl 7 child as |>
 
 -- https://www.w3.org/TR/selectors-4/#adjacent-sibling-combinators
 
-adjacentSibling :: Selector Open -> Selector Open -> Selector Open
+adjacentSibling
+  :: forall a b c
+   . IsSelectorOpen a
+  => ToVal a
+  => Combine b c
+  => a
+  -> b
+  -> c
 adjacentSibling = combine "+"
-infixl 1 adjacentSibling as |+
+infixl 7 adjacentSibling as |+
 
 -- https://www.w3.org/TR/selectors-4/#general-sibling-combinators
 
-generalSibling :: Selector Open -> Selector Open -> Selector Open
+generalSibling
+  :: forall a b c
+   . IsSelectorOpen a
+  => ToVal a
+  => Combine b c
+  => a
+  -> b
+  -> c
 generalSibling = combine "~"
-infixl 1 generalSibling as |~
+infixl 7 generalSibling as |~
 
 -- https://www.w3.org/TR/selectors-3/#attribute-selectors
 
@@ -1105,93 +1144,91 @@ derive newtype instance ToVal Attribute
 class IsAttribute (a :: Type)
 instance IsAttribute Attribute
 
-attCmp 
+newtype AttributePredicate = AttributePredicate (Val ~ String ~ String)
+
+instance ToVal AttributePredicate where
+  val (AttributePredicate (k ~ op ~ v)) = k <> val op <> val (quote v)
+
+attEq :: forall a. IsAttribute a => ToVal a => a -> String -> AttributePredicate
+attEq k v = AttributePredicate $ val k ~ "=" ~ v
+infixr 8 attEq as @=
+
+attElemWhitespace
   :: forall a
    . IsAttribute a
   => ToVal a
-  => String
-  -> a
+  => a
   -> String
-  -> Selector Open
-  -> Selector Open
-attCmp op att' val' =
-  appendSelectorDetail $
-    val "[" <> val att' <> val op <> val (quote val') <> val "]"
+  -> AttributePredicate
+attElemWhitespace k v = AttributePredicate $ val k ~ "~=" ~ v
+infixr 8 attElemWhitespace as ~=
+
+attStartsWithHyphen
+  :: forall a
+   . IsAttribute a
+  => ToVal a
+  => a
+  -> String
+  -> AttributePredicate
+attStartsWithHyphen k v = AttributePredicate $ val k ~ "|=" ~ v
+infixr 8 attStartsWithHyphen as |=
+
+attStartsWith
+  :: forall a
+   . IsAttribute a
+  => ToVal a
+  => a
+  -> String
+  -> AttributePredicate
+attStartsWith k v = AttributePredicate $ val k ~ "^=" ~ v
+infixr 8 attStartsWith as ^=
+
+attEndsWith
+  :: forall a
+   . IsAttribute a
+  => ToVal a
+  => a
+  -> String
+  -> AttributePredicate
+attEndsWith k v = AttributePredicate $ val k ~ "$=" ~ v
+infixr 8 attEndsWith as $=
+
+attContains
+  :: forall a
+   . IsAttribute a
+  => ToVal a
+  => a
+  -> String
+  -> AttributePredicate
+attContains k v = AttributePredicate $ val k ~ "$=" ~ v
+infixr 8 attContains as *=
+
+class ToVal a <= ByAtt (a :: Type)
+instance ByAtt AttributePredicate
+else instance (IsAttribute a, ToVal a) => ByAtt a
 
 byAtt
-  :: forall a
-   . IsAttribute a
-  => ToVal a
-  => a
+  :: forall selector att
+   . IsSelectorOpen selector
+  => ToVal selector
+  => ByAtt att
+  => selector
+  -> att
   -> Selector Open
-  -> Selector Open
-byAtt a = appendSelectorDetail $ val "[" <> val a <> val "]"
+byAtt s a = Selector $ val s <> val "[" <> val a <> val "]"
+infixl 7 byAtt as &@
 
-byAttEq
-  :: forall a
-   . IsAttribute a
-  => ToVal a
-  => a
+byClass
+  :: forall selector att
+   . IsSelectorOpen selector
+  => ToVal selector
+  => selector
   -> String
   -> Selector Open
-  -> Selector Open
-byAttEq = attCmp "="
-infixl 5 byAttEq as @=
+byClass s c = Selector $ val s <> val "." <> val c
+infixl 7 byClass as &.
 
-byAttElemWhitespace
-  :: forall a
-   . IsAttribute a
-  => ToVal a
-  => a
-  -> String
-  -> Selector Open
-  -> Selector Open
-byAttElemWhitespace = attCmp "~="
-infixl 5 byAttElemWhitespace as ~=
-
-byAttStartsWithHyphen
-  :: forall a
-   . IsAttribute a
-  => ToVal a
-  => a
-  -> String
-  -> Selector Open
-  -> Selector Open
-byAttStartsWithHyphen = attCmp "|="
-infixl 5 byAttStartsWithHyphen as |=
-
-byAttStartsWith
-  :: forall a
-   . IsAttribute a
-  => ToVal a
-  => a
-  -> String
-  -> Selector Open
-  -> Selector Open
-byAttStartsWith = attCmp "^="
-infixl 5 byAttStartsWith as ^=
-
-byAttEndsWith
-  :: forall a
-   . IsAttribute a
-  => ToVal a
-  => a
-  -> String
-  -> Selector Open
-  -> Selector Open
-byAttEndsWith = attCmp "$="
-infixl 5 byAttEndsWith as $=
-
-byAttContains
-  :: forall a
-   . IsAttribute a
-  => ToVal a
-  => a
-  -> String
-  -> Selector Open
-  -> Selector Open
-byAttContains = attCmp "*="
-infixl 5 byAttContains as *=
+{-
 
 -- https://www.w3.org/TR/selectors-3/#class-html
 
@@ -1383,7 +1420,7 @@ byBefore = closeSelector <<< appendSelectorDetail (val "::before")
 
 byAfter :: Selector Open -> Selector Closed
 byAfter = closeSelector <<< appendSelectorDetail (val "::after")
-
+-}
 --------------------------------------------------------------------------------
 
 -- https://www.w3.org/TR/css-animations-1/
@@ -4468,7 +4505,7 @@ instance IsAttribute Tabindex
 data Table = Table
 instance ToVal Table where val _ = val "table"
 table = Table :: Table
-instance IsSelector Table
+instance IsSelectorOpen Table
 
 data Target = Target
 instance ToVal Target where val _ = val "target"

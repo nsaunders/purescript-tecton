@@ -6,10 +6,14 @@ import Color (black, hsl, white)
 import Data.Tuple.Nested ((/\))
 import Effect (Effect)
 import Effect.Console (log)
-import PSCSS (all, att, byClass, byHover, class', deg, keyframes, keyframesName, linearGradient, media, nil, pct, pretty, px, render, table, universal, (*@), (?), (@+@), (@=), (^=), (|*), (|+), (|>), (~=))
+import PSCSS (open, pretty, render, table, universal, (&@), (?), (@=), (|*), (|+), (|=), (|>), (|~), (~=), (&.))
 
 main :: Effect Unit
 main = log $ render pretty do
+  table &@ open ~= "hi" &@ open |= "ho" |* universal &. "foo" |> universal |~ universal |+ universal /\ universal &@ open @= "hi" ?
+    { color: hsl 240.0 1.0 0.5
+    }
+    {-
   media all { minWidth: px 600, maxWidth: px 999 } ? do
     keyframes (keyframesName "foo") ? do
       pct 0 @+@ pct 20 ?
@@ -30,3 +34,4 @@ main = log $ render pretty do
       { width: pct 100
       , height: pct 100
       }
+    -}

@@ -1204,7 +1204,7 @@ const code = [
     `instance ToVal ${typeName} where val _ = val "${value}"`,
     `${varName} = ${typeName} :: ${typeName}`,
     ...attribute ? [`instance IsAttribute ${typeName}`] : [],
-    ...element ? [`instance IsSelector ${typeName}`] : [],
+    ...element ? [`instance IsSelectorOpen ${typeName}`] : [],
   ]
   .join("\n"))
   .join("\n\n");
