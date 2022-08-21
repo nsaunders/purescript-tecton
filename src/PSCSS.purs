@@ -1218,6 +1218,8 @@ byAtt
 byAtt s a = Selector $ val s <> val "[" <> val a <> val "]"
 infixl 7 byAtt as &@
 
+-- https://www.w3.org/TR/selectors-3/#class-html
+
 byClass
   :: forall selector att
    . IsSelectorOpen selector
@@ -1228,18 +1230,19 @@ byClass
 byClass s c = Selector $ val s <> val "." <> val c
 infixl 7 byClass as &.
 
-{-
-
--- https://www.w3.org/TR/selectors-3/#class-html
-
-byClass :: String -> Selector Open -> Selector Open
-byClass c = appendSelectorDetail (val $ "." <> c)
-
 -- https://www.w3.org/TR/selectors-3/#id-selectors
 
-byId :: String -> Selector Open -> Selector Open
-byId i = appendSelectorDetail (val $ "#" <> i)
+byId
+  :: forall selector att
+   . IsSelectorOpen selector
+  => ToVal selector
+  => selector
+  -> String
+  -> Selector Open
+byId s i = Selector $ val s <> val "#" <> val i
+infixl 7 byId as &#
 
+{-
 -- https://www.w3.org/TR/selectors-3/#sel-link
 
 byLink :: Selector Open -> Selector Open

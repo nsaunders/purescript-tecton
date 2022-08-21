@@ -6,11 +6,11 @@ import Color (black, hsl, white)
 import Data.Tuple.Nested ((/\))
 import Effect (Effect)
 import Effect.Console (log)
-import PSCSS (open, pretty, render, table, universal, (&@), (?), (@=), (|*), (|+), (|=), (|>), (|~), (~=), (&.))
+import PSCSS (open, pretty, render, table, universal, (&@), (?), (@=), (|*), (|+), (|=), (|>), (|~), (~=), (&.), (&#))
 
 main :: Effect Unit
 main = log $ render pretty do
-  table &@ open ~= "hi" &@ open |= "ho" |* universal &. "foo" |> universal |~ universal |+ universal /\ universal &@ open @= "hi" ?
+  table &@ open ~= "hi" &@ open |= "ho" |* universal &# "foo" |+ universal |~ universal |+ universal /\ universal &@ open @= "hi" ?
     { color: hsl 240.0 1.0 0.5
     }
     {-
