@@ -109,7 +109,8 @@ const code = [
     typeName: "Checked",
     varName: "checked",
     value: "checked",
-    attribute: true
+    attribute: true,
+    pseudoClass: true
   },
   {
     typeName: "Circle",
@@ -229,7 +230,8 @@ const code = [
     typeName: "Disabled",
     varName: "disabled",
     value: "disabled",
-    attribute: true
+    attribute: true,
+    pseudoClass: true
   },
   {
     typeName: "Dotted",
@@ -385,7 +387,7 @@ const code = [
   },
   {
     typeName: "Lang",
-    varName: "lang",
+    varName: "lang'",
     value: "lang",
     attribute: true
   },
@@ -1129,7 +1131,8 @@ const code = [
     typeName: "Target",
     varName: "target",
     value: "target",
-    attribute: true
+    attribute: true,
+    pseudoClass: true
   },
   {
     typeName: "Title",
@@ -1199,12 +1202,13 @@ const code = [
     value: "wrap-reverse"
   }
 ]
-  .map(({ typeName, varName, value, attribute, element }) => [
+  .map(({ typeName, varName, value, attribute, element, pseudoClass }) => [
     `data ${typeName} = ${typeName}`,
     `instance ToVal ${typeName} where val _ = val "${value}"`,
     `${varName} = ${typeName} :: ${typeName}`,
     ...attribute ? [`instance IsAttribute ${typeName}`] : [],
     ...element ? [`instance IsSelectorOpen ${typeName}`] : [],
+    ...pseudoClass ? [`instance IsPseudoClass ${typeName}`] : [],
   ]
   .join("\n"))
   .join("\n\n");

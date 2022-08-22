@@ -8,7 +8,6 @@
   , "integers"
   , "lists"
   , "maybe"
-  , "nonempty"
   , "numbers"
   , "prelude"
   , "record"

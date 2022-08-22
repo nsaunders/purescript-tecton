@@ -16,9 +16,9 @@ spec =
 
     describe "linear-gradient()" do
 
-      "linear-gradient(0,#0000ff,50%,75%,#008000)"
+      "linear-gradient(0,#0000ff,#008000)"
         `isRenderedFrom` do
-        linearGradient nil $ rgb 0 0 255 /\ pct 50 /\ pct 75 /\ rgb 0 128 0
+        linearGradient nil $ rgb 0 0 255 /\ rgb 0 128 0
 
       "linear-gradient(45deg,#0000ff,#008000)"
         `isRenderedFrom` do

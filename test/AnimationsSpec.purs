@@ -4,7 +4,6 @@ module Test.AnimationsSpec where
 
 import Prelude
 
-import Data.NonEmpty ((:|))
 import Data.Tuple.Nested ((/\))
 import PSCSS (all, alternate, alternateReverse, backwards, both, cubicBezier, ease, easeIn, easeInOut, easeOut, end, forwards, infinite, inherit, initial, jumpBoth, jumpEnd, jumpNone, jumpStart, keyframes, keyframesName, linear, media, ms, nil, none, normal, paused, pct, reverse, running, sec, start, stepEnd, stepStart, steps, unset, (?), (@*), (@+@), (@/))
 import Test.Spec (Spec, describe)
@@ -26,7 +25,7 @@ spec =
         `isRenderedFrom` do
         media all {} ?
           keyframes (keyframesName "foo") ?
-            (pct 0 :| [pct 100]) ? {}
+            pct 0 /\ pct 100 ? {}
 
       "@keyframes foo{0%{width:75%}20%{width:80%}50%{width:100%}}"
         `isRenderedFrom` do

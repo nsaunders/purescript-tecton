@@ -12,8 +12,6 @@ import Data.FoldableWithIndex (class FoldableWithIndex, foldlWithIndex)
 import Data.Int as Int
 import Data.List (List(..), (:))
 import Data.Maybe (Maybe(..))
-import Data.NonEmpty (NonEmpty)
-import Data.NonEmpty as NE
 import Data.Number.Format as Number
 import Data.Ord (abs)
 import Data.String as String
@@ -341,10 +339,10 @@ derive newtype instance ToVal (Selector tag)
 
 class IsSelectorOpen (a :: Type)
 instance IsSelectorOpen (Selector Open)
-instance (IsSelectorOpen x, IsSelectorOpen xs) => IsSelectorOpen (x /\ xs)
 
 class IsSelector (a :: Type)
 instance IsSelector (Selector Closed)
+else instance (IsSelector x, IsSelector xs) => IsSelector (x /\ xs)
 else instance IsSelectorOpen a => IsSelector a
 
 data Statement
@@ -1200,7 +1198,7 @@ attContains
   => a
   -> String
   -> AttributePredicate
-attContains k v = AttributePredicate $ val k ~ "$=" ~ v
+attContains k v = AttributePredicate $ val k ~ "*=" ~ v
 infixr 8 attContains as *=
 
 class ToVal a <= ByAtt (a :: Type)
@@ -1242,66 +1240,72 @@ byId
 byId s i = Selector $ val s <> val "#" <> val i
 infixl 7 byId as &#
 
-{-
+newtype PseudoElement = PseudoElement String
+
+derive newtype instance ToVal PseudoElement
+
+newtype PseudoClass = PseudoClass Val
+
+derive newtype instance ToVal PseudoClass
+
+class IsPseudoClass (a :: Type)
+instance IsPseudoClass PseudoClass
+
+class ByPseudo (a :: Type) (b :: Type) | a -> b where
+  byPseudo :: forall s. IsSelectorOpen s => ToVal s => s -> a -> Selector b
+
+instance ByPseudo PseudoElement Closed where
+  byPseudo s a = Selector $ val s <> val "::" <> val a
+
+else instance (IsPseudoClass a, ToVal a) => ByPseudo a Open where
+  byPseudo s a = Selector $ val s <> val ":" <> val a
+
+infixl 7 byPseudo as &:
+
 -- https://www.w3.org/TR/selectors-3/#sel-link
 
-byLink :: Selector Open -> Selector Open
-byLink = appendSelectorDetail $ val ":link"
+link :: PseudoClass
+link = PseudoClass $ val "link"
 
 -- https://www.w3.org/TR/selectors-3/#sel-visited
 
-byVisited :: Selector Open -> Selector Open
-byVisited = appendSelectorDetail $ val ":visited"
+visited :: PseudoClass
+visited = PseudoClass $ val "visited"
 
 -- https://www.w3.org/TR/selectors-3/#sel-hover
 
-byHover :: Selector Open -> Selector Open
-byHover = appendSelectorDetail $ val ":hover"
+hover :: PseudoClass
+hover = PseudoClass $ val "hover"
 
 -- https://www.w3.org/TR/selectors-3/#sel-active
 
-byActive :: Selector Open -> Selector Open
-byActive = appendSelectorDetail $ val ":active"
+active :: PseudoClass
+active = PseudoClass $ val "active"
 
 -- https://www.w3.org/TR/selectors-3/#sel-focus
 
-byFocus :: Selector Open -> Selector Open
-byFocus = appendSelectorDetail $ val ":focus"
-
--- https://www.w3.org/TR/selectors-3/#sel-target
-
-byTarget :: Selector Open -> Selector Open
-byTarget = appendSelectorDetail $ val ":target"
+focus :: PseudoClass
+focus = PseudoClass $ val "focus"
 
 -- https://www.w3.org/TR/selectors-3/#lang-pseudo
 
-byLang :: String -> Selector Open -> Selector Open
-byLang code = appendSelectorDetail $ val ":lang(" <> val code <> val ")"
+lang :: String -> PseudoClass
+lang c = PseudoClass $ fn "lang" [val c]
 
 -- https://www.w3.org/TR/selectors-3/#sel-enabled
 
-byEnabled :: Selector Open -> Selector Open
-byEnabled = appendSelectorDetail $ val ":enabled"
-
--- https://www.w3.org/TR/selectors-3/#sel-disabled
-
-byDisabled :: Selector Open -> Selector Open
-byDisabled = appendSelectorDetail $ val ":disabled"
-
--- https://www.w3.org/TR/selectors-3/#sel-checked
-
-byChecked :: Selector Open -> Selector Open
-byChecked = appendSelectorDetail $ val ":checked"
+enabled :: PseudoClass
+enabled = PseudoClass $ val "enabled"
 
 -- https://www.w3.org/TR/selectors-3/#sel-indeterminate
 
-byIndeterminate :: Selector Open -> Selector Open
-byIndeterminate = appendSelectorDetail $ val ":indeterminate"
+indeterminate :: PseudoClass
+indeterminate = PseudoClass $ val "indeterminate"
 
 -- https://www.w3.org/TR/selectors-3/#sel-root
 
-byRoot :: Selector Open -> Selector Open
-byRoot = appendSelectorDetail $ val ":root"
+root :: PseudoClass
+root = PseudoClass $ val "root"
 
 -- https://www.w3.org/TR/selectors-3/#sel-nth-child
 
@@ -1328,102 +1332,88 @@ instance ToVal Nth where
       in
         an <> op <> b'
 
-even = Even :: Nth
-odd = Odd :: Nth
+even :: Nth
+even = Even
+
+odd :: Nth
+odd = Odd
 
 nth :: Int -> Int -> Nth
 nth = Nth
 
-byNthChild :: Nth -> Selector Open -> Selector Open
-byNthChild formula =
-  appendSelectorDetail $ val ":nth-child(" <> val formula <> val ")"
+nthChild :: Nth -> PseudoClass
+nthChild formula = PseudoClass $ fn "nth-child" [val formula]
 
 -- https://www.w3.org/TR/selectors-3/#sel-nth-last-child
 
-byNthLastChild :: Nth -> Selector Open -> Selector Open
-byNthLastChild formula =
-  appendSelectorDetail $ val ":nth-last-child(" <> val formula <> val ")"
+nthLastChild :: Nth -> PseudoClass
+nthLastChild formula = PseudoClass $ fn "nth-last-child" [val formula]
 
 -- https://www.w3.org/TR/selectors-3/#sel-nth-of-type
 
-byNthOfType :: Nth -> Selector Open -> Selector Open
-byNthOfType formula =
-  appendSelectorDetail $ val ":nth-of-type(" <> val formula <> val ")"
+nthOfType :: Nth -> PseudoClass
+nthOfType formula = PseudoClass $ fn "nth-of-type" [val formula]
 
 -- https://www.w3.org/TR/selectors-3/#sel-first-child
 
-byFirstChild :: Selector Open -> Selector Open
-byFirstChild = appendSelectorDetail $ val ":first-child"
+firstChild :: PseudoClass
+firstChild = PseudoClass $ val "first-child"
 
 -- https://www.w3.org/TR/selectors-3/#sel-last-child
 
-byLastChild :: Selector Open -> Selector Open
-byLastChild = appendSelectorDetail $ val ":last-child"
+lastChild :: PseudoClass
+lastChild = PseudoClass $ val "last-child"
 
 -- https://www.w3.org/TR/selectors-3/#sel-first-of-type
 
-byFirstOfType :: Selector Open -> Selector Open
-byFirstOfType = appendSelectorDetail $ val ":first-of-type"
+firstOfType :: PseudoClass
+firstOfType = PseudoClass $ val "first-of-type"
 
 -- https://www.w3.org/TR/selectors-3/#sel-last-of-type
 
-byLastOfType :: Selector Open -> Selector Open
-byLastOfType = appendSelectorDetail $ val ":last-of-type"
+lastOfType :: PseudoClass
+lastOfType = PseudoClass $ val "last-of-type"
 
 -- https://www.w3.org/TR/selectors-3/#sel-only-child
 
-byOnlyChild :: Selector Open -> Selector Open
-byOnlyChild = appendSelectorDetail $ val ":only-child"
+onlyChild :: PseudoClass
+onlyChild = PseudoClass $ val "only-child"
 
 -- https://www.w3.org/TR/selectors-3/#sel-only-of-type
 
-byOnlyOfType :: Selector Open -> Selector Open
-byOnlyOfType = appendSelectorDetail $ val ":only-of-type"
+onlyOfType :: PseudoClass
+onlyOfType = PseudoClass $ val "only-of-type"
 
 -- https://www.w3.org/TR/selectors-3/#sel-empty
 
-byEmpty :: Selector Open -> Selector Open
-byEmpty = appendSelectorDetail $ val ":empty"
+empty :: PseudoClass
+empty = PseudoClass $ val "empty"
 
 -- https://www.w3.org/TR/selectors-4/#negation-pseudo
 
-class ByNot (a :: Type) where
-  byNot :: a -> Selector Open -> Selector Open
-
-instance ByNot (Selector Open) where
-  byNot (Selector x) = appendSelectorDetail $ val ":not(" <> x <> val ")"
-
-instance ByNot (NonEmpty Array (Selector Open)) where
-  byNot selectors =
-    let
-      s =
-        Val \c@{ separator } ->
-          String.joinWith ("," <> separator)
-            $ Array.fromFoldable
-            $ (\(Selector x) -> runVal c x) <$> selectors
-    in
-      appendSelectorDetail $ val ":not(" <> s <> val ")"
+not :: forall s. IsSelector s => MultiVal s => s -> PseudoClass
+not s = PseudoClass $ fn "not" $ multiVal s
 
 -- https://www.w3.org/TR/selectors-3/#sel-first-line
 
-byFirstLine :: Selector Open -> Selector Closed
-byFirstLine = closeSelector <<< appendSelectorDetail (val "::first-line")
+firstLine :: PseudoElement
+firstLine = PseudoElement "first-line"
 
 -- https://www.w3.org/TR/selectors-3/#sel-first-letter
 
-byFirstLetter :: Selector Open -> Selector Closed
-byFirstLetter = closeSelector <<< appendSelectorDetail (val "::first-letter")
+firstLetter :: PseudoElement
+firstLetter = PseudoElement "first-letter"
 
 -- https://www.w3.org/TR/selectors-3/#sel-before
 
-byBefore :: Selector Open -> Selector Closed
-byBefore = closeSelector <<< appendSelectorDetail (val "::before")
+before :: PseudoElement
+before = PseudoElement "before"
 
 -- https://www.w3.org/TR/selectors-3/#sel-after
 
-byAfter :: Selector Open -> Selector Closed
-byAfter = closeSelector <<< appendSelectorDetail (val "::after")
--}
+after :: PseudoElement
+after = PseudoElement "after"
+
 --------------------------------------------------------------------------------
 
 -- https://www.w3.org/TR/css-animations-1/
@@ -3669,6 +3659,7 @@ data Checked = Checked
 instance ToVal Checked where val _ = val "checked"
 checked = Checked :: Checked
 instance IsAttribute Checked
+instance IsPseudoClass Checked
 
 data Circle = Circle
 instance ToVal Circle where val _ = val "circle"
@@ -3768,6 +3759,7 @@ data Disabled = Disabled
 instance ToVal Disabled where val _ = val "disabled"
 disabled = Disabled :: Disabled
 instance IsAttribute Disabled
+instance IsPseudoClass Disabled
 
 data Dotted = Dotted
 instance ToVal Dotted where val _ = val "dotted"
@@ -3896,7 +3888,7 @@ instance IsAttribute Label
 
 data Lang = Lang
 instance ToVal Lang where val _ = val "lang"
-lang = Lang :: Lang
+lang' = Lang :: Lang
 instance IsAttribute Lang
 
 data Left = Left
@@ -4514,6 +4506,7 @@ data Target = Target
 instance ToVal Target where val _ = val "target"
 target = Target :: Target
 instance IsAttribute Target
+instance IsPseudoClass Target
 
 data Title = Title
 instance ToVal Title where val _ = val "title"
