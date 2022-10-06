@@ -44,6 +44,7 @@ camelToKebab s =
       Regex.replace' caps (const <<< ("-" <> _) <<< String.toLower) s
 
 class IsList (x :: Type) (xs :: Type)
+
 instance IsList x xs => IsList x (x /\ xs)
 else instance IsList x x
 
@@ -119,8 +120,7 @@ instance (ToVal a, ToVal b) => ToVal (Pair a b) where
 class MultiVal (a :: Type) where
   multiValImpl :: List Val -> a -> List Val
 
-instance multiValImplXXS
-  :: (ToVal x, MultiVal xs) => MultiVal (x /\ xs) where
+instance multiValImplXXS :: (ToVal x, MultiVal xs) => MultiVal (x /\ xs) where
   multiValImpl acc (x /\ xs) = multiValImpl (val x : acc) xs
 
 else instance multiValImplX :: ToVal x => MultiVal x where
@@ -129,7 +129,7 @@ else instance multiValImplX :: ToVal x => MultiVal x where
 multiVal :: forall a. MultiVal a => a -> Array Val
 multiVal = Array.reverse <<< Array.fromFoldable <<< multiValImpl Nil
 
-joinVals 
+joinVals
   :: forall s
    . ToVal s
   => s
@@ -173,11 +173,12 @@ else instance
   ( RowToList r rl
   , CollectFontFaceDeclarations rl r ("font-family" :: Unit, src :: Unit | provided)
   , BuildFromScratch empty (Record r)
-  ) => MkStatement FontFace (Builder (Record empty) (Record r)) Statement where
+  ) =>
+  MkStatement FontFace (Builder (Record empty) (Record r)) Statement where
   mkStatement _ decls =
     tell
       $ pure
-      $ Ruleset [val "@font-face"]
+      $ Ruleset [ val "@font-face" ]
       $ concatDeclarations
       $ collectFontFaceDeclarations (Proxy :: _ rl) (buildFromScratch decls) Nil
 
@@ -194,11 +195,12 @@ else instance
   , CollectDeclarations rl r
   , AllPropertiesAnimatable rl
   , BuildFromScratch empty (Record r)
-  ) => MkStatement (Measure Percentage) (Builder (Record empty) (Record r)) KeyframeBlock where
+  ) =>
+  MkStatement (Measure Percentage) (Builder (Record empty) (Record r)) KeyframeBlock where
   mkStatement sel decls =
     tell
       $ pure
-      $ KeyframeBlock [val sel]
+      $ KeyframeBlock [ val sel ]
       $ concatDeclarations
       $ collectDeclarations (Proxy :: _ rl) (buildFromScratch decls) Nil
 
@@ -209,7 +211,8 @@ else instance
   , BuildFromScratch empty (Record r)
   , IsList (Measure Percentage) xs
   , MultiVal xs
-  ) => MkStatement (Measure Percentage /\ xs) (Builder (Record empty) (Record r)) KeyframeBlock where
+  ) =>
+  MkStatement (Measure Percentage /\ xs) (Builder (Record empty) (Record r)) KeyframeBlock where
   mkStatement sels decls =
     tell
       $ pure
@@ -223,7 +226,8 @@ else instance
   , RowToList r rl
   , CollectDeclarations rl r
   , BuildFromScratch empty (Record r)
-  ) => MkStatement selectors (Builder (Record empty) (Record r)) Statement where
+  ) =>
+  MkStatement selectors (Builder (Record empty) (Record r)) Statement where
   mkStatement sel decls =
     tell
       $ pure
@@ -245,12 +249,12 @@ concatDeclarations decls = Val \c ->
     indent = String.joinWith mempty $ replicate c.indentLevel c.indentation
     block' i' acc (k /\ v) =
       indent
-      <> runVal c k
-      <> ":"
-      <> c.separator
-      <> runVal c v
-      <> (if (i' == 0 && c.finalSemicolon) || acc /= mempty then ";" else mempty)
-      <> if acc /= mempty then c.newline <> acc else mempty
+        <> runVal c k
+        <> ":"
+        <> c.separator
+        <> runVal c v
+        <> (if (i' == 0 && c.finalSemicolon) || acc /= mempty then ";" else mempty)
+        <> if acc /= mempty then c.newline <> acc else mempty
   in
     foldlWithIndex block' mempty decls
 
@@ -265,7 +269,7 @@ class CollectDeclarations (rl :: RowList Type) (r :: Row Type) where
     -> Record r
     -> List (Val /\ Val)
     -> List (Val /\ Val)
-  
+
 instance CollectDeclarations RL.Nil r where
   collectDeclarations _ _ = identity
 
@@ -274,7 +278,8 @@ instance
   , Property p
   , Row.Cons p CommonKeyword tailRow row
   , CollectDeclarations tailRowList row
-  ) => CollectDeclarations (RL.Cons p CommonKeyword tailRowList) row where
+  ) =>
+  CollectDeclarations (RL.Cons p CommonKeyword tailRowList) row where
   collectDeclarations _ rec acc =
     let
       field = Proxy :: _ p
@@ -286,7 +291,8 @@ else instance
   , Declaration p v
   , Row.Cons p v tailRow row
   , CollectDeclarations tailRowList row
-  ) => CollectDeclarations (RL.Cons p v tailRowList) row where
+  ) =>
+  CollectDeclarations (RL.Cons p v tailRowList) row where
   collectDeclarations _ rec acc =
     let
       field = Proxy :: _ p
@@ -329,20 +335,21 @@ instance Render (Writer (Array Statement) Unit) where
           indent = String.joinWith mempty $ replicate indentLevel indentation
         in
           indent
-          <> runVal c outer
-          <> separator
-          <> "{"
-          <> newline
-          <> runVal (c { indentLevel = indentLevel + 1 }) inner
-          <> newline
-          <> indent
-          <> "}"
+            <> runVal c outer
+            <> separator
+            <> "{"
+            <> newline
+            <> runVal (c { indentLevel = indentLevel + 1 }) inner
+            <> newline
+            <> indent
+            <> "}"
 
 else instance
   ( RowToList r rl
   , CollectDeclarations rl r
   , BuildFromScratch empty (Record r)
-  ) => Render (Builder (Record empty) (Record r)) where
+  ) =>
+  Render (Builder (Record empty) (Record r)) where
   render c decls =
     runVal c
       $ concatDeclarations
@@ -365,13 +372,12 @@ instance Animatable "row-gap"
 
 normal = Proxy :: Proxy "normal"
 
-instance declarationRowGapNormal
-  :: Declaration "row-gap" (Proxy "normal") where
+instance declarationRowGapNormal :: Declaration "row-gap" (Proxy "normal") where
   pval = const val
 
-instance declarationRowGapLengthPercentage
-  :: LengthPercentageTag t
-  => Declaration "row-gap" (Measure t) where
+instance declarationRowGapLengthPercentage ::
+  LengthPercentageTag t =>
+  Declaration "row-gap" (Measure t) where
   pval = const val
 
 -- https://www.w3.org/TR/css-align-3/#propdef-column-gap
@@ -381,9 +387,9 @@ columnGap = Proxy :: Proxy "column-gap"
 instance Property "column-gap"
 instance Animatable "column-gap"
 
-instance declarationColumnGapRowGap
-  :: Declaration "row-gap" a
-  => Declaration "column-gap" a where
+instance declarationColumnGapRowGap ::
+  Declaration "row-gap" a =>
+  Declaration "column-gap" a where
   pval = const $ pval rowGap
 
 -- https://www.w3.org/TR/css-align-3/#propdef-gap
@@ -393,16 +399,16 @@ gap = Proxy :: Proxy "gap"
 instance Property "gap"
 instance Animatable "gap"
 
-instance declarationGapRowColumn
-  :: ( Declaration "row-gap" row
-     , Declaration "column-gap" column
-     )
-  => Declaration "gap" (row ~ column) where
+instance declarationGapRowColumn ::
+  ( Declaration "row-gap" row
+  , Declaration "column-gap" column
+  ) =>
+  Declaration "gap" (row ~ column) where
   pval _ (r ~ c) = pval rowGap r <> val " " <> pval columnGap c
 
-else instance declarationGapRow
-  :: Declaration "row-gap" a
-  => Declaration "gap" a where
+else instance declarationGapRow ::
+  Declaration "row-gap" a =>
+  Declaration "gap" a where
   pval = const $ pval rowGap
 
 --------------------------------------------------------------------------------
@@ -413,11 +419,13 @@ else instance declarationGapRow
 class Property p <= Animatable (p :: Symbol)
 
 class AllPropertiesAnimatable (ps :: RowList Type)
+
 instance AllPropertiesAnimatable RL.Nil
 instance
   ( Animatable p
   , AllPropertiesAnimatable tail
-  ) => AllPropertiesAnimatable (RL.Cons p v tail)
+  ) =>
+  AllPropertiesAnimatable (RL.Cons p v tail)
 
 newtype KeyframesName = KeyframesName String
 
@@ -440,16 +448,17 @@ animationName = Proxy :: Proxy "animation-name"
 instance Property "animation-name"
 
 class IsAnimationNameList (a :: Type)
+
 instance IsAnimationNameList (Proxy "none")
 instance IsAnimationNameList KeyframesName
 instance IsAnimationNameList xs => IsAnimationNameList (Proxy "none" /\ xs)
 instance IsAnimationNameList xs => IsAnimationNameList (KeyframesName /\ xs)
 
-instance declarationAnimationName
-  :: ( IsAnimationNameList a
-     , MultiVal a
-     )
-  => Declaration "animation-name" a where
+instance declarationAnimationName ::
+  ( IsAnimationNameList a
+  , MultiVal a
+  ) =>
+  Declaration "animation-name" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-duration
@@ -459,14 +468,15 @@ animationDuration = Proxy :: Proxy "animation-duration"
 instance Property "animation-duration"
 
 class IsTimeList (a :: Type)
+
 instance (TimeTag tx, IsTimeList xs) => IsTimeList (Measure tx /\ xs)
 instance TimeTag t => IsTimeList (Measure t)
 
-instance declarationAnimationDuration
-  :: ( IsTimeList a
-     , MultiVal a
-     )
-  => Declaration "animation-duration" a where
+instance declarationAnimationDuration ::
+  ( IsTimeList a
+  , MultiVal a
+  ) =>
+  Declaration "animation-duration" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-timing-function
@@ -475,11 +485,11 @@ animationTimingFunction = Proxy :: Proxy "animation-timing-function"
 
 instance Property "animation-timing-function"
 
-instance declarationAnimationTimingFunction
-  :: ( IsList EasingFunction a
-     , MultiVal a
-     )
-  => Declaration "animation-timing-function" a where
+instance declarationAnimationTimingFunction ::
+  ( IsList EasingFunction a
+  , MultiVal a
+  ) =>
+  Declaration "animation-timing-function" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-iteration-count
@@ -491,20 +501,23 @@ instance Property "animation-iteration-count"
 infinite = Proxy :: Proxy "infinite"
 
 class IsSingleAnimationIterationCountList (a :: Type)
+
 instance
-  IsSingleAnimationIterationCountList xs
-  => IsSingleAnimationIterationCountList (Int /\ xs)
+  IsSingleAnimationIterationCountList xs =>
+  IsSingleAnimationIterationCountList (Int /\ xs)
+
 instance
-  IsSingleAnimationIterationCountList xs
-  => IsSingleAnimationIterationCountList (Proxy "infinite" /\ xs)
+  IsSingleAnimationIterationCountList xs =>
+  IsSingleAnimationIterationCountList (Proxy "infinite" /\ xs)
+
 instance IsSingleAnimationIterationCountList Int
 instance IsSingleAnimationIterationCountList (Proxy "infinite")
 
-instance declarationAnimationIterationCount
-  :: ( IsSingleAnimationIterationCountList a
-     , MultiVal a
-     )
-  => Declaration "animation-iteration-count" a where
+instance declarationAnimationIterationCount ::
+  ( IsSingleAnimationIterationCountList a
+  , MultiVal a
+  ) =>
+  Declaration "animation-iteration-count" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-direction
@@ -518,23 +531,27 @@ alternate = Proxy :: Proxy "alternate"
 alternateReverse = Proxy :: Proxy "alternate-reverse"
 
 class AnimationDirectionKeyword (s :: Symbol)
+
 instance AnimationDirectionKeyword "normal"
 instance AnimationDirectionKeyword "reverse"
 instance AnimationDirectionKeyword "alternate"
 instance AnimationDirectionKeyword "alternate-reverse"
 
 class IsSingleAnimationDirectionList (a :: Type)
+
 instance
   ( AnimationDirectionKeyword sx
   , IsSingleAnimationDirectionList xs
-  ) => IsSingleAnimationDirectionList (Proxy sx /\ xs)
+  ) =>
+  IsSingleAnimationDirectionList (Proxy sx /\ xs)
+
 instance AnimationDirectionKeyword s => IsSingleAnimationDirectionList (Proxy s)
 
-instance declarationAnimationDirection
-  :: ( IsSingleAnimationDirectionList a
-     , MultiVal a
-     )
-  => Declaration "animation-direction" a where
+instance declarationAnimationDirection ::
+  ( IsSingleAnimationDirectionList a
+  , MultiVal a
+  ) =>
+  Declaration "animation-direction" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-play-state
@@ -547,21 +564,25 @@ running = Proxy :: Proxy "running"
 paused = Proxy :: Proxy "paused"
 
 class AnimationPlayStateKeyword (s :: Symbol)
+
 instance AnimationPlayStateKeyword "running"
 instance AnimationPlayStateKeyword "paused"
 
 class IsSingleAnimationPlayStateList (a :: Type)
+
 instance
   ( AnimationPlayStateKeyword sx
   , IsSingleAnimationPlayStateList xs
-  ) => IsSingleAnimationPlayStateList (Proxy sx /\ xs)
+  ) =>
+  IsSingleAnimationPlayStateList (Proxy sx /\ xs)
+
 instance AnimationPlayStateKeyword s => IsSingleAnimationPlayStateList (Proxy s)
 
-instance declarationAnimationPlayState
-  :: ( IsSingleAnimationPlayStateList a
-     , MultiVal a
-     )
-  => Declaration "animation-play-state" a where
+instance declarationAnimationPlayState ::
+  ( IsSingleAnimationPlayStateList a
+  , MultiVal a
+  ) =>
+  Declaration "animation-play-state" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-delay
@@ -570,11 +591,11 @@ animationDelay = Proxy :: Proxy "animation-delay"
 
 instance Property "animation-delay"
 
-instance declarationAnimationDelay
-  :: ( IsTimeList a
-     , MultiVal a
-     )
-  => Declaration "animation-delay" a where
+instance declarationAnimationDelay ::
+  ( IsTimeList a
+  , MultiVal a
+  ) =>
+  Declaration "animation-delay" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-fill-mode
@@ -589,23 +610,27 @@ backwards = Proxy :: Proxy "backwards"
 both = Proxy :: Proxy "both"
 
 class AnimationFillModeKeyword (s :: Symbol)
+
 instance AnimationFillModeKeyword "none"
 instance AnimationFillModeKeyword "forwards"
 instance AnimationFillModeKeyword "backwards"
 instance AnimationFillModeKeyword "both"
 
 class IsSingleAnimationFillModeList (a :: Type)
+
 instance
   ( AnimationFillModeKeyword sx
   , IsSingleAnimationFillModeList xs
-  ) => IsSingleAnimationFillModeList (Proxy sx /\ xs)
+  ) =>
+  IsSingleAnimationFillModeList (Proxy sx /\ xs)
+
 instance AnimationFillModeKeyword s => IsSingleAnimationFillModeList (Proxy s)
 
-instance declarationAnimationFillMode
-  :: ( IsSingleAnimationFillModeList a
-     , MultiVal a
-     )
-  => Declaration "animation-fill-mode" a where
+instance declarationAnimationFillMode ::
+  ( IsSingleAnimationFillModeList a
+  , MultiVal a
+  ) =>
+  Declaration "animation-fill-mode" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 --------------------------------------------------------------------------------
@@ -619,11 +644,11 @@ backgroundColor = Proxy :: Proxy "background-color"
 instance Property "background-color"
 instance Animatable "background-color"
 
-instance declarationBackgroundColor
-  :: ( IsColor a
-     , ToVal a
-     )
-  => Declaration "background-color" a where
+instance declarationBackgroundColor ::
+  ( IsColor a
+  , ToVal a
+  ) =>
+  Declaration "background-color" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-image
@@ -633,16 +658,17 @@ backgroundImage = Proxy :: Proxy "background-image"
 instance Property "background-image"
 
 class IsBgImageList (a :: Type)
+
 instance IsBgImageList (Proxy "none")
 else instance (IsBgImageList xs) => IsBgImageList (Proxy "none" /\ xs)
 else instance (IsImage x, IsBgImageList xs) => IsBgImageList (x /\ xs)
 else instance IsImage x => IsBgImageList x
 
-instance declarationBackgroundImage
-  :: ( IsBgImageList a
-     , MultiVal a
-     )
-  => Declaration "background-image" a where
+instance declarationBackgroundImage ::
+  ( IsBgImageList a
+  , MultiVal a
+  ) =>
+  Declaration "background-image" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-repeat
@@ -659,12 +685,14 @@ round = Proxy :: Proxy "round"
 noRepeat = Proxy :: Proxy "no-repeat"
 
 class RepeatStyle1dKeyword (s :: Symbol)
+
 instance RepeatStyle1dKeyword "repeat"
 instance RepeatStyle1dKeyword "space"
 instance RepeatStyle1dKeyword "round"
 instance RepeatStyle1dKeyword "no-repeat"
 
 class RepeatStyle2dKeyword (s :: Symbol)
+
 instance RepeatStyle2dKeyword "repeat-x"
 instance RepeatStyle2dKeyword "repeat-y"
 instance RepeatStyle2dKeyword "repeat"
@@ -673,21 +701,25 @@ instance RepeatStyle2dKeyword "round"
 instance RepeatStyle2dKeyword "no-repeat"
 
 class IsRepeatStyle (a :: Type)
+
 instance
   ( RepeatStyle1dKeyword sx
   , RepeatStyle1dKeyword sy
-  ) => IsRepeatStyle (Proxy sx ~ Proxy sy)
+  ) =>
+  IsRepeatStyle (Proxy sx ~ Proxy sy)
+
 instance RepeatStyle2dKeyword s => IsRepeatStyle (Proxy s)
 
 class IsRepeatStyleList (a :: Type)
+
 instance (IsRepeatStyle x, IsRepeatStyleList xs) => IsRepeatStyleList (x /\ xs)
 else instance IsRepeatStyle a => IsRepeatStyleList a
 
-instance declarationBackgroundRepeat
-  :: ( IsRepeatStyleList a
-     , MultiVal a
-     )
-  => Declaration "background-repeat" a where
+instance declarationBackgroundRepeat ::
+  ( IsRepeatStyleList a
+  , MultiVal a
+  ) =>
+  Declaration "background-repeat" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-attachment
@@ -699,22 +731,26 @@ instance Property "background-attachment"
 local' = Proxy :: Proxy "local"
 
 class AttachmentKeyword (s :: Symbol)
+
 instance AttachmentKeyword "fixed"
 instance AttachmentKeyword "local"
 instance AttachmentKeyword "scroll"
 
 class IsAttachmentList (a :: Type)
+
 instance
   ( AttachmentKeyword sx
   , IsAttachmentList xs
-  ) => IsAttachmentList (Proxy sx /\ xs)
+  ) =>
+  IsAttachmentList (Proxy sx /\ xs)
+
 instance AttachmentKeyword s => IsAttachmentList (Proxy s)
 
-instance declarationBackgroundAttachment
-  :: ( IsAttachmentList a
-     , MultiVal a
-     )
-  => Declaration "background-attachment" a where
+instance declarationBackgroundAttachment ::
+  ( IsAttachmentList a
+  , MultiVal a
+  ) =>
+  Declaration "background-attachment" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-position
@@ -725,14 +761,15 @@ instance Property "background-position"
 instance Animatable "background-position"
 
 class IsPositionList (a :: Type)
+
 instance (IsPosition x, IsPositionList xs) => IsPositionList (x /\ xs)
 else instance IsPosition a => IsPositionList a
 
-instance declarationBackgroundPosition
-  :: ( IsPositionList a
-     , MultiVal a
-     )
-  => Declaration "background-position" a where
+instance declarationBackgroundPosition ::
+  ( IsPositionList a
+  , MultiVal a
+  ) =>
+  Declaration "background-position" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-clip
@@ -746,19 +783,21 @@ paddingBox = Proxy :: Proxy "padding-box"
 contentBox = Proxy :: Proxy "content-box"
 
 class BoxKeyword (s :: Symbol)
+
 instance BoxKeyword "border-box"
 instance BoxKeyword "padding-box"
 instance BoxKeyword "content-box"
 
 class IsBoxList (a :: Type)
+
 instance (BoxKeyword sx, IsBoxList xs) => IsBoxList (Proxy sx /\ xs)
 else instance BoxKeyword s => IsBoxList (Proxy s)
 
-instance declarationBackgroundClip
-  :: ( IsBoxList a
-     , MultiVal a
-     )
-  => Declaration "background-clip" a where
+instance declarationBackgroundClip ::
+  ( IsBoxList a
+  , MultiVal a
+  ) =>
+  Declaration "background-clip" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-origin
@@ -767,11 +806,11 @@ backgroundOrigin = Proxy :: Proxy "background-origin"
 
 instance Property "background-origin"
 
-instance declarationBackgroundOrigin
-  :: ( IsBoxList a
-     , MultiVal a
-     )
-  => Declaration "background-origin" a where
+instance declarationBackgroundOrigin ::
+  ( IsBoxList a
+  , MultiVal a
+  ) =>
+  Declaration "background-origin" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-size
@@ -785,10 +824,13 @@ cover = Proxy :: Proxy "cover"
 contain = Proxy :: Proxy "contain"
 
 class IsBgSize (a :: Type)
+
 instance
   ( LengthPercentageTag tx
   , LengthPercentageTag ty
-  ) => IsBgSize (Measure tx ~ Measure ty)
+  ) =>
+  IsBgSize (Measure tx ~ Measure ty)
+
 instance LengthPercentageTag ty => IsBgSize (Proxy "auto" ~ Measure ty)
 instance LengthPercentageTag tx => IsBgSize (Measure tx ~ Proxy "auto")
 instance IsBgSize (Proxy "auto" ~ Proxy "auto")
@@ -798,14 +840,15 @@ instance IsBgSize (Proxy "cover")
 instance IsBgSize (Proxy "contain")
 
 class IsBgSizeList (a :: Type)
+
 instance (IsBgSize x, IsBgSizeList xs) => IsBgSizeList (x /\ xs)
 else instance IsBgSize a => IsBgSizeList a
 
-instance declarationBackgroundSize
-  :: ( IsBgSizeList a
-     , MultiVal a
-     )
-  => Declaration "background-size" a where
+instance declarationBackgroundSize ::
+  ( IsBgSizeList a
+  , MultiVal a
+  ) =>
+  Declaration "background-size" a where
   pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-color
@@ -815,11 +858,11 @@ borderTopColor = Proxy :: Proxy "border-top-color"
 instance Property "border-top-color"
 instance Animatable "border-top-color"
 
-instance declarationBorderTopColor
-  :: ( IsColor a
-     , ToVal a
-     )
-  => Declaration "border-top-color" a where
+instance declarationBorderTopColor ::
+  ( IsColor a
+  , ToVal a
+  ) =>
+  Declaration "border-top-color" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-right-color
@@ -829,9 +872,9 @@ borderRightColor = Proxy :: Proxy "border-right-color"
 instance Property "border-right-color"
 instance Animatable "border-right-color"
 
-instance declarationBorderRightColor
-  :: Declaration "border-top-color" a
-  => Declaration "border-right-color" a where
+instance declarationBorderRightColor ::
+  Declaration "border-top-color" a =>
+  Declaration "border-right-color" a where
   pval = const $ pval borderTopColor
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-bottom-color
@@ -841,9 +884,9 @@ borderBottomColor = Proxy :: Proxy "border-bottom-color"
 instance Property "border-bottom-color"
 instance Animatable "border-bottom-color"
 
-instance declarationBorderBottomColor
-  :: Declaration "border-top-color" a
-  => Declaration "border-bottom-color" a where
+instance declarationBorderBottomColor ::
+  Declaration "border-top-color" a =>
+  Declaration "border-bottom-color" a where
   pval = const $ pval borderTopColor
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-left-color
@@ -853,9 +896,9 @@ borderLeftColor = Proxy :: Proxy "border-left-color"
 instance Property "border-left-color"
 instance Animatable "border-left-color"
 
-instance declarationBorderLeftColor
-  :: Declaration "border-top-color" a
-  => Declaration "border-left-color" a where
+instance declarationBorderLeftColor ::
+  Declaration "border-top-color" a =>
+  Declaration "border-left-color" a where
   pval = const $ pval borderTopColor
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-color
@@ -866,27 +909,30 @@ instance Property "border-color"
 instance Animatable "border-color"
 
 class IsBorderColor (a :: Type)
+
 instance
   ( IsColor t
   , IsColor r
   , IsColor b
   , IsColor l
   , ToVal (t ~ r ~ b ~ l)
-  ) => IsBorderColor (t ~ r ~ b ~ l)
+  ) =>
+  IsBorderColor (t ~ r ~ b ~ l)
 else instance
   ( IsColor t
   , IsColor x
   , IsColor b
   , ToVal (t ~ x ~ b)
-  ) => IsBorderColor (t ~ x ~ b)
+  ) =>
+  IsBorderColor (t ~ x ~ b)
 else instance (IsColor y, IsColor x, ToVal (y ~ x)) => IsBorderColor (y ~ x)
 else instance (IsColor a, ToVal a) => IsBorderColor a
 
-instance declarationBorderColor
-  :: ( IsBorderColor a
-     , ToVal a
-     )
-  => Declaration "border-color" a where
+instance declarationBorderColor ::
+  ( IsBorderColor a
+  , ToVal a
+  ) =>
+  Declaration "border-color" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-style
@@ -906,6 +952,7 @@ inset = Proxy :: Proxy "inset"
 outset = Proxy :: Proxy "outset"
 
 class LineStyleKeyword (s :: Symbol)
+
 instance LineStyleKeyword "none"
 instance LineStyleKeyword "hidden"
 instance LineStyleKeyword "dotted"
@@ -917,11 +964,11 @@ instance LineStyleKeyword "ridge"
 instance LineStyleKeyword "inset"
 instance LineStyleKeyword "outset"
 
-instance declarationBorderTopStyle
-  :: ( LineStyleKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "border-top-style" (Proxy s) where
+instance declarationBorderTopStyle ::
+  ( LineStyleKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "border-top-style" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-right-style
@@ -930,9 +977,9 @@ borderRightStyle = Proxy :: Proxy "border-right-style"
 
 instance Property "border-right-style"
 
-instance declarationBorderRightStyle
-  :: Declaration "border-top-style" a
-  => Declaration "border-right-style" a where
+instance declarationBorderRightStyle ::
+  Declaration "border-top-style" a =>
+  Declaration "border-right-style" a where
   pval = const $ pval borderTopStyle
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-bottom-style
@@ -941,9 +988,9 @@ borderBottomStyle = Proxy :: Proxy "border-bottom-style"
 
 instance Property "border-bottom-style"
 
-instance declarationBorderBottomStyle
-  :: Declaration "border-top-style" a
-  => Declaration "border-bottom-style" a where
+instance declarationBorderBottomStyle ::
+  Declaration "border-top-style" a =>
+  Declaration "border-bottom-style" a where
   pval = const $ pval borderTopStyle
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-left-style
@@ -952,9 +999,9 @@ borderLeftStyle = Proxy :: Proxy "border-left-style"
 
 instance Property "border-left-style"
 
-instance declarationBorderLeftStyle
-  :: Declaration "border-top-style" a
-  => Declaration "border-left-style" a where
+instance declarationBorderLeftStyle ::
+  Declaration "border-top-style" a =>
+  Declaration "border-left-style" a where
   pval = const $ pval borderTopStyle
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-style
@@ -964,31 +1011,38 @@ borderStyle = Proxy :: Proxy "border-style"
 instance Property "border-style"
 
 class IsBorderStyle (a :: Type)
+
 instance
   ( LineStyleKeyword st
   , LineStyleKeyword sr
   , LineStyleKeyword sb
   , LineStyleKeyword sl
   , ToVal (Proxy st ~ Proxy sr ~ Proxy sb ~ Proxy sl)
-  ) => IsBorderStyle (Proxy st ~ Proxy sr ~ Proxy sb ~ Proxy sl)
+  ) =>
+  IsBorderStyle (Proxy st ~ Proxy sr ~ Proxy sb ~ Proxy sl)
+
 instance
   ( LineStyleKeyword st
   , LineStyleKeyword sx
   , LineStyleKeyword sb
   , ToVal (Proxy st ~ Proxy sx ~ Proxy sb)
-  ) => IsBorderStyle (Proxy st ~ Proxy sx ~ Proxy sb)
+  ) =>
+  IsBorderStyle (Proxy st ~ Proxy sx ~ Proxy sb)
+
 instance
   ( LineStyleKeyword sy
   , LineStyleKeyword sx
   , ToVal (Proxy sy ~ Proxy sx)
-  ) => IsBorderStyle (Proxy sy ~ Proxy sx)
+  ) =>
+  IsBorderStyle (Proxy sy ~ Proxy sx)
+
 instance (LineStyleKeyword s, ToVal (Proxy s)) => IsBorderStyle (Proxy s)
 
-instance declarationBorderStyle
-  :: ( IsBorderStyle a
-     , ToVal a
-     )
-  => Declaration "border-style" a where
+instance declarationBorderStyle ::
+  ( IsBorderStyle a
+  , ToVal a
+  ) =>
+  Declaration "border-style" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-width
@@ -1003,19 +1057,21 @@ medium = Proxy :: Proxy "medium"
 thick = Proxy :: Proxy "thick"
 
 class LineWidthKeyword (s :: Symbol)
+
 instance LineWidthKeyword "thin"
 instance LineWidthKeyword "medium"
 instance LineWidthKeyword "thick"
 
 class IsLineWidth (a :: Type)
+
 instance LineWidthKeyword s => IsLineWidth (Proxy s)
 instance LengthTag t => IsLineWidth (Measure t)
 
-instance declarationBorderTopWidth
-  :: ( IsLineWidth a
-     , ToVal a
-     )
-  => Declaration "border-top-width" a where
+instance declarationBorderTopWidth ::
+  ( IsLineWidth a
+  , ToVal a
+  ) =>
+  Declaration "border-top-width" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-right-width
@@ -1025,9 +1081,9 @@ borderRightWidth = Proxy :: Proxy "border-right-width"
 instance Property "border-right-width"
 instance Animatable "border-right-width"
 
-instance declarationBorderRightWidth
-  :: Declaration "border-top-width" a
-  => Declaration "border-right-width" a where
+instance declarationBorderRightWidth ::
+  Declaration "border-top-width" a =>
+  Declaration "border-right-width" a where
   pval = const $ pval borderTopWidth
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-bottom-width
@@ -1037,9 +1093,9 @@ borderBottomWidth = Proxy :: Proxy "border-bottom-width"
 instance Property "border-bottom-width"
 instance Animatable "border-bottom-width"
 
-instance declarationBorderBottomWidth
-  :: Declaration "border-top-width" a
-  => Declaration "border-bottom-width" a where
+instance declarationBorderBottomWidth ::
+  Declaration "border-top-width" a =>
+  Declaration "border-bottom-width" a where
   pval = const $ pval borderTopWidth
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-left-width
@@ -1049,9 +1105,9 @@ borderLeftWidth = Proxy :: Proxy "border-left-width"
 instance Property "border-left-width"
 instance Animatable "border-left-width"
 
-instance declarationBorderLeftWidth
-  :: Declaration "border-top-width" a
-  => Declaration "border-left-width" a where
+instance declarationBorderLeftWidth ::
+  Declaration "border-top-width" a =>
+  Declaration "border-left-width" a where
   pval = const $ pval borderTopWidth
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-width
@@ -1062,34 +1118,35 @@ instance Property "border-width"
 instance Animatable "border-width"
 
 class IsBorderWidth (a :: Type)
+
 instance
   ( IsLineWidth t
   , IsLineWidth r
   , IsLineWidth b
   , IsLineWidth l
   , ToVal (t ~ r ~ b ~ l)
-  )
-  => IsBorderWidth (t ~ r ~ b ~ l)
+  ) =>
+  IsBorderWidth (t ~ r ~ b ~ l)
 else instance
   ( IsLineWidth t
   , IsLineWidth x
   , IsLineWidth b
   , ToVal (t ~ x ~ b)
-  )
-  => IsBorderWidth (t ~ x ~ b)
+  ) =>
+  IsBorderWidth (t ~ x ~ b)
 else instance
   ( IsLineWidth y
   , IsLineWidth x
   , ToVal (y ~ x)
-  )
-  => IsBorderWidth (y ~ x)
+  ) =>
+  IsBorderWidth (y ~ x)
 else instance (IsLineWidth a, ToVal a) => IsBorderWidth a
 
-instance declarationBorderWidth
-  :: ( IsBorderWidth a
-     , ToVal a
-     )
-  => Declaration "border-width" a where
+instance declarationBorderWidth ::
+  ( IsBorderWidth a
+  , ToVal a
+  ) =>
+  Declaration "border-width" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-left-radius
@@ -1100,17 +1157,20 @@ instance Property "border-top-left-radius"
 instance Animatable "border-top-left-radius"
 
 class IsSingleBorderRadius (a :: Type)
+
 instance
   ( LengthPercentageTag tx
   , LengthPercentageTag ty
-  ) => IsSingleBorderRadius (Measure tx ~ Measure ty)
+  ) =>
+  IsSingleBorderRadius (Measure tx ~ Measure ty)
+
 instance LengthPercentageTag t => IsSingleBorderRadius (Measure t)
 
-instance declarationBorderTopRadius
-  :: ( IsSingleBorderRadius a
-     , ToVal a
-     )
-  => Declaration "border-top-left-radius" a where
+instance declarationBorderTopRadius ::
+  ( IsSingleBorderRadius a
+  , ToVal a
+  ) =>
+  Declaration "border-top-left-radius" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-right-radius
@@ -1120,9 +1180,9 @@ borderTopRightRadius = Proxy :: Proxy "border-top-right-radius"
 instance Property "border-top-right-radius"
 instance Animatable "border-top-right-radius"
 
-instance declarationBorderTopRightRadius
-  :: Declaration "border-top-left-radius" a
-  => Declaration "border-top-right-radius" a where
+instance declarationBorderTopRightRadius ::
+  Declaration "border-top-left-radius" a =>
+  Declaration "border-top-right-radius" a where
   pval = const $ pval borderTopLeftRadius
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-bottom-right-radius
@@ -1132,9 +1192,9 @@ borderBottomRightRadius = Proxy :: Proxy "border-bottom-right-radius"
 instance Property "border-bottom-right-radius"
 instance Animatable "border-bottom-right-radius"
 
-instance declarationBorderBottomRightRadius
-  :: Declaration "border-top-left-radius" a
-  => Declaration "border-bottom-right-radius" a where
+instance declarationBorderBottomRightRadius ::
+  Declaration "border-top-left-radius" a =>
+  Declaration "border-bottom-right-radius" a where
   pval = const $ pval borderTopLeftRadius
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-bottom-left-radius
@@ -1144,9 +1204,9 @@ borderBottomLeftRadius = Proxy :: Proxy "border-bottom-left-radius"
 instance Property "border-bottom-left-radius"
 instance Animatable "border-bottom-left-radius"
 
-instance declarationBorderBottomLeftRadius
-  :: Declaration "border-top-left-radius" a
-  => Declaration "border-bottom-left-radius" a where
+instance declarationBorderBottomLeftRadius ::
+  Declaration "border-top-left-radius" a =>
+  Declaration "border-bottom-left-radius" a where
   pval = const $ pval borderTopLeftRadius
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-radius
@@ -1167,8 +1227,9 @@ instance
   , LengthPercentageTag ttry
   , LengthPercentageTag tbry
   , LengthPercentageTag tbly
-  ) => IsBorderRadius (Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx /\ Measure ttly ~ Measure ttry ~ Measure tbry ~ Measure tbly)
- 
+  ) =>
+  IsBorderRadius (Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx /\ Measure ttly ~ Measure ttry ~ Measure tbry ~ Measure tbly)
+
 instance
   ( LengthPercentageTag ttlx
   , LengthPercentageTag ttrx
@@ -1177,8 +1238,9 @@ instance
   , LengthPercentageTag ttly
   , LengthPercentageTag ttrbly
   , LengthPercentageTag tbry
-  ) => IsBorderRadius (Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx /\ Measure ttly ~ Measure ttrbly ~ Measure tbry)
- 
+  ) =>
+  IsBorderRadius (Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx /\ Measure ttly ~ Measure ttrbly ~ Measure tbry)
+
 instance
   ( LengthPercentageTag ttlx
   , LengthPercentageTag ttrx
@@ -1186,7 +1248,8 @@ instance
   , LengthPercentageTag tblx
   , LengthPercentageTag ttlbry
   , LengthPercentageTag ttrbly
-  ) => IsBorderRadius (Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx /\ Measure ttlbry ~ Measure ttrbly)
+  ) =>
+  IsBorderRadius (Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx /\ Measure ttlbry ~ Measure ttrbly)
 
 instance
   ( LengthPercentageTag ttlx
@@ -1194,14 +1257,16 @@ instance
   , LengthPercentageTag tbrx
   , LengthPercentageTag tblx
   , LengthPercentageTag ty
-  ) => IsBorderRadius (Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx /\ Measure ty)
+  ) =>
+  IsBorderRadius (Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx /\ Measure ty)
 
 instance
   ( LengthPercentageTag ttlx
   , LengthPercentageTag ttrx
   , LengthPercentageTag tbrx
   , LengthPercentageTag tblx
-  ) => IsBorderRadius (Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx)
+  ) =>
+  IsBorderRadius (Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx)
 
 instance
   ( LengthPercentageTag ttlx
@@ -1211,8 +1276,9 @@ instance
   , LengthPercentageTag ttry
   , LengthPercentageTag tbry
   , LengthPercentageTag tbly
-  ) => IsBorderRadius (Measure ttlx ~ Measure ttrblx ~ Measure tbrx /\ Measure ttly ~ Measure ttry ~ Measure tbry ~ Measure tbly)
- 
+  ) =>
+  IsBorderRadius (Measure ttlx ~ Measure ttrblx ~ Measure tbrx /\ Measure ttly ~ Measure ttry ~ Measure tbry ~ Measure tbly)
+
 instance
   ( LengthPercentageTag ttlx
   , LengthPercentageTag ttrblx
@@ -1220,29 +1286,33 @@ instance
   , LengthPercentageTag ttly
   , LengthPercentageTag ttrbly
   , LengthPercentageTag tbry
-  ) => IsBorderRadius (Measure ttlx ~ Measure ttrblx ~ Measure tbrx /\ Measure ttly ~ Measure ttrbly ~ Measure tbry)
- 
+  ) =>
+  IsBorderRadius (Measure ttlx ~ Measure ttrblx ~ Measure tbrx /\ Measure ttly ~ Measure ttrbly ~ Measure tbry)
+
 instance
   ( LengthPercentageTag ttlx
   , LengthPercentageTag ttrblx
   , LengthPercentageTag tbrx
   , LengthPercentageTag ttlbry
   , LengthPercentageTag ttrbly
-  ) => IsBorderRadius (Measure ttlx ~ Measure ttrblx ~ Measure tbrx /\ Measure ttlbry ~ Measure ttrbly)
- 
+  ) =>
+  IsBorderRadius (Measure ttlx ~ Measure ttrblx ~ Measure tbrx /\ Measure ttlbry ~ Measure ttrbly)
+
 instance
   ( LengthPercentageTag ttlx
   , LengthPercentageTag ttrblx
   , LengthPercentageTag tbrx
   , LengthPercentageTag ty
-  ) => IsBorderRadius (Measure ttlx ~ Measure ttrblx ~ Measure tbrx /\ Measure ty)
- 
+  ) =>
+  IsBorderRadius (Measure ttlx ~ Measure ttrblx ~ Measure tbrx /\ Measure ty)
+
 instance
   ( LengthPercentageTag ttlx
   , LengthPercentageTag ttrblx
   , LengthPercentageTag tbrx
-  ) => IsBorderRadius (Measure ttlx ~ Measure ttrblx ~ Measure tbrx)
- 
+  ) =>
+  IsBorderRadius (Measure ttlx ~ Measure ttrblx ~ Measure tbrx)
+
 instance
   ( LengthPercentageTag ttlbrx
   , LengthPercentageTag ttrblx
@@ -1250,67 +1320,76 @@ instance
   , LengthPercentageTag ttry
   , LengthPercentageTag tbry
   , LengthPercentageTag tbly
-  ) => IsBorderRadius (Measure ttlbrx ~ Measure ttrblx /\ Measure ttly ~ Measure ttry ~ Measure tbry ~ Measure tbly)
- 
+  ) =>
+  IsBorderRadius (Measure ttlbrx ~ Measure ttrblx /\ Measure ttly ~ Measure ttry ~ Measure tbry ~ Measure tbly)
+
 instance
   ( LengthPercentageTag ttlbrx
   , LengthPercentageTag ttrblx
   , LengthPercentageTag ttly
   , LengthPercentageTag ttrbly
   , LengthPercentageTag tbry
-  ) => IsBorderRadius (Measure ttlbrx ~ Measure ttrblx /\ Measure ttly ~ Measure ttrbly ~ Measure tbry)
- 
+  ) =>
+  IsBorderRadius (Measure ttlbrx ~ Measure ttrblx /\ Measure ttly ~ Measure ttrbly ~ Measure tbry)
+
 instance
   ( LengthPercentageTag ttlbrx
   , LengthPercentageTag ttrblx
   , LengthPercentageTag ttlbry
   , LengthPercentageTag ttrbly
-  ) => IsBorderRadius (Measure ttlbrx ~ Measure ttrblx /\ Measure ttlbry ~ Measure ttrbly)
- 
+  ) =>
+  IsBorderRadius (Measure ttlbrx ~ Measure ttrblx /\ Measure ttlbry ~ Measure ttrbly)
+
 instance
   ( LengthPercentageTag ttlbrx
   , LengthPercentageTag ttrblx
   , LengthPercentageTag ty
-  ) => IsBorderRadius (Measure ttlbrx ~ Measure ttrblx /\ Measure ty)
- 
+  ) =>
+  IsBorderRadius (Measure ttlbrx ~ Measure ttrblx /\ Measure ty)
+
 instance
   ( LengthPercentageTag ttlbrx
   , LengthPercentageTag ttrblx
-  ) => IsBorderRadius (Measure ttlbrx ~ Measure ttrblx)
- 
+  ) =>
+  IsBorderRadius (Measure ttlbrx ~ Measure ttrblx)
+
 instance
   ( LengthPercentageTag tx
   , LengthPercentageTag ttly
   , LengthPercentageTag ttry
   , LengthPercentageTag tbry
   , LengthPercentageTag tbly
-  ) => IsBorderRadius (Measure tx /\ Measure ttly ~ Measure ttry ~ Measure tbry ~ Measure tbly)
- 
+  ) =>
+  IsBorderRadius (Measure tx /\ Measure ttly ~ Measure ttry ~ Measure tbry ~ Measure tbly)
+
 instance
   ( LengthPercentageTag tx
   , LengthPercentageTag ttly
   , LengthPercentageTag ttrbly
   , LengthPercentageTag tbry
-  ) => IsBorderRadius (Measure tx /\ Measure ttly ~ Measure ttrbly ~ Measure tbry)
- 
+  ) =>
+  IsBorderRadius (Measure tx /\ Measure ttly ~ Measure ttrbly ~ Measure tbry)
+
 instance
   ( LengthPercentageTag tx
   , LengthPercentageTag ttlbry
   , LengthPercentageTag ttrbly
-  ) => IsBorderRadius (Measure tx /\ Measure ttlbry ~ Measure ttrbly)
+  ) =>
+  IsBorderRadius (Measure tx /\ Measure ttlbry ~ Measure ttrbly)
 
 instance
   ( LengthPercentageTag tx
   , LengthPercentageTag ty
-  ) => IsBorderRadius (Measure tx /\ Measure ty)
+  ) =>
+  IsBorderRadius (Measure tx /\ Measure ty)
 
 instance LengthPercentageTag t => IsBorderRadius (Measure t)
 
-instance declarationBorderRadius
-  :: ( IsBorderRadius a
-     , MultiVal a
-     )
-  => Declaration "border-radius" a where
+instance declarationBorderRadius ::
+  ( IsBorderRadius a
+  , MultiVal a
+  ) =>
+  Declaration "border-radius" a where
   pval =
     const $ joinVals (Val \c -> c.separator <> "/" <> c.separator) <<< multiVal
 
@@ -1329,7 +1408,8 @@ instance
   , LengthTag tyo
   , LengthTag tblur
   , LengthTag tspread
-  ) => IsShadow (color ~ Measure txo ~ Measure tyo ~ Measure tblur ~ Measure tspread ~ Proxy "inset")
+  ) =>
+  IsShadow (color ~ Measure txo ~ Measure tyo ~ Measure tblur ~ Measure tspread ~ Proxy "inset")
 
 instance
   ( IsColor color
@@ -1337,78 +1417,87 @@ instance
   , LengthTag tyo
   , LengthTag tblur
   , LengthTag tspread
-  ) => IsShadow (color ~ Measure txo ~ Measure tyo ~ Measure tblur ~ Measure tspread)
+  ) =>
+  IsShadow (color ~ Measure txo ~ Measure tyo ~ Measure tblur ~ Measure tspread)
 
 instance
   ( LengthTag txo
   , LengthTag tyo
   , LengthTag tblur
   , LengthTag tspread
-  ) => IsShadow (Measure txo ~ Measure tyo ~ Measure tblur ~ Measure tspread ~ Proxy "inset")
+  ) =>
+  IsShadow (Measure txo ~ Measure tyo ~ Measure tblur ~ Measure tspread ~ Proxy "inset")
 
 else instance
   ( IsColor color
   , LengthTag txo
   , LengthTag tyo
   , LengthTag tblur
-  ) => IsShadow (color ~ Measure txo ~ Measure tyo ~ Measure tblur ~ Proxy "inset")
+  ) =>
+  IsShadow (color ~ Measure txo ~ Measure tyo ~ Measure tblur ~ Proxy "inset")
 
 instance
   ( LengthTag txo
   , LengthTag tyo
   , LengthTag tblur
   , LengthTag tspread
-  ) => IsShadow (Measure txo ~ Measure tyo ~ Measure tblur ~ Measure tspread)
+  ) =>
+  IsShadow (Measure txo ~ Measure tyo ~ Measure tblur ~ Measure tspread)
 
 else instance
   ( IsColor color
   , LengthTag txo
   , LengthTag tyo
   , LengthTag tblur
-  ) => IsShadow (color ~ Measure txo ~ Measure tyo ~ Measure tblur)
+  ) =>
+  IsShadow (color ~ Measure txo ~ Measure tyo ~ Measure tblur)
 
 instance
   ( LengthTag txo
   , LengthTag tyo
   , LengthTag tblur
-  ) => IsShadow (Measure txo ~ Measure tyo ~ Measure tblur ~ Proxy "inset")
+  ) =>
+  IsShadow (Measure txo ~ Measure tyo ~ Measure tblur ~ Proxy "inset")
 
 else instance
   ( IsColor color
   , LengthTag txo
   , LengthTag tyo
-  ) => IsShadow (color ~ Measure txo ~ Measure tyo ~ Proxy "inset")
+  ) =>
+  IsShadow (color ~ Measure txo ~ Measure tyo ~ Proxy "inset")
 
 instance
   ( LengthTag txo
   , LengthTag tyo
   , LengthTag tblur
-  ) => IsShadow (Measure txo ~ Measure tyo ~ Measure tblur)
+  ) =>
+  IsShadow (Measure txo ~ Measure tyo ~ Measure tblur)
 
 else instance
   ( LengthTag txo
   , LengthTag tyo
-  ) => IsShadow (Measure txo ~ Measure tyo ~ Proxy "inset")
+  ) =>
+  IsShadow (Measure txo ~ Measure tyo ~ Proxy "inset")
 
 else instance
   ( IsColor color
   , LengthTag txo
   , LengthTag tyo
-  ) => IsShadow (color ~ Measure txo ~ Measure tyo)
+  ) =>
+  IsShadow (color ~ Measure txo ~ Measure tyo)
 
 instance (LengthTag txo, LengthTag tyo) => IsShadow (Measure txo ~ Measure tyo)
 
 instance (IsShadow x, IsShadow xs) => IsShadow (x /\ xs)
 
-instance declarationBoxShadowNone
-  :: Declaration "box-shadow" (Proxy "none") where
+instance declarationBoxShadowNone :: Declaration "box-shadow" (Proxy "none") where
   pval = const val
 
-else instance declarationBoxShadowIsShadow
-  :: ( IsShadow a
-     , MultiVal a
-     )
-  => Declaration "box-shadow" a where
+else instance declarationBoxShadowIsShadow ::
+  ( IsShadow a
+  , MultiVal a
+  ) =>
+  Declaration "box-shadow" a where
   pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 --------------------------------------------------------------------------------
@@ -1424,14 +1513,15 @@ instance Property "margin-top"
 instance Animatable "margin-top"
 
 class IsSingleMargin (a :: Type)
+
 instance LengthPercentageTag t => IsSingleMargin (Measure t)
 instance IsSingleMargin (Proxy "auto")
 
-instance declarationMarginTop
-  :: ( IsSingleMargin a
-     , ToVal a
-     )
-  => Declaration "margin-top" a where
+instance declarationMarginTop ::
+  ( IsSingleMargin a
+  , ToVal a
+  ) =>
+  Declaration "margin-top" a where
   pval = const val
 
 -- https://www.w3.org/tr/css-box-3/#propdef-margin-right
@@ -1441,9 +1531,9 @@ marginRight = Proxy :: Proxy "margin-right"
 instance Property "margin-right"
 instance Animatable "margin-right"
 
-instance declarationMarginRight
-  :: Declaration "margin-top" a
-  => Declaration "margin-right" a where
+instance declarationMarginRight ::
+  Declaration "margin-top" a =>
+  Declaration "margin-right" a where
   pval = const $ pval marginTop
 
 -- https://www.w3.org/tr/css-box-3/#propdef-margin-bottom
@@ -1453,9 +1543,9 @@ marginBottom = Proxy :: Proxy "margin-bottom"
 instance Property "margin-bottom"
 instance Animatable "margin-bottom"
 
-instance declarationMarginBottom
-  :: Declaration "margin-top" a
-  => Declaration "margin-bottom" a where
+instance declarationMarginBottom ::
+  Declaration "margin-top" a =>
+  Declaration "margin-bottom" a where
   pval = const $ pval marginTop
 
 -- https://www.w3.org/tr/css-box-3/#propdef-margin-left
@@ -1465,9 +1555,9 @@ marginLeft = Proxy :: Proxy "margin-left"
 instance Property "margin-left"
 instance Animatable "margin-left"
 
-instance declarationMarginLeft
-  :: Declaration "margin-top" a
-  => Declaration "margin-left" a where
+instance declarationMarginLeft ::
+  Declaration "margin-top" a =>
+  Declaration "margin-left" a where
   pval = const $ pval marginTop
 
 -- https://www.w3.org/tr/css-box-3/#propdef-margin
@@ -1478,28 +1568,32 @@ instance Property "margin"
 instance Animatable "margin"
 
 class IsMargin (a :: Type)
+
 instance
   ( IsSingleMargin t
   , IsSingleMargin r
   , IsSingleMargin b
   , IsSingleMargin l
-  ) => IsMargin (t ~ r ~ b ~ l)
+  ) =>
+  IsMargin (t ~ r ~ b ~ l)
 else instance
   ( IsSingleMargin t
   , IsSingleMargin x
   , IsSingleMargin b
-  ) => IsMargin (t ~ x ~ b)
+  ) =>
+  IsMargin (t ~ x ~ b)
 else instance
   ( IsSingleMargin y
   , IsSingleMargin x
-  ) => IsMargin (y ~ x)
+  ) =>
+  IsMargin (y ~ x)
 else instance IsSingleMargin a => IsMargin a
 
-instance declarationMargin
-  :: ( IsMargin a
-     , ToVal a
-     )
-  => Declaration "margin" a where
+instance declarationMargin ::
+  ( IsMargin a
+  , ToVal a
+  ) =>
+  Declaration "margin" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-box-3/#propdef-padding-top
@@ -1509,9 +1603,9 @@ paddingTop = Proxy :: Proxy "padding-top"
 instance Property "padding-top"
 instance Animatable "padding-top"
 
-instance declarationPaddingTop
-  :: LengthPercentageTag t
-  => Declaration "padding-top" (Measure t) where
+instance declarationPaddingTop ::
+  LengthPercentageTag t =>
+  Declaration "padding-top" (Measure t) where
   pval = const val
 
 -- https://www.w3.org/TR/css-box-3/#propdef-padding-right
@@ -1521,9 +1615,9 @@ paddingRight = Proxy :: Proxy "padding-right"
 instance Property "padding-right"
 instance Animatable "padding-right"
 
-instance declarationPaddingRight
-  :: Declaration "padding-top" a
-  => Declaration "padding-right" a where
+instance declarationPaddingRight ::
+  Declaration "padding-top" a =>
+  Declaration "padding-right" a where
   pval = const $ pval paddingTop
 
 -- https://www.w3.org/TR/css-box-3/#propdef-padding-bottom
@@ -1533,9 +1627,9 @@ paddingBottom = Proxy :: Proxy "padding-bottom"
 instance Property "padding-bottom"
 instance Animatable "padding-bottom"
 
-instance declarationPaddingBottom
-  :: Declaration "padding-top" a
-  => Declaration "padding-bottom" a where
+instance declarationPaddingBottom ::
+  Declaration "padding-top" a =>
+  Declaration "padding-bottom" a where
   pval = const $ pval paddingTop
 
 -- https://www.w3.org/TR/css-box-3/#propdef-padding-left
@@ -1545,9 +1639,9 @@ paddingLeft = Proxy :: Proxy "padding-left"
 instance Property "padding-left"
 instance Animatable "padding-left"
 
-instance declarationPaddingLeft
-  :: Declaration "padding-top" a
-  => Declaration "padding-left" a where
+instance declarationPaddingLeft ::
+  Declaration "padding-top" a =>
+  Declaration "padding-left" a where
   pval = const $ pval paddingTop
 
 -- https://www.w3.org/TR/css-box-3/#propdef-padding
@@ -1558,28 +1652,35 @@ instance Property "padding"
 instance Animatable "padding"
 
 class IsPadding (a :: Type)
+
 instance
   ( LengthPercentageTag tt
   , LengthPercentageTag tr
   , LengthPercentageTag tb
   , LengthPercentageTag tl
-  ) => IsPadding (Measure tt ~ Measure tr ~ Measure tb ~ Measure tl)
+  ) =>
+  IsPadding (Measure tt ~ Measure tr ~ Measure tb ~ Measure tl)
+
 instance
   ( LengthPercentageTag tt
   , LengthPercentageTag tx
   , LengthPercentageTag tb
-  ) => IsPadding (Measure tt ~ Measure tx ~ Measure tb)
+  ) =>
+  IsPadding (Measure tt ~ Measure tx ~ Measure tb)
+
 instance
   ( LengthPercentageTag ty
   , LengthPercentageTag tx
-  ) => IsPadding (Measure ty ~ Measure tx)
+  ) =>
+  IsPadding (Measure ty ~ Measure tx)
+
 instance LengthPercentageTag t => IsPadding (Measure t)
 
-instance declarationPadding
-  :: ( IsPadding a
-     , ToVal a
-     )
-  => Declaration "padding" a where
+instance declarationPadding ::
+  ( IsPadding a
+  , ToVal a
+  ) =>
+  Declaration "padding" a where
   pval = const val
 
 --------------------------------------------------------------------------------
@@ -1594,11 +1695,11 @@ color = Proxy :: Proxy "color"
 instance Property "color"
 instance Animatable "color"
 
-instance declarationColorIsColor
-  :: ( IsColor a
-     , ToVal a
-     )
-  => Declaration "color" a where
+instance declarationColorIsColor ::
+  ( IsColor a
+  , ToVal a
+  ) =>
+  Declaration "color" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-color-4/#propdef-opacity
@@ -1608,9 +1709,9 @@ opacity = Proxy :: Proxy "opacity"
 instance Property "opacity"
 instance Animatable "opacity"
 
-instance declarationOpacityNumber
-  :: ToNumber a
-  => Declaration "opacity" a where
+instance declarationOpacityNumber ::
+  ToNumber a =>
+  Declaration "opacity" a where
   pval = const $ val <<< number
 
 -- https://www.w3.org/TR/css-color-4/#typedef-color
@@ -1625,9 +1726,11 @@ currentColor = CSSColor "currentColor"
 transparent :: CSSColor
 transparent = CSSColor "transparent"
 
-instance ToVal Color where val c = Val \cfg -> cfg.color c
+instance ToVal Color where
+  val c = Val \cfg -> cfg.color c
 
 class IsColor (a :: Type)
+
 instance IsColor Color
 instance IsColor CSSColor
 
@@ -1645,36 +1748,36 @@ instance Property "content"
 contents = Proxy :: Proxy "contents"
 
 class ContentKeyword (s :: Symbol)
+
 instance ContentKeyword "normal"
 instance ContentKeyword "none"
 instance ContentKeyword "contents"
 
-instance declarationContentString
-  :: Declaration "content" String where
+instance declarationContentString :: Declaration "content" String where
   pval = const $ val <<< quote
 
-else instance declarationContentImageWithAltText
-  :: ( IsImage a
-     , ToVal a
-     )
-  => Declaration "content" (a /\ String) where
+else instance declarationContentImageWithAltText ::
+  ( IsImage a
+  , ToVal a
+  ) =>
+  Declaration "content" (a /\ String) where
   pval _ (img' /\ alt') =
     val img'
-    <> Val (\c -> c.separator <> "/" <> c.separator)
-    <> val (quote alt')
+      <> Val (\c -> c.separator <> "/" <> c.separator)
+      <> val (quote alt')
 
-else instance declarationContentKeyword
-  :: ( ContentKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "content" (Proxy s) where
+else instance declarationContentKeyword ::
+  ( ContentKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "content" (Proxy s) where
   pval = const val
 
-else instance declarationContentImage
-  :: ( IsImage a
-     , ToVal a
-     )
-  => Declaration "content" a where
+else instance declarationContentImage ::
+  ( IsImage a
+  , ToVal a
+  ) =>
+  Declaration "content" a where
   pval = const val
 
 --------------------------------------------------------------------------------
@@ -1708,6 +1811,7 @@ inlineFlex = Proxy :: Proxy "inline-flex"
 inlineGrid = Proxy :: Proxy "inline-grid"
 
 class DisplayKeyword (s :: Symbol)
+
 instance DisplayKeyword "block"
 instance DisplayKeyword "inline"
 instance DisplayKeyword "flow-root"
@@ -1730,11 +1834,11 @@ instance DisplayKeyword "inline-table"
 instance DisplayKeyword "inline-flex"
 instance DisplayKeyword "inline-grid"
 
-instance declarationDisplay
-  :: ( DisplayKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "display" (Proxy s) where
+instance declarationDisplay ::
+  ( DisplayKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "display" (Proxy s) where
   pval = const val
 
 --------------------------------------------------------------------------------
@@ -1793,7 +1897,7 @@ cubicBezier x1 y1 x2 y2 =
       , val $ number x2
       , val $ number y2
       ]
-     
+
 -- https://www.w3.org/TR/css-easing-1/#typedef-step-position
 
 jumpStart = Proxy :: Proxy "jump-start"
@@ -1802,6 +1906,7 @@ jumpNone = Proxy :: Proxy "jump-none"
 jumpBoth = Proxy :: Proxy "jump-both"
 
 class StepPosition (s :: Symbol)
+
 instance StepPosition "jump-start"
 instance StepPosition "jump-end"
 instance StepPosition "jump-none"
@@ -1816,7 +1921,7 @@ steps
   => Int
   -> Proxy s
   -> EasingFunction
-steps n f = EasingFunction $ fn "steps" [val n, val f]
+steps n f = EasingFunction $ fn "steps" [ val n, val f ]
 
 stepStart :: EasingFunction
 stepStart = EasingFunction $ val "step-start"
@@ -1841,16 +1946,17 @@ column = Proxy :: Proxy "column"
 columnReverse = Proxy :: Proxy "column-reverse"
 
 class FlexDirectionKeyword (s :: Symbol)
+
 instance FlexDirectionKeyword "row"
 instance FlexDirectionKeyword "row-reverse"
 instance FlexDirectionKeyword "column"
 instance FlexDirectionKeyword "column-reverse"
 
-instance declarationFlexDirection
-  :: ( FlexDirectionKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "flex-direction" (Proxy s) where
+instance declarationFlexDirection ::
+  ( FlexDirectionKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "flex-direction" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-flexbox-1/#propdef-flex-wrap
@@ -1863,15 +1969,16 @@ nowrap = Proxy :: Proxy "nowrap"
 wrapReverse = Proxy :: Proxy "wrap-reverse"
 
 class FlexWrapKeyword (s :: Symbol)
+
 instance FlexWrapKeyword "nowrap"
 instance FlexWrapKeyword "wrap"
 instance FlexWrapKeyword "wrap-reverse"
 
-instance declarationFlexWrap
-  :: ( FlexWrapKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "flex-wrap" (Proxy s) where
+instance declarationFlexWrap ::
+  ( FlexWrapKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "flex-wrap" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-flexbox-1/#propdef-order
@@ -1892,36 +1999,32 @@ instance declarationOrder :: Declaration "order" Int where
 instance Property "flex"
 instance Animatable "flex"
 
-instance declarationFlexGrowShrinkBasis
-  :: ( Declaration "flex-grow" grow
-     , Declaration "flex-shrink" shrink
-     , Declaration "flex-basis" basis
-     )
-  => Declaration "flex" (grow ~ shrink ~ basis) where
+instance declarationFlexGrowShrinkBasis ::
+  ( Declaration "flex-grow" grow
+  , Declaration "flex-shrink" shrink
+  , Declaration "flex-basis" basis
+  ) =>
+  Declaration "flex" (grow ~ shrink ~ basis) where
   pval _ (grow ~ shrink ~ basis) =
     val $ pval flexGrow grow ~ pval flexShrink shrink ~ pval flexBasis basis
 
-else instance declarationFlexGrowNumberShrinkNumber
-  :: Declaration "flex" (Number ~ Number) where
+else instance declarationFlexGrowNumberShrinkNumber :: Declaration "flex" (Number ~ Number) where
   pval = const val
 
-else instance declarationFlexGrowNumberShrinkInt
-  :: Declaration "flex" (Number ~ Int) where
+else instance declarationFlexGrowNumberShrinkInt :: Declaration "flex" (Number ~ Int) where
   pval = const val
 
-else instance declarationFlexGrowIntShrinkNumber
-  :: Declaration "flex" (Int ~ Number) where
+else instance declarationFlexGrowIntShrinkNumber :: Declaration "flex" (Int ~ Number) where
   pval = const val
 
-else instance declarationFlexGrowIntShrinkInt
-  :: Declaration "flex" (Int ~ Int) where
+else instance declarationFlexGrowIntShrinkInt :: Declaration "flex" (Int ~ Int) where
   pval = const val
 
-else instance declarationFlexGrowNumberBasis
-  :: ( Declaration "flex-grow" grow
-     , Declaration "flex-basis" basis
-     )
-  => Declaration "flex" (grow ~ basis) where
+else instance declarationFlexGrowNumberBasis ::
+  ( Declaration "flex-grow" grow
+  , Declaration "flex-basis" basis
+  ) =>
+  Declaration "flex" (grow ~ basis) where
   pval _ (grow ~ basis) = pval flexGrow grow <> val " " <> pval flexBasis basis
 
 else instance declarationFlexNone :: Declaration "flex" (Proxy "none") where
@@ -1933,9 +2036,9 @@ else instance declarationFlexNumber :: Declaration "flex" Number where
 else instance declarationFlexInt :: Declaration "flex" Int where
   pval = const val
 
-else instance declarationFlexWidth
-  :: Declaration "width" a
-  => Declaration "flex" a where
+else instance declarationFlexWidth ::
+  Declaration "width" a =>
+  Declaration "flex" a where
   pval = const $ pval width
 
 -- https://www.w3.org/TR/css-flexbox-1/#propdef-flex-grow
@@ -1955,9 +2058,9 @@ flexShrink = Proxy :: Proxy "flex-shrink"
 instance Property "flex-shrink"
 instance Animatable "flex-shrink"
 
-instance declarationFlexShrinkNumber
-  :: ToNumber a
-  => Declaration "flex-shrink" a where
+instance declarationFlexShrinkNumber ::
+  ToNumber a =>
+  Declaration "flex-shrink" a where
   pval = const $ val <<< number
 
 -- https://www.w3.org/TR/css-flexbox-1/#propdef-flex-basis
@@ -1967,13 +2070,12 @@ flexBasis = Proxy :: Proxy "flex-basis"
 instance Property "flex-basis"
 instance Animatable "flex-basis"
 
-instance declarationFlexBasisContent
-  :: Declaration "flex-basis" (Proxy "content") where
+instance declarationFlexBasisContent :: Declaration "flex-basis" (Proxy "content") where
   pval = const val
 
-else instance declarationFlexBasisWidth
-  :: Declaration "width" a
-  => Declaration "flex-basis" a where
+else instance declarationFlexBasisWidth ::
+  Declaration "width" a =>
+  Declaration "flex-basis" a where
   pval = const $ pval width
 
 -- https://www.w3.org/TR/css-flexbox-1/#propdef-justify-content
@@ -1989,17 +2091,18 @@ spaceBetween = Proxy :: Proxy "space-between"
 spaceAround = Proxy :: Proxy "space-around"
 
 class JustifyContentKeyword (s :: Symbol)
+
 instance JustifyContentKeyword "flex-start"
 instance JustifyContentKeyword "flex-end"
 instance JustifyContentKeyword "center"
 instance JustifyContentKeyword "space-between"
 instance JustifyContentKeyword "space-around"
 
-instance declarationJustifyContent
-  :: ( JustifyContentKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "justify-content" (Proxy s) where
+instance declarationJustifyContent ::
+  ( JustifyContentKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "justify-content" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-flexbox-1/#propdef-align-items
@@ -2012,17 +2115,18 @@ baseline = Proxy :: Proxy "baseline"
 stretch = Proxy :: Proxy "stretch"
 
 class AlignItemsKeyword (s :: Symbol)
+
 instance AlignItemsKeyword "flex-start"
 instance AlignItemsKeyword "flex-end"
 instance AlignItemsKeyword "center"
 instance AlignItemsKeyword "baseline"
 instance AlignItemsKeyword "stretch"
 
-instance declarationAlignItems
-  :: ( AlignItemsKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "align-items" (Proxy s) where
+instance declarationAlignItems ::
+  ( AlignItemsKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "align-items" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-flexbox-1/#propdef-align-self
@@ -2032,6 +2136,7 @@ alignSelf = Proxy :: Proxy "align-self"
 instance Property "align-self"
 
 class AlignSelfKeyword (s :: Symbol)
+
 instance AlignSelfKeyword "auto"
 instance AlignSelfKeyword "flex-start"
 instance AlignSelfKeyword "flex-end"
@@ -2039,11 +2144,11 @@ instance AlignSelfKeyword "center"
 instance AlignSelfKeyword "baseline"
 instance AlignSelfKeyword "stretch"
 
-instance declarationAlignSelf
-  :: ( AlignSelfKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "align-self" (Proxy s) where
+instance declarationAlignSelf ::
+  ( AlignSelfKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "align-self" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-flexbox-1/#propdef-align-content
@@ -2053,6 +2158,7 @@ alignContent = Proxy :: Proxy "align-content"
 instance Property "align-content"
 
 class AlignContentKeyword (s :: Symbol)
+
 instance AlignContentKeyword "flex-start"
 instance AlignContentKeyword "flex-end"
 instance AlignContentKeyword "center"
@@ -2060,11 +2166,11 @@ instance AlignContentKeyword "space-between"
 instance AlignContentKeyword "space-around"
 instance AlignContentKeyword "stretch"
 
-instance declarationAlignContent
-  :: ( AlignContentKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "align-content" (Proxy s) where
+instance declarationAlignContent ::
+  ( AlignContentKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "align-content" (Proxy s) where
   pval = const val
 
 --------------------------------------------------------------------------------
@@ -2081,7 +2187,7 @@ class CollectFontFaceDeclarations (rl :: RowList Type) (r :: Row Type) (provided
     -> Record r
     -> List (Val /\ Val)
     -> List (Val /\ Val)
-  
+
 instance CollectFontFaceDeclarations RL.Nil r () where
   collectFontFaceDeclarations _ _ = identity
 
@@ -2091,7 +2197,8 @@ instance
   , Row.Cons d v tailRow row
   , CollectFontFaceDeclarations tailRowList row tailProvided
   , Row.Cons d Unit tailProvided provided
-  ) => CollectFontFaceDeclarations (RL.Cons d v tailRowList) row provided where
+  ) =>
+  CollectFontFaceDeclarations (RL.Cons d v tailRowList) row provided where
   collectFontFaceDeclarations _ rec acc =
     let
       field = Proxy :: _ d
@@ -2108,8 +2215,7 @@ fontFace = FontFace
 
 fontFamily = Proxy :: Proxy "font-family"
 
-instance fontFaceDeclarationFontFamily
-  :: FontFaceDeclaration "font-family" String where
+instance fontFaceDeclarationFontFamily :: FontFaceDeclaration "font-family" String where
   fdval = const $ mapVal quote <<< val
 
 -- https://www.w3.org/TR/css-fonts-4/#descdef-font-face-src
@@ -2131,6 +2237,7 @@ woff = Proxy :: Proxy "woff"
 woff2 = Proxy :: Proxy "woff2"
 
 class FontFormatKeyword (s :: Symbol)
+
 instance FontFormatKeyword "collection"
 instance FontFormatKeyword "embedded-opentype"
 instance FontFormatKeyword "opentype"
@@ -2153,20 +2260,22 @@ format =
   FontFaceFormatFunction <<< fn "format" <<< pure <<< mapVal quote <<< val
 
 class IsFontFaceSrcList (a :: Type)
+
 instance IsFontFaceSrcList xs => IsFontFaceSrcList (LocalFunction /\ xs)
 instance IsFontFaceSrcList xs => IsFontFaceSrcList (URL /\ xs)
 instance
-  IsFontFaceSrcList xs
-  => IsFontFaceSrcList (URL ~ FontFaceFormatFunction /\ xs)
+  IsFontFaceSrcList xs =>
+  IsFontFaceSrcList (URL ~ FontFaceFormatFunction /\ xs)
+
 instance IsFontFaceSrcList LocalFunction
 instance IsFontFaceSrcList URL
 instance IsFontFaceSrcList (URL ~ FontFaceFormatFunction)
 
-instance fontFaceDeclarationSrc
-  :: ( IsFontFaceSrcList a
-     , MultiVal a
-     )
-  => FontFaceDeclaration "src" a where
+instance fontFaceDeclarationSrc ::
+  ( IsFontFaceSrcList a
+  , MultiVal a
+  ) =>
+  FontFaceDeclaration "src" a where
   fdval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-fonts-4/#descdef-font-face-font-style
@@ -2178,24 +2287,27 @@ italic = Proxy :: Proxy "italic"
 oblique = Proxy :: Proxy "oblique"
 
 class FontFaceFontStyleKeyword (s :: Symbol)
+
 instance FontFaceFontStyleKeyword "auto"
 instance FontFaceFontStyleKeyword "normal"
 instance FontFaceFontStyleKeyword "italic"
 instance FontFaceFontStyleKeyword "oblique"
 
 class IsFontFaceFontStyle (a :: Type)
+
 instance FontFaceFontStyleKeyword s => IsFontFaceFontStyle (Proxy s)
 instance AngleTag t => IsFontFaceFontStyle (Proxy "oblique" ~ Measure t)
 instance
   ( AngleTag tmin
   , AngleTag tmax
-  ) => IsFontFaceFontStyle (Proxy "oblique" ~ Measure tmin ~ Measure tmax)
+  ) =>
+  IsFontFaceFontStyle (Proxy "oblique" ~ Measure tmin ~ Measure tmax)
 
-instance fontFaceDeclarationFontStyle
-  :: ( IsFontFaceFontStyle a
-     , ToVal a
-     )
-  => FontFaceDeclaration "font-style" a where
+instance fontFaceDeclarationFontStyle ::
+  ( IsFontFaceFontStyle a
+  , ToVal a
+  ) =>
+  FontFaceDeclaration "font-style" a where
   fdval = const val
 
 -- https://www.w3.org/TR/css-fonts-4/#descdef-font-face-font-weight
@@ -2205,12 +2317,15 @@ fontWeight = Proxy :: Proxy "font-weight"
 bold = Proxy :: Proxy "bold"
 
 class FontFaceFontWeightKeyword (s :: Symbol)
+
 instance FontFaceFontWeightKeyword "normal"
 instance FontFaceFontWeightKeyword "bold"
 
 class IsFontFaceFontWeight (a :: Type)
+
 instance IsFontFaceFontWeight (Proxy "auto")
 else instance FontFaceFontWeightKeyword s => IsFontFaceFontWeight (Proxy s)
+
 instance IsFontFaceFontWeight Int
 instance IsFontFaceFontWeight (Int ~ Int)
 instance FontFaceFontWeightKeyword s => IsFontFaceFontWeight (Int ~ Proxy s)
@@ -2218,33 +2333,33 @@ instance FontFaceFontWeightKeyword s => IsFontFaceFontWeight (Proxy s ~ Int)
 instance
   ( FontFaceFontWeightKeyword smin
   , FontFaceFontWeightKeyword smax
-  ) => IsFontFaceFontWeight (Proxy smin ~ Proxy smax)
+  ) =>
+  IsFontFaceFontWeight (Proxy smin ~ Proxy smax)
 
-instance fontFaceDeclarationFontWeight
-  :: ( IsFontFaceFontWeight a
-     , ToVal a
-     )
-  => FontFaceDeclaration "font-weight" a where
+instance fontFaceDeclarationFontWeight ::
+  ( IsFontFaceFontWeight a
+  , ToVal a
+  ) =>
+  FontFaceDeclaration "font-weight" a where
   fdval = const val
 
 -- https://www.w3.org/TR/css-fonts-4/#descdef-font-face-font-stretch
 
 fontStretch = Proxy :: Proxy "font-stretch"
 
-instance fontFaceDeclarationFontStretchAuto
-  :: FontFaceDeclaration "font-stretch" (Proxy "auto") where
+instance fontFaceDeclarationFontStretchAuto :: FontFaceDeclaration "font-stretch" (Proxy "auto") where
   fdval = const val
 
-else instance fontFaceDeclarationFontStretchRange
-  :: ( Declaration "font-stretch" from
-     , Declaration "font-stretch" to
-     )
-  => FontFaceDeclaration "font-stretch" (from ~ to) where
+else instance fontFaceDeclarationFontStretchRange ::
+  ( Declaration "font-stretch" from
+  , Declaration "font-stretch" to
+  ) =>
+  FontFaceDeclaration "font-stretch" (from ~ to) where
   fdval _ (from ~ to) = val $ pval fontStretch from ~ pval fontStretch to
 
-else instance fontFaceDeclarationFontStretchSingle
-  :: Declaration "font-stretch" a
-  => FontFaceDeclaration "font-stretch" a where
+else instance fontFaceDeclarationFontStretchSingle ::
+  Declaration "font-stretch" a =>
+  FontFaceDeclaration "font-stretch" a where
   fdval = pval
 
 -- https://www.w3.org/TR/css-fonts-4/#propdef-font-family
@@ -2266,6 +2381,7 @@ uiSansSerif = Proxy :: Proxy "ui-sans-serif"
 uiSerif = Proxy :: Proxy "ui-serif"
 
 class GenericFontFamilyKeyword (s :: Symbol)
+
 instance GenericFontFamilyKeyword "cursive"
 instance GenericFontFamilyKeyword "emoji"
 instance GenericFontFamilyKeyword "fangsong"
@@ -2281,26 +2397,27 @@ instance GenericFontFamilyKeyword "ui-sans-serif"
 instance GenericFontFamilyKeyword "ui-serif"
 
 class IsFontFamilyList (a :: Type)
+
 instance GenericFontFamilyKeyword s => IsFontFamilyList (Proxy s)
 instance IsFontFamilyList xs => IsFontFamilyList (String /\ xs)
 
-instance declarationFontFamily
-  :: ( IsFontFamilyList a
-     , MultiVal a
-     )
-  => Declaration "font-family" a where
+instance declarationFontFamily ::
+  ( IsFontFamilyList a
+  , MultiVal a
+  ) =>
+  Declaration "font-family" a where
   pval = const $ foldr buildFontFamilyList mempty <<< multiVal
     where
-      buildFontFamilyList x acc =
-        Val \c ->
-          let
-            x' = runVal c x
-            acc' = runVal c acc
-          in
-            if acc' == mempty then
-              x'
-            else
-              quote x' <> "," <> c.separator <> acc'
+    buildFontFamilyList x acc =
+      Val \c ->
+        let
+          x' = runVal c x
+          acc' = runVal c acc
+        in
+          if acc' == mempty then
+            x'
+          else
+            quote x' <> "," <> c.separator <> acc'
 
 -- https://www.w3.org/TR/css-fonts-4/#propdef-font-weight
 
@@ -2311,20 +2428,22 @@ bolder = Proxy :: Proxy "bolder"
 lighter = Proxy :: Proxy "lighter"
 
 class FontWeightKeyword (s :: Symbol)
+
 instance FontWeightKeyword "normal"
 instance FontWeightKeyword "bold"
 instance FontWeightKeyword "bolder"
 instance FontWeightKeyword "lighter"
 
 class IsFontWeight (a :: Type)
+
 instance IsFontWeight Int
 instance FontWeightKeyword s => IsFontWeight (Proxy s)
 
-instance declarationFontWeight
-  :: ( IsFontWeight a
-     , ToVal a
-     )
-  => Declaration "font-weight" a where
+instance declarationFontWeight ::
+  ( IsFontWeight a
+  , ToVal a
+  ) =>
+  Declaration "font-weight" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-fonts-4/#propdef-font-stretch
@@ -2342,6 +2461,7 @@ extraExpanded = Proxy :: Proxy "extra-expanded"
 ultraExpanded = Proxy :: Proxy "ultra-expanded"
 
 class FontStretchKeyword (s :: Symbol)
+
 instance FontStretchKeyword "normal"
 instance FontStretchKeyword "ultra-condensed"
 instance FontStretchKeyword "extra-condensed"
@@ -2353,14 +2473,15 @@ instance FontStretchKeyword "extra-expanded"
 instance FontStretchKeyword "ultra-expanded"
 
 class IsFontStretch (a :: Type)
+
 instance FontStretchKeyword s => IsFontStretch (Proxy s)
 instance PercentageTag t => IsFontStretch (Measure t)
 
-instance declarationFontStretch
-  :: ( IsFontStretch a
-     , ToVal a
-     )
-  => Declaration "font-stretch" a where
+instance declarationFontStretch ::
+  ( IsFontStretch a
+  , ToVal a
+  ) =>
+  Declaration "font-stretch" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-fonts-4/#propdef-font-style
@@ -2368,19 +2489,21 @@ instance declarationFontStretch
 instance Property "font-style"
 
 class FontStyleKeyword (s :: Symbol)
+
 instance FontStyleKeyword "normal"
 instance FontStyleKeyword "italic"
 instance FontStyleKeyword "oblique"
 
 class IsFontStyle (a :: Type)
+
 instance FontStyleKeyword s => IsFontStyle (Proxy s)
 instance AngleTag t => IsFontStyle (Proxy "oblique" ~ Measure t)
 
-instance declarationFontStyle
-  :: ( IsFontStyle a
-     , ToVal a
-     )
-  => Declaration "font-style" a where
+instance declarationFontStyle ::
+  ( IsFontStyle a
+  , ToVal a
+  ) =>
+  Declaration "font-style" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-fonts-4/#propdef-font-size
@@ -2400,6 +2523,7 @@ larger = Proxy :: Proxy "larger"
 smaller = Proxy :: Proxy "smaller"
 
 class FontSizeKeyword (s :: Symbol)
+
 instance FontSizeKeyword "xx-small"
 instance FontSizeKeyword "x-small"
 instance FontSizeKeyword "small"
@@ -2411,14 +2535,15 @@ instance FontSizeKeyword "larger"
 instance FontSizeKeyword "smaller"
 
 class IsFontSize (a :: Type)
+
 instance FontSizeKeyword s => IsFontSize (Proxy s)
 instance LengthPercentageTag t => IsFontSize (Measure t)
 
-instance declarationFontSize
-  :: ( IsFontSize a
-     , ToVal a
-     )
-  => Declaration "font-size" a where
+instance declarationFontSize ::
+  ( IsFontSize a
+  , ToVal a
+  ) =>
+  Declaration "font-size" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-fonts-4/#propdef-font-size-adjust
@@ -2428,8 +2553,7 @@ fontSizeAdjust = Proxy :: Proxy "font-size-adjust"
 instance Property "font-size-adjust"
 instance Animatable "font-size-adjust"
 
-instance declarationFontSizeAdjust
-  :: Declaration "font-size-adjust" Number where
+instance declarationFontSizeAdjust :: Declaration "font-size-adjust" Number where
   pval = const val
 
 --------------------------------------------------------------------------------
@@ -2439,13 +2563,16 @@ instance declarationFontSizeAdjust
 -- https://www.w3.org/TR/css-images-3/#typedef-image
 
 class IsImage (a :: Type)
+
 instance IsImage URL
 
 class IsColorStopListHead (a :: Type)
+
 instance (IsColor color, LengthPercentageTag tpos) => IsColorStopListHead (color ~ Measure tpos)
 else instance IsColor color => IsColorStopListHead color
 
 class IsColorStopListTail (a :: Type)
+
 instance (LengthPercentageTag thint, IsColor color, LengthPercentageTag tpos, IsColorStopListTail tail) => IsColorStopListTail (Measure thint /\ color ~ Measure tpos /\ tail)
 else instance (LengthPercentageTag thint, IsColor color, IsColorStopListTail tail) => IsColorStopListTail (Measure thint /\ color /\ tail)
 else instance (IsColor color, LengthPercentageTag tpos, IsColorStopListTail tail) => IsColorStopListTail (color ~ Measure tpos /\ tail)
@@ -2490,6 +2617,7 @@ farthestCorner = Proxy :: Proxy "farthest-corner"
 farthestSide = Proxy :: Proxy "farthest-side"
 
 class ExtentKeyword (s :: Symbol)
+
 instance ExtentKeyword "closest-corner"
 instance ExtentKeyword "closest-side"
 instance ExtentKeyword "farthest-corner"
@@ -2499,20 +2627,25 @@ circle = Proxy :: Proxy "circle"
 ellipse = Proxy :: Proxy "ellipse"
 
 class ShapeKeyword (s :: Symbol)
+
 instance ShapeKeyword "circle"
 instance ShapeKeyword "ellipse"
 
 class IsRadialGradientDimensions (a :: Type)
+
 instance ShapeKeyword s => IsRadialGradientDimensions (Proxy s)
 instance
   ( ShapeKeyword sshape
   , ExtentKeyword sextent
-  ) => IsRadialGradientDimensions (Proxy sshape ~ Proxy sextent)
+  ) =>
+  IsRadialGradientDimensions (Proxy sshape ~ Proxy sextent)
+
 instance LengthTag t => IsRadialGradientDimensions (Measure t)
 instance
   ( LengthPercentageTag tx
   , LengthPercentageTag ty
-  ) => IsRadialGradientDimensions (Measure tx ~ Measure ty)
+  ) =>
+  IsRadialGradientDimensions (Measure tx ~ Measure ty)
 
 radialGradient
   :: forall dimensions pos csh cst
@@ -2557,6 +2690,7 @@ hanging = Proxy :: Proxy "hanging"
 textTop = Proxy :: Proxy "text-top"
 
 class DominantBaselineKeyword (s :: Symbol)
+
 instance DominantBaselineKeyword "auto"
 instance DominantBaselineKeyword "text-bottom"
 instance DominantBaselineKeyword "alphabetic"
@@ -2567,11 +2701,11 @@ instance DominantBaselineKeyword "mathematical"
 instance DominantBaselineKeyword "hanging"
 instance DominantBaselineKeyword "text-top"
 
-instance declarationDominantBaseline
-  :: ( DominantBaselineKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "dominant-baseline" (Proxy s) where
+instance declarationDominantBaseline ::
+  ( DominantBaselineKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "dominant-baseline" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-inline-3/#propdef-vertical-align
@@ -2582,6 +2716,7 @@ instance Property "vertical-align"
 instance Animatable "vertical-align"
 
 class AlignmentBaselineOrBaselineShiftKeyword (s :: Symbol)
+
 instance AlignmentBaselineOrBaselineShiftKeyword "baseline"
 instance AlignmentBaselineOrBaselineShiftKeyword "text-bottom"
 instance AlignmentBaselineOrBaselineShiftKeyword "alphabetic"
@@ -2601,56 +2736,62 @@ class IsVerticalAlign (a :: Type)
 instance
   ( AlignmentBaselineKeyword sa
   , BaselineShiftKeyword sb
-  ) => IsVerticalAlign (Proxy "first" ~ Proxy sa ~ Proxy sb)
+  ) =>
+  IsVerticalAlign (Proxy "first" ~ Proxy sa ~ Proxy sb)
 
 instance
   ( AlignmentBaselineKeyword sa
   , LengthPercentageTag tb
-  ) => IsVerticalAlign (Proxy "first" ~ Proxy sa ~ Measure tb)
+  ) =>
+  IsVerticalAlign (Proxy "first" ~ Proxy sa ~ Measure tb)
 
 instance
   ( AlignmentBaselineKeyword sa
   , BaselineShiftKeyword sb
-  ) => IsVerticalAlign (Proxy "last" ~ Proxy sa ~ Proxy sb)
+  ) =>
+  IsVerticalAlign (Proxy "last" ~ Proxy sa ~ Proxy sb)
 
 instance
   ( AlignmentBaselineKeyword sa
   , LengthPercentageTag tb
-  ) => IsVerticalAlign (Proxy "last" ~ Proxy sa ~ Measure tb)
+  ) =>
+  IsVerticalAlign (Proxy "last" ~ Proxy sa ~ Measure tb)
 
 instance
-  AlignmentBaselineOrBaselineShiftKeyword s
-  => IsVerticalAlign (Proxy "first" ~ Proxy s)
+  AlignmentBaselineOrBaselineShiftKeyword s =>
+  IsVerticalAlign (Proxy "first" ~ Proxy s)
 else instance
-  AlignmentBaselineOrBaselineShiftKeyword s
-  => IsVerticalAlign (Proxy "last" ~ Proxy s)
+  AlignmentBaselineOrBaselineShiftKeyword s =>
+  IsVerticalAlign (Proxy "last" ~ Proxy s)
 else instance
   ( AlignmentBaselineKeyword sa
   , BaselineShiftKeyword sb
-  ) => IsVerticalAlign (Proxy sa ~ Proxy sb)
+  ) =>
+  IsVerticalAlign (Proxy sa ~ Proxy sb)
 
 instance LengthPercentageTag t => IsVerticalAlign (Proxy "first" ~ Measure t)
 else instance
-  LengthPercentageTag t
-  => IsVerticalAlign (Proxy "last" ~ Measure t)
+  LengthPercentageTag t =>
+  IsVerticalAlign (Proxy "last" ~ Measure t)
 else instance
   ( AlignmentBaselineKeyword s
   , LengthPercentageTag t
-  ) => IsVerticalAlign (Proxy s ~ Measure t)
+  ) =>
+  IsVerticalAlign (Proxy s ~ Measure t)
 
 instance IsVerticalAlign (Proxy "first")
 else instance IsVerticalAlign (Proxy "last")
 else instance
-  AlignmentBaselineOrBaselineShiftKeyword s
-  => IsVerticalAlign (Proxy s)
+  AlignmentBaselineOrBaselineShiftKeyword s =>
+  IsVerticalAlign (Proxy s)
 
 instance LengthPercentageTag t => IsVerticalAlign (Measure t)
 
-instance declarationVerticalAlign
-  :: ( IsVerticalAlign a
-     , ToVal a
-     )
-  => Declaration "vertical-align" a where
+instance declarationVerticalAlign ::
+  ( IsVerticalAlign a
+  , ToVal a
+  ) =>
+  Declaration "vertical-align" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-inline-3/#propdef-baseline-source
@@ -2663,15 +2804,16 @@ first = Proxy :: Proxy "first"
 last = Proxy :: Proxy "last"
 
 class BaselineSourceKeyword (s :: Symbol)
+
 instance BaselineSourceKeyword "auto"
 instance BaselineSourceKeyword "first"
 instance BaselineSourceKeyword "last"
 
-instance declarationBaselineSource
-  :: ( BaselineSourceKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "baseline-source" (Proxy s) where
+instance declarationBaselineSource ::
+  ( BaselineSourceKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "baseline-source" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-inline-3/#propdef-alignment-baseline
@@ -2681,6 +2823,7 @@ alignmentBaseline = Proxy :: Proxy "alignment-baseline"
 instance Property "alignment-baseline"
 
 class AlignmentBaselineKeyword (s :: Symbol)
+
 instance AlignmentBaselineKeyword "baseline"
 instance AlignmentBaselineKeyword "text-bottom"
 instance AlignmentBaselineKeyword "alphabetic"
@@ -2690,11 +2833,11 @@ instance AlignmentBaselineKeyword "central"
 instance AlignmentBaselineKeyword "mathematical"
 instance AlignmentBaselineKeyword "text-top"
 
-instance declarationAlignmentBaseline
-  :: ( AlignmentBaselineKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "alignment-baseline" (Proxy s) where
+instance declarationAlignmentBaseline ::
+  ( AlignmentBaselineKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "alignment-baseline" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-inline-3/#propdef-baseline-shift
@@ -2709,6 +2852,7 @@ top = Proxy :: Proxy "top"
 bottom = Proxy :: Proxy "bottom"
 
 class BaselineShiftKeyword (s :: Symbol)
+
 instance BaselineShiftKeyword "sub"
 instance BaselineShiftKeyword "super"
 instance BaselineShiftKeyword "top"
@@ -2716,14 +2860,15 @@ instance BaselineShiftKeyword "center"
 instance BaselineShiftKeyword "bottom"
 
 class IsBaselineShift (a :: Type)
+
 instance LengthPercentageTag t => IsBaselineShift (Measure t)
 instance BaselineShiftKeyword s => IsBaselineShift (Proxy s)
 
-instance declarationBaselineShift
-  :: ( IsBaselineShift a
-     , ToVal a
-     )
-  => Declaration "baseline-shift" a where
+instance declarationBaselineShift ::
+  ( IsBaselineShift a
+  , ToVal a
+  ) =>
+  Declaration "baseline-shift" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-inline-3/#propdef-line-height
@@ -2734,21 +2879,21 @@ instance Property "line-height"
 instance Animatable "line-height"
 
 class IsLineHeight (a :: Type)
+
 instance IsLineHeight (Proxy "normal")
 instance LengthPercentageTag t => IsLineHeight (Measure t)
 
-instance declarationLineHeightNormal
-  :: Declaration "line-height" (Proxy "normal") where
+instance declarationLineHeightNormal :: Declaration "line-height" (Proxy "normal") where
   pval = const val
 
-else instance declarationLineHeightLengthPercentage
-  :: LengthPercentageTag t
-  => Declaration "line-height" (Measure t) where
+else instance declarationLineHeightLengthPercentage ::
+  LengthPercentageTag t =>
+  Declaration "line-height" (Measure t) where
   pval = const val
 
-else instance declarationLineHeightNumber
-  :: ToNumber a
-  => Declaration "line-height" a where
+else instance declarationLineHeightNumber ::
+  ToNumber a =>
+  Declaration "line-height" a where
   pval = const $ val <<< number
 
 --------------------------------------------------------------------------------
@@ -2763,14 +2908,15 @@ listStyleImage = Proxy :: Proxy "list-style-image"
 instance Property "list-style-image"
 
 class IsListStyleImage (a :: Type)
+
 instance IsListStyleImage (Proxy "none")
 else instance IsImage a => IsListStyleImage a
 
-instance declarationListStyleImage
-  :: ( IsListStyleImage a
-     , ToVal a
-     )
-  => Declaration "list-style-image" a where
+instance declarationListStyleImage ::
+  ( IsListStyleImage a
+  , ToVal a
+  ) =>
+  Declaration "list-style-image" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-lists-3/#propdef-list-style-type
@@ -2824,6 +2970,7 @@ cjkEarthlyBranch = Proxy :: Proxy "cjk-earthly-branch"
 cjkHeavenlyStem = Proxy :: Proxy "cjk-heavenly-stem"
 
 class CounterStyleKeyword (s :: Symbol)
+
 instance CounterStyleKeyword "decimal"
 instance CounterStyleKeyword "decimal-leading-zero"
 instance CounterStyleKeyword "arabic-indic"
@@ -2870,14 +3017,15 @@ instance CounterStyleKeyword "cjk-earthly-branch"
 instance CounterStyleKeyword "cjk-heavenly-stem"
 
 class IsListStyleType (a :: Type)
+
 instance IsListStyleType (Proxy "none")
 else instance CounterStyleKeyword s => IsListStyleType (Proxy s)
 
-instance declarationListStyleType
-  :: ( IsListStyleType a
-     , ToVal a
-     )
-  => Declaration "list-style-type" a where
+instance declarationListStyleType ::
+  ( IsListStyleType a
+  , ToVal a
+  ) =>
+  Declaration "list-style-type" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-lists-3/#propdef-list-style-position
@@ -2890,16 +3038,17 @@ inside = Proxy :: Proxy "inside"
 outside = Proxy :: Proxy "outside"
 
 class ListStylePositionKeyword (s :: Symbol)
+
 instance ListStylePositionKeyword "inside"
 instance ListStylePositionKeyword "outside"
 
-instance declarationListStylePosition
-  :: ( ListStylePositionKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "list-style-position" (Proxy s) where
+instance declarationListStylePosition ::
+  ( ListStylePositionKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "list-style-position" (Proxy s) where
   pval = const val
-  
+
 --------------------------------------------------------------------------------
 
 -- Masking
@@ -2912,19 +3061,21 @@ maskImage = Proxy :: Proxy "mask-image"
 instance Property "mask-image"
 
 class IsMaskReferenceList (a :: Type)
+
 instance IsMaskReferenceList (Proxy "none")
 else instance IsMaskReferenceList xs => IsMaskReferenceList (Proxy "none" /\ xs)
 else instance
   ( IsImage x
   , IsMaskReferenceList xs
-  ) => IsMaskReferenceList (x /\ xs)
+  ) =>
+  IsMaskReferenceList (x /\ xs)
 else instance IsImage a => IsMaskReferenceList a
 
-instance declarationMaskImage
-  :: ( IsMaskReferenceList a
-     , MultiVal a
-     )
-  => Declaration "mask-image" a where
+instance declarationMaskImage ::
+  ( IsMaskReferenceList a
+  , MultiVal a
+  ) =>
+  Declaration "mask-image" a where
   pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 --------------------------------------------------------------------------------
@@ -2936,6 +3087,7 @@ print = Proxy :: Proxy "print"
 screen = Proxy :: Proxy "screen"
 
 class MediaTypeKeyword (s :: Symbol)
+
 instance MediaTypeKeyword "all"
 instance MediaTypeKeyword "print"
 instance MediaTypeKeyword "screen"
@@ -2947,14 +3099,14 @@ instance ToVal MediaQuery where
     let
       fq =
         foldl
-          (\acc (f /\ v) ->
-            val " and ("
-            <> f
-            <> val ":"
-            <> Val _.separator
-            <> v
-            <> val ")"
-            <> acc
+          ( \acc (f /\ v) ->
+              val " and ("
+                <> f
+                <> val ":"
+                <> Val _.separator
+                <> v
+                <> val ")"
+                <> acc
           )
           mempty
           features
@@ -2979,7 +3131,8 @@ instance
   , ToVal v
   , CollectMediaFeatures tailRowList row
   , Row.Cons f v tailRow row
-  ) => CollectMediaFeatures (RL.Cons f v tailRowList) row where
+  ) =>
+  CollectMediaFeatures (RL.Cons f v tailRowList) row where
   collectMediaFeatures _ rec acc =
     let
       field = Proxy :: _ f
@@ -3040,7 +3193,10 @@ instance MediaFeature "orientation" Orientation
 -- https://www.w3.org/TR/mediaqueries-3/#aspect-ratio
 
 data Ratio = Ratio Int Int
-instance ToVal Ratio where val (Ratio num den) = val num <> val "/" <> val den
+
+instance ToVal Ratio where
+  val (Ratio num den) = val num <> val "/" <> val den
+
 infix 5 Ratio as :/
 
 instance MediaFeature "aspectRatio" Ratio
@@ -3103,17 +3259,18 @@ clip = Proxy :: Proxy "clip"
 scroll = Proxy :: Proxy "scroll"
 
 class OverflowKeyword (s :: Symbol)
+
 instance OverflowKeyword "visible"
 instance OverflowKeyword "hidden"
 instance OverflowKeyword "clip"
 instance OverflowKeyword "scroll"
 instance OverflowKeyword "auto"
 
-instance declarationOverflowX
-  :: ( OverflowKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "overflow-x" (Proxy s) where
+instance declarationOverflowX ::
+  ( OverflowKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "overflow-x" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-overflow-3/#propdef-overflow-y
@@ -3122,9 +3279,9 @@ overflowY = Proxy :: Proxy "overflow-y"
 
 instance Property "overflow-y"
 
-instance declarationOverflowY
-  :: Declaration "overflow-x" a
-  => Declaration "overflow-y" a where
+instance declarationOverflowY ::
+  Declaration "overflow-x" a =>
+  Declaration "overflow-y" a where
   pval = const $ pval overflowX
 
 -- https://www.w3.org/TR/css-overflow-3/#propdef-overflow
@@ -3134,17 +3291,20 @@ overflow = Proxy :: Proxy "overflow"
 instance Property "overflow"
 
 class IsOverflow (a :: Type)
+
 instance
   ( OverflowKeyword sx
   , OverflowKeyword sy
-  ) => IsOverflow (Proxy sx ~ Proxy sy)
+  ) =>
+  IsOverflow (Proxy sx ~ Proxy sy)
+
 instance OverflowKeyword s => IsOverflow (Proxy s)
 
-instance declarationOverflow
-  :: ( IsOverflow a
-     , ToVal a
-     )
-  => Declaration "overflow" a where
+instance declarationOverflow ::
+  ( IsOverflow a
+  , ToVal a
+  ) =>
+  Declaration "overflow" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-overflow-3/#propdef-text-overflow
@@ -3156,14 +3316,15 @@ instance Property "text-overflow"
 ellipsis = Proxy :: Proxy "ellipsis"
 
 class TextOverflowKeyword (s :: Symbol)
+
 instance TextOverflowKeyword "clip"
 instance TextOverflowKeyword "ellipsis"
 
-instance declarationTextOverflow
-  :: ( TextOverflowKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "text-overflow" (Proxy s) where
+instance declarationTextOverflow ::
+  ( TextOverflowKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "text-overflow" (Proxy s) where
   pval = const val
 
 --------------------------------------------------------------------------------
@@ -3184,17 +3345,18 @@ sticky = Proxy :: Proxy "sticky"
 fixed = Proxy :: Proxy "fixed"
 
 class PositionKeyword (s :: Symbol)
+
 instance PositionKeyword "static"
 instance PositionKeyword "relative"
 instance PositionKeyword "absolute"
 instance PositionKeyword "sticky"
 instance PositionKeyword "fixed"
 
-instance declarationPosition
-  :: ( PositionKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "position" (Proxy s) where
+instance declarationPosition ::
+  ( PositionKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "position" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-position-3/#propdef-top
@@ -3203,6 +3365,7 @@ instance Property "top"
 instance Animatable "top"
 
 class IsTop (a :: Type)
+
 instance IsTop (Proxy "auto")
 instance LengthPercentageTag t => IsTop (Measure t)
 
@@ -3224,9 +3387,9 @@ instance declarationRight :: Declaration "top" a => Declaration "right" a where
 instance Property "bottom"
 instance Animatable "bottom"
 
-instance declarationBottom
-  :: Declaration "top" a
-  => Declaration "bottom" a where
+instance declarationBottom ::
+  Declaration "top" a =>
+  Declaration "bottom" a where
   pval = const $ pval top
 
 -- https://www.w3.org/TR/css-position-3/#propdef-left
@@ -3246,9 +3409,9 @@ insetBlockStart = Proxy :: Proxy "inset-block-start"
 instance Property "inset-block-start"
 instance Animatable "inset-block-start"
 
-instance declarationInsetBlockStart
-  :: Declaration "top" a
-  => Declaration "inset-block-start" a where
+instance declarationInsetBlockStart ::
+  Declaration "top" a =>
+  Declaration "inset-block-start" a where
   pval = const $ pval top
 
 -- https://www.w3.org/TR/css-position-3/#propdef-inset-inline-start
@@ -3258,9 +3421,9 @@ insetInlineStart = Proxy :: Proxy "inset-inline-start"
 instance Property "inset-inline-start"
 instance Animatable "inset-inline-start"
 
-instance declarationInsetInlineStart
-  :: Declaration "top" a
-  => Declaration "inset-inline-start" a where
+instance declarationInsetInlineStart ::
+  Declaration "top" a =>
+  Declaration "inset-inline-start" a where
   pval = const $ pval top
 
 -- https://www.w3.org/TR/css-position-3/#propdef-inset-block-end
@@ -3270,9 +3433,9 @@ insetBlockEnd = Proxy :: Proxy "inset-block-end"
 instance Property "inset-block-end"
 instance Animatable "inset-block-end"
 
-instance declarationInsetBlockEnd
-  :: Declaration "top" a
-  => Declaration "inset-block-end" a where
+instance declarationInsetBlockEnd ::
+  Declaration "top" a =>
+  Declaration "inset-block-end" a where
   pval = const $ pval top
 
 -- https://www.w3.org/TR/css-position-3/#propdef-inset-inline-end
@@ -3282,9 +3445,9 @@ insetInlineEnd = Proxy :: Proxy "inset-inline-end"
 instance Property "inset-inline-end"
 instance Animatable "inset-inline-end"
 
-instance declarationInsetInlineEnd
-  :: Declaration "top" a
-  => Declaration "inset-inline-end" a where
+instance declarationInsetInlineEnd ::
+  Declaration "top" a =>
+  Declaration "inset-inline-end" a where
   pval = const $ pval top
 
 -- https://www.w3.org/TR/css-position-3/#propdef-inset-block
@@ -3295,14 +3458,15 @@ instance Property "inset-block"
 instance Animatable "inset-block"
 
 class IsInsetBlock (a :: Type)
+
 instance (IsTop start, IsTop end) => IsInsetBlock (start ~ end)
 else instance IsTop both => IsInsetBlock both
 
-instance declarationInsetBlock
-  :: ( IsInsetBlock a
-     , ToVal a
-     )
-  => Declaration "inset-block" a where
+instance declarationInsetBlock ::
+  ( IsInsetBlock a
+  , ToVal a
+  ) =>
+  Declaration "inset-block" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-position-3/#propdef-inset-inline
@@ -3312,9 +3476,9 @@ insetInline = Proxy :: Proxy "inset-inline"
 instance Property "inset-inline"
 instance Animatable "inset-inline"
 
-instance declarationInsetInline
-  :: Declaration "inset-block" a
-  => Declaration "inset-inline" a where
+instance declarationInsetInline ::
+  Declaration "inset-block" a =>
+  Declaration "inset-inline" a where
   pval = const $ pval insetBlock
 
 -- https://www.w3.org/TR/css-position-3/#propdef-inset
@@ -3323,6 +3487,7 @@ instance Property "inset"
 instance Animatable "inset"
 
 class IsInset (a :: Type)
+
 instance (IsTop t, IsTop r, IsTop b, IsTop l) => IsInset (t ~ r ~ b ~ l)
 else instance (IsTop t, IsTop x, IsTop b) => IsInset (t ~ x ~ b)
 else instance (IsTop y, IsTop x) => IsInset (y ~ x)
@@ -3344,21 +3509,24 @@ newtype Selector (status :: Type) = Selector Val
 derive newtype instance ToVal (Selector status)
 
 class IsSelector (a :: Type)
+
 instance IsSelector (Selector status)
 else instance IsExtensibleSelector a => IsSelector a
 
 class IsSelectorList (a :: Type)
+
 instance (IsSelector x, IsSelectorList xs) => IsSelectorList (x /\ xs)
 else instance IsSelector x => IsSelectorList x
 
 class IsExtensibleSelector (a :: Type)
+
 instance IsExtensibleSelector (Selector Extensible)
 
 -- https://www.w3.org/TR/selectors-4/#the-universal-selector
 
 universal :: Selector Extensible
 universal = Selector $ val "*"
-  
+
 -- https://www.w3.org/TR/selectors-4/#combinators
 
 class Combine (b :: Type) (c :: Type) | b -> c where
@@ -3398,6 +3566,7 @@ descendant
   -> b
   -> c
 descendant = combine " "
+
 infixl 7 descendant as |*
 
 -- https://www.w3.org/TR/selectors-4/#child-combinators
@@ -3411,6 +3580,7 @@ child
   -> b
   -> c
 child = combine ">"
+
 infixl 7 child as |>
 
 -- https://www.w3.org/TR/selectors-4/#adjacent-sibling-combinators
@@ -3424,6 +3594,7 @@ adjacentSibling
   -> b
   -> c
 adjacentSibling = combine "+"
+
 infixl 7 adjacentSibling as |+
 
 -- https://www.w3.org/TR/selectors-4/#general-sibling-combinators
@@ -3437,6 +3608,7 @@ generalSibling
   -> b
   -> c
 generalSibling = combine "~"
+
 infixl 7 generalSibling as |~
 
 -- Element selectors
@@ -3516,6 +3688,7 @@ ul = Proxy :: Proxy "ul"
 video = Proxy :: Proxy "video"
 
 class Element (s :: Symbol)
+
 instance Element "a"
 instance Element "abbr"
 instance Element "acronym"
@@ -3757,6 +3930,7 @@ width = Proxy :: Proxy "width"
 wrap = Proxy :: Proxy "wrap"
 
 class Attribute (s :: Symbol)
+
 instance Attribute "accept"
 instance Attribute "accept-charset"
 instance Attribute "accesskey"
@@ -3923,6 +4097,7 @@ instance Attribute "width"
 instance Attribute "wrap"
 
 class IsAttribute (a :: Type)
+
 instance Attribute s => IsAttribute (Proxy s)
 instance IsAttribute CustomAttribute
 
@@ -3940,6 +4115,7 @@ instance ToVal AttributePredicate where
 
 attEq :: forall a. IsAttribute a => ToVal a => a -> String -> AttributePredicate
 attEq k v = AttributePredicate (val k) "=" v
+
 infixr 8 attEq as @=
 
 attElemWhitespace
@@ -3950,6 +4126,7 @@ attElemWhitespace
   -> String
   -> AttributePredicate
 attElemWhitespace k v = AttributePredicate (val k) "~=" v
+
 infixr 8 attElemWhitespace as ~=
 
 attStartsWithHyphen
@@ -3960,6 +4137,7 @@ attStartsWithHyphen
   -> String
   -> AttributePredicate
 attStartsWithHyphen k v = AttributePredicate (val k) "|=" v
+
 infixr 8 attStartsWithHyphen as |=
 
 attStartsWith
@@ -3970,6 +4148,7 @@ attStartsWith
   -> String
   -> AttributePredicate
 attStartsWith k v = AttributePredicate (val k) "^=" v
+
 infixr 8 attStartsWith as ^=
 
 attEndsWith
@@ -3980,6 +4159,7 @@ attEndsWith
   -> String
   -> AttributePredicate
 attEndsWith k v = AttributePredicate (val k) "$=" v
+
 infixr 8 attEndsWith as $=
 
 attContains
@@ -3990,9 +4170,11 @@ attContains
   -> String
   -> AttributePredicate
 attContains k v = AttributePredicate (val k) "*=" v
+
 infixr 8 attContains as *=
 
 class ToVal a <= ByAtt (a :: Type)
+
 instance ByAtt AttributePredicate
 instance ByAtt CustomAttribute
 instance (IsSymbol s, Attribute s) => ByAtt (Proxy s)
@@ -4006,6 +4188,7 @@ byAtt
   -> att
   -> Selector Extensible
 byAtt s a' = Selector $ val s <> val "[" <> val a' <> val "]"
+
 infixl 7 byAtt as &@
 
 -- https://www.w3.org/TR/selectors-3/#class-html
@@ -4018,6 +4201,7 @@ byClass
   -> String
   -> Selector Extensible
 byClass s c = Selector $ val s <> val "." <> val c
+
 infixl 7 byClass as &.
 
 -- https://www.w3.org/TR/selectors-3/#id-selectors
@@ -4030,6 +4214,7 @@ byId
   -> String
   -> Selector Extensible
 byId s i' = Selector $ val s <> val "#" <> val i'
+
 infixl 7 byId as &#
 
 newtype PseudoElement = PseudoElement String
@@ -4041,17 +4226,20 @@ newtype PseudoClass = PseudoClass Val
 derive newtype instance ToVal PseudoClass
 
 class Pseudo' (i :: Symbol) (o :: Type) | i -> o
+
 instance Pseudo' "checked" PseudoClass
 instance Pseudo' "disabled" PseudoClass
 instance Pseudo' "target" PseudoClass
 instance Pseudo' "placeholder" PseudoElement
 
 class Pseudo (i :: Type) (o :: Type) | i -> o
+
 instance Pseudo PseudoClass PseudoClass
 instance Pseudo PseudoElement PseudoElement
 instance (Pseudo' i o, IsSymbol i) => Pseudo (Proxy i) o
 
 class SelectorStatus (i :: Type) (o :: Type) | i -> o
+
 instance SelectorStatus PseudoClass Extensible
 instance SelectorStatus PseudoElement Inextensible
 
@@ -4107,7 +4295,7 @@ focus = PseudoClass $ val "focus"
 -- https://www.w3.org/TR/selectors-3/#lang-pseudo
 
 lang :: String -> PseudoClass
-lang c = PseudoClass $ fn "lang" [val c]
+lang c = PseudoClass $ fn "lang" [ val c ]
 
 -- https://www.w3.org/TR/selectors-3/#sel-enabled
 
@@ -4127,6 +4315,7 @@ root = PseudoClass $ val "root"
 -- https://www.w3.org/TR/selectors-3/#sel-nth-child
 
 data Nth = Even | Odd | Nth Int Int
+
 instance ToVal Nth where
   val Even = val "even"
   val Odd = val "odd"
@@ -4159,17 +4348,17 @@ nth :: Int -> Int -> Nth
 nth = Nth
 
 nthChild :: Nth -> PseudoClass
-nthChild formula = PseudoClass $ fn "nth-child" [val formula]
+nthChild formula = PseudoClass $ fn "nth-child" [ val formula ]
 
 -- https://www.w3.org/TR/selectors-3/#sel-nth-last-child
 
 nthLastChild :: Nth -> PseudoClass
-nthLastChild formula = PseudoClass $ fn "nth-last-child" [val formula]
+nthLastChild formula = PseudoClass $ fn "nth-last-child" [ val formula ]
 
 -- https://www.w3.org/TR/selectors-3/#sel-nth-of-type
 
 nthOfType :: Nth -> PseudoClass
-nthOfType formula = PseudoClass $ fn "nth-of-type" [val formula]
+nthOfType formula = PseudoClass $ fn "nth-of-type" [ val formula ]
 
 -- https://www.w3.org/TR/selectors-3/#sel-first-child
 
@@ -4256,17 +4445,19 @@ newtype FitContent = FitContent Val
 derive newtype instance ToVal FitContent
 
 fitContent :: forall t. LengthPercentageTag t => Measure t -> FitContent
-fitContent v = FitContent $ fn "fit-content" [val v]
+fitContent v = FitContent $ fn "fit-content" [ val v ]
 
 minContent = Proxy :: Proxy "min-content"
 maxContent = Proxy :: Proxy "max-content"
 
 class WidthKeyword (s :: Symbol)
+
 instance WidthKeyword "auto"
 instance WidthKeyword "min-content"
 instance WidthKeyword "max-content"
 
 class IsWidth (a :: Type)
+
 instance WidthKeyword s => IsWidth (Proxy s)
 instance IsWidth FitContent
 instance LengthPercentageTag t => IsWidth (Measure t)
@@ -4279,9 +4470,9 @@ instance declarationWidth :: (IsWidth a, ToVal a) => Declaration "width" a where
 instance Property "height"
 instance Animatable "height"
 
-instance declarationHeight
-  :: Declaration "width" a
-  => Declaration "height" a where
+instance declarationHeight ::
+  Declaration "width" a =>
+  Declaration "height" a where
   pval = const $ pval width
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-min-width
@@ -4292,20 +4483,22 @@ instance Property "min-width"
 instance Animatable "min-width"
 
 class MinWidthKeyword (s :: Symbol)
+
 instance MinWidthKeyword "auto"
 instance MinWidthKeyword "min-content"
 instance MinWidthKeyword "max-content"
 
 class IsMinWidth (a :: Type)
+
 instance MinWidthKeyword s => IsMinWidth (Proxy s)
 instance LengthPercentageTag t => IsMinWidth (Measure t)
 instance IsMinWidth FitContent
 
-instance declarationMinWidth
-  :: ( IsMinWidth a
-     , ToVal a
-     )
-  => Declaration "min-width" a where
+instance declarationMinWidth ::
+  ( IsMinWidth a
+  , ToVal a
+  ) =>
+  Declaration "min-width" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-min-height
@@ -4315,9 +4508,9 @@ minHeight = Proxy :: Proxy "min-height"
 instance Property "min-height"
 instance Animatable "min-height"
 
-instance declarationMinHeight
-  :: Declaration "min-width" a
-  => Declaration "min-height" a where
+instance declarationMinHeight ::
+  Declaration "min-width" a =>
+  Declaration "min-height" a where
   pval = const $ pval minWidth
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-max-width
@@ -4328,20 +4521,22 @@ instance Property "max-width"
 instance Animatable "max-width"
 
 class MaxWidthKeyword (s :: Symbol)
+
 instance MaxWidthKeyword "none"
 instance MaxWidthKeyword "min-content"
 instance MaxWidthKeyword "max-content"
 
 class IsMaxWidth (a :: Type)
+
 instance MaxWidthKeyword s => IsMaxWidth (Proxy s)
 instance LengthPercentageTag t => IsMaxWidth (Measure t)
 instance IsMaxWidth FitContent
 
-instance declarationMaxWidth
-  :: ( IsMaxWidth a
-     , ToVal a
-     )
-  => Declaration "max-width" a where
+instance declarationMaxWidth ::
+  ( IsMaxWidth a
+  , ToVal a
+  ) =>
+  Declaration "max-width" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-sizing-3/#propdef-max-height
@@ -4351,9 +4546,9 @@ maxHeight = Proxy :: Proxy "max-height"
 instance Property "max-height"
 instance Animatable "max-height"
 
-instance declarationMaxHeight
-  :: Declaration "max-width" a
-  => Declaration "max-height" a where
+instance declarationMaxHeight ::
+  Declaration "max-width" a =>
+  Declaration "max-height" a where
   pval = const $ pval maxWidth
 
 --------------------------------------------------------------------------------
@@ -4372,6 +4567,7 @@ uppercase = Proxy :: Proxy "uppercase"
 lowercase = Proxy :: Proxy "lowercase"
 
 class TextTransformCapitalizationKeyword (s :: Symbol)
+
 instance TextTransformCapitalizationKeyword "capitalize"
 instance TextTransformCapitalizationKeyword "uppercase"
 instance TextTransformCapitalizationKeyword "lowercase"
@@ -4387,23 +4583,23 @@ else instance IsTextTransform (Proxy "full-size-kana")
 else instance TextTransformCapitalizationKeyword s => IsTextTransform (Proxy s)
 
 instance
-  TextTransformCapitalizationKeyword s
-  => IsTextTransform (Proxy s ~ Proxy "full-width")
+  TextTransformCapitalizationKeyword s =>
+  IsTextTransform (Proxy s ~ Proxy "full-width")
 
 instance IsTextTransform (Proxy "full-width" ~ Proxy "full-size-kana")
 else instance
-  TextTransformCapitalizationKeyword s
-  => IsTextTransform (Proxy s ~ Proxy "full-size-kana")
+  TextTransformCapitalizationKeyword s =>
+  IsTextTransform (Proxy s ~ Proxy "full-size-kana")
 
 instance
-  TextTransformCapitalizationKeyword s
-  => IsTextTransform (Proxy s ~ Proxy "full-width" ~ Proxy "full-size-kana")
+  TextTransformCapitalizationKeyword s =>
+  IsTextTransform (Proxy s ~ Proxy "full-width" ~ Proxy "full-size-kana")
 
-instance declarationTextTransform
-  :: ( IsTextTransform a
-     , ToVal a
-     )
-  => Declaration "text-transform" a where
+instance declarationTextTransform ::
+  ( IsTextTransform a
+  , ToVal a
+  ) =>
+  Declaration "text-transform" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-text-3/#propdef-white-space
@@ -4417,6 +4613,7 @@ breakSpaces = Proxy :: Proxy "break-spaces"
 preLine = Proxy :: Proxy "pre-line"
 
 class WhiteSpaceKeyword (s :: Symbol)
+
 instance WhiteSpaceKeyword "normal"
 instance WhiteSpaceKeyword "pre"
 instance WhiteSpaceKeyword "nowrap"
@@ -4424,11 +4621,11 @@ instance WhiteSpaceKeyword "pre-wrap"
 instance WhiteSpaceKeyword "break-spaces"
 instance WhiteSpaceKeyword "pre-line"
 
-instance declarationWhiteSpace
-  :: ( WhiteSpaceKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "white-space" (Proxy s) where
+instance declarationWhiteSpace ::
+  ( WhiteSpaceKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "white-space" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-text-3/#propdef-text-align
@@ -4443,6 +4640,7 @@ matchParent = Proxy :: Proxy "match-parent"
 justifyAll = Proxy :: Proxy "justify-all"
 
 class TextAlignKeyword (s :: Symbol)
+
 instance TextAlignKeyword "start"
 instance TextAlignKeyword "end"
 instance TextAlignKeyword "left"
@@ -4452,11 +4650,11 @@ instance TextAlignKeyword "justify"
 instance TextAlignKeyword "match-parent"
 instance TextAlignKeyword "justify-all"
 
-instance declarationTextAlign
-  :: ( TextAlignKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "text-align" (Proxy s) where
+instance declarationTextAlign ::
+  ( TextAlignKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "text-align" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-text-3/#propdef-word-spacing
@@ -4467,14 +4665,15 @@ instance Property "word-spacing"
 instance Animatable "word-spacing"
 
 class IsWordSpacing (a :: Type)
+
 instance IsWordSpacing (Proxy "normal")
 instance LengthTag t => IsWordSpacing (Measure t)
 
-instance declarationWordSpacing
-  :: ( IsWordSpacing a
-     , ToVal a
-     )
-  => Declaration "word-spacing" a where
+instance declarationWordSpacing ::
+  ( IsWordSpacing a
+  , ToVal a
+  ) =>
+  Declaration "word-spacing" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-text-3/#propdef-letter-spacing
@@ -4485,14 +4684,15 @@ instance Property "letter-spacing"
 instance Animatable "letter-spacing"
 
 class IsLetterSpacing (a :: Type)
+
 instance IsLetterSpacing (Proxy "normal")
 instance LengthTag t => IsLetterSpacing (Measure t)
 
-instance declarationLetterSpacing
-  :: ( IsLetterSpacing a
-     , ToVal a
-     )
-  => Declaration "letter-spacing" a where
+instance declarationLetterSpacing ::
+  ( IsLetterSpacing a
+  , ToVal a
+  ) =>
+  Declaration "letter-spacing" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-text-3/#propdef-text-indent
@@ -4502,9 +4702,9 @@ textIndent = Proxy :: Proxy "text-indent"
 instance Property "text-indent"
 instance Animatable "text-indent"
 
-instance declarationTextIndent
-  :: LengthPercentageTag t
-  => Declaration "text-indent" (Measure t) where
+instance declarationTextIndent ::
+  LengthPercentageTag t =>
+  Declaration "text-indent" (Measure t) where
   pval = const val
 
 --------------------------------------------------------------------------------
@@ -4524,6 +4724,7 @@ lineThrough = Proxy :: Proxy "line-through"
 blink = Proxy :: Proxy "blink"
 
 class IsTextDecorationLine (a :: Type)
+
 instance IsTextDecorationLine (Proxy "none")
 instance IsTextDecorationLine (Proxy "underline" ~ Proxy "overline" ~ Proxy "line-through" ~ Proxy "blink")
 instance IsTextDecorationLine (Proxy "overline" ~ Proxy "line-through" ~ Proxy "blink")
@@ -4541,11 +4742,11 @@ instance IsTextDecorationLine (Proxy "overline")
 instance IsTextDecorationLine (Proxy "line-through")
 instance IsTextDecorationLine (Proxy "blink")
 
-instance declarationTextDecorationLine
-  :: ( IsTextDecorationLine a
-     , ToVal a
-     )
-  => Declaration "text-decoration-line" a where
+instance declarationTextDecorationLine ::
+  ( IsTextDecorationLine a
+  , ToVal a
+  ) =>
+  Declaration "text-decoration-line" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-text-decor-3/#propdef-text-decoration-style
@@ -4557,17 +4758,18 @@ instance Property "text-decoration-style"
 wavy = Proxy :: Proxy "wavy"
 
 class TextDecorationStyleKeyword (s :: Symbol)
+
 instance TextDecorationStyleKeyword "solid"
 instance TextDecorationStyleKeyword "double"
 instance TextDecorationStyleKeyword "dotted"
 instance TextDecorationStyleKeyword "dashed"
 instance TextDecorationStyleKeyword "wavy"
 
-instance declarationTextDecorationStyle
-  :: ( TextDecorationStyleKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "text-decoration-style" (Proxy s) where
+instance declarationTextDecorationStyle ::
+  ( TextDecorationStyleKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "text-decoration-style" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-text-decor-3/#propdef-text-decoration-color
@@ -4577,11 +4779,11 @@ textDecorationColor = Proxy :: Proxy "text-decoration-color"
 instance Property "text-decoration-color"
 instance Animatable "text-decoration-color"
 
-instance declarationTextDecorationColor
-  :: ( IsColor a
-     , ToVal a
-     )
-  => Declaration "text-decoration-color" a where
+instance declarationTextDecorationColor ::
+  ( IsColor a
+  , ToVal a
+  ) =>
+  Declaration "text-decoration-color" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-text-decor-3/#propdef-text-shadow
@@ -4598,35 +4800,38 @@ instance
   , LengthTag txo
   , LengthTag tyo
   , LengthTag tblur
-  ) => IsTextShadow (color ~ Measure txo ~ Measure tyo ~ Measure tblur)
+  ) =>
+  IsTextShadow (color ~ Measure txo ~ Measure tyo ~ Measure tblur)
 
 instance
   ( LengthTag txo
   , LengthTag tyo
   , LengthTag tblur
-  ) => IsTextShadow (Measure txo ~ Measure tyo ~ Measure tblur)
+  ) =>
+  IsTextShadow (Measure txo ~ Measure tyo ~ Measure tblur)
 
 else instance
   ( IsColor color
   , LengthTag txo
   , LengthTag tyo
-  ) => IsTextShadow (color ~ Measure txo ~ Measure tyo)
+  ) =>
+  IsTextShadow (color ~ Measure txo ~ Measure tyo)
 
 instance (LengthTag txo, LengthTag tyo) => IsTextShadow (Measure txo ~ Measure tyo)
 
 class IsTextShadowList (a :: Type)
+
 instance (IsTextShadow x, IsTextShadowList xs) => IsTextShadowList (x /\ xs)
 else instance IsTextShadow a => IsTextShadowList a
 
-instance declarationTextShadowNone
-  :: Declaration "text-shadow" (Proxy "none") where
+instance declarationTextShadowNone :: Declaration "text-shadow" (Proxy "none") where
   pval = const val
 
-else instance declarationTextShadowList
-  :: ( IsTextShadowList a
-     , MultiVal a
-     )
-  => Declaration "text-shadow" a where
+else instance declarationTextShadowList ::
+  ( IsTextShadowList a
+  , MultiVal a
+  ) =>
+  Declaration "text-shadow" a where
   pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
 
 --------------------------------------------------------------------------------
@@ -4677,37 +4882,37 @@ translate
   => Measure tx
   -> Measure ty
   -> TransformFunction
-translate tx ty = TransformFunction $ fn "translate" [val tx, val ty]
+translate tx ty = TransformFunction $ fn "translate" [ val tx, val ty ]
 
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-translatex
 
 translateX :: forall t. LengthPercentageTag t => Measure t -> TransformFunction
-translateX tx = TransformFunction $ fn "translateX" [val tx]
+translateX tx = TransformFunction $ fn "translateX" [ val tx ]
 
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-translatey
 
 translateY :: forall t. LengthPercentageTag t => Measure t -> TransformFunction
-translateY ty = TransformFunction $ fn "translateY" [val ty]
+translateY ty = TransformFunction $ fn "translateY" [ val ty ]
 
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-scale
 
 scale :: Number -> Number -> TransformFunction
-scale sx sy = TransformFunction $ fn "scale" [val sx, val sy]
+scale sx sy = TransformFunction $ fn "scale" [ val sx, val sy ]
 
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-scalex
 
 scaleX :: Number -> TransformFunction
-scaleX sx = TransformFunction $ fn "scaleX" [val sx]
+scaleX sx = TransformFunction $ fn "scaleX" [ val sx ]
 
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-scaley
 
 scaleY :: Number -> TransformFunction
-scaleY sy = TransformFunction $ fn "scaleY" [val sy]
+scaleY sy = TransformFunction $ fn "scaleY" [ val sy ]
 
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-rotate
 
 rotate :: forall t. AngleTag t => Measure t -> TransformFunction
-rotate angle = TransformFunction $ fn "rotate" [val angle]
+rotate angle = TransformFunction $ fn "rotate" [ val angle ]
 
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-skew
 
@@ -4716,12 +4921,12 @@ rotate angle = TransformFunction $ fn "rotate" [val angle]
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-skewx
 
 skewX :: forall t. AngleTag t => Measure t -> TransformFunction
-skewX angle = TransformFunction $ fn "skewX" [val angle]
+skewX angle = TransformFunction $ fn "skewX" [ val angle ]
 
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-skewy
 
 skewY :: forall t. AngleTag t => Measure t -> TransformFunction
-skewY angle = TransformFunction $ fn "skewY" [val angle]
+skewY angle = TransformFunction $ fn "skewY" [ val angle ]
 
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-matrix3d
 
@@ -4794,12 +4999,12 @@ translate3d
   -> Measure tz
   -> TransformFunction
 translate3d tx ty tz =
-  TransformFunction $ fn "translate3d" [val tx, val ty, val tz]
+  TransformFunction $ fn "translate3d" [ val tx, val ty, val tz ]
 
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-translatez
 
 translateZ :: forall t. LengthTag t => Measure t -> TransformFunction
-translateZ tz = TransformFunction $ fn "translateZ" [val tz]
+translateZ tz = TransformFunction $ fn "translateZ" [ val tz ]
 
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-scale3d
 
@@ -4824,7 +5029,7 @@ scale3d sx sy sz =
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-scalez
 
 scaleZ :: forall a. ToNumber a => a -> TransformFunction
-scaleZ sz = TransformFunction $ fn "scaleZ" [val $ number sz]
+scaleZ sz = TransformFunction $ fn "scaleZ" [ val $ number sz ]
 
 -- https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/rotate3d
 
@@ -4852,30 +5057,32 @@ rotate3d x y z a' =
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-rotatex
 
 rotateX :: forall t. AngleTag t => Measure t -> TransformFunction
-rotateX a' = TransformFunction $ fn "rotateX" [val a']
+rotateX a' = TransformFunction $ fn "rotateX" [ val a' ]
 
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-rotatey
 
 rotateY :: forall t. AngleTag t => Measure t -> TransformFunction
-rotateY a' = TransformFunction $ fn "rotateY" [val a']
+rotateY a' = TransformFunction $ fn "rotateY" [ val a' ]
 
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-rotatez
 
 rotateZ :: forall t. AngleTag t => Measure t -> TransformFunction
-rotateZ a' = TransformFunction $ fn "rotateZ" [val a']
+rotateZ a' = TransformFunction $ fn "rotateZ" [ val a' ]
 
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-perspective
 
 class IsPerspective (a :: Type)
+
 instance IsPerspective (Proxy "none")
 instance LengthTag t => IsPerspective (Measure t)
 
 perspective :: forall a. IsPerspective a => ToVal a => a -> TransformFunction
-perspective a' = TransformFunction $ fn "perspective" [val a']
+perspective a' = TransformFunction $ fn "perspective" [ val a' ]
 
 -- https://www.w3.org/TR/css-transforms-1/#propdef-transform
 
 class IsTransformList (a :: Type)
+
 instance IsTransformList TransformFunction
 instance IsTransformList xs => IsTransformList (TransformFunction /\ xs)
 
@@ -4884,15 +5091,14 @@ transform = Proxy :: Proxy "transform"
 instance Property "transform"
 instance Animatable "transform"
 
-instance declarationTransformNone
-  :: Declaration "transform" (Proxy "none") where
+instance declarationTransformNone :: Declaration "transform" (Proxy "none") where
   pval = const val
 
-else instance declarationTransformList
-  :: ( IsTransformList a
-     , MultiVal a
-     )
-  => Declaration "transform" a where
+else instance declarationTransformList ::
+  ( IsTransformList a
+  , MultiVal a
+  ) =>
+  Declaration "transform" a where
   pval = const $ joinVals (val " ") <<< multiVal
 
 -- https://www.w3.org/TR/css-transforms-1/#propdef-transform-origin
@@ -4903,20 +5109,22 @@ instance Property "transform-origin"
 instance Animatable "transform-origin"
 
 class IsTransformOrigin (a :: Type)
+
 instance
   ( IsPositionX x
   , IsPositionY y
   , LengthTag tz
-  ) => IsTransformOrigin (x ~ y ~ Measure tz)
+  ) =>
+  IsTransformOrigin (x ~ y ~ Measure tz)
 else instance IsPosition a => IsTransformOrigin a
 
-instance declarationTransformOrigin
-  :: ( IsTransformOrigin a
-     , ToVal a
-     )
-  => Declaration "transform-origin" a where
+instance declarationTransformOrigin ::
+  ( IsTransformOrigin a
+  , ToVal a
+  ) =>
+  Declaration "transform-origin" a where
   pval = const val
-  
+
 --------------------------------------------------------------------------------
 
 -- Transitions
@@ -4931,25 +5139,26 @@ instance Property "transition-property"
 all = Proxy :: Proxy "all"
 
 class IsSingleTransitionPropertyList (a :: Type)
+
 instance
   ( Animatable s
   , IsSingleTransitionPropertyList xs
-  ) => IsSingleTransitionPropertyList (Proxy s /\ xs)
+  ) =>
+  IsSingleTransitionPropertyList (Proxy s /\ xs)
+
 instance Animatable s => IsSingleTransitionPropertyList (Proxy s)
 
-instance declarationTransitionPropertyNone
-  :: Declaration "transition-property" (Proxy "none") where
+instance declarationTransitionPropertyNone :: Declaration "transition-property" (Proxy "none") where
   pval = const val
 
-else instance declarationTransitionPropertyAll
-  :: Declaration "transition-property" (Proxy "all") where
+else instance declarationTransitionPropertyAll :: Declaration "transition-property" (Proxy "all") where
   pval = const val
 
-else instance declarationTransitionPropertyList
-  :: ( IsSingleTransitionPropertyList a
-     , MultiVal a
-     )
-  => Declaration "transition-property" a where
+else instance declarationTransitionPropertyList ::
+  ( IsSingleTransitionPropertyList a
+  , MultiVal a
+  ) =>
+  Declaration "transition-property" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-transitions-1/#propdef-transition-duration
@@ -4958,11 +5167,11 @@ transitionDuration = Proxy :: Proxy "transition-duration"
 
 instance Property "transition-duration"
 
-instance declarationTransitionDuration
-  :: ( IsTimeList a
-     , MultiVal a
-     )
-  => Declaration "transition-duration" a where
+instance declarationTransitionDuration ::
+  ( IsTimeList a
+  , MultiVal a
+  ) =>
+  Declaration "transition-duration" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-transitions-1/#propdef-transition-timing-function
@@ -4971,11 +5180,11 @@ transitionTimingFunction = Proxy :: Proxy "transition-timing-function"
 
 instance Property "transition-timing-function"
 
-instance propertyTransitionTimingFunction
-  :: ( IsList EasingFunction a
-     , MultiVal a
-     )
-  => Declaration "transition-timing-function" a where
+instance propertyTransitionTimingFunction ::
+  ( IsList EasingFunction a
+  , MultiVal a
+  ) =>
+  Declaration "transition-timing-function" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 -- https://www.w3.org/TR/css-transitions-1/#propdef-transition-delay
@@ -4984,11 +5193,11 @@ transitionDelay = Proxy :: Proxy "transition-delay"
 
 instance Property "transition-delay"
 
-instance declarationTransitionDelay
-  :: ( IsTimeList a
-     , MultiVal a
-     )
-  => Declaration "transition-delay" a where
+instance declarationTransitionDelay ::
+  ( IsTimeList a
+  , MultiVal a
+  ) =>
+  Declaration "transition-delay" a where
   pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
 
 --------------------------------------------------------------------------------
@@ -5003,11 +5212,11 @@ outlineWidth = Proxy :: Proxy "outline-width"
 instance Property "outline-width"
 instance Animatable "outline-width"
 
-instance declarationOutlineWidth
-  :: ( IsLineWidth a
-     , ToVal a
-     )
-  => Declaration "outline-width" a where
+instance declarationOutlineWidth ::
+  ( IsLineWidth a
+  , ToVal a
+  ) =>
+  Declaration "outline-width" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-ui-4/#propdef-outline-style
@@ -5017,6 +5226,7 @@ outlineStyle = Proxy :: Proxy "outline-style"
 instance Property "outline-style"
 
 class OutlineLineStyleKeyword (s :: Symbol)
+
 instance OutlineLineStyleKeyword "auto"
 instance OutlineLineStyleKeyword "none"
 instance OutlineLineStyleKeyword "dotted"
@@ -5028,11 +5238,11 @@ instance OutlineLineStyleKeyword "ridge"
 instance OutlineLineStyleKeyword "inset"
 instance OutlineLineStyleKeyword "outset"
 
-instance declarationOutlineStyle
-  :: ( OutlineLineStyleKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "outline-style" (Proxy s) where
+instance declarationOutlineStyle ::
+  ( OutlineLineStyleKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "outline-style" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-ui-4/#propdef-outline-color
@@ -5044,15 +5254,14 @@ instance Animatable "outline-color"
 
 invert = Proxy :: Proxy "invert"
 
-instance declarationOutlineColorInvert
-  :: Declaration "outline-color" (Proxy "invert") where
+instance declarationOutlineColorInvert :: Declaration "outline-color" (Proxy "invert") where
   pval = const val
 
-else instance declarationOutlineColorIsColor
-  :: ( IsColor a
-     , ToVal a
-     )
-  => Declaration "outline-color" a where
+else instance declarationOutlineColorIsColor ::
+  ( IsColor a
+  , ToVal a
+  ) =>
+  Declaration "outline-color" a where
   pval = const val
 
 -- https://www.w3.org/TR/css-ui-4/#propdef-outline-offset
@@ -5062,9 +5271,9 @@ outlineOffset = Proxy :: Proxy "outline-offset"
 instance Property "outline-offset"
 instance Animatable "outline-offset"
 
-instance declarationOutlineOffset
-  :: LengthTag t
-  => Declaration "outline-offset" (Measure t) where
+instance declarationOutlineOffset ::
+  LengthTag t =>
+  Declaration "outline-offset" (Measure t) where
   pval = const val
 
 --------------------------------------------------------------------------------
@@ -5079,15 +5288,16 @@ instance Animatable "visibility"
 collapse = Proxy :: Proxy "collapse"
 
 class VisibilityKeyword (s :: Symbol)
+
 instance VisibilityKeyword "visible"
 instance VisibilityKeyword "hidden"
 instance VisibilityKeyword "collapse"
 
-instance declarationVisibility
-  :: ( VisibilityKeyword s
-     , ToVal (Proxy s)
-     )
-  => Declaration "visibility" (Proxy s) where
+instance declarationVisibility ::
+  ( VisibilityKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "visibility" (Proxy s) where
   pval = const val
 
 --------------------------------------------------------------------------------
@@ -5102,16 +5312,17 @@ clear = Proxy :: Proxy "clear"
 instance Property "clear"
 
 class ClearKeyword (s :: Symbol)
+
 instance ClearKeyword "none"
 instance ClearKeyword "left"
 instance ClearKeyword "right"
 instance ClearKeyword "both"
 
-instance declarationClear
-  :: ( ClearKeyword s
-     , IsSymbol s
-     )
-  => Declaration "clear" (Proxy s) where
+instance declarationClear ::
+  ( ClearKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "clear" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/CSS2/visuren.html#propdef-float
@@ -5121,15 +5332,16 @@ float = Proxy :: Proxy "float"
 instance Property "float"
 
 class FloatKeyword (s :: Symbol)
+
 instance FloatKeyword "left"
 instance FloatKeyword "right"
 instance FloatKeyword "none"
 
-instance declarationFloat
-  :: ( FloatKeyword s
-     , IsSymbol s
-     )
-  => Declaration "float" (Proxy s) where
+instance declarationFloat ::
+  ( FloatKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "float" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/CSS2/visuren.html#propdef-z-index
@@ -5139,12 +5351,10 @@ zIndex = Proxy :: Proxy "z-index"
 instance Property "z-index"
 instance Animatable "z-index"
 
-instance declarationZIndexAuto
-  :: Declaration "z-index" (Proxy "auto") where
+instance declarationZIndexAuto :: Declaration "z-index" (Proxy "auto") where
   pval = const val
 
-instance declarationZIndexInt
-  :: Declaration "z-index" Int where
+instance declarationZIndexInt :: Declaration "z-index" Int where
   pval = const val
 
 --------------------------------------------------------------------------------
@@ -5160,16 +5370,16 @@ ltr = Proxy :: Proxy "ltr"
 rtl = Proxy :: Proxy "rtl"
 
 class DirectionKeyword (s :: Symbol)
+
 instance DirectionKeyword "ltr"
 instance DirectionKeyword "rtl"
 
-instance declarationDirectionSymbol
-  :: ( DirectionKeyword s
-     , IsSymbol s
-     )
-  => Declaration "direction" (Proxy s) where
+instance declarationDirectionSymbol ::
+  ( DirectionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "direction" (Proxy s) where
   pval = const val
-
 
 --------------------------------------------------------------------------------
 
@@ -5262,6 +5472,7 @@ inch :: forall a. ToNumber a => a -> Measure Length
 inch = measure "in"
 
 class LengthTag (a :: Type)
+
 instance LengthTag Length
 instance LengthTag Nil
 
@@ -5271,12 +5482,14 @@ pct :: forall a. ToNumber a => a -> Measure Percentage
 pct = measure "%"
 
 class PercentageTag (a :: Type)
+
 instance PercentageTag Percentage
 instance PercentageTag Nil
 
 data LengthPercentage
 
 class LengthPercentageTag (a :: Type)
+
 instance LengthPercentageTag Length
 instance LengthPercentageTag Percentage
 instance LengthPercentageTag LengthPercentage
@@ -5294,6 +5507,7 @@ turn :: forall a. ToNumber a => a -> Measure Angle
 turn = measure "turn"
 
 class AngleTag (a :: Type)
+
 instance AngleTag Angle
 instance AngleTag Nil
 
@@ -5306,6 +5520,7 @@ sec :: forall a. ToNumber a => a -> Measure Time
 sec = measure "s"
 
 class TimeTag (a :: Type)
+
 instance TimeTag Time
 instance TimeTag Nil
 
@@ -5339,7 +5554,7 @@ else instance ToNumber b => Calc Multiply a b a
 else instance Calc Multiply a b c => Calc Divide a b c
 
 calc :: forall op a b. ToVal op => ToVal a => ToVal b => op -> a -> b -> Val
-calc op a' b' = fn "calc" [joinVals " " [val a', val op, val b']]
+calc op a' b' = fn "calc" [ joinVals " " [ val a', val op, val b' ] ]
 
 add
   :: forall ta tb tc
@@ -5432,7 +5647,7 @@ infixl 9 divide as @/
 newtype URL = URL String
 
 instance toValURL :: ToVal URL where
-  val (URL x) = val $ fn "url" [val $ quote x]
+  val (URL x) = val $ fn "url" [ val $ quote x ]
 
 url :: String -> URL
 url = URL
@@ -5449,12 +5664,14 @@ instance IsPosition (Proxy "bottom")
 instance LengthPercentageTag t => IsPosition (Measure t)
 
 class IsPositionX (a :: Type)
+
 instance IsPositionX (Proxy "left")
 instance IsPositionX (Proxy "center")
 instance IsPositionX (Proxy "right")
 instance LengthPercentageTag t => IsPositionX (Measure t)
 
 class IsPositionY (a :: Type)
+
 instance IsPositionY (Proxy "top")
 instance IsPositionY (Proxy "center")
 instance IsPositionY (Proxy "bottom")
@@ -5470,7 +5687,8 @@ instance (IsPositionX x, IsPositionY y) => IsPosition (x ~ y)
 
 newtype CommonKeyword = CommonKeyword String
 
-instance ToVal CommonKeyword where val (CommonKeyword x) = val x
+instance ToVal CommonKeyword where
+  val (CommonKeyword x) = val x
 
 inherit :: CommonKeyword
 inherit = CommonKeyword "inherit"
