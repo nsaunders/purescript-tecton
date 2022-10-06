@@ -475,12 +475,8 @@ animationTimingFunction = Proxy :: Proxy "animation-timing-function"
 
 instance Property "animation-timing-function"
 
-class IsTimingFunctionList (a :: Type)
-instance IsTimingFunctionList xs => IsTimingFunctionList (EasingFunction /\ xs)
-instance IsTimingFunctionList EasingFunction
-
 instance declarationAnimationTimingFunction
-  :: ( IsTimingFunctionList a
+  :: ( IsList EasingFunction a
      , MultiVal a
      )
   => Declaration "animation-timing-function" a where
@@ -4976,7 +4972,7 @@ transitionTimingFunction = Proxy :: Proxy "transition-timing-function"
 instance Property "transition-timing-function"
 
 instance propertyTransitionTimingFunction
-  :: ( IsTimingFunctionList a
+  :: ( IsList EasingFunction a
      , MultiVal a
      )
   => Declaration "transition-timing-function" a where
