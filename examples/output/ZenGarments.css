@@ -1,0 +1,718 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html {
+  font-size: 62.5%;
+}
+body {
+  background-color: hsl(210.0, 21.05%, 92.55%);
+  background-image: url("i/denim2.png");
+  background-position: 50% 350px;
+  background-repeat: no-repeat;
+  color: hsl(0.0, 0.0%, 20.0%);
+  font-family: "Helvetica", "Arial", sans-serif;
+}
+h1 {
+  font-family: "Helvetica", "Arial", sans-serif;
+  font-size: 4.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+h2 {
+  font-family: "Helvetica", "Arial", sans-serif;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+h3 {
+  font-family: "Helvetica", "Arial", sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+h4, h5, h6 {
+  font-family: "Helvetica", "Arial", sans-serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+*.wf-active body, *.wf-active h1, *.wf-active h2, *.wf-active h3, *.wf-active h4, *.wf-active h5, *.wf-active h6 {
+  font-family: "effra", sans-serif;
+}
+p, ul, dl, ol, table {
+  font-size: 16px;
+  margin-bottom: 1.5em;
+}
+*.wf-active p {
+  font-weight: 300;
+}
+form {
+  margin-bottom: 1.5em;
+}
+label {
+  font-size: 1.6rem;
+}
+input.empty::placeholder, textarea.empty::placeholder {
+  color: hsl(0.0, 100.0%, 50.0%);
+}
+*.error {
+  color: hsl(0.0, 100.0%, 50.0%);
+}
+td {
+  border-top-color: hsl(0.0, 0.0%, 66.67%);
+  border-top-style: solid;
+  border-top-width: 1px;
+  padding: 0.25em 1em;
+}
+em {
+  font-style: italic;
+}
+strong {
+  font-weight: bold;
+}
+mark {
+  background-color: initial;
+  font-style: normal;
+}
+video {
+  height: auto;
+  width: 100%;
+}
+a {
+  color: hsl(37.0, 33.0%, 48.0%);
+  position: relative;
+  text-decoration-line: none;
+  transition-duration: 0.25s;
+  transition-property: all;
+  transition-timing-function: linear;
+}
+a::after {
+  background-color: hsl(37.0, 33.0%, 48.0%);
+  bottom: -0.2em;
+  content: "";
+  display: block;
+  height: 2px;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  transition-duration: 0.25s;
+  transition-property: all;
+  transition-timing-function: linear;
+  width: 100%;
+}
+a:hover, a:focus {
+  color: hsl(0.0, 0.0%, 0.0%);
+}
+a:hover::after, a:focus::after {
+  bottom: 0;
+  opacity: 1;
+}
+img {
+  display: block;
+  margin: 0 10px 10px 0;
+  max-width: 100%;
+}
+a img {
+  border-style: none;
+}
+i {
+  font-style: normal;
+}
+b {
+  font-weight: normal;
+}
+abbr, abbr[title], acronym {
+  border-style: none;
+  font-size: 75%;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+code {
+  color: hsl(0.0, 0.0%, 60.0%);
+  font-family: "Consolas", "Courier New", "Courier", monospace;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+sub, sup {
+  line-height: 0;
+}
+*::selection {
+  background-color: hsl(205.71, 9.09%, 84.9%);
+  color: hsl(0.0, 0.0%, 20.0%);
+}
+*.phark {
+  background-color: transparent;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  display: block;
+  text-indent: -9999px;
+}
+*.phark-link {
+  overflow: hidden;
+}
+*.clearfix::after {
+  clear: both;
+  content: ".";
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+*.offscreen {
+  display: block;
+  left: -9999px;
+  position: absolute;
+}
+*.onscreen {
+  left: 0;
+}
+*.hide {
+  display: none;
+}
+*.no-bullets {
+  list-style-type: none;
+}
+*.bulleted {
+  list-style-type: disc;
+}
+*.uppercase {
+  text-transform: uppercase;
+}
+*.rwd-break {
+  display: block;
+}
+*.kellum {
+  display: block;
+  overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+}
+*.page-wrapper {
+  margin: 0 auto;
+  width: 90%;
+}
+*.main h3, *.preamble h3, *.select {
+  color: hsl(224.0, 40.0%, 25.0%);
+  font-size: 2rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  visibility: hidden;
+}
+*.wf-active *.main h3, *.wf-active *.preamble h3 {
+  font-weight: 900;
+}
+*.main h3::after, *.preamble h3::after, *.select::after {
+  display: block;
+  visibility: visible;
+}
+*.main p, *.preamble p {
+  font-size: 2rem;
+}
+*.wf-active *.main p, *.wf-active *.preamble p {
+  line-height: 1.4;
+}
+*.next a, *.previous a, *.viewall a, *.zen-resources a, *.summary p:nth-child(2) a {
+  transition-property: none;
+}
+*.next a::after, *.previous a::after, *.viewall a::after, *.zen-resources a::after, *.summary p:nth-child(2) a::after {
+  opacity: 0;
+}
+*[role="banner"] h1 {
+  color: hsl(216.0, 53.0%, 20.0%);
+  font-size: 3.5rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  padding: 1em 0 0;
+  text-transform: uppercase;
+  visibility: hidden;
+}
+*[role="banner"] h1::before {
+  content: "CSS Zen Garments";
+  display: block;
+  visibility: visible;
+}
+*[role="banner"] h1::after {
+  color: hsla(216.0, 53.4%, 20.2%, 0.4);
+  content: "Made Locally";
+  display: block;
+  font-size: 1.4rem;
+  font-weight: normal;
+  letter-spacing: 0.5em;
+  margin: 0.5em 0 3em;
+  visibility: visible;
+}
+*[role="banner"] h2 {
+  color: hsla(216.13, 53.14%, 34.31%, 0.5);
+  display: none;
+  font-weight: 400;
+  text-transform: uppercase;
+  visibility: hidden;
+}
+*[role="banner"] h2::after {
+  content: "Impeccable Quality";
+  display: block;
+  visibility: visible;
+}
+*.summary p {
+  font-size: 1.8rem;
+  letter-spacing: 0.1em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+*.preamble {
+  background-color: transparent;
+  background-image: url("i/sep.png");
+  background-position: 50% 0;
+  background-repeat: no-repeat;
+}
+*.preamble h3::after {
+  content: "A Fashion-Forward Future";
+  visibility: visible;
+}
+*.explanation h3::after {
+  content: "See Yourself in a Different Way";
+}
+*.participation h3::after {
+  content: "Get Into a Brand New Pair";
+}
+*.benefits h3::after {
+  content: "Look Great\\2026  and Feel Great Too!";
+}
+*.requirements h3::after {
+  content: "â€œOne Size Fitsâ€ All Be Damned!";
+  text-indent: -0.5em;
+}
+*.design-selection {
+  margin: 3em 0 0;
+}
+*.design-selection ul {
+  list-style-type: none;
+  margin: 0 auto;
+  width: 94%;
+}
+*.design-selection ul::after {
+  clear: both;
+  content: ".";
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+*.design-selection li {
+  color: hsl(0.0, 0.0%, 66.67%);
+  float: left;
+  font-size: 1.2rem;
+  margin: 0 0 1em;
+  width: 50%;
+}
+*.design-selection li:nth-child(odd) {
+  clear: left;
+  padding-right: 3%;
+  width: 47%;
+}
+*.design-name {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.24em;
+  position: relative;
+  text-transform: uppercase;
+}
+*.design-name::after {
+  background-image: none;
+  opacity: 0;
+}
+*.design-name:hover {
+  font-style: italic;
+}
+*.designer-name {
+  color: hsl(217.14, 18.58%, 55.69%);
+}
+*.designer-name::after, footer a::after {
+  height: 1px;
+}
+*.select::after {
+  background-color: transparent;
+  background-image: url("i/waves.png");
+  background-position: 50% 0;
+  background-repeat: no-repeat;
+  color: hsl(216.0, 53.0%, 20.0%);
+  content: "Washes & Styles";
+  font-size: 1.8rem;
+  margin: 0 auto 2em;
+  padding: 2em 0 0;
+  text-align: center;
+  visibility: visible;
+  width: 7em;
+}
+*.archives, *.resources {
+  left: -9999px;
+  position: absolute;
+}
+*.design-archives ul {
+  list-style-type: none;
+  margin: 1em 0 0;
+  text-align: center;
+  width: 100%;
+}
+*.design-archives li {
+  display: inline-block;
+  position: relative;
+}
+*.design-archives a {
+  display: block;
+  overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+}
+*.next {
+  margin-right: 3em;
+}
+*.next a {
+  background-color: transparent;
+  background-image: url("s/czg.svg");
+  background-position: 10px -56px;
+  background-repeat: no-repeat;
+  height: 37px;
+  width: 43px;
+}
+*.next a:hover, *.next a:focus {
+  background-position: 10px -138px;
+}
+*.previous {
+  margin-right: 3em;
+}
+*.previous a {
+  background-color: transparent;
+  background-image: url("s/czg.svg");
+  background-position: 10px -220px;
+  background-repeat: no-repeat;
+  height: 37px;
+  width: 43px;
+}
+*.previous a:hover, *.previous a:focus {
+  background-position: 10px -302px;
+}
+*.viewall {
+  margin-left: 1em;
+}
+*.viewall a {
+  background-color: transparent;
+  background-image: url("s/czg.svg");
+  background-position: -56px -55px;
+  background-repeat: no-repeat;
+  height: 39px;
+  width: 39px;
+}
+*.viewall a:hover, *.viewall a:focus {
+  background-position: -56px -137px;
+}
+footer {
+  font-size: 1.3rem;
+}
+footer a {
+  margin-left: 1em;
+}
+footer a:first-child {
+  margin-left: 0;
+}
+*.zen-resources ul {
+  list-style-type: none;
+  margin: 2em 0 4em;
+  text-align: center;
+}
+*.zen-resources ul::before {
+  background-color: hsl(205.71, 9.09%, 84.9%);
+  content: "";
+  display: block;
+  height: 4px;
+  margin: 0 auto 2em;
+  text-align: center;
+  width: 80px;
+}
+*.zen-resources li {
+  display: inline-block;
+  margin: 0 0 1em 3em;
+}
+*.zen-resources li:first-child {
+  margin-left: 0;
+}
+*.zen-resources a {
+  background-color: transparent;
+  background-image: url("s/czg.svg");
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 60px;
+  overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+  width: 60px;
+}
+*.view-css a {
+  background-position: -502px 12px;
+}
+*.view-css a:hover, *.view-css a:focus {
+  background-position: -502px -78px;
+}
+*.css-resources a {
+  background-position: -150px -194px;
+}
+*.css-resources a:hover, *.css-resources a:focus {
+  background-position: -150px -286px;
+}
+*.zen-faq a {
+  background-position: -265px -192px;
+}
+*.zen-faq a:hover, *.zen-faq a:focus {
+  background-position: -265px -284px;
+}
+*.zen-submit a {
+  background-position: -502px -194px;
+}
+*.zen-submit a:hover, *.zen-submit a:focus {
+  background-position: -502px -286px;
+}
+*.zen-translations a {
+  background-position: -380px -193px;
+}
+*.zen-translations a:hover, *.zen-translations a:focus {
+  background-position: -380px -285px;
+}
+@media screen and (min-width: 700px) {
+  body {
+    background-attachment: fixed;
+    background-position: 90% 80%;
+  }
+  *.intro::before {
+    background-color: transparent;
+    background-image: url("s/czg.svg");
+    background-position: -184px -99px;
+    background-repeat: no-repeat;
+    content: "";
+    display: block;
+    height: 30px;
+    left: 3%;
+    position: fixed;
+    top: 154px;
+    width: 105px;
+  }
+  *[role="article"], *[role="banner"], footer {
+    padding: 0 30% 10em 10%;
+    position: relative;
+    text-align: right;
+  }
+  *[role="article"] h3, *[role="banner"] h2 {
+    font-size: 1.5rem;
+    left: 75%;
+    letter-spacing: 0;
+    position: absolute;
+    text-align: left;
+    top: -0.75em;
+    width: 10em;
+  }
+  *[role="article"] h3::after {
+    position: absolute;
+    top: 0;
+  }
+  *[role="banner"] {
+    padding-bottom: 3em;
+    padding-top: 200px;
+  }
+  *[role="banner"] h1 {
+    font-size: 4.8rem;
+    letter-spacing: 0;
+    line-height: 0.8;
+  }
+  *[role="banner"] h1::after {
+    position: absolute;
+    right: 30%;
+    top: 15.7em;
+  }
+  *[role="banner"] h2 {
+    display: block;
+    font-size: 1.9rem;
+    left: 75.5%;
+    line-height: 1;
+    top: 8.1em;
+    width: 3em;
+  }
+  *[role="banner"] h2::before {
+    bottom: 0;
+    color: hsla(0.0, 0.0%, 0.0%, 0.15);
+    content: "Est. 2003";
+    display: block;
+    font-size: 50rem;
+    font-weight: 900;
+    height: 2em;
+    left: -0.5em;
+    line-height: 1;
+    margin: auto;
+    mask-image: url("i/denim-mask2.png");
+    position: fixed;
+    right: 0;
+    top: -0.1em;
+    transform: rotate(-90deg);
+    visibility: visible;
+    width: 100%;
+  }
+  *.summary p:nth-child(2) {
+    background-color: hsl(60.0, 100.0%, 50.0%);
+    font-size: 1.4rem;
+    position: relative;
+    top: 2em;
+    visibility: hidden;
+  }
+  *.summary p:nth-child(2)::before {
+    background-color: transparent;
+    background-image: url("s/czg.svg");
+    background-position: -159px -1px;
+    background-repeat: no-repeat;
+    content: "";
+    display: block;
+    height: 30px;
+    position: absolute;
+    right: 21em;
+    top: -0.25em;
+    visibility: visible;
+    width: 6em;
+  }
+  *.summary p:nth-child(2)::after {
+    background-color: transparent;
+    background-image: url("s/czg.svg");
+    background-position: -277px 0;
+    background-repeat: no-repeat;
+    content: "";
+    display: block;
+    height: 30px;
+    position: absolute;
+    right: 14em;
+    top: -0.25em;
+    visibility: visible;
+    width: 6em;
+  }
+  *.summary p:nth-child(2) a {
+    background-color: transparent;
+    background-image: url("s/czg.svg");
+    background-position: -376px -93px;
+    background-repeat: no-repeat;
+    display: block;
+    height: 25px;
+    overflow: hidden;
+    position: absolute;
+    right: 7em;
+    text-indent: 100%;
+    top: 0;
+    visibility: visible;
+    white-space: nowrap;
+    width: 6em;
+  }
+  *.summary p:nth-child(2) a:hover, *.summary p:nth-child(2) a:focus {
+    background-image: none;
+    background-position: -396px -3px;
+    text-indent: 0;
+  }
+  *.summary p:nth-child(2) a[href*="css"] {
+    background-position: -472px -94px;
+    right: 0;
+  }
+  *.summary p:nth-child(2) a[href*="css"]:hover, *.summary p:nth-child(2) a[href*="css"]:focus {
+    background-position: -512px -4px;
+  }
+  *.preamble {
+    padding-top: 10em;
+  }
+  *.preamble h3 {
+    top: 5.9em;
+  }
+  *.design-selection li {
+    margin-bottom: 3em;
+    padding-right: 2%;
+    width: 23%;
+  }
+  *.design-selection li:nth-child(odd) {
+    clear: none;
+    padding-right: 2%;
+    width: 23%;
+  }
+  *.next {
+    margin-left: -0.4em;
+    margin-right: 2em;
+  }
+  *.viewall {
+    margin-left: 0;
+  }
+  footer {
+    margin-top: -5em;
+    padding-bottom: 3em;
+  }
+}
+@media screen and (min-width: 1130px) {
+  *[role="article"], *[role="banner"] {
+    padding-left: 25%;
+  }
+  *.design-selection {
+    left: 5%;
+    position: absolute;
+    top: 30em;
+  }
+  *.design-selection ul {
+    margin: 0;
+    width: 100%;
+  }
+  *.design-selection li {
+    float: none;
+    margin-bottom: 2em;
+  }
+  *.design-selection.design-selection.design-selection li {
+    padding: 0;
+    width: 100%;
+  }
+  *.select::after {
+    background-position: 0 bottom;
+    margin: 0 0 2em;
+    padding: 0 0 2em;
+    text-align: left;
+  }
+  *.design-archives {
+    left: 5%;
+    position: absolute;
+    top: 95em;
+  }
+}
+@media screen and (min-height: 1037px) and (min-width: 1130px) {
+  *.design-selection, *.design-archives {
+    position: fixed;
+  }
+}
+@keyframes FADEY {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+*.intro {
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-name: FADEY;
+  animation-timing-function: ease-in-out;
+}
+*[role="article"] {
+  animation-delay: 0.5s;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+  animation-name: FADEY;
+  animation-timing-function: ease-in-out;
+  opacity: 0;
+}
+*.design-selection, *.design-archives {
+  animation-delay: 1s;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+  animation-name: FADEY;
+  animation-timing-function: ease-in-out;
+  opacity: 0;
+}

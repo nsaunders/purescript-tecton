@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "check-examples": "node ./scripts/check-examples.mjs"
+  },
+  "devDependencies": {
+    "diff": "^5.1.0",
+    "execa": "^6.1.0"
+  }
+}

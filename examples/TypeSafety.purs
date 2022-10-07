@@ -6,7 +6,8 @@ import Color (black, white)
 import Data.Tuple.Nested ((/\))
 import Effect (Effect)
 import Effect.Console (log)
-import Tecton (after, alignContent, backgroundImage, color, content, currentColor, deg, fontFace, fontFamily, keyframes, keyframesName, linearGradient, marginLeft, opacity, pct, placeholder, pretty, render, sansSerif, src, transitionProperty, universal, url, (&.), (&:), (:=), (?))
+import Tecton (backgroundImage, color, currentColor, deg, fontFace, fontFamily, keyframes, keyframesName, linearGradient, marginLeft, opacity, pct, placeholder, pretty, render, sansSerif, src, transitionProperty, universal, url, (&.), (&:), (:=), (?))
+-- import Tecton (after, alignContent, content)
 import Tecton.Rule as Rule
 
 main :: Effect Unit
