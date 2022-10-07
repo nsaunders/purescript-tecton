@@ -23,6 +23,7 @@ import Test.MaskingSpec as Masking
 import Test.MediaQueriesSpec as MediaQueries
 import Test.OverflowSpec as Overflow
 import Test.PositionSpec as Position
+import Test.RenderSpec as Render
 import Test.SelectorsSpec as Selectors
 import Test.SizingSpec as Sizing
 import Test.TextSpec as Text
@@ -54,6 +55,7 @@ main =
       MediaQueries.spec
       Overflow.spec
       Position.spec
+      Render.spec
       Selectors.spec
       Sizing.spec
       Text.spec

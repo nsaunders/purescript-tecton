@@ -304,6 +304,18 @@ else instance
 
 -- Rendering
 
+renderInline
+  :: forall r rl empty
+   . RowToList r rl
+  => CollectDeclarations rl r
+  => BuildFromScratch empty (Record r)
+  => Builder (Record empty) (Record r)
+  -> String
+renderInline = render pretty { newline = " ", finalSemicolon = false }
+
+renderSheet :: Configuration -> Writer (Array Statement) Unit -> String
+renderSheet = render
+
 class Render (a :: Type) where
   render :: Configuration -> a -> String
 
