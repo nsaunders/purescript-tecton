@@ -4,7 +4,7 @@ import Prelude
 
 import Control.Monad.Error.Class (class MonadThrow)
 import Effect.Exception (Error)
-import Tecton (class Render, compact, render)
+import Tecton.Internal (class Render, compact, render)
 import Test.Spec (Spec, it)
 import Test.Spec.Assertions (shouldEqual)
 
