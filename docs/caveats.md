@@ -1,8 +1,6 @@
 Caveats
 =======
 
-> ⚠️ **NOTE**: This document is a work in progress.
-
 ## Shorthand
 
 Shorthand syntax is generally avoided, in part because its complex structure is often difficult to represent at the type level, and also because [it might be an anti-pattern](https://csswizardry.com/2016/12/css-shorthand-syntax-considered-an-anti-pattern/).
