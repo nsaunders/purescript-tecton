@@ -1,7 +1,7 @@
 Contributing
 ============
 
-CSS is a large, complex language whose syntax relies heavily on its dynamically-typed nature. Consequently, building a statically-typed interface with reasonable accuracy and precision is a challenging proposition, the work of which will (probably) never be complete. Fortunately, a large subset of the language may suffice for most use cases; and, with your help, we can deliver and maintain that for the PureScript community. Listed below are a few ways you can contribute.
+CSS is a large, complex language whose syntax takes full advantage of its dynamically-typed nature. Delivering reasonable accuracy, precision, and developer experience in a statically-typed interface is a challenging proposition. We can only hope to cover a large enough subset of CSS to satisfy the majority of real-world use cases. But with your help, we can continue to increase our footprint while maintaining a production-level standard of quality. Listed below are a few ways you can contribute.
 
 Reporting defects
 -----------------
