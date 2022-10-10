@@ -43,3 +43,31 @@ The preferred installation method is [Spago](https://github.com/purescript/spago
 ```sh
 spago install tecton
 ```
+
+If your project's package set doesn't include `tecton`, then add it in your
+`packages.dhall` file first. For example:
+
+```dhall
+let upstream = https://raw.githubusercontent.com/purescript/package-sets/psc-0.15.4-20221010/src/packages.dhall
+in  upstream
+  with tecton =
+    { dependencies =
+        [ "arrays"
+        , "colors"
+        , "either"
+        , "foldable-traversable"
+        , "integers"
+        , "lists"
+        , "numbers"
+        , "prelude"
+        , "record"
+        , "strings"
+        , "transformers"
+        , "tuples"
+        ]
+    , repo =
+        "https://github.com/nsaunders/purescript-tecton.git"
+    , version =
+        "master"
+    }
+```
