@@ -9,7 +9,7 @@ Shorthand syntax is generally avoided, in part because its complex structure is 
 
 Because declarations are modeled as records, the order in which they appear in PureScript code may differ from the rendered output.
 
-Navigating this pitfall is as simple as ensuring that declarations are written such that ordering does not matter. For example, shorthand "overrides" (such as overriding a `margin` declaration with `marginLeft`) within a single ruleset should be avoided. If needed, a simple workaround is to split the ruleset into two, since ruleset ordering _is_ preserved.
+Navigating this pitfall is as simple as ensuring that declarations are written such that ordering does not matter. For example, shorthand "overrides" (such as overriding a `margin` declaration with `margin-left`) within a single ruleset should be avoided. If needed, a simple workaround is to split the ruleset into two, since ruleset ordering _is_ preserved.
 
 ## Vendor prefixes
 
