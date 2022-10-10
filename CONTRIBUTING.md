@@ -9,6 +9,6 @@ Please [open an issue](https://github.com/nsaunders/purescript-tecton/issues/new
 * the code you wrote;
 * the expected output;
 * the compiler error or incorrect output you encountered; and
-* if possible, a link to the relevant W3C specification, which can find [here](https://www.w3.org/TR/css-2021/) or via Google search.
+* if possible, a link to the relevant W3C specification, which can be found [here](https://www.w3.org/TR/css-2021/) or via Google search.
 
 > ⚠️ **NOTE**: This document is a work in progress. Please check back soon for more information.
