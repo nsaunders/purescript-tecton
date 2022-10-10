@@ -1,7 +1,7 @@
 Syntax
 ======
 
-> ⚠️ **NOTE**: This document is a work in progress. Contributions are welcome.
+> ⚠️ **NOTE**: This section is a work-in-progress. For now, you can reference the [examples](../examples) and [tests](../docs). Contributions are welcome!
 
 Foundations
 -----------
@@ -16,3 +16,37 @@ Lists are represented using [nested tuple syntax `(/\)`](https://pursuit.purescr
 ### Tuples
 
 With [`Data.Tuple.Tuple`](https://pursuit.purescript.org/packages/purescript-tuples/docs/Data.Tuple#t:Tuple) reserved for lists, a new data type [`Pair`](../search?q=data+Pair) represents tuples, such as the horizontal and vertical values in `padding` shorthand. The `(~)` operator should be used in lieu of the `Pair` constructor and works the same as [`(/\)`](https://pursuit.purescript.org/packages/purescript-tuples/docs/Data.Tuple.Nested#v:(/\\)) does in other contexts.
+
+### Statements
+
+#### `@media` rules
+
+TODO
+
+#### `@font-face` rules
+
+TODO
+
+#### `@keyframes` rules
+
+TODO
+
+#### Rulesets
+
+##### Selectors
+
+TODO
+
+##### Declarations
+
+TODO
+
+Common values
+-------------
+
+TODO
+
+Properties
+----------
+
+TODO
