@@ -1,11 +1,15 @@
 Contributing
 ============
 
-CSS is a large, complex language whose syntax takes full advantage of its dynamically-typed nature. Delivering reasonable accuracy, precision, and developer experience in a statically-typed interface is a challenging proposition. We can only hope to cover a large enough subset of CSS to satisfy the majority of real-world use cases. But with your help, we can continue to increase our footprint while maintaining a production-level standard of quality. Listed below are a few ways you can contribute.
+Welcome, and thanks for your interest in Tecton. Whether you are new to CSS and PureScript or are here to teach us some new tricks, we're glad that you're here and look forward to your contributions. Listed below are a few of the ways you can help.
+
+Asking questions
+----------------
+If you have a question, please [open an issue](https://github.com/nsaunders/purescript-tecton/issues/new) to discuss it. This might help us to find a defect or an opportunity to improve the documentation or developer experience; or it could help someone facing the same issue later on.
 
 Reporting defects
 -----------------
-Please [open an issue](https://github.com/nsaunders/purescript-tecton/issues/new) in the GitHub repository to discuss any defects you find. In addition to a brief description, include
+Please [open an issue](https://github.com/nsaunders/purescript-tecton/issues/new) to discuss any defects you find. In addition to a brief description, include
 * the code you wrote;
 * the expected output;
 * the compiler error or incorrect output you encountered; and
