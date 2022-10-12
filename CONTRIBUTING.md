@@ -5,7 +5,7 @@ Welcome, and thanks for your interest in Tecton. Whether you are new to CSS and 
 
 Asking questions
 ----------------
-If you have a question, please [open an issue](https://github.com/nsaunders/purescript-tecton/issues/new) to discuss it. This might help us to find a defect; reveal an opportunity to improve the documentation or developer experience; or help someone facing a similar issue in the future.
+If you have a question, please [open an issue](https://github.com/nsaunders/purescript-tecton/issues/new?labels=question) to discuss it. This might help us to find a defect; reveal an opportunity to improve the documentation or developer experience; or help someone facing a similar issue in the future.
 
 Reporting defects
 -----------------
@@ -17,7 +17,7 @@ Please [open an issue](https://github.com/nsaunders/purescript-tecton/issues/new
 
 Improving documentation
 -----------------------
-Please share any suggestions for improving or adding to the documentation by [submitting a pull request](https://github.com/nsaunders/purescript-tecton/compare) or [opening an issue](https://github.com/nsaunders/purescript-tecton/issues/new).
+Please share any suggestions for improving or adding to the documentation by [submitting a pull request](https://github.com/nsaunders/purescript-tecton/compare) or [opening an issue](https://github.com/nsaunders/purescript-tecton/issues/new?labels=documentation).
 
 Sharing resources
 -----------------
@@ -57,8 +57,8 @@ The `isRenderedFrom` utility, imported from `Test.Util`, provides an appropriate
 
 Please verify your changes before submitting a pull request using the following commands:
 1. `purs-tidy check src`, which ensures that modules in the `src` directory conform to the project's formatting standards;
-2. `spago -x test.dhall test`, which runs the unit tests; and
-3. `npm i && npm run check-examples`, which (as a basic sanity check) compares the output of each [example](./examples) to a previous snapshot.
+1. `spago -x test.dhall test`, which runs the unit tests; and
+1. `npm i && npm run check-examples`, which (as a basic sanity check) compares the output of each [example](./examples) to a previous snapshot.
 
 > ℹ️ **NOTE**: If appropriate, running `npm run check-examples -- --update` will update the example output snapshots.
 
