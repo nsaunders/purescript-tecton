@@ -1,4 +1,4 @@
-### Brief description
+### Description
 
 Provide an overview of the change.
 
