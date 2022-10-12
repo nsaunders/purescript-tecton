@@ -2,12 +2,12 @@
 name: Defect
 about: Report a defect to help us improve
 title: ''
-labels: ''
+labels: 'defect'
 assignees: ''
 
 ---
 
-### Describe the defect
+### Description
 
 Provide a clear and concise description of what the defect is.
 
@@ -25,7 +25,7 @@ If you encountered an unexpected compiler error, please share it here and explai
 
 If your code compiled but the CSS output was incorrect, please include the output and explain why it is incorrect.
 
-### Links
+### References
 
 Please link to a [W3C specification](https://www.w3.org/TR/css-2021/) (preferred), [MDN](https://developer.mozilla.org) article, or other source that supports your findings.
 
