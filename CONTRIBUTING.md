@@ -9,7 +9,7 @@ If you have a question, please [open an issue](https://github.com/nsaunders/pure
 
 Reporting defects
 -----------------
-Please [open an issue](https://github.com/nsaunders/purescript-tecton/issues/new) to discuss any defects you find. In addition to a brief description, include
+Please [open an issue](https://github.com/nsaunders/purescript-tecton/issues/new?labels=defect&template=defect.md) to discuss any defects you find. In addition to a brief description, include
 * the code you wrote;
 * the expected output;
 * the compiler error or incorrect output you encountered; and
