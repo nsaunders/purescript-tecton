@@ -1,7 +1,7 @@
 Contributing
 ============
 
-Welcome, and thanks for your interest in Tecton. Whether you are new to CSS and PureScript or here to teach us new tricks, we're glad to have you and look forward to your contributions. Listed below are a few of the ways you can help.
+Welcome, and thanks for your interest in Tecton. Whether you are new to CSS and PureScript or here to teach us new tricks, we're glad to have you and look forward to your contributions. Listed below are a few ways you can help.
 
 Asking questions
 ----------------
@@ -21,7 +21,7 @@ Please share any suggestions for improving or adding to the documentation by [su
 
 Sharing resources
 -----------------
-If you have created a tutorial, related library, interesting code example, or other resource related to Tecton, please [share it with the PureScript community](https://discourse.purescript.org). Increasing awareness will bring more users (and potential contributors) to the project.
+If you have created a tutorial, auxiliary library, interesting code example, or other resource related to Tecton, please [share it with the PureScript community](https://discourse.purescript.org). Increasing awareness will bring more users (and potential contributors) to the project.
 
 Submitting code
 ---------------
@@ -29,18 +29,16 @@ Pull requests are welcome, but we ask that you [open an issue](https://github.co
 
 ### Development environment
 
-You can use [Nix](https://github.com/NixOS/nix) to create a development environment with all of the required tooling. Simply run `nix-shell` in the root project directory, and you'll have everything you need to get started.
-
-You will also need to run `npm install` to obtain additional dependencies required to verify your changes before you are ready to submit them.
+You can use [Nix](https://github.com/NixOS/nix) to create a development environment with all required tooling. Simply run `nix-shell` in the root project directory, and you'll have everything you need to get started.
 
 ### Making changes
 
-The `src` directory includes the following three modules:
-* `Tecton`, which exports most of the public API;
-* `Tecton.Rule`, for use with qualified-do syntax to create rulesets; and
-* `Tecton.Internal`, which contains internal and private functions and data types.
+The `src` directory includes the following modules:
+* [`Tecton`](./src/Tecton.purs), which exports most of the public API;
+* [`Tecton.Internal`](./src/Tecton/Internal.purs), which contains internal and private functions and data types; and
+* [`Tecton.Rule`](./src/Tecton/Rule.purs), for use with qualified-do syntax to create rulesets (not much to see here).
 
-Usually your work will begin in the `Tecton.Internal` module. From this module, export the minimum classes, data types, and functions required for client code to compile. Then, from the `Tecton` module, re-export only the subset that client code should interact with directly. This architecture clearly defines the public API while allowing implementation details to remain flexible.
+Usually your work will begin in the `Tecton.Internal` module. From this module, export the minimum functions, types, and classes required for client code to compile. Then, from the `Tecton` module, re-export only the subset that client code should interact with directly. This architecture clearly defines the public API while allowing implementation details to remain flexible.
 
 After making any changes, run `purs-tidy format-in-place src` to format the code.
 
@@ -62,8 +60,13 @@ Please verify your changes before submitting a pull request using the following 
 2. `spago -x test.dhall test`, which runs the unit tests; and
 3. `npm i && npm run check-examples`, which (as a basic sanity check) compares the output of each [example](./examples) to a previous snapshot.
 
-> ℹ️ **NOTE**: If appropriate, running `npm run check-examples -- --update` will update the snapshot corresponding to each example.
+> ℹ️ **NOTE**: If appropriate, running `npm run check-examples -- --update` will update the example output snapshots.
 
 ### Submitting a pull request
 
-TODO
+When you are ready to [submit a pull request](https://github.com/nsaunders/purescript-tecton/compare), please make sure to include:
+1. a brief description of the change;
+1. a link to the related issue, if applicable;
+1. a link to any relevant [W3C specifications](https://www.w3.org/TR/css-2021/)
+1. any design considerations you feel are important; and
+1. any ideas you may have to improve upon your submission in the future.
