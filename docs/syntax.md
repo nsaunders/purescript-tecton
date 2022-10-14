@@ -31,7 +31,41 @@ margin: 0;
 
 ### Selectors
 
+A [selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) is a query used to select the elements to which a group of [declarations](#declarations) will be applied. A selector primarily targets a certain type of element but can be narrowed based on the element's attributes, class list, pseudo classes, pseudo element, or relationship to another element.
+
+#### The universal selector
+
+The `universal` selector corresponds to `*` in CSS and is used to select any type of element. Many selectors use `universal` as a starting point and narrow their scope using classes, attributes, etc.
+
+> ℹ️ **NOTE**: `*` is more widespread in CSS than it appears. A selector `.cls` actually implies `*.cls`.
+
+#### Element selectors
+
+An element selector targets a certain type of element (i.e. an HTML tag). Aside from functioning as a selector itself, it can be used as the starting point for other selectors instead of [the universal selector](#the-universal-selector). A selector is provided for each type of standard HTML element such as `button` or `input`.
+
+#### ID selectors
+
+The `&#` operator constructs an ID selector, which targets an element based on its `id` attribute. For example `universal &# "button1"` is rendered as `*#button1`.
+
+#### Class selectors
+
+The `&.` operator constructs a class selector, which targets an element based on an item of its class list (`class` attribute). For example `a &. "button"` is equivalent to `a.button` in CSS.
+
+#### Attribute selectors
+
 TODO
+
+#### Pseudo-classes
+
+TODO
+
+#### Pseudo-elements
+
+TODO
+
+#### Context
+
+TODO (ancestor, parent, general sibling, adjacent sibling, etc.)
 
 ### Rulesets
 
