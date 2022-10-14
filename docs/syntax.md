@@ -19,6 +19,24 @@ With [`Data.Tuple.Tuple`](https://pursuit.purescript.org/packages/purescript-tup
 
 ### Statements
 
+Statements are the building blocks of a style sheet and are used to create basic rulesets associating a given selector with a group of declarations; [media queries](https://developer.mozilla.org/en-US/docs/Web/CSS/@media) adding conditional logic to nested statements; [font face](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face) rules defining custom fonts; and [keyframes](https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes) animations.
+
+The `?` operator constructs a statement and is analogous to the curly braces that appear in CSS syntax.
+
+#### Rulesets
+
+##### Selectors
+
+TODO
+
+##### Declarations
+
+A [declaration](https://developer.mozilla.org/en-US/docs/Web/CSS/Syntax#css_declaration_blocks) assigns a value to a given CSS property. Declarations are constructed using the `:=` operator, e.g.
+
+```purescript
+margin := nil
+```
+
 #### `@media` rules
 
 TODO
@@ -28,16 +46,6 @@ TODO
 TODO
 
 #### `@keyframes` rules
-
-TODO
-
-#### Rulesets
-
-##### Selectors
-
-TODO
-
-##### Declarations
 
 TODO
 
