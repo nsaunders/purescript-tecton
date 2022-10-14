@@ -21,7 +21,21 @@ With [`Data.Tuple.Tuple`](https://pursuit.purescript.org/packages/purescript-tup
 
 Statements are the building blocks of a style sheet and are used to create basic rulesets associating a given selector with a group of declarations; [media queries](https://developer.mozilla.org/en-US/docs/Web/CSS/@media) adding conditional logic to nested statements; [font face](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face) rules defining custom fonts; and [keyframes](https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes) animations.
 
-The `?` operator constructs a statement and is analogous to the curly braces that appear in CSS syntax.
+The `?` operator constructs a statement and is analogous to the curly braces that appear in CSS syntax, e.g.
+
+```purescript
+media all {} ?
+  universal ? Rule.do
+    width := nil
+```
+which is rendered as
+```css
+@media all {
+  * {
+    width: 0;
+  }
+}
+```
 
 #### Rulesets
 
