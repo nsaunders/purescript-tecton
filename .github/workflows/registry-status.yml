@@ -9,6 +9,7 @@ on:
 
 jobs:
   update:
+    name: Update
     runs-on: ubuntu-latest
     steps:
 
@@ -31,7 +32,7 @@ jobs:
         uses: sergeysova/jq-action@v2
         id: entry
         with:
-          cmd: jq '.packages.teton // empty' tmp.package-set.json -r
+          cmd: jq '.packages.tecton // empty' tmp.package-set.json -r
 
       - name: Update status - current
         if: steps.entry.outputs.value != ''
