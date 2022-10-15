@@ -31,15 +31,15 @@ jobs:
         uses: sergeysova/jq-action@v2
         id: entry
         with:
-          cmd: jq '.packages.tecton' tmp.package-set.json -r
+          cmd: jq '.packages.teton // empty' tmp.package-set.json -r
 
       - name: Update status - current
         if: steps.entry.outputs.value != ''
-        run: echo '{"schemaVersion":1,"label":"package-sets","message":"${{ steps.version.outputs.value }}","color":"success"}' > meta/registry-status.json
+        run: echo '{"schemaVersion":1,"label":"package-sets","message":"v${{ steps.version.outputs.value }}","color":"success"}' > meta/registry-status.json
 
       - name: Update status - not included
         if: steps.entry.outputs.value == ''
-        run: echo '{"schemaVersion":1,"label":"package-sets","message":"not included","color":"important"}' > meta/registry-status.json
+        run: echo '{"schemaVersion":1,"label":"package-sets","message":"needs attention","color":"important"}' > meta/registry-status.json
 
       - name: Commit status update
         uses: EndBug/add-and-commit@v9
