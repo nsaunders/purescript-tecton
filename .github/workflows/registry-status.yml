@@ -5,8 +5,7 @@ on:
     - cron:  "0 14 * * *"
   push:
     branches: [master]
-  pull_request:
-    branches: [master]
+    paths: ['.github/workflows/registry-status.yml']
 
 jobs:
   update:
@@ -32,7 +31,7 @@ jobs:
         uses: sergeysova/jq-action@v2
         id: entry
         with:
-          cmd: jq '.packages.tecton' package-set.json -r
+          cmd: jq '.packages.tecton' tmp.package-set.json -r
 
       - name: Update status - current
         if: steps.entry.outputs.value != ''
