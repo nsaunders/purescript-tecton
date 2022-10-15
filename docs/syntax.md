@@ -8,7 +8,7 @@ Foundations
 
 ### Lists
 
-Lists are represented using [nested tuple syntax `(/\)`](https://pursuit.purescript.org/packages/purescript-tuples/docs/Data.Tuple.Nested#v:(/\\)). For example, a list of time elements written as `ms 150 /\ nil /\ sec 1` would be rendered as `150ms, 0, 1s`. This encoding offers several benefits:
+Lists are represented using [nested tuple syntax](https://pursuit.purescript.org/packages/purescript-tuples/docs/Data.Tuple.Nested#v:(/\\)). For example, a list of time elements would be written as `ms 150 /\ nil /\ sec 1`. This encoding offers several benefits:
 1. It supports heterogeneous lists.
 2. Empty lists are unrepresentable.
 3. Lists can be constrained in various ways (for example, alternating items).
@@ -23,10 +23,6 @@ A [declaration](https://developer.mozilla.org/en-US/docs/Web/CSS/Syntax#css_decl
 
 ```purescript
 margin := nil
-```
-which is rendered as
-```css
-margin: 0;
 ```
 
 ### Selectors
@@ -45,11 +41,11 @@ An element selector targets a certain type of element (i.e. an HTML tag). Aside 
 
 #### ID selectors
 
-The `&#` operator constructs an ID selector, which targets an element based on its `id` attribute. For example `universal &# "button1"` is rendered as `*#button1`.
+The `&#` operator constructs an ID selector, which targets an element based on its `id` attribute. For example `universal &# "button1"`.
 
 #### Class selectors
 
-The `&.` operator constructs a class selector, which targets an element based on an item of its class list (`class` attribute). For example `a &. "button"` is equivalent to `a.button` in CSS.
+The `&.` operator constructs a class selector, which targets an element based on an item of its class list (`class` attribute). For example `a &. "button"`.
 
 #### Attribute selectors
 
@@ -69,7 +65,21 @@ TODO (ancestor, parent, general sibling, adjacent sibling, etc.)
 
 ### Rulesets
 
-TODO
+A [ruleset](https://developer.mozilla.org/en-US/docs/Web/CSS/Syntax#css_rulesets) (or "rule" for short) applies a group of [declarations](#declarations) to the elements matching a [selector](#selectors). A ruleset with a single declaration could be as simple as this:
+
+```purescript
+universal ? width := pct 100
+```
+
+A ruleset consisting of multiple declarations uses the _qualified-do_ syntax:
+
+```purescript
+import Tecton.Rule as Rule
+
+universal ? Rule.do
+  width := pct 100
+  height := pct 100
+```
 
 ### Statements
 
@@ -79,18 +89,16 @@ The following example demonstrates how the `?` operator can be used to construct
 
 ```purescript
 media all {} ?
-  universal ? Rule.do
+  universal ?
     width := nil
 ```
 
-This is rendered as:
+Note that multiple nested statements can be combined using _do_ syntax, e.g.
 
-```css
-@media all {
-  * {
-    width: 0;
-  }
-}
+```purescript
+keyframes fadey ? do
+  pct 0 ? opacity := 0
+  pct 100 ? opacity := 1
 ```
 
 ### `@media` rules
