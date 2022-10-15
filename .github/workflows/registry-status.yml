@@ -1,0 +1,51 @@
+name: Registry Status
+
+on:
+  schedule:
+    - cron:  "0 14 * * *"
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: List package sets
+        run: curl https://api.github.com/repos/purescript/registry/contents/package-sets -o tmp.package-sets.json
+    
+      - name: Get latest package set file
+        uses: sergeysova/jq-action@v2
+        id: version
+        with:
+          cmd: jq '. |= map_values(.name | split(".") | .[:3] | map_values(tonumber)) | sort | reverse | .[0] | join(".")' tmp.package-sets.json -r
+
+      - name: Fetch latest package set
+        run: curl https://raw.githubusercontent.com/purescript/registry/main/package-sets/${{ steps.version.outputs.value }}.json -o tmp.package-set.json
+ 
+      - name: Get Tecton entry
+        uses: sergeysova/jq-action@v2
+        id: entry
+        with:
+          cmd: jq '.packages.tecton' package-set.json -r
+
+      - name: Update status - current
+        if: steps.entry.outputs.value != ''
+        run: echo '{"schemaVersion":1,"label":"package-sets","message":"${{ steps.version.outputs.value }}","color":"success"}' > meta/registry-status.json
+
+      - name: Update status - not included
+        if: steps.entry.outputs.value == ''
+        run: echo '{"schemaVersion":1,"label":"package-sets","message":"not included","color":"important"}' > meta/registry-status.json
+
+      - name: Commit status update
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: meta/registry-status.json
+          author_name: GitHub Actions
+          author_email: 41898282+github-actions[bot]@users.noreply.github.com
+          message: Update registry status.
