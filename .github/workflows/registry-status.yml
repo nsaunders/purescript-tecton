@@ -6,6 +6,7 @@ on:
   push:
     branches: [master]
     paths: ['.github/workflows/registry-status.yml']
+  workflow_dispatch:
 
 jobs:
   update:
