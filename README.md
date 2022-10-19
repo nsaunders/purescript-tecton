@@ -3,6 +3,7 @@
 [![CI](https://github.com/nsaunders/purescript-tecton/workflows/CI/badge.svg?branch=master)](https://github.com/nsaunders/purescript-tecton/actions?query=workflow%3ACI+branch%3Amaster)
 [![Latest release](http://img.shields.io/github/release/nsaunders/purescript-tecton.svg)](https://github.com/nsaunders/purescript-tecton/releases)
 [![Package set](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/nsaunders/purescript-tecton/master/meta/registry-status.json)](https://github.com/purescript/registry/tree/main/package-sets)
+[![Tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/nsaunders/purescript-tecton/master/meta/test-count.json)](./test)
 
 Tecton is a domain-specific language for authoring CSS, embedded in PureScript. The unique capabilities of PureScript allow Tecton's strongly-typed interface to guard against a wide range of [errors](examples/TypeSafety.purs) while offering a developer experience comparable to that of using CSS directly.
 
