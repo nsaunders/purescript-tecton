@@ -73,3 +73,7 @@ in  upstream
         "master"
     }
 ```
+
+## Related
+
+* [purescript-tecton-halogen](https://github.com/nsaunders/purescript-tecton-halogen)
