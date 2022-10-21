@@ -12,7 +12,8 @@ import Tecton.Rule as Rule
 main :: Effect Unit
 main = log $ renderSheet pretty do
 
-  -- Adapted from http://www.csszengarden.com/220/220.css
+  -- Adapted from Dan Mall's "CSS Zen Garments"
+  -- http://www.csszengarden.com/220/220.css
 
   -- Base
   universal ? Rule.do
