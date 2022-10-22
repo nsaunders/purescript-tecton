@@ -177,8 +177,7 @@ spec =
         let
           blue = rgb 0 0 255
         in
-          ( textShadow :=
-              rgb 255 0 0 ~ px 1 ~ px 1 ~ px 2
-              /\ blue ~ nil ~ nil ~ em 1
-              /\ blue ~ nil ~ nil ~ em 0.2
-          )
+          textShadow :=
+            rgb 255 0 0 ~ px 1 ~ px 1 ~ px 2
+            /\ blue ~ nil ~ nil ~ em 1
+            /\ blue ~ nil ~ nil ~ em 0.2
