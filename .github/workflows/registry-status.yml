@@ -37,11 +37,11 @@ jobs:
 
       - name: Update status - current
         if: steps.entry.outputs.value != ''
-        run: echo '{"schemaVersion":1,"label":"package-sets","message":"v${{ steps.version.outputs.value }}","color":"success"}' > meta/registry-status.json
+        run: echo '{"schemaVersion":1,"label":"package-sets","message":"✓ v${{ steps.version.outputs.value }}","color":"success"}' > meta/registry-status.json
 
       - name: Update status - not included
         if: steps.entry.outputs.value == ''
-        run: echo '{"schemaVersion":1,"label":"package-sets","message":"needs attention","color":"important"}' > meta/registry-status.json
+        run: echo '{"schemaVersion":1,"label":"package-sets","message":"✗ needs attention","color":"important"}' > meta/registry-status.json
 
       - name: Commit status update
         uses: EndBug/add-and-commit@v9
