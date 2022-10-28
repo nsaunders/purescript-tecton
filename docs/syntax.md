@@ -53,7 +53,9 @@ TODO
 
 #### Pseudo-classes
 
-TODO
+The `&:` operator appends a pseudo-class, e.g. `universal &: focus`.
+
+For a list of available pseudo-classes, see the [pseudo-class tests](https://github.com/nsaunders/purescript-tecton/search?q=filename%3ASelectorsSpec.purs+pseudo-classes).
 
 #### Pseudo-elements
 
