@@ -1,7 +1,7 @@
 Syntax
 ======
 
-> ⚠️ **NOTE**: This section is a work-in-progress. For now, you can reference the [examples](../examples) and [tests](../docs). Contributions are welcome!
+> ⚠️ **NOTE**: This section is a work-in-progress. Contributions are welcome!
 
 Foundations
 -----------
