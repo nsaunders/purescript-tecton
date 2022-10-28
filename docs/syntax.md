@@ -15,7 +15,7 @@ Lists are represented using [nested tuple syntax](https://pursuit.purescript.org
 
 ### Tuples
 
-With [`Data.Tuple.Tuple`](https://pursuit.purescript.org/packages/purescript-tuples/docs/Data.Tuple#t:Tuple) reserved for lists, a new data type [`Pair`](https://github.com/nsaunders/purescript-tecton/search?q=filename%3AInternal.purs+pair) represents tuples, such as the vertical and horizontal values in `padding` shorthand (`padding := px 4 ~ px 8`). The `~` operator should be used in lieu of the `Pair` constructor and works the same as [`/\`](https://pursuit.purescript.org/packages/purescript-tuples/docs/Data.Tuple.Nested#v:(/\\)) does in other contexts.
+With [`Data.Tuple.Tuple`](https://pursuit.purescript.org/packages/purescript-tuples/docs/Data.Tuple#t:Tuple) reserved for lists, a new data type [`Pair`](https://github.com/nsaunders/purescript-tecton/search?q=filename%3AInternal.purs+pair) represents tuples, such as the vertical and horizontal values in `padding` shorthand (`padding := px 4 ~ px 8`). The `~` operator should be used in lieu of the `Pair` constructor and works the same as [`/\`](https://pursuit.purescript.org/packages/purescript-tuples/docs/Data.Tuple.Nested#v:(/\\)) does elsewhere.
 
 ### Declarations
 
