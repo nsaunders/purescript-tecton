@@ -7,11 +7,15 @@ Notable changes are documented in this file. The format is based on [Keep a Chan
 Breaking changes:
 
 New features:
-- Declarations are now guaranteed to be rendered in the input order.
 
 Bugfixes:
 
 Other improvements:
+
+## [0.1.1]
+
+New features:
+- Declarations are now guaranteed to be rendered in the input order.
 
 ## [0.1.0] - 2022-10-14
 
