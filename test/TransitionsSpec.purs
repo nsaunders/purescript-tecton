@@ -7,10 +7,13 @@ import Prelude hiding (top, bottom)
 import Data.Tuple.Nested ((/\))
 import Tecton (all, bottom, cubicBezier, ease, easeIn, easeInOut, easeOut, end, flex, height, inherit, initial, inset, jumpBoth, jumpEnd, jumpNone, jumpStart, left, marginTop, ms, nil, none, right, sec, start, stepEnd, stepStart, steps, transitionDelay, transitionDuration, transitionProperty, transitionTimingFunction, top, unset, width, (:=))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromInline
+
   describe "Transitions" do
 
     describe "transition-property property" do

@@ -18,7 +18,7 @@ spec = do
             width := nil
             height := nil
         in
-          inlineStyles `shouldEqual` "height: 0; width: 0"
+          inlineStyles `shouldEqual` "width: 0; height: 0"
 
   describe "renderSheet" do
     it "renders a compact style sheet" $

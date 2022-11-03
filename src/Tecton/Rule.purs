@@ -1,7 +1,13 @@
 module Tecton.Rule where
 
 import Prelude hiding (discard)
-import Record.Builder (Builder)
+import Control.Monad.Writer (Writer)
+import Data.Tuple.Nested (type (/\), (/\))
 
-discard :: forall a b c. Builder a b -> (Unit -> Builder b c) -> Builder a c
-discard a k = a >>> k unit
+discard
+  :: forall w a b
+   . Monoid w
+  => Writer w a
+  -> (a -> Writer w b)
+  -> Writer w (a /\ b)
+discard wa awb = wa >>= \a -> awb a >>= \b -> pure (a /\ b)

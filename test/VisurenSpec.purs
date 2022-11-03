@@ -6,10 +6,13 @@ import Prelude
 
 import Tecton (auto, both, clear, float, inherit, initial, left, none, right, unset, zIndex, (:=))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromInline
+
   describe "Visual Formatting Model" do
 
     describe "float property" do

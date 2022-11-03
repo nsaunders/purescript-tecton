@@ -8,7 +8,7 @@ import Color (rgb)
 import Data.Tuple.Nested ((/\))
 import Tecton (arabicIndic, armenian, bengali, cambodian, center, circle, cjkDecimal, cjkEarthlyBranch, cjkHeavenlyStem, decimal, decimalLeadingZero, devanagari, disc, disclosureClosed, disclosureOpen, georgian, gujarati, gurmukhi, hebrew, hiragana, hiraganaIroha, inherit, initial, inside, listStyleImage, listStylePosition, listStyleType, kannada, katakana, katakanaIroha, khmer, lao, li, lowerAlpha, lowerArmenian, lowerGreek, lowerLatin, lowerRoman, malayalam, marker, mongolian, myanmar, nil, none, oriya, outside, persian, radialGradient, square, tamil, telugu, thai, tibetan, unset, upperAlpha, upperArmenian, upperLatin, upperRoman, url, width, (:=), (&:), (?))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline, isRenderedFromSheet)
 
 spec :: Spec Unit
 spec =
@@ -16,11 +16,15 @@ spec =
 
     describe "marker pseudo-element" do
 
+      let isRenderedFrom = isRenderedFromSheet
+
       "li::marker{width:0}"
         `isRenderedFrom` do
         li &: marker ? width := nil
 
     describe "list-style-image property" do
+
+      let isRenderedFrom = isRenderedFromInline
 
       "list-style-image:inherit" `isRenderedFrom` (listStyleImage := inherit)
 
@@ -41,6 +45,8 @@ spec =
        )
 
     describe "list-style-type property" do
+
+      let isRenderedFrom = isRenderedFromInline
 
       "list-style-type:inherit" `isRenderedFrom` (listStyleType := inherit)
 
@@ -181,6 +187,8 @@ spec =
         (listStyleType := cjkHeavenlyStem)
 
     describe "list-style-position property" do
+
+      let isRenderedFrom = isRenderedFromInline
 
       "list-style-position:inherit"
         `isRenderedFrom`

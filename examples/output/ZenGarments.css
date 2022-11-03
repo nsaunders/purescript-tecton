@@ -6,35 +6,35 @@ html {
   font-size: 62.5%;
 }
 body {
+  font-family: "Helvetica", "Arial", sans-serif;
+  color: hsl(0.0, 0.0%, 20.0%);
   background-color: hsl(210.0, 21.05%, 92.55%);
   background-image: url("i/denim2.png");
-  background-position: 50% 350px;
   background-repeat: no-repeat;
-  color: hsl(0.0, 0.0%, 20.0%);
-  font-family: "Helvetica", "Arial", sans-serif;
+  background-position: 50% 350px;
 }
 h1 {
   font-family: "Helvetica", "Arial", sans-serif;
-  font-size: 4.2rem;
   font-weight: bold;
+  font-size: 4.2rem;
   margin-bottom: 0.5em;
 }
 h2 {
   font-family: "Helvetica", "Arial", sans-serif;
-  font-size: 1.8rem;
   font-weight: bold;
+  font-size: 1.8rem;
   margin-bottom: 1em;
 }
 h3 {
   font-family: "Helvetica", "Arial", sans-serif;
-  font-size: 1.5rem;
   font-weight: bold;
+  font-size: 1.5rem;
   margin-bottom: 1em;
 }
 h4, h5, h6 {
   font-family: "Helvetica", "Arial", sans-serif;
-  font-size: 1.2rem;
   font-weight: bold;
+  font-size: 1.2rem;
 }
 *.wf-active body, *.wf-active h1, *.wf-active h2, *.wf-active h3, *.wf-active h4, *.wf-active h5, *.wf-active h6 {
   font-family: "effra", sans-serif;
@@ -59,10 +59,10 @@ input.empty::placeholder, textarea.empty::placeholder {
   color: hsl(0.0, 100.0%, 50.0%);
 }
 td {
-  border-top-color: hsl(0.0, 0.0%, 66.67%);
-  border-top-style: solid;
-  border-top-width: 1px;
   padding: 0.25em 1em;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: hsl(0.0, 0.0%, 66.67%);
 }
 em {
   font-style: italic;
@@ -75,37 +75,37 @@ mark {
   font-style: normal;
 }
 video {
-  height: auto;
   width: 100%;
+  height: auto;
 }
 a {
+  text-decoration-line: none;
   color: hsl(37.0, 33.0%, 48.0%);
   position: relative;
-  text-decoration-line: none;
-  transition-duration: 0.25s;
   transition-property: all;
+  transition-duration: 0.25s;
   transition-timing-function: linear;
 }
 a::after {
-  background-color: hsl(37.0, 33.0%, 48.0%);
-  bottom: -0.2em;
   content: "";
   display: block;
+  background-color: hsl(37.0, 33.0%, 48.0%);
   height: 2px;
+  width: 100%;
+  position: absolute;
+  bottom: -0.2em;
   left: 0;
   opacity: 0;
-  position: absolute;
-  transition-duration: 0.25s;
   transition-property: all;
   transition-timing-function: linear;
-  width: 100%;
+  transition-duration: 0.25s;
 }
 a:hover, a:focus {
   color: hsl(0.0, 0.0%, 0.0%);
 }
 a:hover::after, a:focus::after {
-  bottom: 0;
   opacity: 1;
+  bottom: 0;
 }
 img {
   display: block;
@@ -122,16 +122,16 @@ b {
   font-weight: normal;
 }
 abbr, abbr[title], acronym {
-  border-style: none;
   font-size: 75%;
   letter-spacing: 0.2em;
   text-transform: uppercase;
+  border-style: none;
 }
 code {
-  color: hsl(0.0, 0.0%, 60.0%);
-  font-family: "Consolas", "Courier New", "Courier", monospace;
   font-size: 1.4rem;
   line-height: 1;
+  font-family: "Consolas", "Courier New", "Courier", monospace;
+  color: hsl(0.0, 0.0%, 60.0%);
 }
 sub, sup {
   line-height: 0;
@@ -141,26 +141,26 @@ sub, sup {
   color: hsl(0.0, 0.0%, 20.0%);
 }
 *.phark {
-  background-color: transparent;
-  background-position: 0 0;
-  background-repeat: no-repeat;
   display: block;
   text-indent: -9999px;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-color: transparent;
 }
 *.phark-link {
   overflow: hidden;
 }
 *.clearfix::after {
-  clear: both;
   content: ".";
   display: block;
   height: 0;
+  clear: both;
   visibility: hidden;
 }
 *.offscreen {
-  display: block;
-  left: -9999px;
   position: absolute;
+  left: -9999px;
+  display: block;
 }
 *.onscreen {
   left: 0;
@@ -182,27 +182,27 @@ sub, sup {
 }
 *.kellum {
   display: block;
-  overflow: hidden;
   text-indent: 100%;
   white-space: nowrap;
+  overflow: hidden;
 }
 *.page-wrapper {
-  margin: 0 auto;
   width: 90%;
+  margin: 0 auto;
 }
 *.main h3, *.preamble h3, *.select {
-  color: hsl(224.0, 40.0%, 25.0%);
-  font-size: 2rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
   visibility: hidden;
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: hsl(224.0, 40.0%, 25.0%);
 }
 *.wf-active *.main h3, *.wf-active *.preamble h3 {
   font-weight: 900;
 }
 *.main h3::after, *.preamble h3::after, *.select::after {
-  display: block;
   visibility: visible;
+  display: block;
 }
 *.main p, *.preamble p {
   font-size: 2rem;
@@ -217,56 +217,56 @@ sub, sup {
   opacity: 0;
 }
 *[role="banner"] h1 {
-  color: hsl(216.0, 53.0%, 20.0%);
-  font-size: 3.5rem;
-  font-weight: 900;
-  letter-spacing: 0.1em;
   padding: 1em 0 0;
   text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: hsl(216.0, 53.0%, 20.0%);
   visibility: hidden;
 }
 *[role="banner"] h1::before {
   content: "CSS Zen Garments";
-  display: block;
   visibility: visible;
+  display: block;
 }
 *[role="banner"] h1::after {
-  color: hsla(216.0, 53.4%, 20.2%, 0.4);
   content: "Made Locally";
+  visibility: visible;
   display: block;
+  letter-spacing: 0.5em;
   font-size: 1.4rem;
   font-weight: normal;
-  letter-spacing: 0.5em;
   margin: 0.5em 0 3em;
-  visibility: visible;
+  color: hsla(216.0, 53.4%, 20.2%, 0.4);
 }
 *[role="banner"] h2 {
-  color: hsla(216.13, 53.14%, 34.31%, 0.5);
-  display: none;
-  font-weight: 400;
-  text-transform: uppercase;
   visibility: hidden;
+  display: none;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: hsla(216.13, 53.14%, 34.31%, 0.5);
 }
 *[role="banner"] h2::after {
   content: "Impeccable Quality";
-  display: block;
   visibility: visible;
+  display: block;
 }
 *.summary p {
-  font-size: 1.8rem;
-  letter-spacing: 0.1em;
-  line-height: 1.6;
   text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 1.8rem;
+  line-height: 1.6;
 }
 *.preamble {
   background-color: transparent;
   background-image: url("i/sep.png");
-  background-position: 50% 0;
   background-repeat: no-repeat;
+  background-position: 50% 0;
 }
 *.preamble h3::after {
-  content: "A Fashion-Forward Future";
   visibility: visible;
+  content: "A Fashion-Forward Future";
 }
 *.explanation h3::after {
   content: "See Yourself in a Different Way";
@@ -286,36 +286,36 @@ sub, sup {
 }
 *.design-selection ul {
   list-style-type: none;
-  margin: 0 auto;
   width: 94%;
+  margin: 0 auto;
 }
 *.design-selection ul::after {
-  clear: both;
   content: ".";
   display: block;
   height: 0;
+  clear: both;
   visibility: hidden;
 }
 *.design-selection li {
-  color: hsl(0.0, 0.0%, 66.67%);
   float: left;
+  width: 50%;
   font-size: 1.2rem;
   margin: 0 0 1em;
-  width: 50%;
+  color: hsl(0.0, 0.0%, 66.67%);
 }
 *.design-selection li:nth-child(odd) {
-  clear: left;
-  padding-right: 3%;
   width: 47%;
+  padding-right: 3%;
+  clear: left;
 }
 *.design-name {
   display: block;
   font-size: 1.4rem;
   font-weight: bold;
-  letter-spacing: 0.1em;
   margin: 0 0 0.24em;
-  position: relative;
   text-transform: uppercase;
+  letter-spacing: 0.1em;
+  position: relative;
 }
 *.design-name::after {
   background-image: none;
@@ -331,28 +331,28 @@ sub, sup {
   height: 1px;
 }
 *.select::after {
-  background-color: transparent;
-  background-image: url("i/waves.png");
-  background-position: 50% 0;
-  background-repeat: no-repeat;
-  color: hsl(216.0, 53.0%, 20.0%);
   content: "Washes & Styles";
   font-size: 1.8rem;
-  margin: 0 auto 2em;
-  padding: 2em 0 0;
   text-align: center;
-  visibility: visible;
   width: 7em;
+  margin: 0 auto 2em;
+  background-color: transparent;
+  background-image: url("i/waves.png");
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+  padding: 2em 0 0;
+  color: hsl(216.0, 53.0%, 20.0%);
+  visibility: visible;
 }
 *.archives, *.resources {
-  left: -9999px;
   position: absolute;
+  left: -9999px;
 }
 *.design-archives ul {
   list-style-type: none;
   margin: 1em 0 0;
-  text-align: center;
   width: 100%;
+  text-align: center;
 }
 *.design-archives li {
   display: inline-block;
@@ -360,9 +360,9 @@ sub, sup {
 }
 *.design-archives a {
   display: block;
-  overflow: hidden;
   text-indent: 100%;
   white-space: nowrap;
+  overflow: hidden;
 }
 *.next {
   margin-right: 3em;
@@ -370,10 +370,10 @@ sub, sup {
 *.next a {
   background-color: transparent;
   background-image: url("s/czg.svg");
-  background-position: 10px -56px;
   background-repeat: no-repeat;
-  height: 37px;
+  background-position: 10px -56px;
   width: 43px;
+  height: 37px;
 }
 *.next a:hover, *.next a:focus {
   background-position: 10px -138px;
@@ -384,10 +384,10 @@ sub, sup {
 *.previous a {
   background-color: transparent;
   background-image: url("s/czg.svg");
-  background-position: 10px -220px;
   background-repeat: no-repeat;
-  height: 37px;
+  background-position: 10px -220px;
   width: 43px;
+  height: 37px;
 }
 *.previous a:hover, *.previous a:focus {
   background-position: 10px -302px;
@@ -398,10 +398,10 @@ sub, sup {
 *.viewall a {
   background-color: transparent;
   background-image: url("s/czg.svg");
-  background-position: -56px -55px;
   background-repeat: no-repeat;
-  height: 39px;
+  background-position: -56px -55px;
   width: 39px;
+  height: 39px;
 }
 *.viewall a:hover, *.viewall a:focus {
   background-position: -56px -137px;
@@ -421,32 +421,32 @@ footer a:first-child {
   text-align: center;
 }
 *.zen-resources ul::before {
-  background-color: hsl(205.71, 9.09%, 84.9%);
   content: "";
-  display: block;
   height: 4px;
-  margin: 0 auto 2em;
-  text-align: center;
   width: 80px;
+  background-color: hsl(205.71, 9.09%, 84.9%);
+  display: block;
+  text-align: center;
+  margin: 0 auto 2em;
 }
 *.zen-resources li {
-  display: inline-block;
   margin: 0 0 1em 3em;
+  display: inline-block;
 }
 *.zen-resources li:first-child {
   margin-left: 0;
 }
 *.zen-resources a {
-  background-color: transparent;
-  background-image: url("s/czg.svg");
-  background-position: 0 0;
-  background-repeat: no-repeat;
   display: inline-block;
-  height: 60px;
-  overflow: hidden;
   text-indent: 100%;
   white-space: nowrap;
+  overflow: hidden;
+  background-color: transparent;
+  background-image: url("s/czg.svg");
+  background-repeat: no-repeat;
+  background-position: 0 0;
   width: 60px;
+  height: 60px;
 }
 *.view-css a {
   background-position: -502px 12px;
@@ -484,39 +484,39 @@ footer a:first-child {
     background-position: 90% 80%;
   }
   *.intro::before {
-    background-color: transparent;
-    background-image: url("s/czg.svg");
-    background-position: -184px -99px;
-    background-repeat: no-repeat;
     content: "";
     display: block;
+    width: 105px;
     height: 30px;
-    left: 3%;
     position: fixed;
     top: 154px;
-    width: 105px;
+    left: 3%;
+    background-color: transparent;
+    background-image: url("s/czg.svg");
+    background-repeat: no-repeat;
+    background-position: -184px -99px;
   }
   *[role="article"], *[role="banner"], footer {
     padding: 0 30% 10em 10%;
-    position: relative;
     text-align: right;
+    position: relative;
   }
   *[role="article"] h3, *[role="banner"] h2 {
-    font-size: 1.5rem;
-    left: 75%;
-    letter-spacing: 0;
     position: absolute;
-    text-align: left;
     top: -0.75em;
+    left: 75%;
     width: 10em;
+    text-align: left;
+    font-size: 1.5rem;
+    letter-spacing: 0;
   }
   *[role="article"] h3::after {
     position: absolute;
     top: 0;
   }
   *[role="banner"] {
-    padding-bottom: 3em;
     padding-top: 200px;
+    padding-bottom: 3em;
   }
   *[role="banner"] h1 {
     font-size: 4.8rem;
@@ -525,91 +525,91 @@ footer a:first-child {
   }
   *[role="banner"] h1::after {
     position: absolute;
-    right: 30%;
     top: 15.7em;
+    right: 30%;
   }
   *[role="banner"] h2 {
     display: block;
-    font-size: 1.9rem;
-    left: 75.5%;
-    line-height: 1;
     top: 8.1em;
     width: 3em;
+    left: 75.5%;
+    font-size: 1.9rem;
+    line-height: 1;
   }
   *[role="banner"] h2::before {
-    bottom: 0;
-    color: hsla(0.0, 0.0%, 0.0%, 0.15);
+    visibility: visible;
     content: "Est. 2003";
     display: block;
-    font-size: 50rem;
-    font-weight: 900;
-    height: 2em;
-    left: -0.5em;
-    line-height: 1;
-    margin: auto;
-    mask-image: url("i/denim-mask2.png");
     position: fixed;
-    right: 0;
     top: -0.1em;
-    transform: rotate(-90deg);
-    visibility: visible;
+    bottom: 0;
+    left: -0.5em;
+    right: 0;
+    margin: auto;
+    font-weight: 900;
+    font-size: 50rem;
+    color: hsla(0.0, 0.0%, 0.0%, 0.15);
     width: 100%;
+    height: 2em;
+    line-height: 1;
+    transform: rotate(-90deg);
+    mask-image: url("i/denim-mask2.png");
   }
   *.summary p:nth-child(2) {
     background-color: hsl(60.0, 100.0%, 50.0%);
-    font-size: 1.4rem;
     position: relative;
-    top: 2em;
     visibility: hidden;
+    top: 2em;
+    font-size: 1.4rem;
   }
   *.summary p:nth-child(2)::before {
-    background-color: transparent;
-    background-image: url("s/czg.svg");
-    background-position: -159px -1px;
-    background-repeat: no-repeat;
     content: "";
     display: block;
-    height: 30px;
+    visibility: visible;
     position: absolute;
     right: 21em;
     top: -0.25em;
-    visibility: visible;
-    width: 6em;
-  }
-  *.summary p:nth-child(2)::after {
     background-color: transparent;
     background-image: url("s/czg.svg");
-    background-position: -277px 0;
     background-repeat: no-repeat;
+    background-position: -159px -1px;
+    width: 6em;
+    height: 30px;
+  }
+  *.summary p:nth-child(2)::after {
     content: "";
     display: block;
-    height: 30px;
+    visibility: visible;
     position: absolute;
     right: 14em;
     top: -0.25em;
-    visibility: visible;
-    width: 6em;
-  }
-  *.summary p:nth-child(2) a {
     background-color: transparent;
     background-image: url("s/czg.svg");
-    background-position: -376px -93px;
     background-repeat: no-repeat;
-    display: block;
-    height: 25px;
-    overflow: hidden;
-    position: absolute;
-    right: 7em;
-    text-indent: 100%;
-    top: 0;
-    visibility: visible;
-    white-space: nowrap;
+    background-position: -277px 0;
     width: 6em;
+    height: 30px;
+  }
+  *.summary p:nth-child(2) a {
+    visibility: visible;
+    background-color: transparent;
+    background-image: url("s/czg.svg");
+    background-repeat: no-repeat;
+    background-position: -376px -93px;
+    width: 6em;
+    height: 25px;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 7em;
   }
   *.summary p:nth-child(2) a:hover, *.summary p:nth-child(2) a:focus {
-    background-image: none;
     background-position: -396px -3px;
     text-indent: 0;
+    background-image: none;
   }
   *.summary p:nth-child(2) a[href*="css"] {
     background-position: -472px -94px;
@@ -625,25 +625,25 @@ footer a:first-child {
     top: 5.9em;
   }
   *.design-selection li {
+    width: 23%;
     margin-bottom: 3em;
     padding-right: 2%;
-    width: 23%;
   }
   *.design-selection li:nth-child(odd) {
+    width: 23%;
     clear: none;
     padding-right: 2%;
-    width: 23%;
   }
   *.next {
-    margin-left: -0.4em;
     margin-right: 2em;
+    margin-left: -0.4em;
   }
   *.viewall {
     margin-left: 0;
   }
   footer {
-    margin-top: -5em;
     padding-bottom: 3em;
+    margin-top: -5em;
   }
 }
 @media screen and (min-width: 1130px) {
@@ -651,8 +651,8 @@ footer a:first-child {
     padding-left: 25%;
   }
   *.design-selection {
-    left: 5%;
     position: absolute;
+    left: 5%;
     top: 30em;
   }
   *.design-selection ul {
@@ -664,18 +664,18 @@ footer a:first-child {
     margin-bottom: 2em;
   }
   *.design-selection.design-selection.design-selection li {
-    padding: 0;
     width: 100%;
+    padding: 0;
   }
   *.select::after {
-    background-position: 0 bottom;
-    margin: 0 0 2em;
-    padding: 0 0 2em;
     text-align: left;
+    background-position: 0 bottom;
+    padding: 0 0 2em;
+    margin: 0 0 2em;
   }
   *.design-archives {
-    left: 5%;
     position: absolute;
+    left: 5%;
     top: 95em;
   }
 }
@@ -693,26 +693,26 @@ footer a:first-child {
   }
 }
 *.intro {
-  animation-duration: 1s;
-  animation-iteration-count: 1;
   animation-name: FADEY;
+  animation-duration: 1s;
   animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
 }
 *[role="article"] {
-  animation-delay: 0.5s;
+  opacity: 0;
+  animation-name: FADEY;
   animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0.5s;
   animation-fill-mode: forwards;
   animation-iteration-count: 1;
-  animation-name: FADEY;
-  animation-timing-function: ease-in-out;
-  opacity: 0;
 }
 *.design-selection, *.design-archives {
-  animation-delay: 1s;
+  opacity: 0;
+  animation-name: FADEY;
   animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 1s;
   animation-fill-mode: forwards;
   animation-iteration-count: 1;
-  animation-name: FADEY;
-  animation-timing-function: ease-in-out;
-  opacity: 0;
 }

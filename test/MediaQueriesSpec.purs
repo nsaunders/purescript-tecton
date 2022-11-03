@@ -6,10 +6,13 @@ import Prelude
 
 import Tecton (all, dpcm, dpi, landscape, media, nil, portrait, print, px, screen, universal, width, (:/), (?), (:=))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromSheet)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromSheet
+
   describe "Media Queries Module" do
 
     describe "Media types" do

@@ -1,15 +1,14 @@
-module Tecton.Internal (class AlignContentKeyword, class AlignItemsKeyword, class AlignSelfKeyword, class AlignmentBaselineKeyword, class AlignmentBaselineOrBaselineShiftKeyword, class AllPropertiesAnimatable, class AngleTag, class Animatable, class AnimationDirectionKeyword, class AnimationFillModeKeyword, class AnimationPlayStateKeyword, class AttachmentKeyword, class Attribute, class BaselineShiftKeyword, class BaselineSourceKeyword, class BoxKeyword, class BuildFromScratch, class ByAtt, class Calc, class ClearKeyword, class CollectDeclarations, class CollectFontFaceDeclarations, class CollectMediaFeatures, class Combine, class ContentKeyword, class CounterStyleKeyword, class Declaration, class DirectionKeyword, class DisplayKeyword, class DominantBaselineKeyword, class Element, class ExtentKeyword, class FlexDirectionKeyword, class FlexWrapKeyword, class FloatKeyword, class FontFaceDeclaration, class FontFaceFontStyleKeyword, class FontFaceFontWeightKeyword, class FontFormatKeyword, class FontSizeKeyword, class FontStretchKeyword, class FontStyleKeyword, class FontWeightKeyword, class GenericFontFamilyKeyword, class IsAnimationNameList, class IsAttachmentList, class IsAttribute, class IsBaselineShift, class IsBgImageList, class IsBgSize, class IsBgSizeList, class IsBorderColor, class IsBorderRadius, class IsBorderStyle, class IsBorderWidth, class IsBoxList, class IsColor, class IsColorStopListHead, class IsColorStopListTail, class IsExtensibleSelector, class IsFontFaceFontStyle, class IsFontFaceFontWeight, class IsFontFaceSrcList, class IsFontFamilyList, class IsFontSize, class IsFontStretch, class IsFontStyle, class IsFontWeight, class IsImage, class IsInset, class IsInsetBlock, class IsLetterSpacing, class IsLineHeight, class IsLineWidth, class IsList, class IsListStyleImage, class IsListStyleType, class IsMargin, class IsMaskReferenceList, class IsMaxWidth, class IsMinWidth, class IsOverflow, class IsPadding, class IsPerspective, class IsPosition, class IsPositionList, class IsPositionX, class IsPositionY, class IsRadialGradientDimensions, class IsRepeatStyle, class IsRepeatStyleList, class IsSelector, class IsSelectorList, class IsShadow, class IsSingleAnimationDirectionList, class IsSingleAnimationFillModeList, class IsSingleAnimationIterationCountList, class IsSingleAnimationPlayStateList, class IsSingleBorderRadius, class IsSingleMargin, class IsSingleTransitionPropertyList, class IsTextDecorationLine, class IsTextShadow, class IsTextShadowList, class IsTextTransform, class IsTimeList, class IsTop, class IsTransformList, class IsTransformOrigin, class IsVerticalAlign, class IsWidth, class IsWordSpacing, class JustifyContentKeyword, class LengthPercentageTag, class LengthTag, class LineStyleKeyword, class LineWidthKeyword, class ListStylePositionKeyword, class MaxWidthKeyword, class MediaFeature, class MediaTypeKeyword, class MinWidthKeyword, class MkStatement, class MultiVal, class OutlineLineStyleKeyword, class OverflowKeyword, class PercentageTag, class PositionKeyword, class Property, class Pseudo, class Pseudo', class PseudoPrefix, class Render, class RepeatStyle1dKeyword, class RepeatStyle2dKeyword, class SelectorStatus, class ShapeKeyword, class StepPosition, class TextAlignKeyword, class TextDecorationStyleKeyword, class TextOverflowKeyword, class TextTransformCapitalizationKeyword, class TimeTag, class ToNumber, class ToVal, class VisibilityKeyword, class WhiteSpaceKeyword, class WidthKeyword, Add, Angle, AttributePredicate, CSSColor, CommonKeyword, Configuration, CustomAttribute, Divide, EasingFunction, Extensible, FitContent, FontFace, FontFaceFormatFunction, Gradient, Inextensible, KeyframeBlock, Keyframes, KeyframesName, Length, LengthPercentage, LocalFunction, Measure, MediaQuery, Multiply, NestedRule, Nil, Nth, Orientation, Pair(..), Percentage, PseudoClass, PseudoElement, Ratio(..), Repeating, Resolution, Selector, Statement, Subtract, Time, TransformFunction, URL, Val, a, abbr, absolute, accept, acceptCharset, accesskey, acronym, action, active, add, adjacentSibling, after, alignContent, alignItems, alignSelf, alignmentBaseline, all, alphabetic, alt, alternate, alternateReverse, animationDelay, animationDirection, animationDuration, animationFillMode, animationIterationCount, animationName, animationPlayState, animationTimingFunction, arabicIndic, armenian, article, aside, async, att, attContains, attElemWhitespace, attEndsWith, attEq, attStartsWith, attStartsWithHyphen, audio, auto, autocomplete, autofocus, autoplay, b, backgroundAttachment, backgroundClip, backgroundColor, backgroundImage, backgroundOrigin, backgroundPosition, backgroundRepeat, backgroundSize, backwards, baseline, baselineShift, baselineSource, before, bengali, blink, block, blockquote, body, bold, bolder, borderBottomColor, borderBottomLeftRadius, borderBottomRightRadius, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderLeftColor, borderLeftStyle, borderLeftWidth, borderRadius, borderRightColor, borderRightStyle, borderRightWidth, borderStyle, borderTopColor, borderTopLeftRadius, borderTopRightRadius, borderTopStyle, borderTopWidth, borderWidth, both, bottom, boxShadow, breakSpaces, buildFromScratch, button, byAtt, byClass, byId, byPseudo, cambodian, canvas, capitalize, caption, center, central, ch, charset, checked, child, circle, cite, cjkDecimal, cjkEarthlyBranch, cjkHeavenlyStem, class', clear, clip, closestCorner, closestSide, cm, code, col, colgroup, collapse, collectDeclarations, collectFontFaceDeclarations, collectMediaFeatures, collection, color, cols, colspan, column, columnGap, columnReverse, combine, compact, condensed, contain, content, contentBox, contenteditable, contents, controls, coords, cover, cubicBezier, currentColor, cursive, dashed, data', datetime, dd, decimal, decimalLeadingZero, default, defer, deg, descendant, details, devanagari, dir, direction, dirname, disabled, disc, disclosureClosed, disclosureOpen, display, div, divide, dl, dominantBaseline, dotted, double, download, dpcm, dpi, draggable, dt, ease, easeIn, easeInOut, easeOut, ellipse, ellipsis, em, em', embeddedOpentype, emoji, empty, enabled, enctype, end, even, ex, expanded, extraCondensed, extraExpanded, fangsong, fantasy, farthestCorner, farthestSide, fdval, fieldset, first, firstChild, firstLetter, firstLine, firstOfType, fitContent, fixed, flex, flexBasis, flexDirection, flexEnd, flexGrow, flexShrink, flexStart, flexWrap, float, flowRoot, focus, fontFace, fontFamily, fontSize, fontSizeAdjust, fontStretch, fontStyle, fontWeight, footer, for, form, formaction, format, forwards, fullSizeKana, fullWidth, gap, generalSibling, georgian, grid, groove, gujarati, gurmukhi, h1, h2, h3, h4, h5, h6, hanging, header, headers, hebrew, height, hidden, high, hiragana, hiraganaIroha, hover, hr, href, hreflang, html, httpEquiv, i, id, ideographic, img, inch, indeterminate, infinite, inherit, initial, inline, inlineBlock, inlineFlex, inlineGrid, inlineTable, input, inset, insetBlock, insetBlockEnd, insetBlockStart, insetInline, insetInlineEnd, insetInlineStart, inside, invert, ismap, italic, jumpBoth, jumpEnd, jumpNone, jumpStart, justify, justifyAll, justifyContent, kannada, katakana, katakanaIroha, keyframes, keyframesName, khmer, kind, label, landscape, lang, lang', lao, large, larger, last, lastChild, lastOfType, left, legend, letterSpacing, li, lighter, line, lineHeight, lineThrough, linear, linearGradient, link, list, listItem, listStyleImage, listStylePosition, listStyleType, local, local', loop, low, lowerAlpha, lowerArmenian, lowerGreek, lowerLatin, lowerRoman, lowercase, ltr, main', malayalam, mapVal, margin, marginBottom, marginLeft, marginRight, marginTop, mark, marker, maskImage, matchParent, math, mathematical, matrix, matrix3d, max, maxContent, maxHeight, maxWidth, maxlength, media, media', medium, menu, method, middle, min, minContent, minHeight, minWidth, mkStatement, mm, mongolian, monospace, ms, multiVal, multiValImpl, multiple, multiply, multiplyFlipped, muted, myanmar, name, nav, nil, noRepeat, none, normal, not, novalidate, nowrap, nth, nthChild, nthLastChild, nthOfType, number, oblique, odd, ol, onabort, onafterprint, onbeforeprint, onbeforeunload, onblur, oncanplay, oncanplaythrough, onchange, onclick, oncontextmenu, oncopy, oncuechange, oncut, ondblclick, ondrag, ondragend, ondragenter, ondragleave, ondragover, ondragstart, ondrop, ondurationchange, onemptied, onended, onerror, onfocus, onhashchange, oninput, oninvalid, onkeydown, onkeypress, onkeyup, onload, onloadeddata, onloadedmetadata, onloadstart, onlyChild, onlyOfType, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onmousewheel, onoffline, ononline, onpagehide, onpageshow, onpaste, onpause, onplay, onplaying, onpopstate, onprogress, onratechange, onreset, onresize, onscroll, onsearch, onseeked, onseeking, onselect, onstalled, onstorage, onsubmit, onsuspend, ontimeupdate, ontoggle, onunload, onvolumechange, onwaiting, onwheel, opacity, open, opentype, optgroup, optimum, option, order, oriya, outlineColor, outlineOffset, outlineStyle, outlineWidth, outset, outside, overflow, overflowX, overflowY, overline, p, padding, paddingBottom, paddingBox, paddingLeft, paddingRight, paddingTop, path, pattern, paused, pc, pct, persian, perspective, placeholder, polygon, polyline, portrait, position, poster, pre, preLine, preWrap, preload, pretty, print, progress, pseudoPrefix, pt, pval, px, q, rad, radialGradient, readonly, rect, rel, relative, rem, render, renderInline, renderSheet, repeat', repeatX, repeatY, repeating, required, reverse, reversed, ridge, right, role, root, rotate, rotate3d, rotateX, rotateY, rotateZ, round, row, rowGap, rowReverse, rows, rowspan, rtl, running, sandbox, sansSerif, scale, scale3d, scaleX, scaleY, scaleZ, scope, screen, scroll, sec, section, select, selected, selection, semiCondensed, semiExpanded, serif, shape, size, sizes, skewX, skewY, small, smaller, solid, space, spaceAround, spaceBetween, span, spellcheck, square, src, srcdoc, srclang, srcset, start, static, step, stepEnd, stepStart, steps, sticky, stretch, strong, style, sub, subtract, summary, sup, super, svg, systemUI, tabindex, table, tableCaption, tableCell, tableColumn, tableColumnGroup, tableFooterGroup, tableHeaderGroup, tableRow, tableRowGroup, tamil, target, tbody, td, telugu, textAlign, textBottom, textDecorationColor, textDecorationLine, textDecorationStyle, textIndent, textOverflow, textShadow, textTop, textTransform, textarea, tfoot, th, thai, thead, thick, thin, tibetan, time, title, top, tr, transform, transformOrigin, transitionDelay, transitionDuration, transitionProperty, transitionTimingFunction, translate, translate', translate3d, translateX, translateY, translateZ, transparent, truetype, turn, type', uiMonospace, uiRounded, uiSansSerif, uiSerif, ul, ultraCondensed, ultraExpanded, underline, universal, unset, upperAlpha, upperArmenian, upperLatin, upperRoman, uppercase, url, usemap, val, value, verticalAlign, vh, video, visibility, visible, visited, vmax, vmin, vw, wavy, whiteSpace, width, woff, woff2, wordSpacing, wrap, wrapReverse, xLarge, xSmall, xxLarge, xxSmall, zIndex, ($=), (&#), (&.), (&:), (&@), (*=), (*@), (:/), (:=), (?), (@*), (@+@), (@-@), (@/), (@=), (^=), (|*), (|+), (|=), (|>), (|~), (~), (~=)) where
+module Tecton.Internal (class AlignContentKeyword, class AlignItemsKeyword, class AlignSelfKeyword, class AlignmentBaselineKeyword, class AlignmentBaselineOrBaselineShiftKeyword, class AllPropertiesAnimatable, class AngleTag, class Animatable, class AnimationDirectionKeyword, class AnimationFillModeKeyword, class AnimationPlayStateKeyword, class Assoc, class AttachmentKeyword, class Attribute, class BaselineShiftKeyword, class BaselineSourceKeyword, class BoxKeyword, class ByAtt, class Calc, class ClearKeyword, class CollectMediaFeatures, class Combine, class ContentKeyword, class CounterStyleKeyword, class Declaration, class DirectionKeyword, class DisplayKeyword, class DominantBaselineKeyword, class Elem, class Element, class ExtentKeyword, class FlexDirectionKeyword, class FlexWrapKeyword, class FloatKeyword, class FontFaceDeclaration, class FontFaceFontStyleKeyword, class FontFaceFontWeightKeyword, class FontFormatKeyword, class FontSizeKeyword, class FontStretchKeyword, class FontStyleKeyword, class FontWeightKeyword, class GenericFontFamilyKeyword, class IsAnimationNameList, class IsAttachmentList, class IsAttribute, class IsBaselineShift, class IsBgImageList, class IsBgSize, class IsBgSizeList, class IsBorderColor, class IsBorderRadius, class IsBorderStyle, class IsBorderWidth, class IsBoxList, class IsColor, class IsColorStopListHead, class IsColorStopListTail, class IsExtensibleSelector, class IsFontFaceFontStyle, class IsFontFaceFontWeight, class IsFontFaceSrcList, class IsFontFamilyList, class IsFontSize, class IsFontStretch, class IsFontStyle, class IsFontWeight, class IsImage, class IsInset, class IsInsetBlock, class IsLetterSpacing, class IsLineHeight, class IsLineWidth, class IsList, class IsListStyleImage, class IsListStyleType, class IsMargin, class IsMaskReferenceList, class IsMaxWidth, class IsMinWidth, class IsOverflow, class IsPadding, class IsPerspective, class IsPosition, class IsPositionList, class IsPositionX, class IsPositionY, class IsRadialGradientDimensions, class IsRepeatStyle, class IsRepeatStyleList, class IsSelector, class IsSelectorList, class IsShadow, class IsSingleAnimationDirectionList, class IsSingleAnimationFillModeList, class IsSingleAnimationIterationCountList, class IsSingleAnimationPlayStateList, class IsSingleBorderRadius, class IsSingleMargin, class IsSingleTransitionPropertyList, class IsTextDecorationLine, class IsTextShadow, class IsTextShadowList, class IsTextTransform, class IsTimeList, class IsTop, class IsTransformList, class IsTransformOrigin, class IsVerticalAlign, class IsWidth, class IsWordSpacing, class JustifyContentKeyword, class LengthPercentageTag, class LengthTag, class LineStyleKeyword, class LineWidthKeyword, class ListStylePositionKeyword, class MaxWidthKeyword, class MediaFeature, class MediaTypeKeyword, class MinWidthKeyword, class MkStatement, class MultiVal, class OutlineLineStyleKeyword, class OverflowKeyword, class PercentageTag, class PositionKeyword, class Property, class Pseudo, class Pseudo', class PseudoPrefix, class RepeatStyle1dKeyword, class RepeatStyle2dKeyword, class SelectorStatus, class ShapeKeyword, class StepPosition, class TextAlignKeyword, class TextDecorationStyleKeyword, class TextOverflowKeyword, class TextTransformCapitalizationKeyword, class TimeTag, class ToNumber, class ToVal, class VisibilityKeyword, class WhiteSpaceKeyword, class WidthKeyword, Add, Angle, AttributePredicate, CSSColor, CommonKeyword, Configuration, CustomAttribute, Declaration', Divide, EasingFunction, Extensible, FitContent, FontFace, FontFaceDeclaration', FontFaceFormatFunction, Gradient, Inextensible, KeyframeBlock, Keyframes, KeyframesName, Length, LengthPercentage, LocalFunction, Measure, MediaQuery, Multiply, NestedRule, Nil, Nth, Orientation, Pair(..), Percentage, PseudoClass, PseudoElement, Ratio(..), Repeating, Resolution, Selector, Statement, Subtract, Time, TransformFunction, URL, Val, a, abbr, absolute, accept, acceptCharset, accesskey, acronym, action, active, add, adjacentSibling, after, alignContent, alignItems, alignSelf, alignmentBaseline, all, alphabetic, alt, alternate, alternateReverse, animationDelay, animationDirection, animationDuration, animationFillMode, animationIterationCount, animationName, animationPlayState, animationTimingFunction, arabicIndic, armenian, article, aside, assoc, async, att, attContains, attElemWhitespace, attEndsWith, attEq, attStartsWith, attStartsWithHyphen, audio, auto, autocomplete, autofocus, autoplay, b, backgroundAttachment, backgroundClip, backgroundColor, backgroundImage, backgroundOrigin, backgroundPosition, backgroundRepeat, backgroundSize, backwards, baseline, baselineShift, baselineSource, before, bengali, blink, block, blockquote, body, bold, bolder, borderBottomColor, borderBottomLeftRadius, borderBottomRightRadius, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderLeftColor, borderLeftStyle, borderLeftWidth, borderRadius, borderRightColor, borderRightStyle, borderRightWidth, borderStyle, borderTopColor, borderTopLeftRadius, borderTopRightRadius, borderTopStyle, borderTopWidth, borderWidth, both, bottom, boxShadow, breakSpaces, button, byAtt, byClass, byId, byPseudo, cambodian, canvas, capitalize, caption, center, central, ch, charset, checked, child, circle, cite, cjkDecimal, cjkEarthlyBranch, cjkHeavenlyStem, class', clear, clip, closestCorner, closestSide, cm, code, col, colgroup, collapse, collectMediaFeatures, collection, color, cols, colspan, column, columnGap, columnReverse, combine, compact, condensed, contain, content, contentBox, contenteditable, contents, controls, coords, cover, cubicBezier, currentColor, cursive, dashed, data', datetime, dd, decimal, decimalLeadingZero, default, defer, deg, descendant, details, devanagari, dir, direction, dirname, disabled, disc, disclosureClosed, disclosureOpen, display, div, divide, dl, dominantBaseline, dotted, double, download, dpcm, dpi, draggable, dt, ease, easeIn, easeInOut, easeOut, ellipse, ellipsis, em, em', embeddedOpentype, emoji, empty, enabled, enctype, end, even, ex, expanded, extraCondensed, extraExpanded, fangsong, fantasy, farthestCorner, farthestSide, fdval, fieldset, first, firstChild, firstLetter, firstLine, firstOfType, fitContent, fixed, flex, flexBasis, flexDirection, flexEnd, flexGrow, flexShrink, flexStart, flexWrap, float, flowRoot, focus, fontFace, fontFamily, fontSize, fontSizeAdjust, fontStretch, fontStyle, fontWeight, footer, for, form, formaction, format, forwards, fullSizeKana, fullWidth, gap, generalSibling, georgian, grid, groove, gujarati, gurmukhi, h1, h2, h3, h4, h5, h6, hanging, header, headers, hebrew, height, hidden, high, hiragana, hiraganaIroha, hover, hr, href, hreflang, html, httpEquiv, i, id, ideographic, img, inch, indeterminate, infinite, inherit, initial, inline, inlineBlock, inlineFlex, inlineGrid, inlineTable, input, inset, insetBlock, insetBlockEnd, insetBlockStart, insetInline, insetInlineEnd, insetInlineStart, inside, invert, ismap, italic, jumpBoth, jumpEnd, jumpNone, jumpStart, justify, justifyAll, justifyContent, kannada, katakana, katakanaIroha, keyframes, keyframesName, khmer, kind, label, landscape, lang, lang', lao, large, larger, last, lastChild, lastOfType, left, legend, letterSpacing, li, lighter, line, lineHeight, lineThrough, linear, linearGradient, link, list, listItem, listStyleImage, listStylePosition, listStyleType, local, local', loop, low, lowerAlpha, lowerArmenian, lowerGreek, lowerLatin, lowerRoman, lowercase, ltr, main', malayalam, mapVal, margin, marginBottom, marginLeft, marginRight, marginTop, mark, marker, maskImage, matchParent, math, mathematical, matrix, matrix3d, max, maxContent, maxHeight, maxWidth, maxlength, media, media', medium, menu, method, middle, min, minContent, minHeight, minWidth, mkStatement, mm, mongolian, monospace, ms, multiVal, multiValImpl, multiple, multiply, multiplyFlipped, muted, myanmar, name, nav, nil, noRepeat, none, normal, not, novalidate, nowrap, nth, nthChild, nthLastChild, nthOfType, number, oblique, odd, ol, onabort, onafterprint, onbeforeprint, onbeforeunload, onblur, oncanplay, oncanplaythrough, onchange, onclick, oncontextmenu, oncopy, oncuechange, oncut, ondblclick, ondrag, ondragend, ondragenter, ondragleave, ondragover, ondragstart, ondrop, ondurationchange, onemptied, onended, onerror, onfocus, onhashchange, oninput, oninvalid, onkeydown, onkeypress, onkeyup, onload, onloadeddata, onloadedmetadata, onloadstart, onlyChild, onlyOfType, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onmousewheel, onoffline, ononline, onpagehide, onpageshow, onpaste, onpause, onplay, onplaying, onpopstate, onprogress, onratechange, onreset, onresize, onscroll, onsearch, onseeked, onseeking, onselect, onstalled, onstorage, onsubmit, onsuspend, ontimeupdate, ontoggle, onunload, onvolumechange, onwaiting, onwheel, opacity, open, opentype, optgroup, optimum, option, order, oriya, outlineColor, outlineOffset, outlineStyle, outlineWidth, outset, outside, overflow, overflowX, overflowY, overline, p, padding, paddingBottom, paddingBox, paddingLeft, paddingRight, paddingTop, path, pattern, paused, pc, pct, persian, perspective, placeholder, polygon, polyline, portrait, position, poster, pre, preLine, preWrap, preload, pretty, print, progress, pseudoPrefix, pt, pval, px, q, rad, radialGradient, readonly, rect, rel, relative, rem, renderInline, renderInline', renderSheet, repeat', repeatX, repeatY, repeating, required, reverse, reversed, ridge, right, role, root, rotate, rotate3d, rotateX, rotateY, rotateZ, round, row, rowGap, rowReverse, rows, rowspan, rtl, runVal, running, sandbox, sansSerif, scale, scale3d, scaleX, scaleY, scaleZ, scope, screen, scroll, sec, section, select, selected, selection, semiCondensed, semiExpanded, serif, shape, size, sizes, skewX, skewY, small, smaller, solid, space, spaceAround, spaceBetween, span, spellcheck, square, src, srcdoc, srclang, srcset, start, static, step, stepEnd, stepStart, steps, sticky, stretch, strong, style, sub, subtract, summary, sup, super, svg, systemUI, tabindex, table, tableCaption, tableCell, tableColumn, tableColumnGroup, tableFooterGroup, tableHeaderGroup, tableRow, tableRowGroup, tamil, target, tbody, td, telugu, textAlign, textBottom, textDecorationColor, textDecorationLine, textDecorationStyle, textIndent, textOverflow, textShadow, textTop, textTransform, textarea, tfoot, th, thai, thead, thick, thin, tibetan, time, title, top, tr, transform, transformOrigin, transitionDelay, transitionDuration, transitionProperty, transitionTimingFunction, translate, translate', translate3d, translateX, translateY, translateZ, transparent, truetype, turn, type', uiMonospace, uiRounded, uiSansSerif, uiSerif, ul, ultraCondensed, ultraExpanded, underline, universal, unset, upperAlpha, upperArmenian, upperLatin, upperRoman, uppercase, url, usemap, val, value, verticalAlign, vh, video, visibility, visible, visited, vmax, vmin, vw, wavy, whiteSpace, width, woff, woff2, wordSpacing, wrap, wrapReverse, xLarge, xSmall, xxLarge, xxSmall, zIndex, ($=), (&#), (&.), (&:), (&@), (*=), (*@), (:/), (:=), (?), (@*), (@+@), (@-@), (@/), (@=), (^=), (|*), (|+), (|=), (|>), (|~), (~), (~=)) where
 
 import Prelude hiding (add, bottom, sub, top)
 
 import Color (Color, cssStringHSLA, toHexString)
 import Control.Monad.Writer (Writer, execWriter, tell)
-import Control.Semigroupoid (composeFlipped)
 import Data.Array (replicate)
 import Data.Array as Array
 import Data.Either as Either
 import Data.Foldable (foldl, foldr)
-import Data.FoldableWithIndex (class FoldableWithIndex, foldlWithIndex)
+import Data.FoldableWithIndex (foldlWithIndex)
 import Data.Int as Int
 import Data.List (List(..), (:))
 import Data.Number.Format as Number
@@ -25,8 +24,6 @@ import Prim.Row as Row
 import Prim.RowList (class RowToList, RowList)
 import Prim.RowList as RL
 import Record as Record
-import Record.Builder (Builder)
-import Record.Builder as RB
 import Type.Proxy (Proxy(..))
 
 --------------------------------------------------------------------------------
@@ -47,6 +44,12 @@ class IsList (x :: Type) (xs :: Type)
 
 instance IsList x xs => IsList x (x /\ xs)
 else instance IsList x x
+
+class Elem (x :: Type) (xs :: Type)
+
+instance Elem x (x /\ xs)
+else instance Elem x x
+else instance Elem x xs => Elem x (a /\ xs)
 
 --------------------------------------------------------------------------------
 
@@ -153,14 +156,8 @@ data Statement
   = NestedAtRule NestedRule (Array Statement)
   | Ruleset (Array Val) Val
 
-class MkStatement (a :: Type) (b :: Type) (c :: Type) | a -> c where
+class MkStatement (a :: Type) (b :: Type) (c :: Type) | a -> b, a -> c where
   mkStatement :: a -> b -> Writer (Array c) Unit
-
-class BuildFromScratch (a :: Row Type) (b :: Type) | b -> a where
-  buildFromScratch :: Builder (Record a) b -> b
-
-instance BuildFromScratch () (Record r) where
-  buildFromScratch builder = RB.build builder {}
 
 instance MkStatement MediaQuery (Writer (Array Statement) Unit) Statement where
   mkStatement mq nested =
@@ -170,17 +167,17 @@ instance MkStatement MediaQuery (Writer (Array Statement) Unit) Statement where
       $ execWriter nested
 
 else instance
-  ( RowToList r rl
-  , CollectFontFaceDeclarations rl r ("font-family" :: Unit, src :: Unit | provided)
-  , BuildFromScratch empty (Record r)
+  ( Elem (Proxy "font-family") descriptors
+  , Elem (Proxy "src") descriptors
   ) =>
-  MkStatement FontFace (Builder (Record empty) (Record r)) Statement where
+  MkStatement FontFace (Writer (List FontFaceDeclaration') descriptors) Statement where
   mkStatement _ decls =
     tell
       $ pure
       $ Ruleset [ val "@font-face" ]
       $ concatDeclarations
-      $ collectFontFaceDeclarations (Proxy :: _ rl) (buildFromScratch decls) Nil
+      $ map (\(FontFaceDeclaration' d) -> d)
+      $ execWriter decls
 
 else instance
   MkStatement Keyframes (Writer (Array KeyframeBlock) Unit) Statement where
@@ -190,50 +187,41 @@ else instance
       $ NestedAtRule (NestedRule $ val "keyframes " <> val kfname)
       $ ((\(KeyframeBlock sels decls) -> Ruleset sels decls) <$> execWriter blocks)
 
-else instance
-  ( RowToList r rl
-  , CollectDeclarations rl r
-  , AllPropertiesAnimatable rl
-  , BuildFromScratch empty (Record r)
-  ) =>
-  MkStatement (Measure Percentage) (Builder (Record empty) (Record r)) KeyframeBlock where
+else instance AllPropertiesAnimatable ps => MkStatement (Measure Percentage) (Writer (List Declaration') ps) KeyframeBlock where
   mkStatement sel decls =
     tell
       $ pure
       $ KeyframeBlock [ val sel ]
       $ concatDeclarations
-      $ collectDeclarations (Proxy :: _ rl) (buildFromScratch decls) Nil
+      $ map (\(Declaration' d) -> d)
+      $ execWriter decls
 
 else instance
-  ( RowToList r rl
-  , CollectDeclarations rl r
-  , AllPropertiesAnimatable rl
-  , BuildFromScratch empty (Record r)
+  ( AllPropertiesAnimatable ps
   , IsList (Measure Percentage) xs
   , MultiVal xs
   ) =>
-  MkStatement (Measure Percentage /\ xs) (Builder (Record empty) (Record r)) KeyframeBlock where
+  MkStatement (Measure Percentage /\ xs) (Writer (List Declaration') ps) KeyframeBlock where
   mkStatement sels decls =
     tell
       $ pure
       $ KeyframeBlock (multiVal sels)
       $ concatDeclarations
-      $ collectDeclarations (Proxy :: _ rl) (buildFromScratch decls) Nil
+      $ map (\(Declaration' d) -> d)
+      $ execWriter decls
 
 else instance
   ( IsSelectorList selectors
   , MultiVal selectors
-  , RowToList r rl
-  , CollectDeclarations rl r
-  , BuildFromScratch empty (Record r)
   ) =>
-  MkStatement selectors (Builder (Record empty) (Record r)) Statement where
+  MkStatement selectors (Writer (List Declaration') ps) Statement where
   mkStatement sel decls =
     tell
       $ pure
       $ Ruleset (multiVal sel)
       $ concatDeclarations
-      $ collectDeclarations (Proxy :: _ rl) (buildFromScratch decls) Nil
+      $ map (\(Declaration' d) -> d)
+      $ execWriter decls
 
 infixr 0 mkStatement as ?
 
@@ -241,134 +229,108 @@ infixr 0 mkStatement as ?
 
 -- Declarations
 
-infixr 0 RB.insert as :=
+newtype Declaration' = Declaration' (Val /\ Val)
 
-concatDeclarations :: forall f. FoldableWithIndex Int f => f (Val /\ Val) -> Val
+newtype FontFaceDeclaration' = FontFaceDeclaration' (Val /\ Val)
+
+class Assoc k v w where
+  assoc :: k -> v -> Writer (List w) k
+
+instance (IsSymbol p, Property p) => Assoc (Proxy p) CommonKeyword Declaration' where
+  assoc _ v =
+    let
+      prop = Proxy :: _ p
+    in
+      tell (pure $ Declaration' $ val prop /\ val v) *> pure prop
+else instance (IsSymbol p, Declaration p v) => Assoc (Proxy p) v Declaration' where
+  assoc _ v =
+    let
+      prop = Proxy :: _ p
+    in
+      tell (pure $ Declaration' $ val prop /\ pval prop v) *> pure prop
+
+instance
+  ( IsSymbol d
+  , FontFaceDeclaration d v
+  ) =>
+  Assoc (Proxy d) v FontFaceDeclaration' where
+  assoc _ v =
+    let
+      desc = Proxy :: _ d
+    in
+      tell (pure $ FontFaceDeclaration' $ val desc /\ fdval desc v) *> pure desc
+
+infixr 0 assoc as :=
+
+concatDeclarations :: List (Val /\ Val) -> Val
 concatDeclarations decls = Val \c ->
   let
     indent = String.joinWith mempty $ replicate c.indentLevel c.indentation
-    block' i' acc (k /\ v) =
-      indent
-        <> runVal c k
-        <> ":"
-        <> c.separator
-        <> runVal c v
-        <> (if (i' == 0 && c.finalSemicolon) || acc /= mempty then ";" else mempty)
-        <> if acc /= mempty then c.newline <> acc else mempty
+    go Nil acc = acc <> if c.finalSemicolon then ";" else mempty
+    go ((k /\ v) : xs) acc =
+      go xs $ (if acc /= mempty then acc <> ";" <> c.newline else mempty) <> indent <> runVal c k <> ":" <> c.separator <> runVal c v
   in
-    foldlWithIndex block' mempty decls
+    go decls mempty
 
 class Property (p :: Symbol)
 
 class Property p <= Declaration (p :: Symbol) (v :: Type) where
   pval :: Proxy p -> v -> Val
 
-class CollectDeclarations (rl :: RowList Type) (r :: Row Type) where
-  collectDeclarations
-    :: Proxy rl
-    -> Record r
-    -> List (Val /\ Val)
-    -> List (Val /\ Val)
-
-instance CollectDeclarations RL.Nil r where
-  collectDeclarations _ _ = identity
-
-instance
-  ( IsSymbol p
-  , Property p
-  , Row.Cons p CommonKeyword tailRow row
-  , CollectDeclarations tailRowList row
-  ) =>
-  CollectDeclarations (RL.Cons p CommonKeyword tailRowList) row where
-  collectDeclarations _ rec acc =
-    let
-      field = Proxy :: _ p
-      decl = val field /\ val (Record.get field rec)
-    in
-      collectDeclarations (Proxy :: _ tailRowList) rec $ decl : acc
-else instance
-  ( IsSymbol p
-  , Declaration p v
-  , Row.Cons p v tailRow row
-  , CollectDeclarations tailRowList row
-  ) =>
-  CollectDeclarations (RL.Cons p v tailRowList) row where
-  collectDeclarations _ rec acc =
-    let
-      field = Proxy :: _ p
-      decl = val field /\ pval field (Record.get field rec)
-    in
-      collectDeclarations (Proxy :: _ tailRowList) rec $ decl : acc
-
 --------------------------------------------------------------------------------
 
 -- Rendering
 
-renderInline
-  :: forall r rl empty
-   . RowToList r rl
-  => CollectDeclarations rl r
-  => BuildFromScratch empty (Record r)
-  => Builder (Record empty) (Record r)
+renderInline'
+  :: forall ps
+   . Configuration
+  -> Writer (List Declaration') ps
   -> String
-renderInline = render pretty { newline = " ", finalSemicolon = false }
+renderInline' c =
+  runVal c
+    <<< concatDeclarations
+    <<< map (\(Declaration' d) -> d)
+    <<< execWriter
+
+renderInline :: forall ps. Writer (List Declaration') ps -> String
+renderInline = renderInline' pretty { newline = " ", finalSemicolon = false }
 
 renderSheet :: Configuration -> Writer (Array Statement) Unit -> String
-renderSheet = render
+renderSheet config =
+  runVal config
+    <<< joinVals config.newline
+    <<< map renderStatement
+    <<< execWriter
 
-class Render (a :: Type) where
-  render :: Configuration -> a -> String
+  where
 
-instance Render (Writer (Array Statement) Unit) where
-  render config =
-    runVal config
-      <<< joinVals config.newline
-      <<< map renderStatement
-      <<< execWriter
-
-    where
-
-    renderStatement =
-      case _ of
-        Ruleset selectors declarations ->
-          let
-            selector =
-              joinVals (Val \c -> "," <> c.separator)
-                $ Array.fromFoldable selectors
-          in
-            nested selector declarations
-        NestedAtRule (NestedRule nestedRule) statements ->
-          nested (val "@" <> nestedRule) $
-            joinVals config.newline (renderStatement <$> statements)
-
-    nested outer inner =
-      Val \c@{ indentLevel, indentation, newline, separator } ->
+  renderStatement =
+    case _ of
+      Ruleset selectors declarations ->
         let
-          indent = String.joinWith mempty $ replicate indentLevel indentation
+          selector =
+            joinVals (Val \c -> "," <> c.separator)
+              $ Array.fromFoldable selectors
         in
-          indent
-            <> runVal c outer
-            <> separator
-            <> "{"
-            <> newline
-            <> runVal (c { indentLevel = indentLevel + 1 }) inner
-            <> newline
-            <> indent
-            <> "}"
+          nested selector declarations
+      NestedAtRule (NestedRule nestedRule) statements ->
+        nested (val "@" <> nestedRule) $
+          joinVals config.newline (renderStatement <$> statements)
 
-else instance
-  ( RowToList r rl
-  , CollectDeclarations rl r
-  , BuildFromScratch empty (Record r)
-  ) =>
-  Render (Builder (Record empty) (Record r)) where
-  render c decls =
-    runVal c
-      $ concatDeclarations
-      $ collectDeclarations (Proxy :: _ rl) (buildFromScratch decls) Nil
-
-else instance ToVal a => Render a where
-  render = composeFlipped val <<< runVal
+  nested outer inner =
+    Val \c@{ indentLevel, indentation, newline, separator } ->
+      let
+        indent = String.joinWith mempty $ replicate indentLevel indentation
+      in
+        indent
+          <> runVal c outer
+          <> separator
+          <> "{"
+          <> newline
+          <> runVal (c { indentLevel = indentLevel + 1 }) inner
+          <> newline
+          <> indent
+          <> "}"
 
 --------------------------------------------------------------------------------
 
@@ -430,14 +392,14 @@ else instance declarationGapRow ::
 
 class Property p <= Animatable (p :: Symbol)
 
-class AllPropertiesAnimatable (ps :: RowList Type)
+class AllPropertiesAnimatable (ps :: Type)
 
-instance AllPropertiesAnimatable RL.Nil
 instance
   ( Animatable p
-  , AllPropertiesAnimatable tail
+  , AllPropertiesAnimatable ps
   ) =>
-  AllPropertiesAnimatable (RL.Cons p v tail)
+  AllPropertiesAnimatable (Proxy p /\ ps)
+else instance Animatable p => AllPropertiesAnimatable (Proxy p)
 
 newtype KeyframesName = KeyframesName String
 
@@ -2192,31 +2154,6 @@ instance declarationAlignContent ::
 
 class FontFaceDeclaration (d :: Symbol) (v :: Type) where
   fdval :: Proxy d -> v -> Val
-
-class CollectFontFaceDeclarations (rl :: RowList Type) (r :: Row Type) (provided :: Row Type) | rl -> provided where
-  collectFontFaceDeclarations
-    :: Proxy rl
-    -> Record r
-    -> List (Val /\ Val)
-    -> List (Val /\ Val)
-
-instance CollectFontFaceDeclarations RL.Nil r () where
-  collectFontFaceDeclarations _ _ = identity
-
-instance
-  ( IsSymbol d
-  , FontFaceDeclaration d v
-  , Row.Cons d v tailRow row
-  , CollectFontFaceDeclarations tailRowList row tailProvided
-  , Row.Cons d Unit tailProvided provided
-  ) =>
-  CollectFontFaceDeclarations (RL.Cons d v tailRowList) row provided where
-  collectFontFaceDeclarations _ rec acc =
-    let
-      field = Proxy :: _ d
-      decl = val field /\ fdval field (Record.get field rec)
-    in
-      collectFontFaceDeclarations (Proxy :: _ tailRowList) rec $ decl : acc
 
 data FontFace = FontFace
 

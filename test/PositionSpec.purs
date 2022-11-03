@@ -6,10 +6,13 @@ import Prelude hiding (bottom, top)
 
 import Tecton (absolute, auto, bottom, fixed, inherit, initial, inset, insetBlock, insetBlockEnd, insetBlockStart, insetInline, insetInlineEnd, insetInlineStart, left, nil, pct, position, px, relative, right, static, sticky, top, unset, (:=), (~))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromInline
+
   describe "Positioned Layout Module" do
 
     describe "position property" do

@@ -2,21 +2,35 @@ module Test.Util where
 
 import Prelude
 
-import Control.Monad.Error.Class (class MonadThrow)
-import Effect.Exception (Error)
-import Tecton.Internal (class Render, compact, render)
+import Control.Monad.Writer (Writer)
+import Data.List (List)
+import Tecton.Internal (class ToVal, Declaration', Statement, compact, renderInline', renderSheet, runVal, val)
 import Test.Spec (Spec, it)
 import Test.Spec.Assertions (shouldEqual)
 
-isRenderedFrom :: forall a. Render a => String -> a -> Spec Unit
-isRenderedFrom expected given =
-  it ("renders " <> expected) $ assertRendered expected given
+isRenderedFromInline
+  :: forall ps
+   . String
+  -> Writer (List Declaration') ps
+  -> Spec Unit
+isRenderedFromInline expected given =
+  it ("renders " <> expected) $
+    renderInline' compact given `shouldEqual` expected
 
-assertRendered
-  :: forall m a
-   . MonadThrow Error m
- => Render a
- => String
- -> a
- -> m Unit
-assertRendered expected given = render compact given `shouldEqual` expected
+isRenderedFromSheet
+  :: String
+  -> Writer (Array Statement) Unit
+  -> Spec Unit
+isRenderedFromSheet expected given =
+  it ("renders " <> expected) $
+    renderSheet compact given `shouldEqual` expected
+
+isRenderedFromVal
+  :: forall a
+   . ToVal a
+  => String
+  -> a
+  -> Spec Unit
+isRenderedFromVal expected given =
+  it ("renders " <> expected) $
+    runVal compact (val given) `shouldEqual` expected

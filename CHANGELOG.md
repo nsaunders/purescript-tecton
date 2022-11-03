@@ -7,6 +7,7 @@ Notable changes are documented in this file. The format is based on [Keep a Chan
 Breaking changes:
 
 New features:
+- Declarations are now guaranteed to be rendered in the input order.
 
 Bugfixes:
 

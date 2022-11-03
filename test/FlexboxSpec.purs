@@ -6,10 +6,13 @@ import Prelude
 
 import Tecton (alignContent, alignItems, alignSelf, auto, baseline, center, column, columnReverse, content, em, fitContent, flex, flexBasis, flexDirection, flexEnd, flexGrow, flexShrink, flexStart, flexWrap, inherit, initial, justifyContent, maxContent, minContent, none, nowrap, order, pct, px, row, rowReverse, spaceAround, spaceBetween, stretch, unset, wrap, wrapReverse, (:=), (~))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromInline
+
   describe "Flexible Box Layout Module" do
 
     describe "flex-direction property" do

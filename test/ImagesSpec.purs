@@ -8,10 +8,13 @@ import Color (black, rgb)
 import Data.Tuple.Nested ((/\))
 import Tecton (bottom, center, circle, closestSide, currentColor, deg, ellipse, farthestCorner, left, linearGradient, nil, pct, px, radialGradient, repeating, right, top, transparent, (~))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromVal)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromVal
+
   describe "Images Module" do
 
     describe "linear-gradient()" do
