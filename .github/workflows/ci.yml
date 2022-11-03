@@ -47,7 +47,7 @@ jobs:
         run: npm install
 
       - name: Check examples
-        run: npm run check-examples
+        run: npm run check-examples -- --color
 
       - name: Verify Bower & Pulp
         run: |

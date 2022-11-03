@@ -3,6 +3,7 @@
     "check-examples": "node ./scripts/check-examples.mjs"
   },
   "devDependencies": {
+    "chalk": "^5.1.2",
     "diff": "^5.1.0",
     "execa": "^6.1.0"
   }

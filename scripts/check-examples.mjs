@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import fs from "fs/promises";
 import path from "path";
 import { execa } from "execa";
@@ -39,14 +40,21 @@ for (let example of examples) {
     await fs.writeFile(exampleFile, actual);
   }
   else {
-    const diffs = diffLines(expected.trim(), actual.trim()).filter(({ added, removed }) => added || removed);
-    if (diffs.length) {
-      console.error([
-        `Unexpected changes in ${example}.css:`,
-        ...diffs.flatMap(({ added, value }) => {
-          return value.split("\n").filter(x => x).map(line => `${added ? "+" : "-"} ${line}`);
-        })
-      ].join("\n"));
+    const diffs = diffLines(expected, actual);
+    if (diffs.some(({ added, removed }) => added || removed)) {
+      process.stderr.write(`Unexpected changes in ${example}.css:\n\n`);
+      for (let part of diffs) {
+        const color = part.added ? "green" : part.removed ? "red" : "grey";
+        if (part.added) {
+          process.stderr.write(chalk.green(part.value));
+        }
+        else if (part.removed) {
+          process.stderr.write(chalk.red(part.value));
+        }
+        else {
+          process.stderr.write(chalk.gray(part.value));
+        }
+      }
       process.exit(1);
     }
   }
