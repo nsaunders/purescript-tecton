@@ -24,9 +24,9 @@ media screen { minWidth: px 768 } ?
 ### Output
 ```css
 body {
+  width: 100%;
   height: 100%;
   padding: 16px 32px;
-  width: 100%;
 }
 @media screen and (min-width: 768px) {
   body {
