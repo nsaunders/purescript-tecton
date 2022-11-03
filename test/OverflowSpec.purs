@@ -6,10 +6,13 @@ import Prelude
 
 import Tecton (auto, clip, ellipsis, hidden, inherit, initial, overflow, overflowX, overflowY, scroll, textOverflow, unset, visible, (:=), (~))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromInline
+
   describe "Overflow Module" do
 
     describe "overflow-x property" do

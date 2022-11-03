@@ -8,10 +8,13 @@ import Color (rgb)
 import Data.Tuple.Nested ((/\))
 import Tecton (blink, dashed, dotted, double, em, inherit, initial, lineThrough, nil, none, overline, px, solid, textDecorationColor, textDecorationLine, textDecorationStyle, textShadow, underline, unset, wavy, (:=), (~))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromInline
+
   describe "Text Decoration Module" do
 
     describe "text-decoration-line" do

@@ -8,13 +8,15 @@ import Prelude hiding (top, bottom)
 import Data.Tuple.Nested ((/\))
 import Tecton (bottom, center, deg, inherit, initial, left, matrix, matrix3d, none, pct, perspective, px, rad, right, rotate, rotate3d, rotateX, rotateY, rotateZ, scale, scale3d, scaleX, scaleY, scaleZ, skewX, skewY, top, transform, transformOrigin, translate, translate3d, translateX, translateY, translateZ, turn, unset, (:=), (~))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline, isRenderedFromVal)
 
 spec :: Spec Unit
 spec =
   describe "Transforms Module" do
 
     describe "2D Transform Functions" do
+
+      let isRenderedFrom = isRenderedFromVal
 
       "matrix(1.2,0.2,-1,0.9,0,20)"
         `isRenderedFrom`
@@ -55,6 +57,8 @@ spec =
       "skewY(75deg)" `isRenderedFrom` skewY (deg 75)
 
     describe "3D Transform Functions" do
+
+      let isRenderedFrom = isRenderedFromVal
 
       "matrix3d(-0.6,1.34788,0,0,-2.34788,-0.6,0,0,0,0,1,0,0,0,10,1)"
         `isRenderedFrom`
@@ -104,6 +108,8 @@ spec =
 
     describe "transform property" do
 
+      let isRenderedFrom = isRenderedFromInline
+
       "transform:inherit" `isRenderedFrom` (transform := inherit)
 
       "transform:initial" `isRenderedFrom` (transform := initial)
@@ -119,6 +125,8 @@ spec =
         (transform := rotateX (deg 45) /\ translateX (px (-10)) /\ scaleX 1.5)
 
     describe "transform-origin property" do
+
+      let isRenderedFrom = isRenderedFromInline
 
       "transform-origin:inherit" `isRenderedFrom` (transformOrigin := inherit)
 

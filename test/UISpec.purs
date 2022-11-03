@@ -7,10 +7,13 @@ import Prelude
 import Color (rgb)
 import Tecton (auto, dashed, dotted, double, groove, inherit, initial, inset, invert, medium, nil, none, outlineColor, outlineOffset, outlineStyle, outlineWidth, outset, px, ridge, solid, thick, thin, transparent, unset, (:=))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromInline
+
   describe "Basic User Interface Module" do
 
     describe "outline-width property" do

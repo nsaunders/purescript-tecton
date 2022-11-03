@@ -9,10 +9,13 @@ import Prelude hiding (not)
 import Data.Tuple.Nested ((/\))
 import Tecton (a, active, after, att, before, checked, disabled, empty, enabled, even, firstChild, firstLetter, firstLine, firstOfType, focus, hover, href, hreflang, indeterminate, lang, lastChild, lastOfType, link, nil, not, nth, nthChild, nthLastChild, nthOfType, odd, onlyChild, onlyOfType, placeholder, root, selection, span, target, title, universal, visited, width, ($=), (&#), (&.), (&:), (&@), (*=), (?), (@=), (^=), (|*), (|+), (|=), (|>), (|~), (~=), (:=))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromSheet)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromSheet
+
   describe "Selectors Module" do
 
     describe "Universal selector" do
@@ -25,7 +28,7 @@ spec =
 
       "span{width:0}" `isRenderedFrom` do span ? width := nil
 
-    describe "Attribute seectors" do
+    describe "Attribute selectors" do
 
       "*[href]{width:0}"
         `isRenderedFrom` do

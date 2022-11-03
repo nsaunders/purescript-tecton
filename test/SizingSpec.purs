@@ -6,10 +6,13 @@ import Prelude
 
 import Tecton (auto, fitContent, height, inherit, initial, maxContent, minContent, maxHeight, maxWidth, minHeight, minWidth, none, pct, px, unset, width, (:=), (@+@))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromInline
+
   describe "Box Sizing Module" do
 
     describe "width property" do

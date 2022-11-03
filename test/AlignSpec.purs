@@ -6,10 +6,13 @@ import Prelude
 
 import Tecton (columnGap, inherit, gap, initial, normal, pct, px, rowGap, unset, (:=), (~))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromInline
+
   describe "Box Alignment Module" do
 
     describe "row-gap property" do

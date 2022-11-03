@@ -8,10 +8,13 @@ import Color (black, rgb, rgba, white)
 import Data.Tuple.Nested ((/\))
 import Tecton (auto, backgroundAttachment, backgroundClip, backgroundColor, backgroundImage, backgroundOrigin, backgroundPosition, backgroundRepeat, backgroundSize, borderBox, borderBottomColor, borderBottomLeftRadius, borderBottomRightRadius, borderBottomStyle, borderBottomWidth, borderColor, borderLeftColor, borderLeftStyle, borderLeftWidth, borderRadius, borderRightColor, borderRightStyle, borderRightWidth, borderStyle, borderTopColor, borderTopLeftRadius, borderTopRightRadius, borderTopStyle, borderTopWidth, borderWidth, bottom, boxShadow, center, circle, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local', medium, nil, noRepeat, none, outset, paddingBox, pct, px, radialGradient, repeat', repeatX, repeatY, ridge, right, round, scroll, solid, space, thick, thin, top, transparent, unset, url, (:=), (~))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromInline
+
   describe "Backgrounds and Borders Module" do
 
     describe "background-color property" do

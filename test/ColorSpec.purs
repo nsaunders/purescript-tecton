@@ -5,10 +5,13 @@ import Prelude
 import Color (hsl)
 import Tecton (color, currentColor, inherit, initial, opacity, transparent, unset, (:=))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromInline
+
   describe "Color Module" do
 
     describe "color property" do

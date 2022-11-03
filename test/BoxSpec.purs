@@ -6,10 +6,13 @@ import Prelude
 
 import Tecton (auto, em, inherit, initial, margin, marginBottom, marginLeft, marginRight, marginTop, padding, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, px, unset, (:=), (~))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromInline
+
   describe "Box Module" do
 
     describe "margin-top property" do

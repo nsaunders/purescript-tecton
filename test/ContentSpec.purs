@@ -8,10 +8,13 @@ import Color (rgb)
 import Data.Tuple.Nested ((/\))
 import Tecton (content, contents, inherit, initial, linearGradient, nil, none, normal, unset, url, (:=))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromInline
+
   describe "Generated Content Module" do
 
     describe "content property" do

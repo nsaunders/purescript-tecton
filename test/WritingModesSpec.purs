@@ -6,10 +6,13 @@ import Prelude
 
 import Tecton (direction, inherit, initial, ltr, rtl, unset, (:=))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
-spec =
+spec = do
+  
+  let isRenderedFrom = isRenderedFromInline
+
   describe "Writing Modes Module" do
 
     describe "direction property" do

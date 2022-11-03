@@ -7,13 +7,15 @@ import Prelude
 import Data.Tuple.Nested ((/\))
 import Tecton (all, alternate, alternateReverse, animationDelay, animationDirection, animationDuration, animationFillMode, animationIterationCount, animationName, animationPlayState, animationTimingFunction, backwards, both, cubicBezier, ease, easeIn, easeInOut, easeOut, end, forwards, infinite, inherit, initial, jumpBoth, jumpEnd, jumpNone, jumpStart, keyframes, keyframesName, linear, media, ms, nil, none, normal, paused, pct, px, reverse, running, sec, start, stepEnd, stepStart, steps, unset, width, (?), (:=), (@+@), (@*), (@/))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline, isRenderedFromSheet)
 
 spec :: Spec Unit
 spec =
   describe "Animations Module" do
 
     describe "Keyframes" do
+
+      let isRenderedFrom = isRenderedFromSheet
 
       "@keyframes foo{0%{width:0}100%{width:500px}}"
         `isRenderedFrom` do
@@ -36,6 +38,8 @@ spec =
 
     describe "animation-name property" do
 
+      let isRenderedFrom = isRenderedFromInline
+
       "animation-name:inherit" `isRenderedFrom` (animationName := inherit)
 
       "animation-name:initial" `isRenderedFrom` (animationName := initial)
@@ -51,6 +55,8 @@ spec =
         (animationName := keyframesName "foo" /\ none /\ keyframesName "bar")
 
     describe "animation-duration property" do
+
+      let isRenderedFrom = isRenderedFromInline
 
       "animation-duration:inherit"
         `isRenderedFrom`
@@ -69,6 +75,8 @@ spec =
         (animationDuration := ms 150 /\ nil /\ sec 2)
 
     describe "animation-timing-function property" do
+
+      let isRenderedFrom = isRenderedFromInline
 
       "animation-timing-function:inherit"
         `isRenderedFrom`
@@ -144,6 +152,8 @@ spec =
 
     describe "animation-iteration-count property" do
 
+      let isRenderedFrom = isRenderedFromInline
+
       "animation-iteration-count:infinite"
         `isRenderedFrom`
         (animationIterationCount := infinite)
@@ -157,6 +167,8 @@ spec =
         (animationIterationCount := 3 /\ infinite /\ 2)
 
     describe "animation-direction property" do
+
+      let isRenderedFrom = isRenderedFromInline
 
       "animation-direction:inherit"
         `isRenderedFrom`
@@ -190,6 +202,8 @@ spec =
 
     describe "animation-play-state property" do
 
+      let isRenderedFrom = isRenderedFromInline
+
       "animation-play-state:inherit"
         `isRenderedFrom`
         (animationPlayState := inherit)
@@ -216,6 +230,8 @@ spec =
 
     describe "animation-delay property" do
 
+      let isRenderedFrom = isRenderedFromInline
+
       "animation-delay:inherit" `isRenderedFrom` (animationDelay := inherit)
 
       "animation-delay:initial" `isRenderedFrom` (animationDelay := initial)
@@ -229,6 +245,8 @@ spec =
         (animationDelay := ms 150 /\ nil /\ sec 2)
 
     describe "animation-fill-mode property" do
+
+      let isRenderedFrom = isRenderedFromInline
 
       "animation-fill-mode:inherit"
         `isRenderedFrom`

@@ -6,10 +6,13 @@ import Prelude hiding (bottom, sub, top)
 
 import Tecton (alignmentBaseline, alphabetic, auto, baseline, baselineShift, baselineSource, bottom, center, central, dominantBaseline, first, hanging, ideographic, inherit, initial, last, lineHeight, mathematical, middle, normal, pct, px, sub, super, textBottom, textTop, top, unset, verticalAlign, (:=), (~))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromInline
+
   describe "Inline Layout Module" do
 
     describe "dominant-baseline property" do

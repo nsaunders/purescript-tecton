@@ -6,10 +6,13 @@ import Prelude
 
 import Tecton (breakSpaces, capitalize, center, em, end, fullSizeKana, fullWidth, inherit, initial, justify, justifyAll, left, letterSpacing, lowercase, matchParent, none, normal, nowrap, pre, preLine, preWrap, pct, px, right, start, textAlign, textIndent, textTransform, unset, uppercase, whiteSpace, wordSpacing, (:=), (~))
 import Test.Spec (Spec, describe)
-import Test.Util (isRenderedFrom)
+import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
-spec =
+spec = do
+
+  let isRenderedFrom = isRenderedFromInline
+
   describe "Text Module" do
 
     describe "text-transform property" do
