@@ -7,6 +7,8 @@ Notable changes are documented in this file. The format is based on [Keep a Chan
 Breaking changes:
 
 New features:
+- A single property appearing more than once within a ruleset now results in a
+  compiler error.
 
 Bugfixes:
 

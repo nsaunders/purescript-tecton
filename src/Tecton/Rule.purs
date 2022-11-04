@@ -2,12 +2,15 @@ module Tecton.Rule where
 
 import Prelude hiding (discard)
 import Control.Monad.Writer (Writer)
-import Data.Tuple.Nested (type (/\), (/\))
+import Prim.Row as Row
+import Type.Proxy (Proxy(..))
 
 discard
-  :: forall w a b
+  :: forall w a b c
    . Monoid w
-  => Writer w a
-  -> (a -> Writer w b)
-  -> Writer w (a /\ b)
-discard wa awb = wa >>= \a -> awb a >>= \b -> pure (a /\ b)
+  => Row.Union a b c
+  => Row.Nub c c
+  => Writer w (Proxy a)
+  -> (Proxy a -> Writer w (Proxy b))
+  -> Writer w (Proxy c)
+discard wa awb = wa >>= \a -> awb a >>= \_ -> pure Proxy

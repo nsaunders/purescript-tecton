@@ -13,6 +13,16 @@ import Tecton.Rule as Rule
 main :: Effect Unit
 main = log $ renderSheet pretty do
 
+  {-
+  -- Error: Property appears twice within a single ruleset.
+  universal ? Rule.do
+    color := white
+    color := black
+  -}
+
+  -- Works
+  universal ? color := white
+
   -- Animations
 
   let fade = keyframesName "fade"
