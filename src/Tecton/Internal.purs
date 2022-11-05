@@ -7,8 +7,7 @@ import Control.Monad.Writer (Writer, execWriter, tell)
 import Data.Array (replicate)
 import Data.Array as Array
 import Data.Either as Either
-import Data.Foldable (foldl, foldr)
-import Data.FoldableWithIndex (foldlWithIndex)
+import Data.Foldable (class Foldable, foldl, foldr, intercalate)
 import Data.Int as Int
 import Data.List (List(..), (:))
 import Data.Number.Format as Number
@@ -127,15 +126,13 @@ multiVal :: forall a. MultiVal a => a -> Array Val
 multiVal = Array.reverse <<< Array.fromFoldable <<< multiValImpl Nil
 
 joinVals
-  :: forall s
+  :: forall s f
    . ToVal s
+  => Foldable f
   => s
-  -> Array Val
+  -> f Val
   -> Val
-joinVals sep =
-  foldlWithIndex
-    (\i' a' b' -> a' <> (if i' > 0 then val sep else mempty) <> b')
-    mempty
+joinVals = intercalate <<< val
 
 runVal :: Configuration -> Val -> String
 runVal x (Val f) = f x
