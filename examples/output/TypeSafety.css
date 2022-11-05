@@ -1,3 +1,6 @@
+* {
+  color: hsl(0.0, 0.0%, 100.0%);
+}
 @keyframes fade {
   0% {
     opacity: 0;
