@@ -13,7 +13,7 @@ Bugfixes:
 
 Other improvements:
 
-## [0.1.1]
+## [0.1.1] - 2022-11-03
 
 New features:
 - Declarations are now guaranteed to be rendered in the input order. nsaunders/purescript-tecton#6
