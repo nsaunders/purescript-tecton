@@ -7,12 +7,16 @@ Notable changes are documented in this file. The format is based on [Keep a Chan
 Breaking changes:
 
 New features:
-- A single property appearing more than once within a ruleset now results in a compiler error. nsaunders/purescript-tecton#7
-- A new type alias `CSS` provides a way to annotate style sheet values without using internal types.
 
 Bugfixes:
 
 Other improvements:
+
+## [0.1.2 - 2022-11-06]
+
+New features:
+- A single property appearing more than once within a ruleset now results in a compiler error. nsaunders/purescript-tecton#7
+- A new type alias `CSS` provides a way to annotate style sheet values without using internal types. nsaunders/purescript-tecton#8
 
 ## [0.1.1] - 2022-11-03
 
