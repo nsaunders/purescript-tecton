@@ -54,8 +54,7 @@ let upstream = https://raw.githubusercontent.com/purescript/package-sets/psc-0.1
 in  upstream
   with tecton =
     { dependencies =
-        [ "arrays"
-        , "colors"
+        [ "colors"
         , "either"
         , "foldable-traversable"
         , "integers"
