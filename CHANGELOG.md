@@ -12,7 +12,13 @@ Bugfixes:
 
 Other improvements:
 
-## [0.1.2 - 2022-11-06]
+## [0.1.3] - 2022-11-09
+
+Other improvements:
+- Performance optimizations
+- Dropped `arrays` dependency
+
+## [0.1.2] - 2022-11-06
 
 New features:
 - A single property appearing more than once within a ruleset now results in a compiler error. nsaunders/purescript-tecton#7
