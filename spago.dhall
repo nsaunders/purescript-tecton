@@ -2,8 +2,7 @@
 , license = "MIT"
 , repository = "https://github.com/nsaunders/purescript-tecton"
 , dependencies =
-  [ "arrays"
-  , "colors"
+  [ "colors"
   , "either"
   , "foldable-traversable"
   , "integers"

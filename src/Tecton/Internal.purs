@@ -1,13 +1,11 @@
-module Tecton.Internal (class AlignContentKeyword, class AlignItemsKeyword, class AlignSelfKeyword, class AlignmentBaselineKeyword, class AlignmentBaselineOrBaselineShiftKeyword, class AllPropertiesAnimatable, class AngleTag, class Animatable, class AnimationDirectionKeyword, class AnimationFillModeKeyword, class AnimationPlayStateKeyword, class Assoc, class AttachmentKeyword, class Attribute, class BaselineShiftKeyword, class BaselineSourceKeyword, class BoxKeyword, class ByAtt, class Calc, class ClearKeyword, class CollectMediaFeatures, class Combine, class ContentKeyword, class CounterStyleKeyword, class Declaration, class DirectionKeyword, class DisplayKeyword, class DominantBaselineKeyword, class Element, class ExtentKeyword, class FlexDirectionKeyword, class FlexWrapKeyword, class FloatKeyword, class FontFaceDeclaration, class FontFaceFontStyleKeyword, class FontFaceFontWeightKeyword, class FontFormatKeyword, class FontSizeKeyword, class FontStretchKeyword, class FontStyleKeyword, class FontWeightKeyword, class GenericFontFamilyKeyword, class IsAnimationNameList, class IsAttachmentList, class IsAttribute, class IsBaselineShift, class IsBgImageList, class IsBgSize, class IsBgSizeList, class IsBorderColor, class IsBorderRadius, class IsBorderStyle, class IsBorderWidth, class IsBoxList, class IsColor, class IsColorStopListHead, class IsColorStopListTail, class IsExtensibleSelector, class IsFontFaceFontStyle, class IsFontFaceFontWeight, class IsFontFaceSrcList, class IsFontFamilyList, class IsFontSize, class IsFontStretch, class IsFontStyle, class IsFontWeight, class IsImage, class IsInset, class IsInsetBlock, class IsLetterSpacing, class IsLineHeight, class IsLineWidth, class IsList, class IsListStyleImage, class IsListStyleType, class IsMargin, class IsMaskReferenceList, class IsMaxWidth, class IsMinWidth, class IsOverflow, class IsPadding, class IsPerspective, class IsPosition, class IsPositionList, class IsPositionX, class IsPositionY, class IsRadialGradientDimensions, class IsRepeatStyle, class IsRepeatStyleList, class IsSelector, class IsSelectorList, class IsShadow, class IsSingleAnimationDirectionList, class IsSingleAnimationFillModeList, class IsSingleAnimationIterationCountList, class IsSingleAnimationPlayStateList, class IsSingleBorderRadius, class IsSingleMargin, class IsSingleTransitionPropertyList, class IsTextDecorationLine, class IsTextShadow, class IsTextShadowList, class IsTextTransform, class IsTimeList, class IsTop, class IsTransformList, class IsTransformOrigin, class IsVerticalAlign, class IsWidth, class IsWordSpacing, class JustifyContentKeyword, class LengthPercentageTag, class LengthTag, class LineStyleKeyword, class LineWidthKeyword, class ListStylePositionKeyword, class MaxWidthKeyword, class MediaFeature, class MediaTypeKeyword, class MinWidthKeyword, class MkStatement, class MultiVal, class OutlineLineStyleKeyword, class OverflowKeyword, class PercentageTag, class PositionKeyword, class Property, class Pseudo, class Pseudo', class PseudoPrefix, class RepeatStyle1dKeyword, class RepeatStyle2dKeyword, class SelectorStatus, class ShapeKeyword, class StepPosition, class TextAlignKeyword, class TextDecorationStyleKeyword, class TextOverflowKeyword, class TextTransformCapitalizationKeyword, class TimeTag, class ToNumber, class ToVal, class VisibilityKeyword, class WhiteSpaceKeyword, class WidthKeyword, Add, Angle, AttributePredicate, CSS, CSSColor, CommonKeyword, Configuration, CustomAttribute, Declaration', Divide, EasingFunction, Extensible, FitContent, FontFace, FontFaceDeclaration', FontFaceFormatFunction, Gradient, Inextensible, KeyframeBlock, Keyframes, KeyframesName, Length, LengthPercentage, LocalFunction, Measure, MediaQuery, Multiply, NestedRule, Nil, Nth, Orientation, Pair(..), Percentage, PseudoClass, PseudoElement, Ratio(..), Repeating, Resolution, Selector, Statement, Subtract, Time, TransformFunction, URL, Val, a, abbr, absolute, accept, acceptCharset, accesskey, acronym, action, active, add, adjacentSibling, after, alignContent, alignItems, alignSelf, alignmentBaseline, all, alphabetic, alt, alternate, alternateReverse, animationDelay, animationDirection, animationDuration, animationFillMode, animationIterationCount, animationName, animationPlayState, animationTimingFunction, arabicIndic, armenian, article, aside, assoc, async, att, attContains, attElemWhitespace, attEndsWith, attEq, attStartsWith, attStartsWithHyphen, audio, auto, autocomplete, autofocus, autoplay, b, backgroundAttachment, backgroundClip, backgroundColor, backgroundImage, backgroundOrigin, backgroundPosition, backgroundRepeat, backgroundSize, backwards, baseline, baselineShift, baselineSource, before, bengali, blink, block, blockquote, body, bold, bolder, borderBottomColor, borderBottomLeftRadius, borderBottomRightRadius, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderLeftColor, borderLeftStyle, borderLeftWidth, borderRadius, borderRightColor, borderRightStyle, borderRightWidth, borderStyle, borderTopColor, borderTopLeftRadius, borderTopRightRadius, borderTopStyle, borderTopWidth, borderWidth, both, bottom, boxShadow, breakSpaces, button, byAtt, byClass, byId, byPseudo, cambodian, canvas, capitalize, caption, center, central, ch, charset, checked, child, circle, cite, cjkDecimal, cjkEarthlyBranch, cjkHeavenlyStem, class', clear, clip, closestCorner, closestSide, cm, code, col, colgroup, collapse, collectMediaFeatures, collection, color, cols, colspan, column, columnGap, columnReverse, combine, compact, condensed, contain, content, contentBox, contenteditable, contents, controls, coords, cover, cubicBezier, currentColor, cursive, dashed, data', datetime, dd, decimal, decimalLeadingZero, default, defer, deg, descendant, details, devanagari, dir, direction, dirname, disabled, disc, disclosureClosed, disclosureOpen, display, div, divide, dl, dominantBaseline, dotted, double, download, dpcm, dpi, draggable, dt, ease, easeIn, easeInOut, easeOut, ellipse, ellipsis, em, em', embeddedOpentype, emoji, empty, enabled, enctype, end, even, ex, expanded, extraCondensed, extraExpanded, fangsong, fantasy, farthestCorner, farthestSide, fdval, fieldset, first, firstChild, firstLetter, firstLine, firstOfType, fitContent, fixed, flex, flexBasis, flexDirection, flexEnd, flexGrow, flexShrink, flexStart, flexWrap, float, flowRoot, focus, fontFace, fontFamily, fontSize, fontSizeAdjust, fontStretch, fontStyle, fontWeight, footer, for, form, formaction, format, forwards, fullSizeKana, fullWidth, gap, generalSibling, georgian, grid, groove, gujarati, gurmukhi, h1, h2, h3, h4, h5, h6, hanging, header, headers, hebrew, height, hidden, high, hiragana, hiraganaIroha, hover, hr, href, hreflang, html, httpEquiv, i, id, ideographic, img, inch, indeterminate, infinite, inherit, initial, inline, inlineBlock, inlineFlex, inlineGrid, inlineTable, input, inset, insetBlock, insetBlockEnd, insetBlockStart, insetInline, insetInlineEnd, insetInlineStart, inside, invert, ismap, italic, jumpBoth, jumpEnd, jumpNone, jumpStart, justify, justifyAll, justifyContent, kannada, katakana, katakanaIroha, keyframes, keyframesName, khmer, kind, label, landscape, lang, lang', lao, large, larger, last, lastChild, lastOfType, left, legend, letterSpacing, li, lighter, line, lineHeight, lineThrough, linear, linearGradient, link, list, listItem, listStyleImage, listStylePosition, listStyleType, local, local', loop, low, lowerAlpha, lowerArmenian, lowerGreek, lowerLatin, lowerRoman, lowercase, ltr, main', malayalam, mapVal, margin, marginBottom, marginLeft, marginRight, marginTop, mark, marker, maskImage, matchParent, math, mathematical, matrix, matrix3d, max, maxContent, maxHeight, maxWidth, maxlength, media, media', medium, menu, method, middle, min, minContent, minHeight, minWidth, mkStatement, mm, mongolian, monospace, ms, multiVal, multiValImpl, multiple, multiply, multiplyFlipped, muted, myanmar, name, nav, nil, noRepeat, none, normal, not, novalidate, nowrap, nth, nthChild, nthLastChild, nthOfType, number, oblique, odd, ol, onabort, onafterprint, onbeforeprint, onbeforeunload, onblur, oncanplay, oncanplaythrough, onchange, onclick, oncontextmenu, oncopy, oncuechange, oncut, ondblclick, ondrag, ondragend, ondragenter, ondragleave, ondragover, ondragstart, ondrop, ondurationchange, onemptied, onended, onerror, onfocus, onhashchange, oninput, oninvalid, onkeydown, onkeypress, onkeyup, onload, onloadeddata, onloadedmetadata, onloadstart, onlyChild, onlyOfType, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onmousewheel, onoffline, ononline, onpagehide, onpageshow, onpaste, onpause, onplay, onplaying, onpopstate, onprogress, onratechange, onreset, onresize, onscroll, onsearch, onseeked, onseeking, onselect, onstalled, onstorage, onsubmit, onsuspend, ontimeupdate, ontoggle, onunload, onvolumechange, onwaiting, onwheel, opacity, open, opentype, optgroup, optimum, option, order, oriya, outlineColor, outlineOffset, outlineStyle, outlineWidth, outset, outside, overflow, overflowX, overflowY, overline, p, padding, paddingBottom, paddingBox, paddingLeft, paddingRight, paddingTop, path, pattern, paused, pc, pct, persian, perspective, placeholder, polygon, polyline, portrait, position, poster, pre, preLine, preWrap, preload, pretty, print, progress, pseudoPrefix, pt, pval, px, q, rad, radialGradient, readonly, rect, rel, relative, rem, renderInline, renderInline', renderSheet, repeat', repeatX, repeatY, repeating, required, reverse, reversed, ridge, right, role, root, rotate, rotate3d, rotateX, rotateY, rotateZ, round, row, rowGap, rowReverse, rows, rowspan, rtl, runVal, running, sandbox, sansSerif, scale, scale3d, scaleX, scaleY, scaleZ, scope, screen, scroll, sec, section, select, selected, selection, semiCondensed, semiExpanded, serif, shape, size, sizes, skewX, skewY, small, smaller, solid, space, spaceAround, spaceBetween, span, spellcheck, square, src, srcdoc, srclang, srcset, start, static, step, stepEnd, stepStart, steps, sticky, stretch, strong, style, sub, subtract, summary, sup, super, svg, systemUI, tabindex, table, tableCaption, tableCell, tableColumn, tableColumnGroup, tableFooterGroup, tableHeaderGroup, tableRow, tableRowGroup, tamil, target, tbody, td, telugu, textAlign, textBottom, textDecorationColor, textDecorationLine, textDecorationStyle, textIndent, textOverflow, textShadow, textTop, textTransform, textarea, tfoot, th, thai, thead, thick, thin, tibetan, time, title, top, tr, transform, transformOrigin, transitionDelay, transitionDuration, transitionProperty, transitionTimingFunction, translate, translate', translate3d, translateX, translateY, translateZ, transparent, truetype, turn, type', uiMonospace, uiRounded, uiSansSerif, uiSerif, ul, ultraCondensed, ultraExpanded, underline, universal, unset, upperAlpha, upperArmenian, upperLatin, upperRoman, uppercase, url, usemap, val, value, verticalAlign, vh, video, visibility, visible, visited, vmax, vmin, vw, wavy, whiteSpace, width, woff, woff2, wordSpacing, wrap, wrapReverse, xLarge, xSmall, xxLarge, xxSmall, zIndex, ($=), (&#), (&.), (&:), (&@), (*=), (*@), (:/), (:=), (?), (@*), (@+@), (@-@), (@/), (@=), (^=), (|*), (|+), (|=), (|>), (|~), (~), (~=)) where
+module Tecton.Internal (class AlignContentKeyword, class AlignItemsKeyword, class AlignSelfKeyword, class AlignmentBaselineKeyword, class AlignmentBaselineOrBaselineShiftKeyword, class AllPropertiesAnimatable, class AngleTag, class Animatable, class AnimationDirectionKeyword, class AnimationFillModeKeyword, class AnimationPlayStateKeyword, class Assoc, class AttachmentKeyword, class Attribute, class BaselineShiftKeyword, class BaselineSourceKeyword, class BoxKeyword, class ByAtt, class Calc, class ClearKeyword, class CollectMediaFeatures, class Combine, class ContentKeyword, class CounterStyleKeyword, class Declaration, class DirectionKeyword, class DisplayKeyword, class DominantBaselineKeyword, class Element, class ExtentKeyword, class FlexDirectionKeyword, class FlexWrapKeyword, class FloatKeyword, class FontFaceDeclaration, class FontFaceFontStyleKeyword, class FontFaceFontWeightKeyword, class FontFormatKeyword, class FontSizeKeyword, class FontStretchKeyword, class FontStyleKeyword, class FontWeightKeyword, class GenericFontFamilyKeyword, class IsAnimationNameList, class IsAttachmentList, class IsAttribute, class IsBaselineShift, class IsBgImageList, class IsBgSize, class IsBgSizeList, class IsBorderColor, class IsBorderRadius, class IsBorderStyle, class IsBorderWidth, class IsBoxList, class IsColor, class IsColorStopListHead, class IsColorStopListTail, class IsExtensibleSelector, class IsFontFaceFontStyle, class IsFontFaceFontWeight, class IsFontFaceSrcList, class IsFontFamilyList, class IsFontSize, class IsFontStretch, class IsFontStyle, class IsFontWeight, class IsImage, class IsInset, class IsInsetBlock, class IsLetterSpacing, class IsLineHeight, class IsLineWidth, class IsList, class IsListStyleImage, class IsListStyleType, class IsMargin, class IsMaskReferenceList, class IsMaxWidth, class IsMinWidth, class IsOverflow, class IsPadding, class IsPerspective, class IsPosition, class IsPositionList, class IsPositionX, class IsPositionY, class IsRadialGradientDimensions, class IsRepeatStyle, class IsRepeatStyleList, class IsSelector, class IsSelectorList, class IsShadow, class IsSingleAnimationDirectionList, class IsSingleAnimationFillModeList, class IsSingleAnimationIterationCountList, class IsSingleAnimationPlayStateList, class IsSingleBorderRadius, class IsSingleMargin, class IsSingleTransitionPropertyList, class IsTextDecorationLine, class IsTextShadow, class IsTextShadowList, class IsTextTransform, class IsTimeList, class IsTop, class IsTransformList, class IsTransformOrigin, class IsVerticalAlign, class IsWidth, class IsWordSpacing, class JustifyContentKeyword, class LengthPercentageTag, class LengthTag, class LineStyleKeyword, class LineWidthKeyword, class ListStylePositionKeyword, class MaxWidthKeyword, class MediaFeature, class MediaTypeKeyword, class MinWidthKeyword, class MkStatement, class MultiVal, class OutlineLineStyleKeyword, class OverflowKeyword, class PercentageTag, class PositionKeyword, class Property, class Pseudo, class Pseudo', class PseudoPrefix, class RepeatStyle1dKeyword, class RepeatStyle2dKeyword, class SelectorStatus, class ShapeKeyword, class StepPosition, class TextAlignKeyword, class TextDecorationStyleKeyword, class TextOverflowKeyword, class TextTransformCapitalizationKeyword, class TimeTag, class ToNumber, class ToVal, class VisibilityKeyword, class WhiteSpaceKeyword, class WidthKeyword, Add, Angle, AttributePredicate, CSS, CSSColor, CommonKeyword, Configuration, CustomAttribute, Declaration', Divide, EasingFunction, Extensible, FitContent, FontFace, FontFaceDeclaration', FontFaceFormatFunction, Gradient, Inextensible, KeyframeBlock, Keyframes, KeyframesName, Length, LengthPercentage, LocalFunction, Measure, MediaQuery, Multiply, NestedRule, Nil, Nth, Orientation, Pair(..), Percentage, PseudoClass, PseudoElement, Ratio(..), Repeating, Resolution, Selector, Statement, Subtract, Time, TransformFunction, URL, Val, a, abbr, absolute, accept, acceptCharset, accesskey, acronym, action, active, add, adjacentSibling, after, alignContent, alignItems, alignSelf, alignmentBaseline, all, alphabetic, alt, alternate, alternateReverse, animationDelay, animationDirection, animationDuration, animationFillMode, animationIterationCount, animationName, animationPlayState, animationTimingFunction, arabicIndic, armenian, article, aside, assoc, async, att, attContains, attElemWhitespace, attEndsWith, attEq, attStartsWith, attStartsWithHyphen, audio, auto, autocomplete, autofocus, autoplay, b, backgroundAttachment, backgroundClip, backgroundColor, backgroundImage, backgroundOrigin, backgroundPosition, backgroundRepeat, backgroundSize, backwards, baseline, baselineShift, baselineSource, before, bengali, blink, block, blockquote, body, bold, bolder, borderBottomColor, borderBottomLeftRadius, borderBottomRightRadius, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderLeftColor, borderLeftStyle, borderLeftWidth, borderRadius, borderRightColor, borderRightStyle, borderRightWidth, borderStyle, borderTopColor, borderTopLeftRadius, borderTopRightRadius, borderTopStyle, borderTopWidth, borderWidth, both, bottom, boxShadow, breakSpaces, button, byAtt, byClass, byId, byPseudo, cambodian, canvas, capitalize, caption, center, central, ch, charset, checked, child, circle, cite, cjkDecimal, cjkEarthlyBranch, cjkHeavenlyStem, class', clear, clip, closestCorner, closestSide, cm, code, col, colgroup, collapse, collectMediaFeatures, collection, color, cols, colspan, column, columnGap, columnReverse, combine, compact, condensed, contain, content, contentBox, contenteditable, contents, controls, coords, cover, cubicBezier, currentColor, cursive, dashed, data', datetime, dd, decimal, decimalLeadingZero, default, defer, deg, descendant, details, devanagari, dir, direction, dirname, disabled, disc, disclosureClosed, disclosureOpen, display, div, divide, dl, dominantBaseline, dotted, double, download, dpcm, dpi, draggable, dt, ease, easeIn, easeInOut, easeOut, ellipse, ellipsis, em, em', embeddedOpentype, emoji, empty, enabled, enctype, end, even, ex, expanded, extraCondensed, extraExpanded, fangsong, fantasy, farthestCorner, farthestSide, fdval, fieldset, first, firstChild, firstLetter, firstLine, firstOfType, fitContent, fixed, flex, flexBasis, flexDirection, flexEnd, flexGrow, flexShrink, flexStart, flexWrap, float, flowRoot, focus, foldlMultiVal, fontFace, fontFamily, fontSize, fontSizeAdjust, fontStretch, fontStyle, fontWeight, footer, for, form, formaction, format, forwards, fullSizeKana, fullWidth, gap, generalSibling, georgian, grid, groove, gujarati, gurmukhi, h1, h2, h3, h4, h5, h6, hanging, header, headers, hebrew, height, hidden, high, hiragana, hiraganaIroha, hover, hr, href, hreflang, html, httpEquiv, i, id, ideographic, img, inch, indeterminate, infinite, inherit, initial, inline, inlineBlock, inlineFlex, inlineGrid, inlineTable, input, inset, insetBlock, insetBlockEnd, insetBlockStart, insetInline, insetInlineEnd, insetInlineStart, inside, invert, ismap, italic, jumpBoth, jumpEnd, jumpNone, jumpStart, justify, justifyAll, justifyContent, kannada, katakana, katakanaIroha, keyframes, keyframesName, khmer, kind, label, landscape, lang, lang', lao, large, larger, last, lastChild, lastOfType, left, legend, letterSpacing, li, lighter, line, lineHeight, lineThrough, linear, linearGradient, link, list, listItem, listStyleImage, listStylePosition, listStyleType, local, local', loop, low, lowerAlpha, lowerArmenian, lowerGreek, lowerLatin, lowerRoman, lowercase, ltr, main', malayalam, mapVal, margin, marginBottom, marginLeft, marginRight, marginTop, mark, marker, maskImage, matchParent, math, mathematical, matrix, matrix3d, max, maxContent, maxHeight, maxWidth, maxlength, media, media', medium, menu, method, middle, min, minContent, minHeight, minWidth, mkStatement, mm, mongolian, monospace, ms, multiple, multiply, multiplyFlipped, muted, myanmar, name, nav, nil, noRepeat, none, normal, not, novalidate, nowrap, nth, nthChild, nthLastChild, nthOfType, number, oblique, odd, ol, onabort, onafterprint, onbeforeprint, onbeforeunload, onblur, oncanplay, oncanplaythrough, onchange, onclick, oncontextmenu, oncopy, oncuechange, oncut, ondblclick, ondrag, ondragend, ondragenter, ondragleave, ondragover, ondragstart, ondrop, ondurationchange, onemptied, onended, onerror, onfocus, onhashchange, oninput, oninvalid, onkeydown, onkeypress, onkeyup, onload, onloadeddata, onloadedmetadata, onloadstart, onlyChild, onlyOfType, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onmousewheel, onoffline, ononline, onpagehide, onpageshow, onpaste, onpause, onplay, onplaying, onpopstate, onprogress, onratechange, onreset, onresize, onscroll, onsearch, onseeked, onseeking, onselect, onstalled, onstorage, onsubmit, onsuspend, ontimeupdate, ontoggle, onunload, onvolumechange, onwaiting, onwheel, opacity, open, opentype, optgroup, optimum, option, order, oriya, outlineColor, outlineOffset, outlineStyle, outlineWidth, outset, outside, overflow, overflowX, overflowY, overline, p, padding, paddingBottom, paddingBox, paddingLeft, paddingRight, paddingTop, path, pattern, paused, pc, pct, persian, perspective, placeholder, polygon, polyline, portrait, position, poster, pre, preLine, preWrap, preload, pretty, print, progress, pseudoPrefix, pt, pval, px, q, rad, radialGradient, readonly, rect, rel, relative, rem, renderInline, renderInline', renderSheet, repeat', repeatX, repeatY, repeating, required, reverse, reversed, ridge, right, role, root, rotate, rotate3d, rotateX, rotateY, rotateZ, round, row, rowGap, rowReverse, rows, rowspan, rtl, runVal, running, sandbox, sansSerif, scale, scale3d, scaleX, scaleY, scaleZ, scope, screen, scroll, sec, section, select, selected, selection, semiCondensed, semiExpanded, serif, shape, size, sizes, skewX, skewY, small, smaller, solid, space, spaceAround, spaceBetween, span, spellcheck, square, src, srcdoc, srclang, srcset, start, static, step, stepEnd, stepStart, steps, sticky, stretch, strong, style, sub, subtract, summary, sup, super, svg, systemUI, tabindex, table, tableCaption, tableCell, tableColumn, tableColumnGroup, tableFooterGroup, tableHeaderGroup, tableRow, tableRowGroup, tamil, target, tbody, td, telugu, textAlign, textBottom, textDecorationColor, textDecorationLine, textDecorationStyle, textIndent, textOverflow, textShadow, textTop, textTransform, textarea, tfoot, th, thai, thead, thick, thin, tibetan, time, title, top, tr, transform, transformOrigin, transitionDelay, transitionDuration, transitionProperty, transitionTimingFunction, translate, translate', translate3d, translateX, translateY, translateZ, transparent, truetype, turn, type', uiMonospace, uiRounded, uiSansSerif, uiSerif, ul, ultraCondensed, ultraExpanded, underline, universal, unset, upperAlpha, upperArmenian, upperLatin, upperRoman, uppercase, url, usemap, val, value, verticalAlign, vh, video, visibility, visible, visited, vmax, vmin, vw, wavy, whiteSpace, width, woff, woff2, wordSpacing, wrap, wrapReverse, xLarge, xSmall, xxLarge, xxSmall, zIndex, ($=), (&#), (&.), (&:), (&@), (*=), (*@), (:/), (:=), (?), (@*), (@+@), (@-@), (@/), (@=), (^=), (|*), (|+), (|=), (|>), (|~), (~), (~=)) where
 
 import Prelude hiding (add, bottom, sub, top)
 
 import Color (Color, cssStringHSLA, toHexString)
 import Control.Monad.Writer (Writer, execWriter, tell)
-import Data.Array (replicate)
-import Data.Array as Array
 import Data.Either as Either
-import Data.Foldable (class Foldable, foldl, foldr, intercalate)
+import Data.Foldable (foldl, intercalate)
 import Data.Int as Int
 import Data.List (List(..), (:))
 import Data.Number.Format as Number
@@ -17,7 +15,7 @@ import Data.String.Regex (regex)
 import Data.String.Regex as Regex
 import Data.String.Regex.Flags (global)
 import Data.Symbol (class IsSymbol, reflectSymbol)
-import Data.Tuple (curry)
+import Data.Tuple (curry, snd)
 import Data.Tuple.Nested (type (/\), (/\))
 import Prim.Row as Row
 import Prim.RowList (class RowToList, RowList)
@@ -113,26 +111,27 @@ instance IsSymbol a => ToVal (Proxy a) where
 instance (ToVal a, ToVal b) => ToVal (Pair a b) where
   val (a' ~ b') = val a' <> val " " <> val b'
 
-class MultiVal (a :: Type) where
-  multiValImpl :: List Val -> a -> List Val
+class MultiVal (xs :: Type) where
+  foldlMultiVal :: forall acc. (acc -> Val -> acc) -> acc -> xs -> acc
 
 instance multiValImplXXS :: (ToVal x, MultiVal xs) => MultiVal (x /\ xs) where
-  multiValImpl acc (x /\ xs) = multiValImpl (val x : acc) xs
+  foldlMultiVal f acc (x /\ xs) = foldlMultiVal f (f acc $ val x) xs
 
 else instance multiValImplX :: ToVal x => MultiVal x where
-  multiValImpl acc x = val x : acc
+  foldlMultiVal f acc x = f acc $ val x
 
-multiVal :: forall a. MultiVal a => a -> Array Val
-multiVal = Array.reverse <<< Array.fromFoldable <<< multiValImpl Nil
-
-joinVals
-  :: forall s f
-   . ToVal s
-  => Foldable f
-  => s
-  -> f Val
+intercalateMultiVal
+  :: forall sep xs
+   . ToVal sep
+  => MultiVal xs
+  => sep
+  -> xs
   -> Val
-joinVals = intercalate <<< val
+intercalateMultiVal sep =
+  snd <<< foldlMultiVal combine (false /\ mempty)
+  where
+  combine (needsSep /\ a') b' =
+    true /\ (a' <> (if needsSep then val sep else mempty) <> b')
 
 runVal :: Configuration -> Val -> String
 runVal x (Val f) = f x
@@ -141,18 +140,18 @@ runVal x (Val f) = f x
 
 -- Statements
 
-type CSS = Writer (Array Statement) Unit
+type CSS = Writer (List Statement) Unit
 
 newtype NestedRule = NestedRule Val
 
 data Statement
-  = NestedAtRule NestedRule (Array Statement)
-  | Ruleset (Array Val) Val
+  = NestedAtRule NestedRule (List Statement)
+  | Ruleset Val Val
 
-class MkStatement (a :: Type) (b :: Type) (c :: Type) | a -> b, a -> c where
-  mkStatement :: a -> b -> Writer (Array c) Unit
+class MkStatement (a :: Type) (b :: Type) (c :: Type) | a -> b where
+  mkStatement :: a -> b -> Writer (List c) Unit
 
-instance MkStatement MediaQuery (Writer (Array Statement) Unit) Statement where
+instance MkStatement MediaQuery (Writer (List Statement) Unit) Statement where
   mkStatement mq nested =
     tell
       $ pure
@@ -164,24 +163,24 @@ else instance
   mkStatement _ decls =
     tell
       $ pure
-      $ Ruleset [ val "@font-face" ]
+      $ Ruleset (val "@font-face")
       $ concatDeclarations
       $ map (\(FontFaceDeclaration' d) -> d)
       $ execWriter decls
 
 else instance
-  MkStatement Keyframes (Writer (Array KeyframeBlock) Unit) Statement where
+  MkStatement Keyframes (Writer (List KeyframeBlock) Unit) Statement where
   mkStatement (Keyframes (KeyframesName kfname)) blocks =
     tell
       $ pure
       $ NestedAtRule (NestedRule $ val "keyframes " <> val kfname)
-      $ ((\(KeyframeBlock sels decls) -> Ruleset sels decls) <$> execWriter blocks)
+      $ ((\(KeyframeBlock sel decls) -> Ruleset sel decls) <$> execWriter blocks)
 
 else instance (RowToList ps psl, AllPropertiesAnimatable psl) => MkStatement (Measure Percentage) (Writer (List Declaration') (Proxy ps)) KeyframeBlock where
   mkStatement sel decls =
     tell
       $ pure
-      $ KeyframeBlock [ val sel ]
+      $ KeyframeBlock (val sel)
       $ concatDeclarations
       $ map (\(Declaration' d) -> d)
       $ execWriter decls
@@ -196,7 +195,7 @@ else instance
   mkStatement sels decls =
     tell
       $ pure
-      $ KeyframeBlock (multiVal sels)
+      $ KeyframeBlock (intercalateMultiVal (val "," <> Val _.separator) sels)
       $ concatDeclarations
       $ map (\(Declaration' d) -> d)
       $ execWriter decls
@@ -209,7 +208,7 @@ else instance
   mkStatement sel decls =
     tell
       $ pure
-      $ Ruleset (multiVal sel)
+      $ Ruleset (intercalateMultiVal (val "," <> Val _.separator) sel)
       $ concatDeclarations
       $ map (\(Declaration' d) -> d)
       $ execWriter decls
@@ -257,7 +256,10 @@ infixr 0 assoc as :=
 concatDeclarations :: List (Val /\ Val) -> Val
 concatDeclarations decls = Val \c ->
   let
-    indent = String.joinWith mempty $ replicate c.indentLevel c.indentation
+    mkIndent n acc
+      | n < 1 = acc
+      | otherwise = mkIndent (n - 1) $ c.indentation <> acc
+    indent = mkIndent c.indentLevel mempty
     go Nil acc = acc <> if c.finalSemicolon then ";" else mempty
     go ((k /\ v) : xs) acc =
       go xs $ (if acc /= mempty then acc <> ";" <> c.newline else mempty) <> indent <> runVal c k <> ":" <> c.separator <> runVal c v
@@ -287,10 +289,10 @@ renderInline' c =
 renderInline :: forall ps. Writer (List Declaration') ps -> String
 renderInline = renderInline' pretty { newline = " ", finalSemicolon = false }
 
-renderSheet :: Configuration -> Writer (Array Statement) Unit -> String
+renderSheet :: Configuration -> Writer (List Statement) Unit -> String
 renderSheet config =
   runVal config
-    <<< joinVals config.newline
+    <<< intercalate (val config.newline)
     <<< map renderStatement
     <<< execWriter
 
@@ -298,21 +300,19 @@ renderSheet config =
 
   renderStatement =
     case _ of
-      Ruleset selectors declarations ->
-        let
-          selector =
-            joinVals (Val \c -> "," <> c.separator)
-              $ Array.fromFoldable selectors
-        in
-          nested selector declarations
+      Ruleset selector declarations ->
+        nested selector declarations
       NestedAtRule (NestedRule nestedRule) statements ->
         nested (val "@" <> nestedRule) $
-          joinVals config.newline (renderStatement <$> statements)
+          intercalate (val config.newline) (renderStatement <$> statements)
 
   nested outer inner =
     Val \c@{ indentLevel, indentation, newline, separator } ->
       let
-        indent = String.joinWith mempty $ replicate indentLevel indentation
+        mkIndent n acc
+          | n < 1 = acc
+          | otherwise = mkIndent (n - 1) $ indentation <> acc
+        indent = mkIndent indentLevel mempty
       in
         indent
           <> runVal c outer
@@ -401,7 +401,7 @@ newtype Keyframes = Keyframes KeyframesName
 keyframes :: KeyframesName -> Keyframes
 keyframes = Keyframes
 
-data KeyframeBlock = KeyframeBlock (Array Val) Val
+data KeyframeBlock = KeyframeBlock Val Val
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-name
 
@@ -421,7 +421,7 @@ instance declarationAnimationName ::
   , MultiVal a
   ) =>
   Declaration "animation-name" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-duration
 
@@ -439,7 +439,7 @@ instance declarationAnimationDuration ::
   , MultiVal a
   ) =>
   Declaration "animation-duration" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-timing-function
 
@@ -452,7 +452,7 @@ instance declarationAnimationTimingFunction ::
   , MultiVal a
   ) =>
   Declaration "animation-timing-function" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-iteration-count
 
@@ -480,7 +480,7 @@ instance declarationAnimationIterationCount ::
   , MultiVal a
   ) =>
   Declaration "animation-iteration-count" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-direction
 
@@ -514,7 +514,7 @@ instance declarationAnimationDirection ::
   , MultiVal a
   ) =>
   Declaration "animation-direction" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-play-state
 
@@ -545,7 +545,7 @@ instance declarationAnimationPlayState ::
   , MultiVal a
   ) =>
   Declaration "animation-play-state" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-delay
 
@@ -558,7 +558,7 @@ instance declarationAnimationDelay ::
   , MultiVal a
   ) =>
   Declaration "animation-delay" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-animations-1/#propdef-animation-fill-mode
 
@@ -593,7 +593,7 @@ instance declarationAnimationFillMode ::
   , MultiVal a
   ) =>
   Declaration "animation-fill-mode" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 --------------------------------------------------------------------------------
 
@@ -631,7 +631,7 @@ instance declarationBackgroundImage ::
   , MultiVal a
   ) =>
   Declaration "background-image" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-repeat
 
@@ -682,7 +682,7 @@ instance declarationBackgroundRepeat ::
   , MultiVal a
   ) =>
   Declaration "background-repeat" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-attachment
 
@@ -713,7 +713,7 @@ instance declarationBackgroundAttachment ::
   , MultiVal a
   ) =>
   Declaration "background-attachment" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-position
 
@@ -732,7 +732,7 @@ instance declarationBackgroundPosition ::
   , MultiVal a
   ) =>
   Declaration "background-position" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-clip
 
@@ -760,7 +760,7 @@ instance declarationBackgroundClip ::
   , MultiVal a
   ) =>
   Declaration "background-clip" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-origin
 
@@ -773,7 +773,7 @@ instance declarationBackgroundOrigin ::
   , MultiVal a
   ) =>
   Declaration "background-origin" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-background-size
 
@@ -811,7 +811,7 @@ instance declarationBackgroundSize ::
   , MultiVal a
   ) =>
   Declaration "background-size" a where
-  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-border-top-color
 
@@ -1353,7 +1353,7 @@ instance declarationBorderRadius ::
   ) =>
   Declaration "border-radius" a where
   pval =
-    const $ joinVals (Val \c -> c.separator <> "/" <> c.separator) <<< multiVal
+    const $ intercalateMultiVal $ Val _.separator <> val "/" <> Val _.separator
 
 -- https://www.w3.org/TR/css-backgrounds-3/#propdef-box-shadow
 
@@ -1460,7 +1460,7 @@ else instance declarationBoxShadowIsShadow ::
   , MultiVal a
   ) =>
   Declaration "box-shadow" a where
-  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 --------------------------------------------------------------------------------
 
@@ -1851,14 +1851,9 @@ cubicBezier
   -> y2
   -> EasingFunction
 cubicBezier x1 y1 x2 y2 =
-  EasingFunction $
-    fn
-      "cubic-bezier"
-      [ val $ number x1
-      , val $ number y1
-      , val $ number x2
-      , val $ number y2
-      ]
+  EasingFunction
+    $ fn "cubic-bezier"
+    $ number x1 /\ number y1 /\ number x2 /\ number y2
 
 -- https://www.w3.org/TR/css-easing-1/#typedef-step-position
 
@@ -1883,7 +1878,7 @@ steps
   => Int
   -> Proxy s
   -> EasingFunction
-steps n f = EasingFunction $ fn "steps" [ val n, val f ]
+steps n f = EasingFunction $ fn "steps" $ val n /\ val f
 
 stepStart :: EasingFunction
 stepStart = EasingFunction $ val "step-start"
@@ -2164,7 +2159,7 @@ newtype LocalFunction = LocalFunction Val
 derive newtype instance ToVal LocalFunction
 
 local :: String -> LocalFunction
-local = LocalFunction <<< fn "local" <<< pure <<< val <<< quote
+local = LocalFunction <<< fn "local" <<< val <<< quote
 
 collection = Proxy :: Proxy "collection"
 embeddedOpentype = Proxy :: Proxy "embedded-opentype"
@@ -2194,7 +2189,7 @@ format
   => Proxy s
   -> FontFaceFormatFunction
 format =
-  FontFaceFormatFunction <<< fn "format" <<< pure <<< mapVal quote <<< val
+  FontFaceFormatFunction <<< fn "format" <<< mapVal quote <<< val
 
 class IsFontFaceSrcList (a :: Type)
 
@@ -2213,7 +2208,7 @@ instance fontFaceDeclarationSrc ::
   , MultiVal a
   ) =>
   FontFaceDeclaration "src" a where
-  fdval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  fdval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-fonts-4/#descdef-font-face-font-style
 
@@ -2343,18 +2338,25 @@ instance declarationFontFamily ::
   , MultiVal a
   ) =>
   Declaration "font-family" a where
-  pval = const $ foldr buildFontFamilyList mempty <<< multiVal
+  pval =
+    const $ buildFontFamilyList false <<< foldlMultiVal (flip (:)) Nil
     where
-    buildFontFamilyList x acc =
-      Val \c ->
-        let
-          x' = runVal c x
-          acc' = runVal c acc
-        in
-          if acc' == mempty then
-            x'
-          else
-            quote x' <> "," <> c.separator <> acc'
+    buildFontFamilyList quoted =
+      case _ of
+        (x : xs) ->
+          let
+            sep =
+              case xs of
+                Nil ->
+                  mempty
+                _ ->
+                  val "," <> Val _.separator
+          in
+            buildFontFamilyList true xs
+              <> sep
+              <> if quoted then mapVal quote x else x
+        Nil ->
+          mempty
 
 -- https://www.w3.org/TR/css-fonts-4/#propdef-font-weight
 
@@ -2519,18 +2521,17 @@ else instance (IsColor color, LengthPercentageTag tpos) => IsColorStopListTail (
 else instance (IsColor color, IsColorStopListTail tail) => IsColorStopListTail (color /\ tail)
 else instance IsColor color => IsColorStopListTail color
 
-newtype Gradient (repeating :: Type) = Gradient (String /\ Array Val)
+newtype Gradient (repeating :: Type) = Gradient Val
 
 instance IsImage (Gradient a)
 
 instance ToVal (Gradient a) where
-  val (Gradient (ty /\ details')) = fn (ty <> "-gradient") details'
+  val (Gradient g) = g
 
 data Repeating
 
 repeating :: Gradient Unit -> Gradient Repeating
-repeating (Gradient (ty /\ details')) =
-  Gradient $ ("repeating-" <> ty) /\ details'
+repeating (Gradient g) = Gradient $ val "repeating-" <> g
 
 -- https://www.w3.org/TR/css-images-3/#linear-gradient-syntax
 
@@ -2544,7 +2545,7 @@ linearGradient
   -> (csh /\ cst)
   -> Gradient Unit
 linearGradient angle colorStops =
-  Gradient $ "linear" /\ Array.cons (val angle) (multiVal colorStops)
+  Gradient $ fn "linear-gradient" $ angle /\ colorStops
 
 -- https://www.w3.org/TR/css-images-3/#radial-gradient-syntax
 
@@ -2598,13 +2599,9 @@ radialGradient
   -> (csh /\ cst)
   -> Gradient Unit
 radialGradient dimensions pos colorStops =
-  let
-    details' =
-      Array.cons
-        (val dimensions <> val " at " <> val pos)
-        (multiVal colorStops)
-  in
-    Gradient $ "radial" /\ details'
+  Gradient
+    $ fn "radial-gradient"
+    $ (val dimensions <> val " at " <> val pos) /\ colorStops
 
 --------------------------------------------------------------------------------
 
@@ -3013,7 +3010,7 @@ instance declarationMaskImage ::
   , MultiVal a
   ) =>
   Declaration "mask-image" a where
-  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 --------------------------------------------------------------------------------
 
@@ -4232,7 +4229,7 @@ focus = PseudoClass $ val "focus"
 -- https://www.w3.org/TR/selectors-3/#lang-pseudo
 
 lang :: String -> PseudoClass
-lang c = PseudoClass $ fn "lang" [ val c ]
+lang c = PseudoClass $ fn "lang" c
 
 -- https://www.w3.org/TR/selectors-3/#sel-enabled
 
@@ -4285,17 +4282,17 @@ nth :: Int -> Int -> Nth
 nth = Nth
 
 nthChild :: Nth -> PseudoClass
-nthChild formula = PseudoClass $ fn "nth-child" [ val formula ]
+nthChild formula = PseudoClass $ fn "nth-child" formula
 
 -- https://www.w3.org/TR/selectors-3/#sel-nth-last-child
 
 nthLastChild :: Nth -> PseudoClass
-nthLastChild formula = PseudoClass $ fn "nth-last-child" [ val formula ]
+nthLastChild formula = PseudoClass $ fn "nth-last-child" formula
 
 -- https://www.w3.org/TR/selectors-3/#sel-nth-of-type
 
 nthOfType :: Nth -> PseudoClass
-nthOfType formula = PseudoClass $ fn "nth-of-type" [ val formula ]
+nthOfType formula = PseudoClass $ fn "nth-of-type" formula
 
 -- https://www.w3.org/TR/selectors-3/#sel-first-child
 
@@ -4335,7 +4332,7 @@ empty = PseudoClass $ val "empty"
 -- https://www.w3.org/TR/selectors-4/#negation-pseudo
 
 not :: forall s. IsSelectorList s => MultiVal s => s -> PseudoClass
-not s = PseudoClass $ fn "not" $ multiVal s
+not s = PseudoClass $ fn "not" s
 
 -- https://www.w3.org/TR/selectors-3/#sel-first-line
 
@@ -4382,7 +4379,7 @@ newtype FitContent = FitContent Val
 derive newtype instance ToVal FitContent
 
 fitContent :: forall t. LengthPercentageTag t => Measure t -> FitContent
-fitContent v = FitContent $ fn "fit-content" [ val v ]
+fitContent v = FitContent $ fn "fit-content" v
 
 minContent = Proxy :: Proxy "min-content"
 maxContent = Proxy :: Proxy "max-content"
@@ -4769,7 +4766,7 @@ else instance declarationTextShadowList ::
   , MultiVal a
   ) =>
   Declaration "text-shadow" a where
-  pval = const $ joinVals (Val \c -> "," <> c.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 --------------------------------------------------------------------------------
 
@@ -4799,16 +4796,9 @@ matrix
   -> f
   -> TransformFunction
 matrix a' b' c d e f =
-  TransformFunction $
-    fn
-      "matrix"
-      [ val $ number a'
-      , val $ number b'
-      , val $ number c
-      , val $ number d
-      , val $ number e
-      , val $ number f
-      ]
+  TransformFunction
+    $ fn "matrix"
+    $ number a' /\ number b' /\ number c /\ number d /\ number e /\ number f
 
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-translate
 
@@ -4819,37 +4809,37 @@ translate
   => Measure tx
   -> Measure ty
   -> TransformFunction
-translate tx ty = TransformFunction $ fn "translate" [ val tx, val ty ]
+translate tx ty = TransformFunction $ fn "translate" $ tx /\ ty
 
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-translatex
 
 translateX :: forall t. LengthPercentageTag t => Measure t -> TransformFunction
-translateX tx = TransformFunction $ fn "translateX" [ val tx ]
+translateX tx = TransformFunction $ fn "translateX" tx
 
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-translatey
 
 translateY :: forall t. LengthPercentageTag t => Measure t -> TransformFunction
-translateY ty = TransformFunction $ fn "translateY" [ val ty ]
+translateY ty = TransformFunction $ fn "translateY" ty
 
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-scale
 
 scale :: Number -> Number -> TransformFunction
-scale sx sy = TransformFunction $ fn "scale" [ val sx, val sy ]
+scale sx sy = TransformFunction $ fn "scale" $ sx /\ sy
 
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-scalex
 
 scaleX :: Number -> TransformFunction
-scaleX sx = TransformFunction $ fn "scaleX" [ val sx ]
+scaleX sx = TransformFunction $ fn "scaleX" sx
 
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-scaley
 
 scaleY :: Number -> TransformFunction
-scaleY sy = TransformFunction $ fn "scaleY" [ val sy ]
+scaleY sy = TransformFunction $ fn "scaleY" sy
 
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-rotate
 
 rotate :: forall t. AngleTag t => Measure t -> TransformFunction
-rotate angle = TransformFunction $ fn "rotate" [ val angle ]
+rotate angle = TransformFunction $ fn "rotate" angle
 
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-skew
 
@@ -4858,12 +4848,12 @@ rotate angle = TransformFunction $ fn "rotate" [ val angle ]
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-skewx
 
 skewX :: forall t. AngleTag t => Measure t -> TransformFunction
-skewX angle = TransformFunction $ fn "skewX" [ val angle ]
+skewX angle = TransformFunction $ fn "skewX" angle
 
 -- https://www.w3.org/TR/css-transforms-1/#funcdef-transform-skewy
 
 skewY :: forall t. AngleTag t => Measure t -> TransformFunction
-skewY angle = TransformFunction $ fn "skewY" [ val angle ]
+skewY angle = TransformFunction $ fn "skewY" angle
 
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-matrix3d
 
@@ -4903,26 +4893,21 @@ matrix3d
   -> d4
   -> TransformFunction
 matrix3d a1 b1 c1 d1 a2 b2 c2 d2 a3 b3 c3 d3 a4 b4 c4 d4 =
-  TransformFunction $
-    fn
-      "matrix3d"
-      [ val $ number a1
-      , val $ number b1
-      , val $ number c1
-      , val $ number d1
-      , val $ number a2
-      , val $ number b2
-      , val $ number c2
-      , val $ number d2
-      , val $ number a3
-      , val $ number b3
-      , val $ number c3
-      , val $ number d3
-      , val $ number a4
-      , val $ number b4
-      , val $ number c4
-      , val $ number d4
-      ]
+  TransformFunction
+    $ fn "matrix3d"
+    $ number a1 /\ number b1 /\ number c1 /\ number d1
+        /\ number a2
+        /\ number b2
+        /\ number c2
+        /\ number d2
+        /\ number a3
+        /\ number b3
+        /\ number c3
+        /\ number d3
+        /\ number a4
+        /\ number b4
+        /\ number c4
+        /\ number d4
 
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-translate3d
 
@@ -4936,12 +4921,12 @@ translate3d
   -> Measure tz
   -> TransformFunction
 translate3d tx ty tz =
-  TransformFunction $ fn "translate3d" [ val tx, val ty, val tz ]
+  TransformFunction $ fn "translate3d" $ tx /\ ty /\ tz
 
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-translatez
 
 translateZ :: forall t. LengthTag t => Measure t -> TransformFunction
-translateZ tz = TransformFunction $ fn "translateZ" [ val tz ]
+translateZ tz = TransformFunction $ fn "translateZ" tz
 
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-scale3d
 
@@ -4955,18 +4940,12 @@ scale3d
   -> z
   -> TransformFunction
 scale3d sx sy sz =
-  TransformFunction $
-    fn
-      "scale3d"
-      [ val $ number sx
-      , val $ number sy
-      , val $ number sz
-      ]
+  TransformFunction $ fn "scale3d" $ number sx /\ number sy /\ number sz
 
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-scalez
 
 scaleZ :: forall a. ToNumber a => a -> TransformFunction
-scaleZ sz = TransformFunction $ fn "scaleZ" [ val $ number sz ]
+scaleZ sz = TransformFunction $ fn "scaleZ" $ number sz
 
 -- https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/rotate3d
 
@@ -4982,29 +4961,22 @@ rotate3d
   -> Measure t
   -> TransformFunction
 rotate3d x y z a' =
-  TransformFunction $
-    fn
-      "rotate3d"
-      [ val $ number x
-      , val $ number y
-      , val $ number z
-      , val a'
-      ]
+  TransformFunction $ fn "rotate3d" $ number x /\ number y /\ number z /\ a'
 
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-rotatex
 
 rotateX :: forall t. AngleTag t => Measure t -> TransformFunction
-rotateX a' = TransformFunction $ fn "rotateX" [ val a' ]
+rotateX a' = TransformFunction $ fn "rotateX" a'
 
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-rotatey
 
 rotateY :: forall t. AngleTag t => Measure t -> TransformFunction
-rotateY a' = TransformFunction $ fn "rotateY" [ val a' ]
+rotateY a' = TransformFunction $ fn "rotateY" a'
 
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-rotatez
 
 rotateZ :: forall t. AngleTag t => Measure t -> TransformFunction
-rotateZ a' = TransformFunction $ fn "rotateZ" [ val a' ]
+rotateZ a' = TransformFunction $ fn "rotateZ" a'
 
 -- https://www.w3.org/TR/css-transforms-2/#funcdef-perspective
 
@@ -5013,8 +4985,8 @@ class IsPerspective (a :: Type)
 instance IsPerspective (Proxy "none")
 instance LengthTag t => IsPerspective (Measure t)
 
-perspective :: forall a. IsPerspective a => ToVal a => a -> TransformFunction
-perspective a' = TransformFunction $ fn "perspective" [ val a' ]
+perspective :: forall a. IsPerspective a => MultiVal a => a -> TransformFunction
+perspective a' = TransformFunction $ fn "perspective" a'
 
 -- https://www.w3.org/TR/css-transforms-1/#propdef-transform
 
@@ -5036,7 +5008,7 @@ else instance declarationTransformList ::
   , MultiVal a
   ) =>
   Declaration "transform" a where
-  pval = const $ joinVals (val " ") <<< multiVal
+  pval = const $ intercalateMultiVal $ val " "
 
 -- https://www.w3.org/TR/css-transforms-1/#propdef-transform-origin
 
@@ -5096,7 +5068,7 @@ else instance declarationTransitionPropertyList ::
   , MultiVal a
   ) =>
   Declaration "transition-property" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-transitions-1/#propdef-transition-duration
 
@@ -5109,7 +5081,7 @@ instance declarationTransitionDuration ::
   , MultiVal a
   ) =>
   Declaration "transition-duration" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-transitions-1/#propdef-transition-timing-function
 
@@ -5122,7 +5094,7 @@ instance propertyTransitionTimingFunction ::
   , MultiVal a
   ) =>
   Declaration "transition-timing-function" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 -- https://www.w3.org/TR/css-transitions-1/#propdef-transition-delay
 
@@ -5135,7 +5107,7 @@ instance declarationTransitionDelay ::
   , MultiVal a
   ) =>
   Declaration "transition-delay" a where
-  pval = const $ joinVals (val "," <> Val _.separator) <<< multiVal
+  pval = const $ intercalateMultiVal $ val "," <> Val _.separator
 
 --------------------------------------------------------------------------------
 
@@ -5322,10 +5294,10 @@ instance declarationDirectionSymbol ::
 
 -- Common values
 
-fn :: String -> Array Val -> Val
+fn :: forall args. MultiVal args => String -> args -> Val
 fn name' args = Val \c ->
   let
-    args' = runVal c $ joinVals ("," <> c.separator) args
+    args' = runVal c $ intercalateMultiVal (val "," <> Val _.separator) args
   in
     name' <> "(" <> args' <> ")"
 
@@ -5491,7 +5463,7 @@ else instance ToNumber b => Calc Multiply a b a
 else instance Calc Multiply a b c => Calc Divide a b c
 
 calc :: forall op a b. ToVal op => ToVal a => ToVal b => op -> a -> b -> Val
-calc op a' b' = fn "calc" [ joinVals " " [ val a', val op, val b' ] ]
+calc op a' b' = fn "calc" $ intercalateMultiVal " " $ val a' /\ val op /\ val b'
 
 add
   :: forall ta tb tc
@@ -5584,7 +5556,7 @@ infixl 9 divide as @/
 newtype URL = URL String
 
 instance toValURL :: ToVal URL where
-  val (URL x) = val $ fn "url" [ val $ quote x ]
+  val (URL x) = val $ fn "url" $ quote x
 
 url :: String -> URL
 url = URL

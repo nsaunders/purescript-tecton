@@ -19,7 +19,7 @@ isRenderedFromInline expected given =
 
 isRenderedFromSheet
   :: String
-  -> Writer (Array Statement) Unit
+  -> Writer (List Statement) Unit
   -> Spec Unit
 isRenderedFromSheet expected given =
   it ("renders " <> expected) $
