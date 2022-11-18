@@ -1,6 +1,7 @@
 module Tecton.Rule where
 
 import Prelude hiding (discard)
+
 import Control.Monad.Writer (Writer)
 import Prim.Row as Row
 import Type.Proxy (Proxy(..))

@@ -1,4 +1,920 @@
-module Tecton.Internal (class AlignContentKeyword, class AlignItemsKeyword, class AlignSelfKeyword, class AlignmentBaselineKeyword, class AlignmentBaselineOrBaselineShiftKeyword, class AllPropertiesAnimatable, class AngleTag, class Animatable, class AnimationDirectionKeyword, class AnimationFillModeKeyword, class AnimationPlayStateKeyword, class Assoc, class AttachmentKeyword, class Attribute, class BaselineShiftKeyword, class BaselineSourceKeyword, class BoxKeyword, class ByAtt, class Calc, class ClearKeyword, class CollectMediaFeatures, class Combine, class ContentKeyword, class CounterStyleKeyword, class Declaration, class DirectionKeyword, class DisplayKeyword, class DominantBaselineKeyword, class Element, class ExtentKeyword, class FlexDirectionKeyword, class FlexWrapKeyword, class FloatKeyword, class FontFaceDeclaration, class FontFaceFontStyleKeyword, class FontFaceFontWeightKeyword, class FontFormatKeyword, class FontSizeKeyword, class FontStretchKeyword, class FontStyleKeyword, class FontWeightKeyword, class GenericFontFamilyKeyword, class IsAnimationNameList, class IsAttachmentList, class IsAttribute, class IsBaselineShift, class IsBgImageList, class IsBgSize, class IsBgSizeList, class IsBorderColor, class IsBorderRadius, class IsBorderStyle, class IsBorderWidth, class IsBoxList, class IsColor, class IsColorStopListHead, class IsColorStopListTail, class IsExtensibleSelector, class IsFontFaceFontStyle, class IsFontFaceFontWeight, class IsFontFaceSrcList, class IsFontFamilyList, class IsFontSize, class IsFontStretch, class IsFontStyle, class IsFontWeight, class IsImage, class IsInset, class IsInsetBlock, class IsLetterSpacing, class IsLineHeight, class IsLineWidth, class IsList, class IsListStyleImage, class IsListStyleType, class IsMargin, class IsMaskReferenceList, class IsMaxWidth, class IsMinWidth, class IsOverflow, class IsPadding, class IsPerspective, class IsPosition, class IsPositionList, class IsPositionX, class IsPositionY, class IsRadialGradientDimensions, class IsRepeatStyle, class IsRepeatStyleList, class IsSelector, class IsSelectorList, class IsShadow, class IsSingleAnimationDirectionList, class IsSingleAnimationFillModeList, class IsSingleAnimationIterationCountList, class IsSingleAnimationPlayStateList, class IsSingleBorderRadius, class IsSingleMargin, class IsSingleTransitionPropertyList, class IsTextDecorationLine, class IsTextShadow, class IsTextShadowList, class IsTextTransform, class IsTimeList, class IsTop, class IsTransformList, class IsTransformOrigin, class IsVerticalAlign, class IsWidth, class IsWordSpacing, class JustifyContentKeyword, class LengthPercentageTag, class LengthTag, class LineStyleKeyword, class LineWidthKeyword, class ListStylePositionKeyword, class MaxWidthKeyword, class MediaFeature, class MediaTypeKeyword, class MinWidthKeyword, class MkStatement, class MultiVal, class OutlineLineStyleKeyword, class OverflowKeyword, class PercentageTag, class PositionKeyword, class Property, class Pseudo, class Pseudo', class PseudoPrefix, class RepeatStyle1dKeyword, class RepeatStyle2dKeyword, class SelectorStatus, class ShapeKeyword, class StepPosition, class TextAlignKeyword, class TextDecorationStyleKeyword, class TextOverflowKeyword, class TextTransformCapitalizationKeyword, class TimeTag, class ToNumber, class ToVal, class VisibilityKeyword, class WhiteSpaceKeyword, class WidthKeyword, Add, Angle, AttributePredicate, CSS, CSSColor, CommonKeyword, Configuration, CustomAttribute, Declaration', Divide, EasingFunction, Extensible, FitContent, FontFace, FontFaceDeclaration', FontFaceFormatFunction, Gradient, Inextensible, KeyframeBlock, Keyframes, KeyframesName, Length, LengthPercentage, LocalFunction, Measure, MediaQuery, Multiply, NestedRule, Nil, Nth, Orientation, Pair(..), Percentage, PseudoClass, PseudoElement, Ratio(..), Repeating, Resolution, Selector, Statement, Subtract, Time, TransformFunction, URL, Val, a, abbr, absolute, accept, acceptCharset, accesskey, acronym, action, active, add, adjacentSibling, after, alignContent, alignItems, alignSelf, alignmentBaseline, all, alphabetic, alt, alternate, alternateReverse, animationDelay, animationDirection, animationDuration, animationFillMode, animationIterationCount, animationName, animationPlayState, animationTimingFunction, arabicIndic, armenian, article, aside, assoc, async, att, attContains, attElemWhitespace, attEndsWith, attEq, attStartsWith, attStartsWithHyphen, audio, auto, autocomplete, autofocus, autoplay, b, backgroundAttachment, backgroundClip, backgroundColor, backgroundImage, backgroundOrigin, backgroundPosition, backgroundRepeat, backgroundSize, backwards, baseline, baselineShift, baselineSource, before, bengali, blink, block, blockquote, body, bold, bolder, borderBottomColor, borderBottomLeftRadius, borderBottomRightRadius, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderLeftColor, borderLeftStyle, borderLeftWidth, borderRadius, borderRightColor, borderRightStyle, borderRightWidth, borderStyle, borderTopColor, borderTopLeftRadius, borderTopRightRadius, borderTopStyle, borderTopWidth, borderWidth, both, bottom, boxShadow, breakSpaces, button, byAtt, byClass, byId, byPseudo, cambodian, canvas, capitalize, caption, center, central, ch, charset, checked, child, circle, cite, cjkDecimal, cjkEarthlyBranch, cjkHeavenlyStem, class', clear, clip, closestCorner, closestSide, cm, code, col, colgroup, collapse, collectMediaFeatures, collection, color, cols, colspan, column, columnGap, columnReverse, combine, compact, condensed, contain, content, contentBox, contenteditable, contents, controls, coords, cover, cubicBezier, currentColor, cursive, dashed, data', datetime, dd, decimal, decimalLeadingZero, default, defer, deg, descendant, details, devanagari, dir, direction, dirname, disabled, disc, disclosureClosed, disclosureOpen, display, div, divide, dl, dominantBaseline, dotted, double, download, dpcm, dpi, draggable, dt, ease, easeIn, easeInOut, easeOut, ellipse, ellipsis, em, em', embeddedOpentype, emoji, empty, enabled, enctype, end, even, ex, expanded, extraCondensed, extraExpanded, fangsong, fantasy, farthestCorner, farthestSide, fdval, fieldset, first, firstChild, firstLetter, firstLine, firstOfType, fitContent, fixed, flex, flexBasis, flexDirection, flexEnd, flexGrow, flexShrink, flexStart, flexWrap, float, flowRoot, focus, foldlMultiVal, fontFace, fontFamily, fontSize, fontSizeAdjust, fontStretch, fontStyle, fontWeight, footer, for, form, formaction, format, forwards, fullSizeKana, fullWidth, gap, generalSibling, georgian, grid, groove, gujarati, gurmukhi, h1, h2, h3, h4, h5, h6, hanging, header, headers, hebrew, height, hidden, high, hiragana, hiraganaIroha, hover, hr, href, hreflang, html, httpEquiv, i, id, ideographic, img, inch, indeterminate, infinite, inherit, initial, inline, inlineBlock, inlineFlex, inlineGrid, inlineTable, input, inset, insetBlock, insetBlockEnd, insetBlockStart, insetInline, insetInlineEnd, insetInlineStart, inside, invert, ismap, italic, jumpBoth, jumpEnd, jumpNone, jumpStart, justify, justifyAll, justifyContent, kannada, katakana, katakanaIroha, keyframes, keyframesName, khmer, kind, label, landscape, lang, lang', lao, large, larger, last, lastChild, lastOfType, left, legend, letterSpacing, li, lighter, line, lineHeight, lineThrough, linear, linearGradient, link, list, listItem, listStyleImage, listStylePosition, listStyleType, local, local', loop, low, lowerAlpha, lowerArmenian, lowerGreek, lowerLatin, lowerRoman, lowercase, ltr, main', malayalam, mapVal, margin, marginBottom, marginLeft, marginRight, marginTop, mark, marker, maskImage, matchParent, math, mathematical, matrix, matrix3d, max, maxContent, maxHeight, maxWidth, maxlength, media, media', medium, menu, method, middle, min, minContent, minHeight, minWidth, mkStatement, mm, mongolian, monospace, ms, multiple, multiply, multiplyFlipped, muted, myanmar, name, nav, nil, noRepeat, none, normal, not, novalidate, nowrap, nth, nthChild, nthLastChild, nthOfType, number, oblique, odd, ol, onabort, onafterprint, onbeforeprint, onbeforeunload, onblur, oncanplay, oncanplaythrough, onchange, onclick, oncontextmenu, oncopy, oncuechange, oncut, ondblclick, ondrag, ondragend, ondragenter, ondragleave, ondragover, ondragstart, ondrop, ondurationchange, onemptied, onended, onerror, onfocus, onhashchange, oninput, oninvalid, onkeydown, onkeypress, onkeyup, onload, onloadeddata, onloadedmetadata, onloadstart, onlyChild, onlyOfType, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onmousewheel, onoffline, ononline, onpagehide, onpageshow, onpaste, onpause, onplay, onplaying, onpopstate, onprogress, onratechange, onreset, onresize, onscroll, onsearch, onseeked, onseeking, onselect, onstalled, onstorage, onsubmit, onsuspend, ontimeupdate, ontoggle, onunload, onvolumechange, onwaiting, onwheel, opacity, open, opentype, optgroup, optimum, option, order, oriya, outlineColor, outlineOffset, outlineStyle, outlineWidth, outset, outside, overflow, overflowX, overflowY, overline, p, padding, paddingBottom, paddingBox, paddingLeft, paddingRight, paddingTop, path, pattern, paused, pc, pct, persian, perspective, placeholder, polygon, polyline, portrait, position, poster, pre, preLine, preWrap, preload, pretty, print, progress, pseudoPrefix, pt, pval, px, q, rad, radialGradient, readonly, rect, rel, relative, rem, renderInline, renderInline', renderSheet, repeat', repeatX, repeatY, repeating, required, reverse, reversed, ridge, right, role, root, rotate, rotate3d, rotateX, rotateY, rotateZ, round, row, rowGap, rowReverse, rows, rowspan, rtl, runVal, running, sandbox, sansSerif, scale, scale3d, scaleX, scaleY, scaleZ, scope, screen, scroll, sec, section, select, selected, selection, semiCondensed, semiExpanded, serif, shape, size, sizes, skewX, skewY, small, smaller, solid, space, spaceAround, spaceBetween, span, spellcheck, square, src, srcdoc, srclang, srcset, start, static, step, stepEnd, stepStart, steps, sticky, stretch, strong, style, sub, subtract, summary, sup, super, svg, systemUI, tabindex, table, tableCaption, tableCell, tableColumn, tableColumnGroup, tableFooterGroup, tableHeaderGroup, tableRow, tableRowGroup, tamil, target, tbody, td, telugu, textAlign, textBottom, textDecorationColor, textDecorationLine, textDecorationStyle, textIndent, textOverflow, textShadow, textTop, textTransform, textarea, tfoot, th, thai, thead, thick, thin, tibetan, time, title, top, tr, transform, transformOrigin, transitionDelay, transitionDuration, transitionProperty, transitionTimingFunction, translate, translate', translate3d, translateX, translateY, translateZ, transparent, truetype, turn, type', uiMonospace, uiRounded, uiSansSerif, uiSerif, ul, ultraCondensed, ultraExpanded, underline, universal, unset, upperAlpha, upperArmenian, upperLatin, upperRoman, uppercase, url, usemap, val, value, verticalAlign, vh, video, visibility, visible, visited, vmax, vmin, vw, wavy, whiteSpace, width, woff, woff2, wordSpacing, wrap, wrapReverse, xLarge, xSmall, xxLarge, xxSmall, zIndex, ($=), (&#), (&.), (&:), (&@), (*=), (*@), (:/), (:=), (?), (@*), (@+@), (@-@), (@/), (@=), (^=), (|*), (|+), (|=), (|>), (|~), (~), (~=)) where
+module Tecton.Internal
+  ( class AlignContentKeyword
+  , class AlignItemsKeyword
+  , class AlignSelfKeyword
+  , class AlignmentBaselineKeyword
+  , class AlignmentBaselineOrBaselineShiftKeyword
+  , class AllPropertiesAnimatable
+  , class AngleTag
+  , class Animatable
+  , class AnimationDirectionKeyword
+  , class AnimationFillModeKeyword
+  , class AnimationPlayStateKeyword
+  , class Assoc
+  , class AttachmentKeyword
+  , class Attribute
+  , class BaselineShiftKeyword
+  , class BaselineSourceKeyword
+  , class BoxKeyword
+  , class ByAtt
+  , class Calc
+  , class ClearKeyword
+  , class CollectMediaFeatures
+  , class Combine
+  , class ContentKeyword
+  , class CounterStyleKeyword
+  , class Declaration
+  , class DirectionKeyword
+  , class DisplayKeyword
+  , class DominantBaselineKeyword
+  , class Element
+  , class ExtentKeyword
+  , class FlexDirectionKeyword
+  , class FlexWrapKeyword
+  , class FloatKeyword
+  , class FontFaceDeclaration
+  , class FontFaceFontStyleKeyword
+  , class FontFaceFontWeightKeyword
+  , class FontFormatKeyword
+  , class FontSizeKeyword
+  , class FontStretchKeyword
+  , class FontStyleKeyword
+  , class FontWeightKeyword
+  , class GenericFontFamilyKeyword
+  , class IsAnimationNameList
+  , class IsAttachmentList
+  , class IsAttribute
+  , class IsBaselineShift
+  , class IsBgImageList
+  , class IsBgSize
+  , class IsBgSizeList
+  , class IsBorderColor
+  , class IsBorderRadius
+  , class IsBorderStyle
+  , class IsBorderWidth
+  , class IsBoxList
+  , class IsColor
+  , class IsColorStopListHead
+  , class IsColorStopListTail
+  , class IsExtensibleSelector
+  , class IsFontFaceFontStyle
+  , class IsFontFaceFontWeight
+  , class IsFontFaceSrcList
+  , class IsFontFamilyList
+  , class IsFontSize
+  , class IsFontStretch
+  , class IsFontStyle
+  , class IsFontWeight
+  , class IsImage
+  , class IsInset
+  , class IsInsetBlock
+  , class IsLetterSpacing
+  , class IsLineHeight
+  , class IsLineWidth
+  , class IsList
+  , class IsListStyleImage
+  , class IsListStyleType
+  , class IsMargin
+  , class IsMaskReferenceList
+  , class IsMaxWidth
+  , class IsMinWidth
+  , class IsOverflow
+  , class IsPadding
+  , class IsPerspective
+  , class IsPosition
+  , class IsPositionList
+  , class IsPositionX
+  , class IsPositionY
+  , class IsRadialGradientDimensions
+  , class IsRepeatStyle
+  , class IsRepeatStyleList
+  , class IsSelector
+  , class IsSelectorList
+  , class IsShadow
+  , class IsSingleAnimationDirectionList
+  , class IsSingleAnimationFillModeList
+  , class IsSingleAnimationIterationCountList
+  , class IsSingleAnimationPlayStateList
+  , class IsSingleBorderRadius
+  , class IsSingleMargin
+  , class IsSingleTransitionPropertyList
+  , class IsTextDecorationLine
+  , class IsTextShadow
+  , class IsTextShadowList
+  , class IsTextTransform
+  , class IsTimeList
+  , class IsTop
+  , class IsTransformList
+  , class IsTransformOrigin
+  , class IsVerticalAlign
+  , class IsWidth
+  , class IsWordSpacing
+  , class JustifyContentKeyword
+  , class LengthPercentageTag
+  , class LengthTag
+  , class LineStyleKeyword
+  , class LineWidthKeyword
+  , class ListStylePositionKeyword
+  , class MaxWidthKeyword
+  , class MediaFeature
+  , class MediaTypeKeyword
+  , class MinWidthKeyword
+  , class MkStatement
+  , class MultiVal
+  , class OutlineLineStyleKeyword
+  , class OverflowKeyword
+  , class PercentageTag
+  , class PositionKeyword
+  , class Property
+  , class Pseudo
+  , class Pseudo'
+  , class PseudoPrefix
+  , class RepeatStyle1dKeyword
+  , class RepeatStyle2dKeyword
+  , class SelectorStatus
+  , class ShapeKeyword
+  , class StepPosition
+  , class TextAlignKeyword
+  , class TextDecorationStyleKeyword
+  , class TextOverflowKeyword
+  , class TextTransformCapitalizationKeyword
+  , class TimeTag
+  , class ToNumber
+  , class ToVal
+  , class VisibilityKeyword
+  , class WhiteSpaceKeyword
+  , class WidthKeyword
+  , Add
+  , Angle
+  , AttributePredicate
+  , CSS
+  , CSSColor
+  , CommonKeyword
+  , Configuration
+  , CustomAttribute
+  , Declaration'
+  , Divide
+  , EasingFunction
+  , Extensible
+  , FitContent
+  , FontFace
+  , FontFaceDeclaration'
+  , FontFaceFormatFunction
+  , Gradient
+  , Inextensible
+  , KeyframeBlock
+  , Keyframes
+  , KeyframesName
+  , Length
+  , LengthPercentage
+  , LocalFunction
+  , Measure
+  , MediaQuery
+  , Multiply
+  , NestedRule
+  , Nil
+  , Nth
+  , Orientation
+  , Pair(..)
+  , Percentage
+  , PseudoClass
+  , PseudoElement
+  , Ratio(..)
+  , Repeating
+  , Resolution
+  , Selector
+  , Statement
+  , Subtract
+  , Time
+  , TransformFunction
+  , URL
+  , Val
+  , a
+  , abbr
+  , absolute
+  , accept
+  , acceptCharset
+  , accesskey
+  , acronym
+  , action
+  , active
+  , add
+  , adjacentSibling
+  , after
+  , alignContent
+  , alignItems
+  , alignSelf
+  , alignmentBaseline
+  , all
+  , alphabetic
+  , alt
+  , alternate
+  , alternateReverse
+  , animationDelay
+  , animationDirection
+  , animationDuration
+  , animationFillMode
+  , animationIterationCount
+  , animationName
+  , animationPlayState
+  , animationTimingFunction
+  , arabicIndic
+  , armenian
+  , article
+  , aside
+  , assoc
+  , async
+  , att
+  , attContains
+  , attElemWhitespace
+  , attEndsWith
+  , attEq
+  , attStartsWith
+  , attStartsWithHyphen
+  , audio
+  , auto
+  , autocomplete
+  , autofocus
+  , autoplay
+  , b
+  , backgroundAttachment
+  , backgroundClip
+  , backgroundColor
+  , backgroundImage
+  , backgroundOrigin
+  , backgroundPosition
+  , backgroundRepeat
+  , backgroundSize
+  , backwards
+  , baseline
+  , baselineShift
+  , baselineSource
+  , before
+  , bengali
+  , blink
+  , block
+  , blockquote
+  , body
+  , bold
+  , bolder
+  , borderBottomColor
+  , borderBottomLeftRadius
+  , borderBottomRightRadius
+  , borderBottomStyle
+  , borderBottomWidth
+  , borderBox
+  , borderColor
+  , borderLeftColor
+  , borderLeftStyle
+  , borderLeftWidth
+  , borderRadius
+  , borderRightColor
+  , borderRightStyle
+  , borderRightWidth
+  , borderStyle
+  , borderTopColor
+  , borderTopLeftRadius
+  , borderTopRightRadius
+  , borderTopStyle
+  , borderTopWidth
+  , borderWidth
+  , both
+  , bottom
+  , boxShadow
+  , breakSpaces
+  , button
+  , byAtt
+  , byClass
+  , byId
+  , byPseudo
+  , cambodian
+  , canvas
+  , capitalize
+  , caption
+  , center
+  , central
+  , ch
+  , charset
+  , checked
+  , child
+  , circle
+  , cite
+  , cjkDecimal
+  , cjkEarthlyBranch
+  , cjkHeavenlyStem
+  , class'
+  , clear
+  , clip
+  , closestCorner
+  , closestSide
+  , cm
+  , code
+  , col
+  , colgroup
+  , collapse
+  , collectMediaFeatures
+  , collection
+  , color
+  , cols
+  , colspan
+  , column
+  , columnGap
+  , columnReverse
+  , combine
+  , compact
+  , condensed
+  , contain
+  , content
+  , contentBox
+  , contenteditable
+  , contents
+  , controls
+  , coords
+  , cover
+  , cubicBezier
+  , currentColor
+  , cursive
+  , dashed
+  , data'
+  , datetime
+  , dd
+  , decimal
+  , decimalLeadingZero
+  , default
+  , defer
+  , deg
+  , descendant
+  , details
+  , devanagari
+  , dir
+  , direction
+  , dirname
+  , disabled
+  , disc
+  , disclosureClosed
+  , disclosureOpen
+  , display
+  , div
+  , divide
+  , dl
+  , dominantBaseline
+  , dotted
+  , double
+  , download
+  , dpcm
+  , dpi
+  , draggable
+  , dt
+  , ease
+  , easeIn
+  , easeInOut
+  , easeOut
+  , ellipse
+  , ellipsis
+  , em
+  , em'
+  , embeddedOpentype
+  , emoji
+  , empty
+  , enabled
+  , enctype
+  , end
+  , even
+  , ex
+  , expanded
+  , extraCondensed
+  , extraExpanded
+  , fangsong
+  , fantasy
+  , farthestCorner
+  , farthestSide
+  , fdval
+  , fieldset
+  , first
+  , firstChild
+  , firstLetter
+  , firstLine
+  , firstOfType
+  , fitContent
+  , fixed
+  , flex
+  , flexBasis
+  , flexDirection
+  , flexEnd
+  , flexGrow
+  , flexShrink
+  , flexStart
+  , flexWrap
+  , float
+  , flowRoot
+  , focus
+  , foldlMultiVal
+  , fontFace
+  , fontFamily
+  , fontSize
+  , fontSizeAdjust
+  , fontStretch
+  , fontStyle
+  , fontWeight
+  , footer
+  , for
+  , form
+  , formaction
+  , format
+  , forwards
+  , fullSizeKana
+  , fullWidth
+  , gap
+  , generalSibling
+  , georgian
+  , grid
+  , groove
+  , gujarati
+  , gurmukhi
+  , h1
+  , h2
+  , h3
+  , h4
+  , h5
+  , h6
+  , hanging
+  , header
+  , headers
+  , hebrew
+  , height
+  , hidden
+  , high
+  , hiragana
+  , hiraganaIroha
+  , hover
+  , hr
+  , href
+  , hreflang
+  , html
+  , httpEquiv
+  , i
+  , id
+  , ideographic
+  , img
+  , inch
+  , indeterminate
+  , infinite
+  , inherit
+  , initial
+  , inline
+  , inlineBlock
+  , inlineFlex
+  , inlineGrid
+  , inlineTable
+  , input
+  , inset
+  , insetBlock
+  , insetBlockEnd
+  , insetBlockStart
+  , insetInline
+  , insetInlineEnd
+  , insetInlineStart
+  , inside
+  , invert
+  , ismap
+  , italic
+  , jumpBoth
+  , jumpEnd
+  , jumpNone
+  , jumpStart
+  , justify
+  , justifyAll
+  , justifyContent
+  , kannada
+  , katakana
+  , katakanaIroha
+  , keyframes
+  , keyframesName
+  , khmer
+  , kind
+  , label
+  , landscape
+  , lang
+  , lang'
+  , lao
+  , large
+  , larger
+  , last
+  , lastChild
+  , lastOfType
+  , left
+  , legend
+  , letterSpacing
+  , li
+  , lighter
+  , line
+  , lineHeight
+  , lineThrough
+  , linear
+  , linearGradient
+  , link
+  , list
+  , listItem
+  , listStyleImage
+  , listStylePosition
+  , listStyleType
+  , local
+  , local'
+  , loop
+  , low
+  , lowerAlpha
+  , lowerArmenian
+  , lowerGreek
+  , lowerLatin
+  , lowerRoman
+  , lowercase
+  , ltr
+  , main'
+  , malayalam
+  , mapVal
+  , margin
+  , marginBottom
+  , marginLeft
+  , marginRight
+  , marginTop
+  , mark
+  , marker
+  , maskImage
+  , matchParent
+  , math
+  , mathematical
+  , matrix
+  , matrix3d
+  , max
+  , maxContent
+  , maxHeight
+  , maxWidth
+  , maxlength
+  , media
+  , media'
+  , medium
+  , menu
+  , method
+  , middle
+  , min
+  , minContent
+  , minHeight
+  , minWidth
+  , mkStatement
+  , mm
+  , mongolian
+  , monospace
+  , ms
+  , multiple
+  , multiply
+  , multiplyFlipped
+  , muted
+  , myanmar
+  , name
+  , nav
+  , nil
+  , noRepeat
+  , none
+  , normal
+  , not
+  , novalidate
+  , nowrap
+  , nth
+  , nthChild
+  , nthLastChild
+  , nthOfType
+  , number
+  , oblique
+  , odd
+  , ol
+  , onabort
+  , onafterprint
+  , onbeforeprint
+  , onbeforeunload
+  , onblur
+  , oncanplay
+  , oncanplaythrough
+  , onchange
+  , onclick
+  , oncontextmenu
+  , oncopy
+  , oncuechange
+  , oncut
+  , ondblclick
+  , ondrag
+  , ondragend
+  , ondragenter
+  , ondragleave
+  , ondragover
+  , ondragstart
+  , ondrop
+  , ondurationchange
+  , onemptied
+  , onended
+  , onerror
+  , onfocus
+  , onhashchange
+  , oninput
+  , oninvalid
+  , onkeydown
+  , onkeypress
+  , onkeyup
+  , onload
+  , onloadeddata
+  , onloadedmetadata
+  , onloadstart
+  , onlyChild
+  , onlyOfType
+  , onmousedown
+  , onmousemove
+  , onmouseout
+  , onmouseover
+  , onmouseup
+  , onmousewheel
+  , onoffline
+  , ononline
+  , onpagehide
+  , onpageshow
+  , onpaste
+  , onpause
+  , onplay
+  , onplaying
+  , onpopstate
+  , onprogress
+  , onratechange
+  , onreset
+  , onresize
+  , onscroll
+  , onsearch
+  , onseeked
+  , onseeking
+  , onselect
+  , onstalled
+  , onstorage
+  , onsubmit
+  , onsuspend
+  , ontimeupdate
+  , ontoggle
+  , onunload
+  , onvolumechange
+  , onwaiting
+  , onwheel
+  , opacity
+  , open
+  , opentype
+  , optgroup
+  , optimum
+  , option
+  , order
+  , oriya
+  , outlineColor
+  , outlineOffset
+  , outlineStyle
+  , outlineWidth
+  , outset
+  , outside
+  , overflow
+  , overflowX
+  , overflowY
+  , overline
+  , p
+  , padding
+  , paddingBottom
+  , paddingBox
+  , paddingLeft
+  , paddingRight
+  , paddingTop
+  , path
+  , pattern
+  , paused
+  , pc
+  , pct
+  , persian
+  , perspective
+  , placeholder
+  , polygon
+  , polyline
+  , portrait
+  , position
+  , poster
+  , pre
+  , preLine
+  , preWrap
+  , preload
+  , pretty
+  , print
+  , progress
+  , pseudoPrefix
+  , pt
+  , pval
+  , px
+  , q
+  , rad
+  , radialGradient
+  , readonly
+  , rect
+  , rel
+  , relative
+  , rem
+  , renderInline
+  , renderInline'
+  , renderSheet
+  , repeat'
+  , repeatX
+  , repeatY
+  , repeating
+  , required
+  , reverse
+  , reversed
+  , ridge
+  , right
+  , role
+  , root
+  , rotate
+  , rotate3d
+  , rotateX
+  , rotateY
+  , rotateZ
+  , round
+  , row
+  , rowGap
+  , rowReverse
+  , rows
+  , rowspan
+  , rtl
+  , runVal
+  , running
+  , sandbox
+  , sansSerif
+  , scale
+  , scale3d
+  , scaleX
+  , scaleY
+  , scaleZ
+  , scope
+  , screen
+  , scroll
+  , sec
+  , section
+  , select
+  , selected
+  , selection
+  , semiCondensed
+  , semiExpanded
+  , serif
+  , shape
+  , size
+  , sizes
+  , skewX
+  , skewY
+  , small
+  , smaller
+  , solid
+  , space
+  , spaceAround
+  , spaceBetween
+  , span
+  , spellcheck
+  , square
+  , src
+  , srcdoc
+  , srclang
+  , srcset
+  , start
+  , static
+  , step
+  , stepEnd
+  , stepStart
+  , steps
+  , sticky
+  , stretch
+  , strong
+  , style
+  , sub
+  , subtract
+  , summary
+  , sup
+  , super
+  , svg
+  , systemUI
+  , tabindex
+  , table
+  , tableCaption
+  , tableCell
+  , tableColumn
+  , tableColumnGroup
+  , tableFooterGroup
+  , tableHeaderGroup
+  , tableRow
+  , tableRowGroup
+  , tamil
+  , target
+  , tbody
+  , td
+  , telugu
+  , textAlign
+  , textBottom
+  , textDecorationColor
+  , textDecorationLine
+  , textDecorationStyle
+  , textIndent
+  , textOverflow
+  , textShadow
+  , textTop
+  , textTransform
+  , textarea
+  , tfoot
+  , th
+  , thai
+  , thead
+  , thick
+  , thin
+  , tibetan
+  , time
+  , title
+  , top
+  , tr
+  , transform
+  , transformOrigin
+  , transitionDelay
+  , transitionDuration
+  , transitionProperty
+  , transitionTimingFunction
+  , translate
+  , translate'
+  , translate3d
+  , translateX
+  , translateY
+  , translateZ
+  , transparent
+  , truetype
+  , turn
+  , type'
+  , uiMonospace
+  , uiRounded
+  , uiSansSerif
+  , uiSerif
+  , ul
+  , ultraCondensed
+  , ultraExpanded
+  , underline
+  , universal
+  , unset
+  , upperAlpha
+  , upperArmenian
+  , upperLatin
+  , upperRoman
+  , uppercase
+  , url
+  , usemap
+  , val
+  , value
+  , verticalAlign
+  , vh
+  , video
+  , visibility
+  , visible
+  , visited
+  , vmax
+  , vmin
+  , vw
+  , wavy
+  , whiteSpace
+  , width
+  , woff
+  , woff2
+  , wordSpacing
+  , wrap
+  , wrapReverse
+  , xLarge
+  , xSmall
+  , xxLarge
+  , xxSmall
+  , zIndex
+  , ($=)
+  , (&#)
+  , (&.)
+  , (&:)
+  , (&@)
+  , (*=)
+  , (*@)
+  , (:/)
+  , (:=)
+  , (?)
+  , (@*)
+  , (@+@)
+  , (@-@)
+  , (@/)
+  , (@=)
+  , (^=)
+  , (|*)
+  , (|+)
+  , (|=)
+  , (|>)
+  , (|~)
+  , (~)
+  , (~=)
+  ) where
 
 import Prelude hiding (add, bottom, sub, top)
 
@@ -159,7 +1075,11 @@ instance MkStatement MediaQuery (Writer (List Statement) Unit) Statement where
       $ execWriter nested
 
 else instance
-  MkStatement FontFace (Writer (List FontFaceDeclaration') (Proxy ("font-family" :: a, "src" :: b | descriptors))) Statement where
+  MkStatement FontFace
+    ( Writer (List FontFaceDeclaration')
+        (Proxy ("font-family" :: a, "src" :: b | descriptors))
+    )
+    Statement where
   mkStatement _ decls =
     tell
       $ pure
@@ -174,9 +1094,18 @@ else instance
     tell
       $ pure
       $ NestedAtRule (NestedRule $ val "keyframes " <> val kfname)
-      $ ((\(KeyframeBlock sel decls) -> Ruleset sel decls) <$> execWriter blocks)
+      $
+        ( (\(KeyframeBlock sel decls) -> Ruleset sel decls) <$> execWriter
+            blocks
+        )
 
-else instance (RowToList ps psl, AllPropertiesAnimatable psl) => MkStatement (Measure Percentage) (Writer (List Declaration') (Proxy ps)) KeyframeBlock where
+else instance
+  ( RowToList ps psl
+  , AllPropertiesAnimatable psl
+  ) =>
+  MkStatement (Measure Percentage)
+    (Writer (List Declaration') (Proxy ps))
+    KeyframeBlock where
   mkStatement sel decls =
     tell
       $ pure
@@ -191,7 +1120,9 @@ else instance
   , IsList (Measure Percentage) xs
   , MultiVal xs
   ) =>
-  MkStatement (Measure Percentage /\ xs) (Writer (List Declaration') (Proxy ps)) KeyframeBlock where
+  MkStatement (Measure Percentage /\ xs)
+    (Writer (List Declaration') (Proxy ps))
+    KeyframeBlock where
   mkStatement sels decls =
     tell
       $ pure
@@ -226,13 +1157,23 @@ newtype FontFaceDeclaration' = FontFaceDeclaration' (Val /\ Val)
 class Assoc (k :: Symbol) v w (k' :: Row Type) | k -> k' where
   assoc :: Proxy k -> v -> Writer (List w) (Proxy k')
 
-instance (IsSymbol p, Property p, Row.Cons p CommonKeyword () p') => Assoc p CommonKeyword Declaration' p' where
+instance
+  ( IsSymbol p
+  , Property p
+  , Row.Cons p CommonKeyword () p'
+  ) =>
+  Assoc p CommonKeyword Declaration' p' where
   assoc _ v =
     let
       prop = Proxy :: _ p
     in
       tell (pure $ Declaration' $ val prop /\ val v) *> pure Proxy
-else instance (IsSymbol p, Declaration p v, Row.Cons p CommonKeyword () p') => Assoc p v Declaration' p' where
+else instance
+  ( IsSymbol p
+  , Declaration p v
+  , Row.Cons p CommonKeyword () p'
+  ) =>
+  Assoc p v Declaration' p' where
   assoc _ v =
     let
       prop = Proxy :: _ p
@@ -249,7 +1190,8 @@ instance
     let
       desc = Proxy :: _ d
     in
-      tell (pure $ FontFaceDeclaration' $ val desc /\ fdval desc v) *> pure Proxy
+      tell (pure $ FontFaceDeclaration' $ val desc /\ fdval desc v) *> pure
+        Proxy
 
 infixr 0 assoc as :=
 
@@ -262,7 +1204,12 @@ concatDeclarations decls = Val \c ->
     indent = mkIndent c.indentLevel mempty
     go Nil acc = acc <> if c.finalSemicolon then ";" else mempty
     go ((k /\ v) : xs) acc =
-      go xs $ (if acc /= mempty then acc <> ";" <> c.newline else mempty) <> indent <> runVal c k <> ":" <> c.separator <> runVal c v
+      go xs $ (if acc /= mempty then acc <> ";" <> c.newline else mempty)
+        <> indent
+        <> runVal c k
+        <> ":"
+        <> c.separator
+        <> runVal c v
   in
     go decls mempty
 
@@ -387,7 +1334,11 @@ class Property p <= Animatable (p :: Symbol)
 class AllPropertiesAnimatable (ps :: RowList Type)
 
 instance AllPropertiesAnimatable RL.Nil
-instance (Animatable p, AllPropertiesAnimatable tail) => AllPropertiesAnimatable (RL.Cons p v tail)
+instance
+  ( Animatable p
+  , AllPropertiesAnimatable tail
+  ) =>
+  AllPropertiesAnimatable (RL.Cons p v tail)
 
 newtype KeyframesName = KeyframesName String
 
@@ -1190,7 +2141,9 @@ instance
   , LengthPercentageTag tbry
   , LengthPercentageTag tbly
   ) =>
-  IsBorderRadius (Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx /\ Measure ttly ~ Measure ttry ~ Measure tbry ~ Measure tbly)
+  IsBorderRadius ( Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx /\
+        Measure ttly ~ Measure ttry ~ Measure tbry ~ Measure tbly
+    )
 
 instance
   ( LengthPercentageTag ttlx
@@ -1201,7 +2154,9 @@ instance
   , LengthPercentageTag ttrbly
   , LengthPercentageTag tbry
   ) =>
-  IsBorderRadius (Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx /\ Measure ttly ~ Measure ttrbly ~ Measure tbry)
+  IsBorderRadius ( Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx /\
+        Measure ttly ~ Measure ttrbly ~ Measure tbry
+    )
 
 instance
   ( LengthPercentageTag ttlx
@@ -1211,7 +2166,9 @@ instance
   , LengthPercentageTag ttlbry
   , LengthPercentageTag ttrbly
   ) =>
-  IsBorderRadius (Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx /\ Measure ttlbry ~ Measure ttrbly)
+  IsBorderRadius ( Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx /\
+        Measure ttlbry ~ Measure ttrbly
+    )
 
 instance
   ( LengthPercentageTag ttlx
@@ -1220,7 +2177,9 @@ instance
   , LengthPercentageTag tblx
   , LengthPercentageTag ty
   ) =>
-  IsBorderRadius (Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx /\ Measure ty)
+  IsBorderRadius ( Measure ttlx ~ Measure ttrx ~ Measure tbrx ~ Measure tblx /\
+        Measure ty
+    )
 
 instance
   ( LengthPercentageTag ttlx
@@ -1239,7 +2198,11 @@ instance
   , LengthPercentageTag tbry
   , LengthPercentageTag tbly
   ) =>
-  IsBorderRadius (Measure ttlx ~ Measure ttrblx ~ Measure tbrx /\ Measure ttly ~ Measure ttry ~ Measure tbry ~ Measure tbly)
+  IsBorderRadius ( Measure ttlx ~ Measure ttrblx ~ Measure tbrx /\ Measure ttly
+        ~ Measure ttry
+        ~ Measure tbry
+        ~ Measure tbly
+    )
 
 instance
   ( LengthPercentageTag ttlx
@@ -1249,7 +2212,10 @@ instance
   , LengthPercentageTag ttrbly
   , LengthPercentageTag tbry
   ) =>
-  IsBorderRadius (Measure ttlx ~ Measure ttrblx ~ Measure tbrx /\ Measure ttly ~ Measure ttrbly ~ Measure tbry)
+  IsBorderRadius ( Measure ttlx ~ Measure ttrblx ~ Measure tbrx /\ Measure ttly
+        ~ Measure ttrbly
+        ~ Measure tbry
+    )
 
 instance
   ( LengthPercentageTag ttlx
@@ -1258,7 +2224,9 @@ instance
   , LengthPercentageTag ttlbry
   , LengthPercentageTag ttrbly
   ) =>
-  IsBorderRadius (Measure ttlx ~ Measure ttrblx ~ Measure tbrx /\ Measure ttlbry ~ Measure ttrbly)
+  IsBorderRadius ( Measure ttlx ~ Measure ttrblx ~ Measure tbrx /\
+        Measure ttlbry ~ Measure ttrbly
+    )
 
 instance
   ( LengthPercentageTag ttlx
@@ -1283,7 +2251,11 @@ instance
   , LengthPercentageTag tbry
   , LengthPercentageTag tbly
   ) =>
-  IsBorderRadius (Measure ttlbrx ~ Measure ttrblx /\ Measure ttly ~ Measure ttry ~ Measure tbry ~ Measure tbly)
+  IsBorderRadius ( Measure ttlbrx ~ Measure ttrblx /\ Measure ttly
+        ~ Measure ttry
+        ~ Measure tbry
+        ~ Measure tbly
+    )
 
 instance
   ( LengthPercentageTag ttlbrx
@@ -1292,7 +2264,10 @@ instance
   , LengthPercentageTag ttrbly
   , LengthPercentageTag tbry
   ) =>
-  IsBorderRadius (Measure ttlbrx ~ Measure ttrblx /\ Measure ttly ~ Measure ttrbly ~ Measure tbry)
+  IsBorderRadius ( Measure ttlbrx ~ Measure ttrblx /\ Measure ttly
+        ~ Measure ttrbly
+        ~ Measure tbry
+    )
 
 instance
   ( LengthPercentageTag ttlbrx
@@ -1300,7 +2275,9 @@ instance
   , LengthPercentageTag ttlbry
   , LengthPercentageTag ttrbly
   ) =>
-  IsBorderRadius (Measure ttlbrx ~ Measure ttrblx /\ Measure ttlbry ~ Measure ttrbly)
+  IsBorderRadius ( Measure ttlbrx ~ Measure ttrblx /\ Measure ttlbry ~ Measure
+        ttrbly
+    )
 
 instance
   ( LengthPercentageTag ttlbrx
@@ -1322,7 +2299,9 @@ instance
   , LengthPercentageTag tbry
   , LengthPercentageTag tbly
   ) =>
-  IsBorderRadius (Measure tx /\ Measure ttly ~ Measure ttry ~ Measure tbry ~ Measure tbly)
+  IsBorderRadius ( Measure tx /\ Measure ttly ~ Measure ttry ~ Measure tbry ~
+        Measure tbly
+    )
 
 instance
   ( LengthPercentageTag tx
@@ -1371,7 +2350,9 @@ instance
   , LengthTag tblur
   , LengthTag tspread
   ) =>
-  IsShadow (color ~ Measure txo ~ Measure tyo ~ Measure tblur ~ Measure tspread ~ Proxy "inset")
+  IsShadow ( color ~ Measure txo ~ Measure tyo ~ Measure tblur ~ Measure tspread
+        ~ Proxy "inset"
+    )
 
 instance
   ( IsColor color
@@ -1388,7 +2369,9 @@ instance
   , LengthTag tblur
   , LengthTag tspread
   ) =>
-  IsShadow (Measure txo ~ Measure tyo ~ Measure tblur ~ Measure tspread ~ Proxy "inset")
+  IsShadow ( Measure txo ~ Measure tyo ~ Measure tblur ~ Measure tspread ~ Proxy
+        "inset"
+    )
 
 else instance
   ( IsColor color
@@ -1965,13 +2948,16 @@ instance declarationFlexGrowShrinkBasis ::
   pval _ (grow ~ shrink ~ basis) =
     val $ pval flexGrow grow ~ pval flexShrink shrink ~ pval flexBasis basis
 
-else instance declarationFlexGrowNumberShrinkNumber :: Declaration "flex" (Number ~ Number) where
+else instance declarationFlexGrowNumberShrinkNumber ::
+  Declaration "flex" (Number ~ Number) where
   pval = const val
 
-else instance declarationFlexGrowNumberShrinkInt :: Declaration "flex" (Number ~ Int) where
+else instance declarationFlexGrowNumberShrinkInt ::
+  Declaration "flex" (Number ~ Int) where
   pval = const val
 
-else instance declarationFlexGrowIntShrinkNumber :: Declaration "flex" (Int ~ Number) where
+else instance declarationFlexGrowIntShrinkNumber ::
+  Declaration "flex" (Int ~ Number) where
   pval = const val
 
 else instance declarationFlexGrowIntShrinkInt :: Declaration "flex" (Int ~ Int) where
@@ -2027,7 +3013,8 @@ flexBasis = Proxy :: Proxy "flex-basis"
 instance Property "flex-basis"
 instance Animatable "flex-basis"
 
-instance declarationFlexBasisContent :: Declaration "flex-basis" (Proxy "content") where
+instance declarationFlexBasisContent ::
+  Declaration "flex-basis" (Proxy "content") where
   pval = const val
 
 else instance declarationFlexBasisWidth ::
@@ -2147,7 +3134,8 @@ fontFace = FontFace
 
 fontFamily = Proxy :: Proxy "font-family"
 
-instance fontFaceDeclarationFontFamily :: FontFaceDeclaration "font-family" String where
+instance fontFaceDeclarationFontFamily ::
+  FontFaceDeclaration "font-family" String where
   fdval = const $ mapVal quote <<< val
 
 -- https://www.w3.org/TR/css-fonts-4/#descdef-font-face-src
@@ -2279,7 +3267,8 @@ instance fontFaceDeclarationFontWeight ::
 
 fontStretch = Proxy :: Proxy "font-stretch"
 
-instance fontFaceDeclarationFontStretchAuto :: FontFaceDeclaration "font-stretch" (Proxy "auto") where
+instance fontFaceDeclarationFontStretchAuto ::
+  FontFaceDeclaration "font-stretch" (Proxy "auto") where
   fdval = const val
 
 else instance fontFaceDeclarationFontStretchRange ::
@@ -2507,18 +3496,55 @@ instance IsImage URL
 
 class IsColorStopListHead (a :: Type)
 
-instance (IsColor color, LengthPercentageTag tpos) => IsColorStopListHead (color ~ Measure tpos)
+instance
+  ( IsColor color
+  , LengthPercentageTag tpos
+  ) =>
+  IsColorStopListHead (color ~ Measure tpos)
 else instance IsColor color => IsColorStopListHead color
 
 class IsColorStopListTail (a :: Type)
 
-instance (LengthPercentageTag thint, IsColor color, LengthPercentageTag tpos, IsColorStopListTail tail) => IsColorStopListTail (Measure thint /\ color ~ Measure tpos /\ tail)
-else instance (LengthPercentageTag thint, IsColor color, IsColorStopListTail tail) => IsColorStopListTail (Measure thint /\ color /\ tail)
-else instance (IsColor color, LengthPercentageTag tpos, IsColorStopListTail tail) => IsColorStopListTail (color ~ Measure tpos /\ tail)
-else instance (LengthPercentageTag thint, IsColor color, LengthPercentageTag tpos) => IsColorStopListTail (Measure thint /\ color ~ Measure tpos)
-else instance (LengthPercentageTag thint, IsColor color) => IsColorStopListTail (Measure thint /\ color)
-else instance (IsColor color, LengthPercentageTag tpos) => IsColorStopListTail (color ~ Measure tpos)
-else instance (IsColor color, IsColorStopListTail tail) => IsColorStopListTail (color /\ tail)
+instance
+  ( LengthPercentageTag thint
+  , IsColor color
+  , LengthPercentageTag tpos
+  , IsColorStopListTail tail
+  ) =>
+  IsColorStopListTail (Measure thint /\ color ~ Measure tpos /\ tail)
+else instance
+  ( LengthPercentageTag thint
+  , IsColor color
+  , IsColorStopListTail tail
+  ) =>
+  IsColorStopListTail (Measure thint /\ color /\ tail)
+else instance
+  ( IsColor color
+  , LengthPercentageTag tpos
+  , IsColorStopListTail tail
+  ) =>
+  IsColorStopListTail (color ~ Measure tpos /\ tail)
+else instance
+  ( LengthPercentageTag thint
+  , IsColor color
+  , LengthPercentageTag tpos
+  ) =>
+  IsColorStopListTail (Measure thint /\ color ~ Measure tpos)
+else instance
+  ( LengthPercentageTag thint
+  , IsColor color
+  ) =>
+  IsColorStopListTail (Measure thint /\ color)
+else instance
+  ( IsColor color
+  , LengthPercentageTag tpos
+  ) =>
+  IsColorStopListTail (color ~ Measure tpos)
+else instance
+  ( IsColor color
+  , IsColorStopListTail tail
+  ) =>
+  IsColorStopListTail (color /\ tail)
 else instance IsColor color => IsColorStopListTail color
 
 newtype Gradient (repeating :: Type) = Gradient Val
@@ -2817,7 +3843,8 @@ class IsLineHeight (a :: Type)
 instance IsLineHeight (Proxy "normal")
 instance LengthPercentageTag t => IsLineHeight (Measure t)
 
-instance declarationLineHeightNormal :: Declaration "line-height" (Proxy "normal") where
+instance declarationLineHeightNormal ::
+  Declaration "line-height" (Proxy "normal") where
   pval = const val
 
 else instance declarationLineHeightLengthPercentage ::
@@ -4660,11 +5687,28 @@ blink = Proxy :: Proxy "blink"
 class IsTextDecorationLine (a :: Type)
 
 instance IsTextDecorationLine (Proxy "none")
-instance IsTextDecorationLine (Proxy "underline" ~ Proxy "overline" ~ Proxy "line-through" ~ Proxy "blink")
-instance IsTextDecorationLine (Proxy "overline" ~ Proxy "line-through" ~ Proxy "blink")
-instance IsTextDecorationLine (Proxy "underline" ~ Proxy "line-through" ~ Proxy "blink")
-instance IsTextDecorationLine (Proxy "underline" ~ Proxy "overline" ~ Proxy "blink")
-instance IsTextDecorationLine (Proxy "underline" ~ Proxy "overline" ~ Proxy "line-through")
+instance
+  IsTextDecorationLine ( Proxy "underline" ~ Proxy "overline"
+        ~ Proxy "line-through"
+        ~ Proxy "blink"
+    )
+
+instance
+  IsTextDecorationLine (Proxy "overline" ~ Proxy "line-through" ~ Proxy "blink")
+
+instance
+  IsTextDecorationLine ( Proxy "underline" ~ Proxy "line-through" ~ Proxy
+        "blink"
+    )
+
+instance
+  IsTextDecorationLine (Proxy "underline" ~ Proxy "overline" ~ Proxy "blink")
+
+instance
+  IsTextDecorationLine ( Proxy "underline" ~ Proxy "overline" ~ Proxy
+        "line-through"
+    )
+
 instance IsTextDecorationLine (Proxy "underline" ~ Proxy "overline")
 instance IsTextDecorationLine (Proxy "underline" ~ Proxy "line-through")
 instance IsTextDecorationLine (Proxy "underline" ~ Proxy "blink")
@@ -4751,7 +5795,11 @@ else instance
   ) =>
   IsTextShadow (color ~ Measure txo ~ Measure tyo)
 
-instance (LengthTag txo, LengthTag tyo) => IsTextShadow (Measure txo ~ Measure tyo)
+instance
+  ( LengthTag txo
+  , LengthTag tyo
+  ) =>
+  IsTextShadow (Measure txo ~ Measure tyo)
 
 class IsTextShadowList (a :: Type)
 
@@ -5057,10 +6105,12 @@ instance
 
 instance Animatable s => IsSingleTransitionPropertyList (Proxy s)
 
-instance declarationTransitionPropertyNone :: Declaration "transition-property" (Proxy "none") where
+instance declarationTransitionPropertyNone ::
+  Declaration "transition-property" (Proxy "none") where
   pval = const val
 
-else instance declarationTransitionPropertyAll :: Declaration "transition-property" (Proxy "all") where
+else instance declarationTransitionPropertyAll ::
+  Declaration "transition-property" (Proxy "all") where
   pval = const val
 
 else instance declarationTransitionPropertyList ::
@@ -5163,7 +6213,8 @@ instance Animatable "outline-color"
 
 invert = Proxy :: Proxy "invert"
 
-instance declarationOutlineColorInvert :: Declaration "outline-color" (Proxy "invert") where
+instance declarationOutlineColorInvert ::
+  Declaration "outline-color" (Proxy "invert") where
   pval = const val
 
 else instance declarationOutlineColorIsColor ::
@@ -5453,9 +6504,18 @@ instance ToVal Divide where
 class Calc :: Type -> Type -> Type -> Type -> Constraint
 class Calc op a b c | op -> c
 
-instance Calc Add (Measure Length) (Measure Percentage) (Measure LengthPercentage)
-else instance Calc Add (Measure Length) (Measure LengthPercentage) (Measure LengthPercentage)
-else instance Calc Add (Measure Percentage) (Measure LengthPercentage) (Measure LengthPercentage)
+instance
+  Calc Add (Measure Length) (Measure Percentage) (Measure LengthPercentage)
+else instance
+  Calc Add
+    (Measure Length)
+    (Measure LengthPercentage)
+    (Measure LengthPercentage)
+else instance
+  Calc Add
+    (Measure Percentage)
+    (Measure LengthPercentage)
+    (Measure LengthPercentage)
 else instance Calc Add a a a
 else instance Calc Add a b c => Calc Add b a c
 else instance Calc Add a b c => Calc Subtract a b c
