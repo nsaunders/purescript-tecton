@@ -13,6 +13,7 @@ module Tecton.Internal
   , class Assoc
   , class AttachmentKeyword
   , class Attribute
+  , class AutoRepeatKeyword
   , class BaselineShiftKeyword
   , class BaselineSourceKeyword
   , class BoxKeyword
@@ -32,6 +33,7 @@ module Tecton.Internal
   , class FlexDirectionKeyword
   , class FlexWrapKeyword
   , class FloatKeyword
+  , class FoldLineNames
   , class FontFaceDeclaration
   , class FontFaceFontStyleKeyword
   , class FontFaceFontWeightKeyword
@@ -119,6 +121,7 @@ module Tecton.Internal
   , class MediaFeature
   , class MediaTypeKeyword
   , class MinWidthKeyword
+  , class Minmax
   , class MkStatement
   , class MultiVal
   , class OutlineLineStyleKeyword
@@ -129,8 +132,10 @@ module Tecton.Internal
   , class Pseudo
   , class Pseudo'
   , class PseudoPrefix
+  , class Repeat
   , class RepeatStyle1dKeyword
   , class RepeatStyle2dKeyword
+  , class RepeatTrackList
   , class SelectorStatus
   , class ShapeKeyword
   , class StepPosition
@@ -140,6 +145,9 @@ module Tecton.Internal
   , class TextTransformCapitalizationKeyword
   , class TimeTag
   , class ToNumber
+  , class TrackBreadthKeyword
+  , class TrackCompat
+  , class TrackList
   , class ToVal
   , class VisibilityKeyword
   , class WhiteSpaceKeyword
@@ -147,6 +155,7 @@ module Tecton.Internal
   , Add
   , Angle
   , AttributePredicate
+  , Auto
   , CSS
   , CSSColor
   , CommonKeyword
@@ -157,6 +166,8 @@ module Tecton.Internal
   , EasingFunction
   , Extensible
   , FitContent
+  , Fixed
+  , Flex
   , FontFace
   , FontFaceDeclaration'
   , FontFaceFormatFunction
@@ -167,12 +178,16 @@ module Tecton.Internal
   , KeyframesName
   , Length
   , LengthPercentage
+  , LineName
   , LocalFunction
   , Measure
   , MediaQuery
+  , Minmax'
   , Multiply
+  , Names
   , NestedRule
   , Nil
+  , NoAuto
   , Nth
   , Orientation
   , Pair(..)
@@ -180,12 +195,14 @@ module Tecton.Internal
   , PseudoClass
   , PseudoElement
   , Ratio(..)
+  , Repeat'
   , Repeating
   , Resolution
   , Selector
   , Statement
   , Subtract
   , Time
+  , Track
   , TransformFunction
   , URL
   , Val
@@ -233,6 +250,8 @@ module Tecton.Internal
   , attStartsWithHyphen
   , audio
   , auto
+  , autoFill
+  , autoFit
   , autocomplete
   , autofocus
   , autoplay
@@ -409,6 +428,7 @@ module Tecton.Internal
   , flowRoot
   , focus
   , foldlMultiVal
+  , foldLineNames
   , fontFace
   , fontFamily
   , fontSize
@@ -422,12 +442,15 @@ module Tecton.Internal
   , formaction
   , format
   , forwards
+  , fr
   , fullSizeKana
   , fullWidth
   , gap
   , generalSibling
   , georgian
   , grid
+  , gridTemplateColumns
+  , gridTemplateRows
   , groove
   , gujarati
   , gurmukhi
@@ -509,6 +532,7 @@ module Tecton.Internal
   , lighter
   , line
   , lineHeight
+  , lineName
   , lineThrough
   , linear
   , linearGradient
@@ -560,6 +584,7 @@ module Tecton.Internal
   , minContent
   , minHeight
   , minWidth
+  , minmax
   , mkStatement
   , mm
   , mongolian
@@ -719,6 +744,7 @@ module Tecton.Internal
   , renderInline
   , renderInline'
   , renderSheet
+  , repeat
   , repeat'
   , repeatX
   , repeatY
@@ -921,6 +947,7 @@ import Prelude hiding (add, bottom, sub, top)
 import Color (Color, cssStringHSLA, toHexString)
 import Control.Monad.Writer (Writer, execWriter, tell)
 import Data.Either as Either
+import Data.Either.Nested (type (\/))
 import Data.Foldable (foldl, intercalate)
 import Data.Int as Int
 import Data.List (List(..), (:))
@@ -3486,6 +3513,303 @@ instance declarationFontSizeAdjust :: Declaration "font-size-adjust" Number wher
 
 --------------------------------------------------------------------------------
 
+-- Grid
+-- https://www.w3.org/TR/css-grid-1/
+
+-- Tags
+
+data Track
+data Fixed
+data Names
+data Auto
+data NoAuto
+
+-- https://www.w3.org/TR/css-grid-1/#typedef-flex
+
+newtype Flex = Flex Number
+
+instance ToVal Flex where
+  val (Flex n) = val $ Number.toString n <> "fr"
+
+fr :: forall n. ToNumber n => n -> Flex
+fr = Flex <<< number
+
+-- https://www.w3.org/TR/css-grid-1/#line-name
+
+newtype LineName = LineName String
+
+instance ToVal LineName where
+  val (LineName x) = val "[" <> val x <> val "]"
+
+lineName :: String -> LineName
+lineName = LineName
+
+-- https://www.w3.org/TR/css-grid-1/#typedef-track-breadth
+
+class TrackBreadthKeyword (s :: Symbol)
+
+instance TrackBreadthKeyword "min-content"
+instance TrackBreadthKeyword "max-content"
+instance TrackBreadthKeyword "auto"
+
+-- https://www.w3.org/TR/css-grid-1/#valdef-grid-template-columns-minmax
+
+newtype Minmax' (compat :: Type) = Minmax' Val
+
+derive newtype instance ToVal (Minmax' a)
+
+class Minmax (min :: Type) (max :: Type) (compat :: Type) | min max -> compat
+
+instance
+  ( TrackBreadthKeyword s
+  , LengthPercentageTag t
+  ) =>
+  Minmax (Proxy s) (Measure t) (Track \/ Fixed)
+
+instance
+  ( LengthPercentageTag t
+  , TrackBreadthKeyword s
+  ) =>
+  Minmax (Measure t) (Proxy s) (Track \/ Fixed)
+
+instance LengthPercentageTag t => Minmax (Measure t) Flex (Track \/ Fixed)
+instance
+  ( LengthPercentageTag tmin
+  , LengthPercentageTag tmax
+  ) =>
+  Minmax (Measure tmin) (Measure tmax) (Track \/ Fixed)
+
+instance TrackBreadthKeyword s => Minmax (Proxy s) Flex Track
+instance
+  ( TrackBreadthKeyword smin
+  , TrackBreadthKeyword smax
+  ) =>
+  Minmax (Proxy smin) (Proxy smax) Track
+
+minmax
+  :: forall min max compat
+   . Minmax min max compat
+  => MultiVal (min /\ max)
+  => min
+  -> max
+  -> Minmax' compat
+minmax m n = Minmax' $ fn "minmax" $ m /\ n
+
+-- https://www.w3.org/TR/css-grid-1/#track-list
+
+class
+  TrackCompat (this :: Type) (previous :: Type) (out :: Type)
+  | this previous -> out
+
+instance TrackCompat (Track \/ Fixed) (Track \/ Fixed) (Track \/ Fixed)
+instance TrackCompat (Track \/ Fixed) Track Track
+instance TrackCompat (Track \/ Fixed) Fixed Fixed
+instance TrackCompat Track (Track \/ Fixed) Track
+instance TrackCompat Fixed (Track \/ Fixed) Fixed
+instance TrackCompat Track Track Track
+instance TrackCompat Names Names Names
+else instance TrackCompat Names a a
+else instance TrackCompat a Names a
+
+-- https://www.w3.org/TR/css-grid-1/#repeat-notation
+
+autoFill = Proxy :: Proxy "auto-fill"
+autoFit = Proxy :: Proxy "auto-fit"
+
+class AutoRepeatKeyword (s :: Symbol)
+
+instance AutoRepeatKeyword "auto-fill"
+instance AutoRepeatKeyword "auto-fit"
+
+class FoldLineNames (i :: Type) (o :: Type) | i -> o where
+  foldLineNames :: i -> o
+
+instance FoldLineNames (LineName /\ LineName) LineName where
+  foldLineNames (LineName a' /\ LineName b') = foldLineNames $ LineName
+    (a' <> " " <> b')
+
+else instance
+  FoldLineNames (LineName /\ xsin) xsout =>
+  FoldLineNames (LineName /\ LineName /\ xsin) xsout where
+  foldLineNames (LineName a' /\ LineName b' /\ xs) = foldLineNames $
+    LineName (a' <> " " <> b') /\ xs
+
+else instance FoldLineNames xsin xsout => FoldLineNames (x /\ xsin) (x /\ xsout) where
+  foldLineNames (x /\ xs) = x /\ foldLineNames xs
+
+else instance FoldLineNames x x where
+  foldLineNames = identity
+
+class RepeatTrackList (xs :: Type) (compat :: Type) | xs -> compat
+
+instance LengthPercentageTag t => RepeatTrackList (Measure t) (Track \/ Fixed)
+instance RepeatTrackList Flex Track
+instance TrackBreadthKeyword s => RepeatTrackList (Proxy s) Track
+instance RepeatTrackList (Minmax' compat) compat
+instance RepeatTrackList FitContent Track
+instance RepeatTrackList LineName Names
+
+instance
+  ( RepeatTrackList xs previouscompat
+  , TrackCompat (Track \/ Fixed) previouscompat compat
+  , LengthPercentageTag t
+  ) =>
+  RepeatTrackList (Measure t /\ xs) compat
+
+instance
+  ( RepeatTrackList xs previouscompat
+  , TrackCompat Track previouscompat compat
+  ) =>
+  RepeatTrackList (Flex /\ xs) compat
+
+instance
+  ( RepeatTrackList xs previouscompat
+  , TrackCompat Track previouscompat compat
+  , TrackBreadthKeyword s
+  ) =>
+  RepeatTrackList (Proxy s /\ xs) compat
+
+instance
+  ( RepeatTrackList xs previouscompat
+  , TrackCompat thiscompat previouscompat compat
+  ) =>
+  RepeatTrackList (Minmax' thiscompat /\ xs) compat
+
+instance
+  ( RepeatTrackList xs previouscompat
+  , TrackCompat Track previouscompat compat
+  ) =>
+  RepeatTrackList (FitContent /\ xs) compat
+
+instance RepeatTrackList xs compat => RepeatTrackList (LineName /\ xs) compat
+
+newtype Repeat' (compat :: Type) = Repeat' Val
+
+derive newtype instance ToVal (Repeat' a)
+
+class Repeat (n :: Type) (tracks :: Type) (compat :: Type) | n tracks -> compat
+
+instance
+  ( RepeatTrackList xs compat
+  , TrackCompat Fixed compat Fixed
+  , AutoRepeatKeyword s
+  ) =>
+  Repeat (Proxy s) xs Auto
+
+instance RepeatTrackList xs compat => Repeat Int xs compat
+
+repeat
+  :: forall n tracks tracks' compat
+   . Repeat n tracks compat
+  => MultiVal (n /\ Val)
+  => FoldLineNames tracks tracks'
+  => MultiVal tracks'
+  => n
+  -> tracks
+  -> Repeat' compat
+repeat n = Repeat' <<< fn "repeat" <<< (n /\ _) <<< intercalateMultiVal " " <<<
+  foldLineNames
+
+-- https://www.w3.org/TR/css-grid-1/#typedef-track-list
+
+class TrackList (xs :: Type) (auto :: Type) (compat :: Type) | xs -> auto compat
+
+instance LengthPercentageTag t => TrackList (Measure t) NoAuto (Track \/ Fixed)
+instance TrackList Flex NoAuto Track
+instance TrackBreadthKeyword s => TrackList (Proxy s) NoAuto Track
+instance TrackList (Minmax' compat) NoAuto compat
+instance TrackList FitContent NoAuto compat
+instance TrackList (Repeat' Auto) Auto Fixed
+else instance TrackList (Repeat' compat) NoAuto compat
+
+instance TrackList LineName NoAuto (Track \/ Fixed)
+
+instance
+  ( TrackList xs auto tailcompat
+  , TrackCompat (Track \/ Fixed) tailcompat compat
+  , LengthPercentageTag t
+  ) =>
+  TrackList (Measure t /\ xs) auto compat
+
+instance
+  ( TrackList xs auto tailcompat
+  , TrackCompat Track tailcompat compat
+  ) =>
+  TrackList (Flex /\ xs) auto compat
+
+instance
+  ( TrackList xs auto tailcompat
+  , TrackCompat Track tailcompat compat
+  , TrackBreadthKeyword s
+  ) =>
+  TrackList (Proxy s /\ xs) auto compat
+
+instance
+  ( TrackList xs auto tailcompat
+  , TrackCompat minmaxcompat tailcompat compat
+  ) =>
+  TrackList (Minmax' minmaxcompat /\ xs) auto compat
+
+instance
+  ( TrackList xs auto tailcompat
+  , TrackCompat Track tailcompat compat
+  ) =>
+  TrackList (FitContent /\ xs) auto compat
+
+instance
+  ( TrackList xs NoAuto tailcompat
+  , TrackCompat Fixed tailcompat compat
+  ) =>
+  TrackList (Repeat' Auto /\ xs) Auto compat
+else instance
+  ( TrackList xs auto tailcompat
+  , TrackCompat repeatcompat tailcompat compat
+  ) =>
+  TrackList (Repeat' repeatcompat /\ xs) auto compat
+
+instance TrackList xs auto compat => TrackList (LineName /\ xs) auto compat
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-template-columns
+
+gridTemplateColumns = Proxy :: Proxy "grid-template-columns"
+
+instance Property "grid-template-columns"
+instance Animatable "grid-template-columns"
+
+instance declarationGridTemplateColumnsNone ::
+  Declaration "grid-template-columns" (Proxy "none") where
+  pval = const val
+
+else instance declarationGridTemplateColumnsTrackList ::
+  ( TrackList tracks auto compat
+  , FoldLineNames tracks tracks'
+  , MultiVal tracks'
+  ) =>
+  Declaration "grid-template-columns" tracks where
+  pval = const $ intercalateMultiVal " " <<< foldLineNames
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-template-rows
+
+gridTemplateRows = Proxy :: Proxy "grid-template-rows"
+
+instance Property "grid-template-rows"
+instance Animatable "grid-template-rows"
+
+instance declarationGridTemplateRowsNone ::
+  Declaration "grid-template-rows" (Proxy "none") where
+  pval = const val
+
+else instance declarationGridTemplateRowsTrackList ::
+  ( TrackList tracks auto compat
+  , FoldLineNames tracks tracks'
+  , MultiVal tracks'
+  ) =>
+  Declaration "grid-template-rows" tracks where
+  pval = const $ intercalateMultiVal " " <<< foldLineNames
+
+--------------------------------------------------------------------------------
+
+-- Images
 -- https://www.w3.org/TR/css-images-3/
 
 -- https://www.w3.org/TR/css-images-3/#typedef-image

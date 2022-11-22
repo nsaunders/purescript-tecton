@@ -40,6 +40,8 @@ import Tecton.Internal
   , att
   , audio
   , auto
+  , autoFill
+  , autoFit
   , autocomplete
   , autofocus
   , autoplay
@@ -218,11 +220,14 @@ import Tecton.Internal
   , formaction
   , format
   , forwards
+  , fr
   , fullSizeKana
   , fullWidth
   , gap
   , georgian
   , grid
+  , gridTemplateColumns
+  , gridTemplateRows
   , groove
   , gujarati
   , gurmukhi
@@ -304,6 +309,7 @@ import Tecton.Internal
   , lighter
   , line
   , lineHeight
+  , lineName
   , lineThrough
   , linear
   , linearGradient
@@ -354,6 +360,7 @@ import Tecton.Internal
   , minContent
   , minHeight
   , minWidth
+  , minmax
   , mm
   , mongolian
   , monospace
@@ -506,6 +513,7 @@ import Tecton.Internal
   , rem
   , renderInline
   , renderSheet
+  , repeat
   , repeat'
   , repeatX
   , repeatY
