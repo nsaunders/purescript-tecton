@@ -226,6 +226,8 @@ import Tecton.Internal
   , gap
   , georgian
   , grid
+  , gridAutoColumns
+  , gridAutoRows
   , gridTemplateColumns
   , gridTemplateRows
   , groove

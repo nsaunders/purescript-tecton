@@ -449,6 +449,8 @@ module Tecton.Internal
   , generalSibling
   , georgian
   , grid
+  , gridAutoColumns
+  , gridAutoRows
   , gridTemplateColumns
   , gridTemplateRows
   , groove
@@ -3806,6 +3808,54 @@ else instance declarationGridTemplateRowsTrackList ::
   ) =>
   Declaration "grid-template-rows" tracks where
   pval = const $ intercalateMultiVal " " <<< foldLineNames
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-auto-columns
+
+gridAutoColumns = Proxy :: Proxy "grid-auto-columns"
+
+instance Property "grid-auto-columns"
+
+instance declarationGridAutoColumnsLengthPercentage ::
+  LengthPercentageTag t =>
+  Declaration "grid-auto-columns" (Measure t) where
+  pval = const val
+
+instance declarationGridAutoColumnsFlex :: Declaration "grid-auto-columns" Flex where
+  pval = const val
+
+instance declarationGridAutoColumnsTrackBreadthKeyword ::
+  ( IsSymbol s
+  , TrackBreadthKeyword s
+  ) =>
+  Declaration "grid-auto-columns" (Proxy s) where
+  pval = const val
+
+instance declarationGridAutoColumnsMinmax ::
+  TrackCompat Track compat' compat =>
+  Declaration "grid-auto-columns" (Minmax' compat') where
+  pval = const val
+
+instance declarationGridAutioColumnsFitContent ::
+  Declaration "grid-auto-columns" FitContent where
+  pval = const val
+
+instance declarationGridAutoColumnsList ::
+  ( Declaration "grid-auto-columns" x
+  , Declaration "grid-auto-columns" xs
+  ) =>
+  Declaration "grid-auto-columns" (x /\ xs) where
+  pval p' (x /\ xs) = pval p' x <> val " " <> pval p' xs
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-auto-rows
+
+gridAutoRows = Proxy :: Proxy "grid-auto-rows"
+
+instance Property "grid-auto-rows"
+
+instance declarationGridAutoRowsGridAutoColumns ::
+  Declaration "grid-auto-columns" v =>
+  Declaration "grid-auto-rows" v where
+  pval = const $ pval (Proxy :: Proxy "grid-auto-columns")
 
 --------------------------------------------------------------------------------
 
