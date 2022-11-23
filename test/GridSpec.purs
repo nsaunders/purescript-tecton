@@ -16,7 +16,7 @@ spec = do
 
   describe "Grid Layout" do
 
-    describe "gridTemplateColumns property" do
+    describe "grid-template-columns property" do
 
       "grid-template-columns:inherit"
         `isRenderedFrom`
@@ -258,6 +258,24 @@ spec = do
             /\ lineName "parent"
             /\ repeat autoFill (px 446.1 /\ px 310.9)
         )
+
+    describe "grid-template-rows property" do
+
+      "grid-template-rows:inherit"
+        `isRenderedFrom`
+        (gridTemplateRows := inherit)
+
+      "grid-template-rows:initial"
+        `isRenderedFrom`
+        (gridTemplateRows := initial)
+
+      "grid-template-rows:unset"
+        `isRenderedFrom`
+        (gridTemplateRows := unset)
+
+      "grid-template-rows:none"
+        `isRenderedFrom`
+        (gridTemplateRows := none)
 
       "grid-template-rows:[only helmet-exchange] 80.1% repeat(2,[online] minmax(24.6vw,358.9vw) minmax(55%,auto) minmax(92.3%,auto)) repeat(auto-fill,96.2% 20.7% [history]) repeat(2,minmax(75%,auto) [sock-dutch]) repeat(2,259em 11.9%)"
           `isRenderedFrom`
@@ -540,7 +558,13 @@ spec = do
               /\ repeat 2 (minmax (pct 89.6) (vw 65))
           )
 
-    describe "grid-auto-columns" do
+    describe "grid-auto-columns property" do
+
+      "grid-auto-columns:inherit" `isRenderedFrom` (gridAutoColumns := inherit)
+
+      "grid-auto-columns:initial" `isRenderedFrom` (gridAutoColumns := initial)
+
+      "grid-auto-columns:unset" `isRenderedFrom` (gridAutoColumns := unset)
 
       "grid-auto-columns:100px" `isRenderedFrom` (gridAutoColumns := px 100)
 
@@ -607,6 +631,12 @@ spec = do
       (gridAutoColumns := minmax (pct 83.8) auto /\ fitContent (pct 36.1))
 
   describe "grid-auto-rows property" do
+
+    "grid-auto-rows:inherit" `isRenderedFrom` (gridAutoRows := inherit)
+
+    "grid-auto-rows:initial" `isRenderedFrom` (gridAutoRows := initial)
+
+    "grid-auto-rows:unset" `isRenderedFrom` (gridAutoRows := unset)
 
     "grid-auto-rows:calc(25% - 4px)"
       `isRenderedFrom`
