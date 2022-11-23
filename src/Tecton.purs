@@ -293,6 +293,7 @@ import Tecton.Internal
   , justify
   , justifyAll
   , justifyContent
+  , justifySelf
   , kannada
   , katakana
   , katakanaIroha
@@ -546,6 +547,7 @@ import Tecton.Internal
   , rowspan
   , rtl
   , running
+  , safe
   , sandbox
   , sansSerif
   , scale
@@ -561,6 +563,8 @@ import Tecton.Internal
   , select
   , selected
   , selection
+  , selfEnd
+  , selfStart
   , semiCondensed
   , semiExpanded
   , serif
@@ -660,6 +664,7 @@ import Tecton.Internal
   , ultraExpanded
   , underline
   , universal
+  , unsafe
   , unset
   , upperAlpha
   , upperArmenian

@@ -4,7 +4,7 @@ module Test.AlignSpec where
 
 import Prelude
 
-import Tecton (columnGap, inherit, gap, initial, normal, pct, px, rowGap, unset, (:=), (~))
+import Tecton (auto, baseline, center, columnGap, end, first, flexEnd, flexStart, inherit, gap, initial, justifySelf, last, left, normal, pct, px, right, rowGap, safe, selfEnd, selfStart, start, stretch, unsafe, unset, (:=), (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -66,3 +66,103 @@ spec = do
       "gap:1px normal" `isRenderedFrom` (gap := px 1 ~ normal)
 
       "gap:10% normal" `isRenderedFrom` (gap := pct 10 ~ normal)
+
+    describe "justify-self property" do
+
+      "justify-self:inherit" `isRenderedFrom` (justifySelf := inherit)
+
+      "justify-self:initial" `isRenderedFrom` (justifySelf := initial)
+
+      "justify-self:unset" `isRenderedFrom` (justifySelf := unset)
+
+      "justify-self:auto" `isRenderedFrom` (justifySelf := auto)
+
+      "justify-self:normal" `isRenderedFrom` (justifySelf := normal)
+
+      "justify-self:stretch" `isRenderedFrom` (justifySelf := stretch)
+
+      "justify-self:baseline" `isRenderedFrom` (justifySelf := baseline)
+
+      "justify-self:first baseline"
+        `isRenderedFrom`
+        (justifySelf := first ~ baseline)
+
+      "justify-self:last baseline"
+        `isRenderedFrom`
+        (justifySelf := last ~ baseline)
+
+      "justify-self:center" `isRenderedFrom` (justifySelf := center)
+
+      "justify-self:start" `isRenderedFrom` (justifySelf := start)
+
+      "justify-self:end" `isRenderedFrom` (justifySelf := end)
+
+      "justify-self:self-start" `isRenderedFrom` (justifySelf := selfStart)
+
+      "justify-self:self-end" `isRenderedFrom` (justifySelf := selfEnd)
+
+      "justify-self:flex-start" `isRenderedFrom` (justifySelf := flexStart)
+
+      "justify-self:flex-end" `isRenderedFrom` (justifySelf := flexEnd)
+
+      "justify-self:left" `isRenderedFrom` (justifySelf := left)
+
+      "justify-self:right" `isRenderedFrom` (justifySelf := right)
+
+      "justify-self:safe center" `isRenderedFrom` (justifySelf := safe ~ center)
+
+      "justify-self:safe start" `isRenderedFrom` (justifySelf := safe ~ start)
+
+      "justify-self:safe end" `isRenderedFrom` (justifySelf := safe ~ end)
+
+      "justify-self:safe self-start"
+        `isRenderedFrom`
+        (justifySelf := safe ~ selfStart)
+
+      "justify-self:safe self-end"
+        `isRenderedFrom`
+        (justifySelf := safe ~ selfEnd)
+
+      "justify-self:safe flex-start"
+        `isRenderedFrom`
+        (justifySelf := safe ~ flexStart)
+
+      "justify-self:safe flex-end"
+        `isRenderedFrom`
+        (justifySelf := safe ~ flexEnd)
+
+      "justify-self:safe left" `isRenderedFrom` (justifySelf := safe ~ left)
+
+      "justify-self:safe right" `isRenderedFrom` (justifySelf := safe ~ right)
+
+      "justify-self:unsafe center"
+        `isRenderedFrom`
+        (justifySelf := unsafe ~ center)
+
+      "justify-self:unsafe start"
+        `isRenderedFrom`
+        (justifySelf := unsafe ~ start)
+
+      "justify-self:unsafe end" `isRenderedFrom` (justifySelf := unsafe ~ end)
+
+      "justify-self:unsafe self-start"
+        `isRenderedFrom`
+        (justifySelf := unsafe ~ selfStart)
+
+      "justify-self:unsafe self-end"
+        `isRenderedFrom`
+        (justifySelf := unsafe ~ selfEnd)
+
+      "justify-self:unsafe flex-start"
+        `isRenderedFrom`
+        (justifySelf := unsafe ~ flexStart)
+
+      "justify-self:unsafe flex-end"
+        `isRenderedFrom`
+        (justifySelf := unsafe ~ flexEnd)
+
+      "justify-self:unsafe left" `isRenderedFrom` (justifySelf := unsafe ~ left)
+
+      "justify-self:unsafe right"
+        `isRenderedFrom`
+        (justifySelf := unsafe ~ right)

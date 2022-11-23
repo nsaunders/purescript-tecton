@@ -126,6 +126,7 @@ module Tecton.Internal
   , class MultiVal
   , class OutlineLineStyleKeyword
   , class OverflowKeyword
+  , class OverflowPositionKeyword
   , class PercentageTag
   , class PositionKeyword
   , class Property
@@ -137,6 +138,7 @@ module Tecton.Internal
   , class RepeatStyle2dKeyword
   , class RepeatTrackList
   , class SelectorStatus
+  , class SelfPositionKeyword
   , class ShapeKeyword
   , class StepPosition
   , class TextAlignKeyword
@@ -516,6 +518,7 @@ module Tecton.Internal
   , justify
   , justifyAll
   , justifyContent
+  , justifySelf
   , kannada
   , katakana
   , katakanaIroha
@@ -778,6 +781,7 @@ module Tecton.Internal
   , rtl
   , runVal
   , running
+  , safe
   , sandbox
   , sansSerif
   , scale
@@ -793,6 +797,8 @@ module Tecton.Internal
   , select
   , selected
   , selection
+  , selfEnd
+  , selfStart
   , semiCondensed
   , semiExpanded
   , serif
@@ -893,6 +899,7 @@ module Tecton.Internal
   , ultraExpanded
   , underline
   , universal
+  , unsafe
   , unset
   , upperAlpha
   , upperArmenian
@@ -1310,6 +1317,94 @@ renderSheet config =
 
 -- Box Alignment
 -- https://www.w3.org/TR/css-align-3/
+
+-- https://www.w3.org/TR/css-align-3/#propdef-justify-self
+
+justifySelf = Proxy :: Proxy "justify-self"
+
+instance Property "justify-self"
+
+selfStart = Proxy :: Proxy "self-start"
+selfEnd = Proxy :: Proxy "self-end"
+
+class SelfPositionKeyword (s :: Symbol)
+
+instance SelfPositionKeyword "center"
+instance SelfPositionKeyword "start"
+instance SelfPositionKeyword "end"
+instance SelfPositionKeyword "self-start"
+instance SelfPositionKeyword "self-end"
+instance SelfPositionKeyword "flex-start"
+instance SelfPositionKeyword "flex-end"
+
+safe = Proxy :: Proxy "safe"
+unsafe = Proxy :: Proxy "unsafe"
+
+class OverflowPositionKeyword (s :: Symbol)
+
+instance OverflowPositionKeyword "safe"
+instance OverflowPositionKeyword "unsafe"
+
+instance declarationJustifySelfFirstBaseline ::
+  Declaration "justify-self" (Proxy "first" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationJustifySelfLastBaseline ::
+  Declaration "justify-self" (Proxy "last" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationJustifySelfOverflowPositionKeywordLeft ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-self" (Proxy s ~ Proxy "left") where
+  pval = const val
+
+else instance declarationJustifySelfOverflowPositionKeywordRight ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-self" (Proxy s ~ Proxy "right") where
+  pval = const val
+
+else instance declarationJustifySelfOverflowPositionKeywordSelfPositionKeyword ::
+  ( OverflowPositionKeyword sa
+  , IsSymbol sa
+  , SelfPositionKeyword sb
+  , IsSymbol sb
+  ) =>
+  Declaration "justify-self" (Proxy sa ~ Proxy sb) where
+  pval = const val
+
+instance declarationJustifySelfAuto :: Declaration "justify-self" (Proxy "auto") where
+  pval = const val
+
+else instance declarationJustifySelfNormal ::
+  Declaration "justify-self" (Proxy "normal") where
+  pval = const val
+
+else instance declarationJustifySelfStretch ::
+  Declaration "justify-self" (Proxy "stretch") where
+  pval = const val
+
+else instance declarationJustifySelfBaseline ::
+  Declaration "justify-self" (Proxy "baseline") where
+  pval = const val
+
+else instance declarationJustifySelfLeft ::
+  Declaration "justify-self" (Proxy "left") where
+  pval = const val
+
+else instance declarationJustifySelfRight ::
+  Declaration "justify-self" (Proxy "right") where
+  pval = const val
+
+else instance declarationJustifySelfSelfPositionKeyword ::
+  ( SelfPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-self" (Proxy s) where
+  pval = const val
 
 -- https://www.w3.org/TR/css-align-3/#propdef-row-gap
 
