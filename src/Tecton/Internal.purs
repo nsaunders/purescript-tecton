@@ -362,6 +362,7 @@ module Tecton.Internal
   , default
   , defer
   , deg
+  , dense
   , descendant
   , details
   , devanagari
@@ -450,6 +451,7 @@ module Tecton.Internal
   , georgian
   , grid
   , gridAutoColumns
+  , gridAutoFlow
   , gridAutoRows
   , gridTemplateColumns
   , gridTemplateRows
@@ -3856,6 +3858,34 @@ instance declarationGridAutoRowsGridAutoColumns ::
   Declaration "grid-auto-columns" v =>
   Declaration "grid-auto-rows" v where
   pval = const $ pval (Proxy :: Proxy "grid-auto-columns")
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-auto-flow
+
+gridAutoFlow = Proxy :: Proxy "grid-auto-flow"
+
+instance Property "grid-auto-flow"
+
+dense = Proxy :: Proxy "dense"
+
+instance declarationGridAutoFlowRow ::
+  Declaration "grid-auto-flow" (Proxy "row") where
+  pval = const val
+
+instance declarationGridAutoFlowColumn ::
+  Declaration "grid-auto-flow" (Proxy "column") where
+  pval = const val
+
+instance declarationGridAutoFlowDense ::
+  Declaration "grid-auto-flow" (Proxy "dense") where
+  pval = const val
+
+instance declarationGridAutoFlowRowDense ::
+  Declaration "grid-auto-flow" (Proxy "row" ~ Proxy "dense") where
+  pval = const val
+
+instance declarationGridAutoFlowColumnDense ::
+  Declaration "grid-auto-flow" (Proxy "column" ~ Proxy "dense") where
+  pval = const val
 
 --------------------------------------------------------------------------------
 

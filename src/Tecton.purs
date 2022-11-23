@@ -145,6 +145,7 @@ import Tecton.Internal
   , default
   , defer
   , deg
+  , dense
   , details
   , devanagari
   , dir
@@ -227,6 +228,7 @@ import Tecton.Internal
   , georgian
   , grid
   , gridAutoColumns
+  , gridAutoFlow
   , gridAutoRows
   , gridTemplateColumns
   , gridTemplateRows

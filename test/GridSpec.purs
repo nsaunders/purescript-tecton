@@ -5,7 +5,7 @@ module Test.GridSpec where
 import Prelude
 
 import Data.Tuple.Nested ((/\))
-import Tecton (auto, autoFill, autoFit, em, fitContent, fr, gridAutoColumns, gridAutoRows, gridTemplateColumns, gridTemplateRows, inherit, initial, lineName, maxContent, minContent, minmax, none, pct, px, repeat, unset, vw, (:=), (@-@))
+import Tecton (auto, autoFill, autoFit, column, dense, em, fitContent, fr, gridAutoColumns, gridAutoFlow, gridAutoRows, gridTemplateColumns, gridTemplateRows, inherit, initial, lineName, maxContent, minContent, minmax, none, pct, px, repeat, row, unset, vw, (:=), (@-@), (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -697,3 +697,23 @@ spec = do
             /\ minContent
             /\ minmax maxContent (fr 2.8)
         )
+
+    describe "grid-auto-flow property" do
+
+      "grid-auto-flow:inherit" `isRenderedFrom` (gridAutoFlow := inherit)
+
+      "grid-auto-flow:initial" `isRenderedFrom` (gridAutoFlow := initial)
+
+      "grid-auto-flow:unset" `isRenderedFrom` (gridAutoFlow := unset)
+
+      "grid-auto-flow:row" `isRenderedFrom` (gridAutoFlow := row)
+
+      "grid-auto-flow:column" `isRenderedFrom` (gridAutoFlow := column)
+
+      "grid-auto-flow:dense" `isRenderedFrom` (gridAutoFlow := dense)
+
+      "grid-auto-flow:row dense" `isRenderedFrom` (gridAutoFlow := row ~ dense)
+
+      "grid-auto-flow:column dense"
+        `isRenderedFrom`
+        (gridAutoFlow := column ~ dense)
