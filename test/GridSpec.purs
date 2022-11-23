@@ -5,7 +5,7 @@ module Test.GridSpec where
 import Prelude
 
 import Data.Tuple.Nested ((/\))
-import Tecton (auto, autoFill, autoFit, column, dense, em, fitContent, fr, gridAutoColumns, gridAutoFlow, gridAutoRows, gridRowStart, gridTemplateColumns, gridTemplateRows, inherit, initial, lineName, maxContent, minContent, minmax, none, pct, px, repeat, row, span, unset, vw, (:=), (@-@), (~))
+import Tecton (auto, autoFill, autoFit, column, dense, em, fitContent, fr, gridAutoColumns, gridAutoFlow, gridAutoRows, gridColumnEnd, gridColumnStart, gridRowEnd, gridRowStart, gridTemplateColumns, gridTemplateRows, inherit, initial, lineName, maxContent, minContent, minmax, none, pct, px, repeat, row, span, unset, vw, (:=), (@-@), (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -732,10 +732,6 @@ spec = do
 
       "grid-row-start:1" `isRenderedFrom` (gridRowStart := 1)
 
-      "grid-row-start:3 mutual"
-        `isRenderedFrom`
-        (gridRowStart := 3 ~ lineName "mutual")
-
       "grid-row-start:-1 design"
         `isRenderedFrom`
         (gridRowStart := (-1) ~ lineName "design")
@@ -749,3 +745,87 @@ spec = do
       "grid-row-start:span 3 apple"
         `isRenderedFrom`
         (gridRowStart := span ~ 3 ~ lineName "apple")
+
+    describe "grid-column-start property" do
+
+      "grid-column-start:inherit" `isRenderedFrom` (gridColumnStart := inherit)
+
+      "grid-column-start:initial" `isRenderedFrom` (gridColumnStart := initial)
+
+      "grid-column-start:unset" `isRenderedFrom` (gridColumnStart := unset)
+
+      "grid-column-start:auto" `isRenderedFrom` (gridColumnStart := auto)
+
+      "grid-column-start:pilot"
+        `isRenderedFrom`
+        (gridColumnStart := lineName "pilot")
+
+      "grid-column-start:6" `isRenderedFrom` (gridColumnStart := 6)
+
+      "grid-column-start:5 pattern"
+        `isRenderedFrom`
+        (gridColumnStart := 5 ~ lineName "pattern")
+
+      "grid-column-start:span 8" `isRenderedFrom` (gridColumnStart := span ~ 8)
+
+      "grid-column-start:span confident"
+        `isRenderedFrom`
+        (gridColumnStart := span ~ lineName "confident")
+
+      "grid-column-start:span 2 around-noise"
+        `isRenderedFrom`
+        (gridColumnStart := span ~ 2 ~ lineName "around-noise")
+
+    describe "grid-row-end property" do
+
+      "grid-row-end:inherit" `isRenderedFrom` (gridRowEnd := inherit)
+
+      "grid-row-end:initial" `isRenderedFrom` (gridRowEnd := initial)
+
+      "grid-row-end:unset" `isRenderedFrom` (gridRowEnd := unset)
+
+      "grid-row-end:auto" `isRenderedFrom` (gridRowEnd := auto)
+
+      "grid-row-end:minute" `isRenderedFrom` (gridRowEnd := lineName "minute")
+
+      "grid-row-end:-5" `isRenderedFrom` (gridRowEnd := (-5))
+
+      "grid-row-end:8 this" `isRenderedFrom` (gridRowEnd := 8 ~ lineName "this")
+
+      "grid-row-end:span down"
+        `isRenderedFrom`
+        (gridRowEnd := span ~ lineName "down")
+
+      "grid-row-end:span 4" `isRenderedFrom` (gridRowEnd := span ~ 4)
+
+      "grid-row-end:span 4 plate"
+        `isRenderedFrom`
+        (gridRowEnd := span ~ 4 ~ lineName "plate")
+
+    describe "grid-column-end property" do
+
+      "grid-column-end:inherit" `isRenderedFrom` (gridColumnEnd := inherit)
+
+      "grid-column-end:initial" `isRenderedFrom` (gridColumnEnd := initial)
+
+      "grid-column-end:unset" `isRenderedFrom` (gridColumnEnd := unset)
+
+      "grid-column-end:auto" `isRenderedFrom` (gridColumnEnd := auto)
+
+      "grid-column-end:book" `isRenderedFrom` (gridColumnEnd := lineName "book")
+
+      "grid-column-end:25" `isRenderedFrom` (gridColumnEnd := 25)
+
+      "grid-column-end:4 school"
+        `isRenderedFrom`
+        (gridColumnEnd := 4 ~ lineName "school")
+
+      "grid-column-end:span waterfall"
+        `isRenderedFrom`
+        (gridColumnEnd := span ~ lineName "waterfall")
+
+      "grid-column-end:span 9" `isRenderedFrom` (gridColumnEnd := span ~ 9)
+
+      "grid-column-end:span 2 paddle"
+        `isRenderedFrom`
+        (gridColumnEnd := span ~ 2 ~ lineName "paddle")

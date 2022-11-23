@@ -453,6 +453,9 @@ module Tecton.Internal
   , gridAutoColumns
   , gridAutoFlow
   , gridAutoRows
+  , gridColumnEnd
+  , gridColumnStart
+  , gridRowEnd
   , gridRowStart
   , gridTemplateColumns
   , gridTemplateRows
@@ -3937,6 +3940,39 @@ instance declarationGridRowStartSpanLineName ::
 instance declarationGridRowStartSpanIntLineName ::
   Declaration "grid-row-start" (Proxy "span" ~ Int ~ LineName) where
   pval = const val
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-column-start
+
+gridColumnStart = Proxy :: Proxy "grid-column-start"
+
+instance Property "grid-column-start"
+
+instance declarationGridColumnStartGridRowStart ::
+  Declaration "grid-row-start" a =>
+  Declaration "grid-column-start" a where
+  pval = const $ pval (Proxy :: Proxy "grid-row-start")
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-row-end
+
+gridRowEnd = Proxy :: Proxy "grid-row-end"
+
+instance Property "grid-row-end"
+
+instance declarationGridRowEndGridRowStart ::
+  Declaration "grid-row-start" a =>
+  Declaration "grid-row-end" a where
+  pval = const $ pval (Proxy :: Proxy "grid-row-start")
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-column-end
+
+gridColumnEnd = Proxy :: Proxy "grid-column-end"
+
+instance Property "grid-column-end"
+
+instance declarationGridColumnEndGridRowStart ::
+  Declaration "grid-row-start" a =>
+  Declaration "grid-column-end" a where
+  pval = const $ pval (Proxy :: Proxy "grid-row-start")
 
 --------------------------------------------------------------------------------
 

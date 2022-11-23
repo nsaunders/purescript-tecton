@@ -230,6 +230,9 @@ import Tecton.Internal
   , gridAutoColumns
   , gridAutoFlow
   , gridAutoRows
+  , gridColumnEnd
+  , gridColumnStart
+  , gridRowEnd
   , gridRowStart
   , gridTemplateColumns
   , gridTemplateRows
