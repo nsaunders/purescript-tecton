@@ -4,7 +4,7 @@ module Test.AlignSpec where
 
 import Prelude
 
-import Tecton (auto, baseline, center, columnGap, end, first, flexEnd, flexStart, gap, initial, inherit, justifyItems, justifySelf, last, left, legacy, normal, pct, px, right, rowGap, safe, selfEnd, selfStart, start, stretch, unsafe, unset, (:=), (~))
+import Tecton (alignSelf, auto, baseline, center, columnGap, end, first, flexEnd, flexStart, gap, initial, inherit, justifyItems, justifySelf, last, left, legacy, normal, pct, px, right, rowGap, safe, selfEnd, selfStart, start, stretch, unsafe, unset, (:=), (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -280,3 +280,75 @@ spec = do
       "justify-items:legacy center"
         `isRenderedFrom`
         (justifyItems := legacy ~ center)
+
+    describe "align-self property" do
+
+      "align-self:inherit" `isRenderedFrom` (alignSelf := inherit)
+
+      "align-self:initial" `isRenderedFrom` (alignSelf := initial)
+
+      "align-self:unset" `isRenderedFrom` (alignSelf := unset)
+
+      "align-self:auto" `isRenderedFrom` (alignSelf := auto)
+
+      "align-self:normal" `isRenderedFrom` (alignSelf := normal)
+
+      "align-self:stretch" `isRenderedFrom` (alignSelf := stretch)
+
+      "align-self:baseline" `isRenderedFrom` (alignSelf := baseline)
+
+      "align-self:first baseline"
+        `isRenderedFrom`
+        (alignSelf := first ~ baseline)
+
+      "align-self:last baseline" `isRenderedFrom` (alignSelf := last ~ baseline)
+
+      "align-self:center" `isRenderedFrom` (alignSelf := center)
+
+      "align-self:start" `isRenderedFrom` (alignSelf := start)
+
+      "align-self:end" `isRenderedFrom` (alignSelf := end)
+
+      "align-self:self-start" `isRenderedFrom` (alignSelf := selfStart)
+
+      "align-self:self-end" `isRenderedFrom` (alignSelf :=  selfEnd)
+
+      "align-self:flex-start" `isRenderedFrom` (alignSelf :=  flexStart)
+
+      "align-self:flex-end" `isRenderedFrom` (alignSelf := flexEnd)
+
+      "align-self:safe center" `isRenderedFrom` (alignSelf := safe ~ center)
+
+      "align-self:safe start" `isRenderedFrom` (alignSelf := safe ~ start)
+
+      "align-self:safe end" `isRenderedFrom` (alignSelf := safe ~ end)
+
+      "align-self:safe self-start"
+        `isRenderedFrom`
+        (alignSelf := safe ~ selfStart)
+
+      "align-self:safe self-end" `isRenderedFrom` (alignSelf := safe ~ selfEnd)
+
+      "align-self:safe flex-start"
+        `isRenderedFrom`
+        (alignSelf := safe ~ flexStart)
+
+      "align-self:unsafe flex-end" `isRenderedFrom` (alignSelf := unsafe ~ flexEnd)
+
+      "align-self:unsafe center" `isRenderedFrom` (alignSelf := unsafe ~ center)
+
+      "align-self:unsafe start" `isRenderedFrom` (alignSelf := unsafe ~ start)
+
+      "align-self:unsafe end" `isRenderedFrom` (alignSelf := unsafe ~ end)
+
+      "align-self:unsafe self-start"
+        `isRenderedFrom`
+        (alignSelf := unsafe ~ selfStart)
+
+      "align-self:unsafe self-end" `isRenderedFrom` (alignSelf := unsafe ~ selfEnd)
+
+      "align-self:unsafe flex-start"
+        `isRenderedFrom`
+        (alignSelf := unsafe ~ flexStart)
+
+      "align-self:unsafe flex-end" `isRenderedFrom` (alignSelf := unsafe ~ flexEnd)

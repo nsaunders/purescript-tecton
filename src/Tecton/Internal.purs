@@ -1,7 +1,6 @@
 module Tecton.Internal
   ( class AlignContentKeyword
   , class AlignItemsKeyword
-  , class AlignSelfKeyword
   , class AlignmentBaselineKeyword
   , class AlignmentBaselineOrBaselineShiftKeyword
   , class AllPropertiesAnimatable
@@ -1406,6 +1405,65 @@ else instance declarationJustifySelfSelfPositionKeyword ::
   , IsSymbol s
   ) =>
   Declaration "justify-self" (Proxy s) where
+  pval = const val
+
+-- https://www.w3.org/TR/css-flexbox-1/#propdef-align-self
+
+alignSelf = Proxy :: Proxy "align-self"
+
+instance Property "align-self"
+
+instance declarationAlignSelfFirstBaseline ::
+  Declaration "align-self" (Proxy "first" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationAlignSelfLastBaseline ::
+  Declaration "align-self" (Proxy "last" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationAlignSelfOverflowPositionKeywordLeft ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "align-self" (Proxy s ~ Proxy "left") where
+  pval = const val
+
+else instance declarationAlignSelfOverflowPositionKeywordRight ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "align-self" (Proxy s ~ Proxy "right") where
+  pval = const val
+
+else instance declarationAlignSelfOverflowPositionKeywordSelfPositionKeyword ::
+  ( OverflowPositionKeyword sa
+  , IsSymbol sa
+  , SelfPositionKeyword sb
+  , IsSymbol sb
+  ) =>
+  Declaration "align-self" (Proxy sa ~ Proxy sb) where
+  pval = const val
+
+instance declarationAlignSelfAuto :: Declaration "align-self" (Proxy "auto") where
+  pval = const val
+
+else instance declarationAlignSelfNormal ::
+  Declaration "align-self" (Proxy "normal") where
+  pval = const val
+
+else instance declarationAlignSelfStretch ::
+  Declaration "align-self" (Proxy "stretch") where
+  pval = const val
+
+else instance declarationAlignSelfBaseline ::
+  Declaration "align-self" (Proxy "baseline") where
+  pval = const val
+
+else instance declarationAlignSelfSelfPositionKeyword ::
+  ( SelfPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "align-self" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-align-3/#propdef-justify-items
@@ -3285,28 +3343,6 @@ instance declarationAlignItems ::
   , ToVal (Proxy s)
   ) =>
   Declaration "align-items" (Proxy s) where
-  pval = const val
-
--- https://www.w3.org/TR/css-flexbox-1/#propdef-align-self
-
-alignSelf = Proxy :: Proxy "align-self"
-
-instance Property "align-self"
-
-class AlignSelfKeyword (s :: Symbol)
-
-instance AlignSelfKeyword "auto"
-instance AlignSelfKeyword "flex-start"
-instance AlignSelfKeyword "flex-end"
-instance AlignSelfKeyword "center"
-instance AlignSelfKeyword "baseline"
-instance AlignSelfKeyword "stretch"
-
-instance declarationAlignSelf ::
-  ( AlignSelfKeyword s
-  , ToVal (Proxy s)
-  ) =>
-  Declaration "align-self" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-flexbox-1/#propdef-align-content
