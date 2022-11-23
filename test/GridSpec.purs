@@ -5,7 +5,7 @@ module Test.GridSpec where
 import Prelude
 
 import Data.Tuple.Nested ((/\))
-import Tecton (auto, autoFill, autoFit, column, dense, em, fitContent, fr, gridAutoColumns, gridAutoFlow, gridAutoRows, gridTemplateColumns, gridTemplateRows, inherit, initial, lineName, maxContent, minContent, minmax, none, pct, px, repeat, row, unset, vw, (:=), (@-@), (~))
+import Tecton (auto, autoFill, autoFit, column, dense, em, fitContent, fr, gridAutoColumns, gridAutoFlow, gridAutoRows, gridRowStart, gridTemplateColumns, gridTemplateRows, inherit, initial, lineName, maxContent, minContent, minmax, none, pct, px, repeat, row, span, unset, vw, (:=), (@-@), (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -717,3 +717,35 @@ spec = do
       "grid-auto-flow:column dense"
         `isRenderedFrom`
         (gridAutoFlow := column ~ dense)
+
+    describe "grid-row-start property" do
+
+      "grid-row-start:inherit" `isRenderedFrom` (gridRowStart := inherit)
+
+      "grid-row-start:initial" `isRenderedFrom` (gridRowStart := initial)
+
+      "grid-row-start:unset" `isRenderedFrom` (gridRowStart := unset)
+
+      "grid-row-start:auto" `isRenderedFrom` (gridRowStart := auto)
+
+      "grid-row-start:sugar" `isRenderedFrom` (gridRowStart := lineName "sugar")
+
+      "grid-row-start:1" `isRenderedFrom` (gridRowStart := 1)
+
+      "grid-row-start:3 mutual"
+        `isRenderedFrom`
+        (gridRowStart := 3 ~ lineName "mutual")
+
+      "grid-row-start:-1 design"
+        `isRenderedFrom`
+        (gridRowStart := (-1) ~ lineName "design")
+
+      "grid-row-start:span 5" `isRenderedFrom` (gridRowStart := span ~ 5)
+
+      "grid-row-start:span robot"
+        `isRenderedFrom`
+        (gridRowStart := span ~ lineName "robot")
+
+      "grid-row-start:span 3 apple"
+        `isRenderedFrom`
+        (gridRowStart := span ~ 3 ~ lineName "apple")

@@ -453,6 +453,7 @@ module Tecton.Internal
   , gridAutoColumns
   , gridAutoFlow
   , gridAutoRows
+  , gridRowStart
   , gridTemplateColumns
   , gridTemplateRows
   , groove
@@ -3542,11 +3543,17 @@ fr = Flex <<< number
 
 newtype LineName = LineName String
 
-instance ToVal LineName where
-  val (LineName x) = val "[" <> val x <> val "]"
+derive newtype instance ToVal LineName
 
 lineName :: String -> LineName
 lineName = LineName
+
+instance ToVal (List LineName) where
+  val = (_ <> val "]") <<< val <<< go mempty
+    where
+    go acc Nil = "[" <> acc
+    go "" (LineName x : xs) = go x xs
+    go acc (LineName x : xs) = go (x <> " " <> acc) xs
 
 -- https://www.w3.org/TR/css-grid-1/#typedef-track-breadth
 
@@ -3628,15 +3635,26 @@ instance AutoRepeatKeyword "auto-fit"
 class FoldLineNames (i :: Type) (o :: Type) | i -> o where
   foldLineNames :: i -> o
 
-instance FoldLineNames (LineName /\ LineName) LineName where
-  foldLineNames (LineName a' /\ LineName b') = foldLineNames $ LineName
-    (a' <> " " <> b')
+instance
+  FoldLineNames (List LineName /\ xsin) xsout =>
+  FoldLineNames (LineName /\ LineName /\ xsin) xsout where
+  foldLineNames (a' /\ b' /\ xs) = foldLineNames $ (b' : a' : Nil) /\ xs
 
 else instance
-  FoldLineNames (LineName /\ xsin) xsout =>
-  FoldLineNames (LineName /\ LineName /\ xsin) xsout where
-  foldLineNames (LineName a' /\ LineName b' /\ xs) = foldLineNames $
-    LineName (a' <> " " <> b') /\ xs
+  FoldLineNames (List LineName /\ xsin) xsout =>
+  FoldLineNames (List LineName /\ LineName /\ xsin) xsout where
+  foldLineNames (a' /\ b' /\ xs) = foldLineNames $ (b' : a') /\ xs
+
+else instance FoldLineNames (List LineName /\ LineName) (List LineName) where
+  foldLineNames (a' /\ b') = foldLineNames $ b' : a'
+
+else instance
+  FoldLineNames (List LineName /\ xsin) xsout =>
+  FoldLineNames (LineName /\ xsin) xsout where
+  foldLineNames (x /\ xs) = foldLineNames $ (x : Nil) /\ xs
+
+else instance FoldLineNames LineName (List LineName) where
+  foldLineNames = pure
 
 else instance FoldLineNames xsin xsout => FoldLineNames (x /\ xsin) (x /\ xsout) where
   foldLineNames (x /\ xs) = x /\ foldLineNames xs
@@ -3885,6 +3903,39 @@ instance declarationGridAutoFlowRowDense ::
 
 instance declarationGridAutoFlowColumnDense ::
   Declaration "grid-auto-flow" (Proxy "column" ~ Proxy "dense") where
+  pval = const val
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-row-start
+
+gridRowStart = Proxy :: Proxy "grid-row-start"
+
+instance Property "grid-row-start"
+
+instance declarationGridRowStartAuto ::
+  Declaration "grid-row-start" (Proxy "auto") where
+  pval = const val
+
+instance declarationGridRowStartLineName ::
+  Declaration "grid-row-start" LineName where
+  pval = const val
+
+instance declarationGridRowStartInt :: Declaration "grid-row-start" Int where
+  pval = const val
+
+instance declarationGridRowStartIntLineName ::
+  Declaration "grid-row-start" (Int ~ LineName) where
+  pval = const val
+
+instance declarationGridRowStartSpanInt ::
+  Declaration "grid-row-start" (Proxy "span" ~ Int) where
+  pval = const val
+
+instance declarationGridRowStartSpanLineName ::
+  Declaration "grid-row-start" (Proxy "span" ~ LineName) where
+  pval = const val
+
+instance declarationGridRowStartSpanIntLineName ::
+  Declaration "grid-row-start" (Proxy "span" ~ Int ~ LineName) where
   pval = const val
 
 --------------------------------------------------------------------------------

@@ -230,6 +230,7 @@ import Tecton.Internal
   , gridAutoColumns
   , gridAutoFlow
   , gridAutoRows
+  , gridRowStart
   , gridTemplateColumns
   , gridTemplateRows
   , groove
