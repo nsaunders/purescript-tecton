@@ -4,7 +4,7 @@ module Test.AlignSpec where
 
 import Prelude
 
-import Tecton (auto, baseline, center, columnGap, end, first, flexEnd, flexStart, inherit, gap, initial, justifySelf, last, left, normal, pct, px, right, rowGap, safe, selfEnd, selfStart, start, stretch, unsafe, unset, (:=), (~))
+import Tecton (auto, baseline, center, columnGap, end, first, flexEnd, flexStart, gap, initial, inherit, justifyItems, justifySelf, last, left, legacy, normal, pct, px, right, rowGap, safe, selfEnd, selfStart, start, stretch, unsafe, unset, (:=), (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -166,3 +166,117 @@ spec = do
       "justify-self:unsafe right"
         `isRenderedFrom`
         (justifySelf := unsafe ~ right)
+
+    describe "justify-items property" do
+
+      "justify-items:inherit" `isRenderedFrom` (justifyItems := inherit)
+
+      "justify-items:initial" `isRenderedFrom` (justifyItems := initial)
+
+      "justify-items:unset" `isRenderedFrom` (justifyItems := unset)
+
+      "justify-items:normal" `isRenderedFrom` (justifyItems := normal)
+
+      "justify-items:stretch" `isRenderedFrom` (justifyItems := stretch)
+
+      "justify-items:baseline" `isRenderedFrom` (justifyItems := baseline)
+
+      "justify-items:first baseline"
+        `isRenderedFrom`
+        (justifyItems := first ~ baseline)
+
+      "justify-items:last baseline"
+        `isRenderedFrom`
+        (justifyItems := last ~ baseline)
+
+      "justify-items:center" `isRenderedFrom` (justifyItems := center)
+
+      "justify-items:start" `isRenderedFrom` (justifyItems := start)
+
+      "justify-items:end" `isRenderedFrom` (justifyItems := end)
+
+      "justify-items:self-start" `isRenderedFrom` (justifyItems := selfStart)
+
+      "justify-items:self-end" `isRenderedFrom` (justifyItems := selfEnd)
+
+      "justify-items:flex-start" `isRenderedFrom` (justifyItems := flexStart)
+
+      "justify-items:flex-end" `isRenderedFrom` (justifyItems := flexEnd)
+
+      "justify-items:left" `isRenderedFrom` (justifyItems := left)
+
+      "justify-items:right" `isRenderedFrom` (justifyItems := right)
+
+      "justify-items:safe center"
+        `isRenderedFrom`
+        (justifyItems := safe ~ center)
+
+      "justify-items:safe start" `isRenderedFrom` (justifyItems := safe ~ start)
+
+      "justify-items:safe end" `isRenderedFrom` (justifyItems := safe ~ end)
+
+      "justify-items:safe self-start"
+        `isRenderedFrom`
+        (justifyItems := safe ~ selfStart)
+
+      "justify-items:safe self-end"
+        `isRenderedFrom`
+        (justifyItems := safe ~ selfEnd)
+
+      "justify-items:safe flex-start"
+        `isRenderedFrom`
+        (justifyItems := safe ~ flexStart)
+
+      "justify-items:safe flex-end"
+        `isRenderedFrom`
+        (justifyItems := safe ~ flexEnd)
+
+      "justify-items:safe left" `isRenderedFrom` (justifyItems := safe ~ left)
+
+      "justify-items:safe right" `isRenderedFrom` (justifyItems := safe ~ right)
+
+      "justify-items:unsafe center"
+        `isRenderedFrom`
+        (justifyItems := unsafe ~ center)
+
+      "justify-items:unsafe start"
+        `isRenderedFrom`
+        (justifyItems := unsafe ~ start)
+
+      "justify-items:unsafe end" `isRenderedFrom` (justifyItems := unsafe ~ end)
+
+      "justify-items:unsafe self-start"
+        `isRenderedFrom`
+        (justifyItems := unsafe ~ selfStart)
+
+      "justify-items:unsafe self-end"
+        `isRenderedFrom`
+        (justifyItems := unsafe ~ selfEnd)
+
+      "justify-items:unsafe flex-start"
+        `isRenderedFrom`
+        (justifyItems := unsafe ~ flexStart)
+
+      "justify-items:unsafe flex-end"
+        `isRenderedFrom`
+        (justifyItems := unsafe ~ flexEnd)
+
+      "justify-items:unsafe left" `isRenderedFrom` (justifyItems := unsafe ~ left)
+
+      "justify-items:unsafe right"
+        `isRenderedFrom`
+        (justifyItems := unsafe ~ right)
+
+      "justify-items:legacy" `isRenderedFrom` (justifyItems := legacy)
+
+      "justify-items:legacy left"
+        `isRenderedFrom`
+        (justifyItems := legacy ~ left)
+
+      "justify-items:legacy right"
+        `isRenderedFrom`
+        (justifyItems := legacy ~ right)
+
+      "justify-items:legacy center"
+        `isRenderedFrom`
+        (justifyItems := legacy ~ center)

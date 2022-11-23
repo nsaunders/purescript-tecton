@@ -293,6 +293,7 @@ import Tecton.Internal
   , justify
   , justifyAll
   , justifyContent
+  , justifyItems
   , justifySelf
   , kannada
   , katakana
@@ -312,6 +313,7 @@ import Tecton.Internal
   , lastChild
   , lastOfType
   , left
+  , legacy
   , legend
   , letterSpacing
   , li

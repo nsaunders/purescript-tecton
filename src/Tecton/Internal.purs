@@ -518,6 +518,7 @@ module Tecton.Internal
   , justify
   , justifyAll
   , justifyContent
+  , justifyItems
   , justifySelf
   , kannada
   , katakana
@@ -537,6 +538,7 @@ module Tecton.Internal
   , lastChild
   , lastOfType
   , left
+  , legacy
   , legend
   , letterSpacing
   , li
@@ -1404,6 +1406,88 @@ else instance declarationJustifySelfSelfPositionKeyword ::
   , IsSymbol s
   ) =>
   Declaration "justify-self" (Proxy s) where
+  pval = const val
+
+-- https://www.w3.org/TR/css-align-3/#propdef-justify-items
+
+justifyItems = Proxy :: Proxy "justify-items"
+
+instance Property "justify-items"
+
+legacy = Proxy :: Proxy "legacy"
+
+instance declarationJustifyItemsFirstBaseline ::
+  Declaration "justify-items" (Proxy "first" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationJustifyItemsLastBaseline ::
+  Declaration "justify-items" (Proxy "last" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationJustifyItemsLegacyLeft ::
+  Declaration "justify-items" (Proxy "legacy" ~ Proxy "left") where
+  pval = const val
+
+else instance declarationJustifyItemsLegacyRight ::
+  Declaration "justify-items" (Proxy "legacy" ~ Proxy "right") where
+  pval = const val
+
+else instance declarationJustifyItemsLegacyCenter ::
+  Declaration "justify-items" (Proxy "legacy" ~ Proxy "center") where
+  pval = const val
+
+else instance declarationJustifyItemsOverflowPositionKeywordLeft ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-items" (Proxy s ~ Proxy "left") where
+  pval = const val
+
+else instance declarationJustifyItemsOverflowPositionKeywordRight ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-items" (Proxy s ~ Proxy "right") where
+  pval = const val
+
+else instance declarationJustifyItemsOverflowPositionKeywordSelfPositionKeyword ::
+  ( OverflowPositionKeyword sa
+  , IsSymbol sa
+  , SelfPositionKeyword sb
+  , IsSymbol sb
+  ) =>
+  Declaration "justify-items" (Proxy sa ~ Proxy sb) where
+  pval = const val
+
+else instance declarationJustifyItemsNormal ::
+  Declaration "justify-items" (Proxy "normal") where
+  pval = const val
+
+else instance declarationJustifyItemsStretch ::
+  Declaration "justify-items" (Proxy "stretch") where
+  pval = const val
+
+else instance declarationJustifyItemsBaseline ::
+  Declaration "justify-items" (Proxy "baseline") where
+  pval = const val
+
+else instance declarationJustifyItemsLeft ::
+  Declaration "justify-items" (Proxy "left") where
+  pval = const val
+
+else instance declarationJustifyItemsRight ::
+  Declaration "justify-items" (Proxy "right") where
+  pval = const val
+
+else instance declarationJustifyItemsLegacy ::
+  Declaration "justify-items" (Proxy "legacy") where
+  pval = const val
+
+else instance declarationJustifyItemsSelfPositionKeyword ::
+  ( SelfPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-items" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-align-3/#propdef-row-gap
