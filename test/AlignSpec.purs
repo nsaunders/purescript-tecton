@@ -4,7 +4,7 @@ module Test.AlignSpec where
 
 import Prelude
 
-import Tecton (alignSelf, auto, baseline, center, columnGap, end, first, flexEnd, flexStart, gap, initial, inherit, justifyItems, justifySelf, last, left, legacy, normal, pct, px, right, rowGap, safe, selfEnd, selfStart, start, stretch, unsafe, unset, (:=), (~))
+import Tecton (alignItems, alignSelf, auto, baseline, center, columnGap, end, first, flexEnd, flexStart, gap, initial, inherit, justifyItems, justifySelf, last, left, legacy, normal, pct, px, right, rowGap, safe, selfEnd, selfStart, start, stretch, unsafe, unset, (:=), (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -352,3 +352,85 @@ spec = do
       "justify-items:legacy center"
         `isRenderedFrom`
         (justifyItems := legacy ~ center)
+
+    describe "align-items property" do
+
+      "align-items:inherit" `isRenderedFrom` (alignItems := inherit)
+
+      "align-items:initial" `isRenderedFrom` (alignItems := initial)
+
+      "align-items:unset" `isRenderedFrom` (alignItems := unset)
+
+      "align-items:normal" `isRenderedFrom` (alignItems := normal)
+
+      "align-items:stretch" `isRenderedFrom` (alignItems := stretch)
+
+      "align-items:baseline" `isRenderedFrom` (alignItems := baseline)
+
+      "align-items:first baseline"
+        `isRenderedFrom`
+        (alignItems := first ~ baseline)
+
+      "align-items:last baseline"
+        `isRenderedFrom`
+        (alignItems := last ~ baseline)
+
+      "align-items:center" `isRenderedFrom` (alignItems := center)
+
+      "align-items:start" `isRenderedFrom` (alignItems := start)
+
+      "align-items:end" `isRenderedFrom` (alignItems := end)
+
+      "align-items:self-start" `isRenderedFrom` (alignItems := selfStart)
+
+      "align-items:self-end" `isRenderedFrom` (alignItems := selfEnd)
+
+      "align-items:flex-start" `isRenderedFrom` (alignItems := flexStart)
+
+      "align-items:flex-end" `isRenderedFrom` (alignItems := flexEnd)
+
+      "align-items:safe center" `isRenderedFrom` (alignItems := safe ~ center)
+
+      "align-items:safe start" `isRenderedFrom` (alignItems := safe ~ start)
+
+      "align-items:safe end" `isRenderedFrom` (alignItems := safe ~ end)
+
+      "align-items:safe self-start"
+        `isRenderedFrom`
+        (alignItems := safe ~ selfStart)
+
+      "align-items:safe self-end"
+        `isRenderedFrom`
+        (alignItems := safe ~ selfEnd)
+
+      "align-items:safe flex-start"
+        `isRenderedFrom`
+        (alignItems := safe ~ flexStart)
+
+      "align-items:safe flex-end"
+        `isRenderedFrom`
+        (alignItems := safe ~ flexEnd)
+
+      "align-items:unsafe center"
+        `isRenderedFrom`
+        (alignItems := unsafe ~ center)
+
+      "align-items:unsafe start" `isRenderedFrom` (alignItems := unsafe ~ start)
+
+      "align-items:unsafe end" `isRenderedFrom` (alignItems := unsafe ~ end)
+
+      "align-items:unsafe self-start"
+        `isRenderedFrom`
+        (alignItems := unsafe ~ selfStart)
+
+      "align-items:unsafe self-end"
+        `isRenderedFrom`
+        (alignItems := unsafe ~ selfEnd)
+
+      "align-items:unsafe flex-start"
+        `isRenderedFrom`
+        (alignItems := unsafe ~ flexStart)
+
+      "align-items:unsafe flex-end"
+        `isRenderedFrom`
+        (alignItems := unsafe ~ flexEnd)
