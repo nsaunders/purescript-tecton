@@ -599,101 +599,101 @@ spec = do
             /\ pct 71.6
         )
 
-    "grid-auto-columns:fit-content(375.2px) minmax(auto,217.9em) max-content minmax(84.3%,auto)"
-      `isRenderedFrom`
-      ( gridAutoColumns :=
-          fitContent (px 375.2)
-          /\ minmax auto (em 217.9)
-          /\ maxContent
-          /\ minmax (pct 84.3) auto
-      )
+      "grid-auto-columns:fit-content(375.2px) minmax(auto,217.9em) max-content minmax(84.3%,auto)"
+        `isRenderedFrom`
+        ( gridAutoColumns :=
+            fitContent (px 375.2)
+            /\ minmax auto (em 217.9)
+            /\ maxContent
+            /\ minmax (pct 84.3) auto
+        )
 
-    "grid-auto-columns:fit-content(177px) minmax(auto,1fr) max-content max-content"
-      `isRenderedFrom`
-      ( gridAutoColumns :=
-          fitContent (px 177)
-          /\ minmax auto (fr 1)
-          /\ maxContent
-          /\ maxContent
-      )
+      "grid-auto-columns:fit-content(177px) minmax(auto,1fr) max-content max-content"
+        `isRenderedFrom`
+        ( gridAutoColumns :=
+            fitContent (px 177)
+            /\ minmax auto (fr 1)
+            /\ maxContent
+            /\ maxContent
+        )
 
-    "grid-auto-columns:minmax(max-content,max-content) fit-content(39.3%) minmax(max-content,80px) minmax(min-content,2fr)"
-      `isRenderedFrom`
-      ( gridAutoColumns :=
-          minmax maxContent maxContent
-          /\ fitContent (pct 39.3)
-          /\ minmax maxContent (px 80)
-          /\ minmax minContent (fr 2)
-      )
+      "grid-auto-columns:minmax(max-content,max-content) fit-content(39.3%) minmax(max-content,80px) minmax(min-content,2fr)"
+        `isRenderedFrom`
+        ( gridAutoColumns :=
+            minmax maxContent maxContent
+            /\ fitContent (pct 39.3)
+            /\ minmax maxContent (px 80)
+            /\ minmax minContent (fr 2)
+        )
 
-    "grid-auto-columns:minmax(83.8%,auto) fit-content(36.1%)"
-      `isRenderedFrom`
-      (gridAutoColumns := minmax (pct 83.8) auto /\ fitContent (pct 36.1))
+      "grid-auto-columns:minmax(83.8%,auto) fit-content(36.1%)"
+        `isRenderedFrom`
+        (gridAutoColumns := minmax (pct 83.8) auto /\ fitContent (pct 36.1))
 
-  describe "grid-auto-rows property" do
+    describe "grid-auto-rows property" do
 
-    "grid-auto-rows:inherit" `isRenderedFrom` (gridAutoRows := inherit)
+      "grid-auto-rows:inherit" `isRenderedFrom` (gridAutoRows := inherit)
 
-    "grid-auto-rows:initial" `isRenderedFrom` (gridAutoRows := initial)
+      "grid-auto-rows:initial" `isRenderedFrom` (gridAutoRows := initial)
 
-    "grid-auto-rows:unset" `isRenderedFrom` (gridAutoRows := unset)
+      "grid-auto-rows:unset" `isRenderedFrom` (gridAutoRows := unset)
 
-    "grid-auto-rows:calc(25% - 4px)"
-      `isRenderedFrom`
-      (gridAutoRows := pct 25 @-@ px 4)
+      "grid-auto-rows:calc(25% - 4px)"
+        `isRenderedFrom`
+        (gridAutoRows := pct 25 @-@ px 4)
 
-    "grid-auto-rows:2.5fr" `isRenderedFrom` (gridAutoRows := fr 2.5)
+      "grid-auto-rows:2.5fr" `isRenderedFrom` (gridAutoRows := fr 2.5)
 
-    "grid-auto-rows:min-content" `isRenderedFrom` (gridAutoRows := minContent)
+      "grid-auto-rows:min-content" `isRenderedFrom` (gridAutoRows := minContent)
 
-    "grid-auto-rows:max-content" `isRenderedFrom` (gridAutoRows := maxContent)
+      "grid-auto-rows:max-content" `isRenderedFrom` (gridAutoRows := maxContent)
 
-    "grid-auto-rows:auto" `isRenderedFrom` (gridAutoRows := auto)
+      "grid-auto-rows:auto" `isRenderedFrom` (gridAutoRows := auto)
 
-    "grid-auto-rows:minmax(100px,2fr)"
-      `isRenderedFrom`
-      (gridAutoRows := minmax (px 100) (fr 2))
+      "grid-auto-rows:minmax(100px,2fr)"
+        `isRenderedFrom`
+        (gridAutoRows := minmax (px 100) (fr 2))
 
-    "grid-auto-rows:fit-content(100px)"
-      `isRenderedFrom`
-      (gridAutoRows := fitContent $ px 100)
+      "grid-auto-rows:fit-content(100px)"
+        `isRenderedFrom`
+        (gridAutoRows := fitContent $ px 100)
 
-    "grid-auto-rows:fit-content(270.3vw) fit-content(87px)"
-      `isRenderedFrom`
-      (gridAutoRows := fitContent (vw 270.3) /\ fitContent (px 87))
+      "grid-auto-rows:fit-content(270.3vw) fit-content(87px)"
+        `isRenderedFrom`
+        (gridAutoRows := fitContent (vw 270.3) /\ fitContent (px 87))
 
-    "grid-auto-rows:fit-content(318.8vw) fit-content(450.7px) fit-content(319.5em) minmax(min-content,max-content)"
-      `isRenderedFrom`
-      ( gridAutoRows :=
-          fitContent (vw 318.8)
-          /\ fitContent (px 450.7)
-          /\ fitContent (em 319.5)
-          /\ minmax minContent maxContent
-      )
+      "grid-auto-rows:fit-content(318.8vw) fit-content(450.7px) fit-content(319.5em) minmax(min-content,max-content)"
+        `isRenderedFrom`
+        ( gridAutoRows :=
+            fitContent (vw 318.8)
+            /\ fitContent (px 450.7)
+            /\ fitContent (em 319.5)
+            /\ minmax minContent maxContent
+        )
 
-    "grid-auto-rows:min-content minmax(max-content,max-content) fit-content(235.8px) fit-content(22.6px)"
-      `isRenderedFrom`
-      ( gridAutoRows :=
-          minContent
-          /\ minmax maxContent maxContent
-          /\ fitContent (px 235.8)
-          /\ fitContent (px 22.6)
-      )
+      "grid-auto-rows:min-content minmax(max-content,max-content) fit-content(235.8px) fit-content(22.6px)"
+        `isRenderedFrom`
+        ( gridAutoRows :=
+            minContent
+            /\ minmax maxContent maxContent
+            /\ fitContent (px 235.8)
+            /\ fitContent (px 22.6)
+        )
 
-    "grid-auto-rows:minmax(auto,2.6fr) minmax(max-content,min-content) fit-content(389.9em) minmax(max-content,1.5fr)"
-      `isRenderedFrom`
-      ( gridAutoRows :=
-          minmax auto (fr 2.6)
-          /\ minmax maxContent minContent
-          /\ fitContent (em 389.9)
-          /\ minmax maxContent (fr 1.5)
-      )
+      "grid-auto-rows:minmax(auto,2.6fr) minmax(max-content,min-content) fit-content(389.9em) minmax(max-content,1.5fr)"
+        `isRenderedFrom`
+        ( gridAutoRows :=
+            minmax auto (fr 2.6)
+            /\ minmax maxContent minContent
+            /\ fitContent (em 389.9)
+            /\ minmax maxContent (fr 1.5)
+        )
 
-    "grid-auto-rows:minmax(88.1%,min-content) auto min-content minmax(max-content,2.8fr)"
-      `isRenderedFrom`
-      ( gridAutoRows :=
-          minmax (pct 88.1) minContent
-          /\ auto
-          /\ minContent
-          /\ minmax maxContent (fr 2.8)
-      )
+      "grid-auto-rows:minmax(88.1%,min-content) auto min-content minmax(max-content,2.8fr)"
+        `isRenderedFrom`
+        ( gridAutoRows :=
+            minmax (pct 88.1) minContent
+            /\ auto
+            /\ minContent
+            /\ minmax maxContent (fr 2.8)
+        )
