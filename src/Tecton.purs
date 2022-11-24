@@ -581,6 +581,7 @@ import Tecton.Internal
   , space
   , spaceAround
   , spaceBetween
+  , spaceEvenly
   , span
   , spellcheck
   , square

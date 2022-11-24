@@ -4,7 +4,7 @@ module Test.AlignSpec where
 
 import Prelude
 
-import Tecton (alignItems, alignSelf, auto, baseline, center, columnGap, end, first, flexEnd, flexStart, gap, initial, inherit, justifyItems, justifySelf, last, left, legacy, normal, pct, px, right, rowGap, safe, selfEnd, selfStart, start, stretch, unsafe, unset, (:=), (~))
+import Tecton (alignItems, alignSelf, auto, baseline, center, columnGap, end, first, flexEnd, flexStart, gap, initial, inherit, justifyContent, justifyItems, justifySelf, last, left, legacy, normal, pct, px, right, rowGap, safe, selfEnd, selfStart, spaceAround, spaceBetween, spaceEvenly, start, stretch, unsafe, unset, (:=), (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -15,57 +15,97 @@ spec = do
 
   describe "Box Alignment Module" do
 
-    describe "row-gap property" do
+    describe "justify-content property" do
 
-      "row-gap:inherit" `isRenderedFrom` (rowGap := inherit)
+      "justify-content:inherit" `isRenderedFrom` (justifyContent := inherit)
 
-      "row-gap:initial" `isRenderedFrom` (rowGap := initial)
+      "justify-content:initial" `isRenderedFrom` (justifyContent := initial)
 
-      "row-gap:unset" `isRenderedFrom` (rowGap := unset)
+      "justify-content:unset" `isRenderedFrom` (justifyContent := unset)
 
-      "row-gap:normal" `isRenderedFrom` (rowGap := normal)
+      "justify-content:normal" `isRenderedFrom` (justifyContent := normal)
 
-      "row-gap:4px" `isRenderedFrom` (rowGap := px 4)
+      "justify-content:space-between"
+        `isRenderedFrom`
+        (justifyContent := spaceBetween)
 
-      "row-gap:10%" `isRenderedFrom` (rowGap := pct 10)
+      "justify-content:space-around"
+        `isRenderedFrom`
+        (justifyContent := spaceAround)
 
-    describe "column-gap property" do
+      "justify-content:space-evenly"
+        `isRenderedFrom`
+        (justifyContent := spaceEvenly)
 
-      "column-gap:inherit" `isRenderedFrom` (columnGap := inherit)
+      "justify-content:stretch" `isRenderedFrom` (justifyContent := stretch)
+ 
+      "justify-content:center" `isRenderedFrom` (justifyContent := center)
 
-      "column-gap:initial" `isRenderedFrom` (columnGap := initial)
+      "justify-content:start" `isRenderedFrom` (justifyContent := start)
 
-      "column-gap:unset" `isRenderedFrom` (columnGap := unset)
+      "justify-content:end" `isRenderedFrom` (justifyContent := end)
 
-      "column-gap:normal" `isRenderedFrom` (columnGap := normal)
+      "justify-content:flex-start"
+        `isRenderedFrom`
+        (justifyContent := flexStart)
 
-      "column-gap:4px" `isRenderedFrom` (columnGap := px 4)
+      "justify-content:flex-end" `isRenderedFrom` (justifyContent := flexEnd)
 
-      "column-gap:10%" `isRenderedFrom` (columnGap := pct 10)
+      "justify-content:left" `isRenderedFrom` (justifyContent := left)
 
-    describe "gap property" do
+      "justify-content:right" `isRenderedFrom` (justifyContent := right)
+ 
+      "justify-content:safe center"
+        `isRenderedFrom`
+        (justifyContent := safe ~ center)
 
-      "gap:inherit" `isRenderedFrom` (gap := inherit)
+      "justify-content:safe start"
+        `isRenderedFrom`
+        (justifyContent := safe ~ start)
 
-      "gap:initial" `isRenderedFrom` (gap := initial)
+      "justify-content:safe end" `isRenderedFrom` (justifyContent := safe ~ end)
 
-      "gap:unset" `isRenderedFrom` (gap := unset)
+      "justify-content:safe flex-start"
+        `isRenderedFrom`
+        (justifyContent := safe ~ flexStart)
 
-      "gap:normal" `isRenderedFrom` (gap := normal)
+      "justify-content:safe flex-end"
+        `isRenderedFrom`
+        (justifyContent := safe ~ flexEnd)
 
-      "gap:10px" `isRenderedFrom` (gap := px 10)
+      "justify-content:safe left"
+        `isRenderedFrom`
+        (justifyContent := safe ~ left)
 
-      "gap:1%" `isRenderedFrom` (gap := pct 1)
+      "justify-content:safe right"
+        `isRenderedFrom`
+        (justifyContent := safe ~ right)
+ 
+      "justify-content:unsafe center"
+        `isRenderedFrom`
+        (justifyContent := unsafe ~ center)
 
-      "gap:normal normal" `isRenderedFrom` (gap := normal ~ normal)
+      "justify-content:unsafe start"
+        `isRenderedFrom`
+        (justifyContent := unsafe ~ start)
 
-      "gap:normal 1px" `isRenderedFrom` (gap := normal ~ px 1)
+      "justify-content:unsafe end" `isRenderedFrom` (justifyContent := unsafe ~ end)
 
-      "gap:normal 10%" `isRenderedFrom` (gap := normal ~ pct 10)
+      "justify-content:unsafe flex-start"
+        `isRenderedFrom`
+        (justifyContent := unsafe ~ flexStart)
 
-      "gap:1px normal" `isRenderedFrom` (gap := px 1 ~ normal)
+      "justify-content:unsafe flex-end"
+        `isRenderedFrom`
+        (justifyContent := unsafe ~ flexEnd)
 
-      "gap:10% normal" `isRenderedFrom` (gap := pct 10 ~ normal)
+      "justify-content:unsafe left"
+        `isRenderedFrom`
+        (justifyContent := unsafe ~ left)
+
+      "justify-content:unsafe right"
+        `isRenderedFrom`
+        (justifyContent := unsafe ~ right)
 
     describe "justify-self property" do
 
@@ -434,3 +474,55 @@ spec = do
       "align-items:unsafe flex-end"
         `isRenderedFrom`
         (alignItems := unsafe ~ flexEnd)
+
+    describe "row-gap property" do
+
+      "row-gap:inherit" `isRenderedFrom` (rowGap := inherit)
+
+      "row-gap:initial" `isRenderedFrom` (rowGap := initial)
+
+      "row-gap:unset" `isRenderedFrom` (rowGap := unset)
+
+      "row-gap:normal" `isRenderedFrom` (rowGap := normal)
+
+      "row-gap:4px" `isRenderedFrom` (rowGap := px 4)
+
+      "row-gap:10%" `isRenderedFrom` (rowGap := pct 10)
+
+    describe "column-gap property" do
+
+      "column-gap:inherit" `isRenderedFrom` (columnGap := inherit)
+
+      "column-gap:initial" `isRenderedFrom` (columnGap := initial)
+
+      "column-gap:unset" `isRenderedFrom` (columnGap := unset)
+
+      "column-gap:normal" `isRenderedFrom` (columnGap := normal)
+
+      "column-gap:4px" `isRenderedFrom` (columnGap := px 4)
+
+      "column-gap:10%" `isRenderedFrom` (columnGap := pct 10)
+
+    describe "gap property" do
+
+      "gap:inherit" `isRenderedFrom` (gap := inherit)
+
+      "gap:initial" `isRenderedFrom` (gap := initial)
+
+      "gap:unset" `isRenderedFrom` (gap := unset)
+
+      "gap:normal" `isRenderedFrom` (gap := normal)
+
+      "gap:10px" `isRenderedFrom` (gap := px 10)
+
+      "gap:1%" `isRenderedFrom` (gap := pct 1)
+
+      "gap:normal normal" `isRenderedFrom` (gap := normal ~ normal)
+
+      "gap:normal 1px" `isRenderedFrom` (gap := normal ~ px 1)
+
+      "gap:normal 10%" `isRenderedFrom` (gap := normal ~ pct 10)
+
+      "gap:1px normal" `isRenderedFrom` (gap := px 1 ~ normal)
+
+      "gap:10% normal" `isRenderedFrom` (gap := pct 10 ~ normal)

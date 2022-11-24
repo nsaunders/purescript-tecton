@@ -21,6 +21,7 @@ module Tecton.Internal
   , class CollectMediaFeatures
   , class Combine
   , class ContentKeyword
+  , class ContentPositionKeyword
   , class CounterStyleKeyword
   , class Declaration
   , class DirectionKeyword
@@ -109,7 +110,6 @@ module Tecton.Internal
   , class IsVerticalAlign
   , class IsWidth
   , class IsWordSpacing
-  , class JustifyContentKeyword
   , class LengthPercentageTag
   , class LengthTag
   , class LineStyleKeyword
@@ -813,6 +813,7 @@ module Tecton.Internal
   , space
   , spaceAround
   , spaceBetween
+  , spaceEvenly
   , span
   , spellcheck
   , square
@@ -1318,18 +1319,98 @@ renderSheet config =
 -- Box Alignment
 -- https://www.w3.org/TR/css-align-3/
 
+-- https://www.w3.org/TR/css-align-3/#propdef-justify-content
+
+justifyContent = Proxy :: Proxy "justify-content"
+
+instance Property "justify-content"
+
+normal = Proxy :: Proxy "normal"
+
+spaceAround = Proxy :: Proxy "space-around"
+spaceBetween = Proxy :: Proxy "space-between"
+spaceEvenly = Proxy :: Proxy "space-evenly"
+stretch = Proxy :: Proxy "stretch"
+
+class ContentPositionKeyword (s :: Symbol)
+
+instance ContentPositionKeyword "center"
+instance ContentPositionKeyword "start"
+instance ContentPositionKeyword "end"
+instance ContentPositionKeyword "flex-start"
+instance ContentPositionKeyword "flex-end"
+
+instance declarationJustifyContentOverflowPositionKeywordLeft ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-content" (Proxy s ~ Proxy "left") where
+  pval = const val
+
+else instance declarationJustifyContentOverflowPositionKeywordRight ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-content" (Proxy s ~ Proxy "right") where
+  pval = const val
+
+else instance declarationJustifyContentOverflowPositionKeywordContentPositionKeyword ::
+  ( OverflowPositionKeyword sa
+  , IsSymbol sa
+  , ContentPositionKeyword sb
+  , IsSymbol sb
+  ) =>
+  Declaration "justify-content" (Proxy sa ~ Proxy sb) where
+  pval = const val
+
+instance declarationJustifyContentNormal ::
+  Declaration "justify-content" (Proxy "normal") where
+  pval = const val
+
+else instance declarationJustifyContentSpaceBetween ::
+  Declaration "justify-content" (Proxy "space-between") where
+  pval = const val
+
+else instance declarationJustifyContentSpaceAround ::
+  Declaration "justify-content" (Proxy "space-around") where
+  pval = const val
+
+else instance declarationJustifyContentSpaceEvenly ::
+  Declaration "justify-content" (Proxy "space-evenly") where
+  pval = const val
+
+else instance declarationJustifyContentStretch ::
+  Declaration "justify-content" (Proxy "stretch") where
+  pval = const val
+
+else instance declarationJustifyContentLeft ::
+  Declaration "justify-content" (Proxy "left") where
+  pval = const val
+
+else instance declarationJustifyContentRight ::
+  Declaration "justify-content" (Proxy "right") where
+  pval = const val
+
+else instance declarationJustifyContentContentPositionKeyword ::
+  ( ContentPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-content" (Proxy s) where
+  pval = const val
+
 -- https://www.w3.org/TR/css-align-3/#propdef-justify-self
 
 justifySelf = Proxy :: Proxy "justify-self"
 
 instance Property "justify-self"
 
-stretch = Proxy :: Proxy "stretch"
-
 baseline = Proxy :: Proxy "baseline"
 
+center = Proxy :: Proxy "center"
 selfStart = Proxy :: Proxy "self-start"
 selfEnd = Proxy :: Proxy "self-end"
+flexStart = Proxy :: Proxy "flex-start"
+flexEnd = Proxy :: Proxy "flex-end"
 
 class SelfPositionKeyword (s :: Symbol)
 
@@ -1613,8 +1694,6 @@ rowGap = Proxy :: Proxy "row-gap"
 
 instance Property "row-gap"
 instance Animatable "row-gap"
-
-normal = Proxy :: Proxy "normal"
 
 instance declarationRowGapNormal :: Declaration "row-gap" (Proxy "normal") where
   pval = const val
@@ -3352,33 +3431,6 @@ else instance declarationFlexBasisWidth ::
   Declaration "width" a =>
   Declaration "flex-basis" a where
   pval = const $ pval width
-
--- https://www.w3.org/TR/css-flexbox-1/#propdef-justify-content
-
-justifyContent = Proxy :: Proxy "justify-content"
-
-instance Property "justify-content"
-
-flexStart = Proxy :: Proxy "flex-start"
-flexEnd = Proxy :: Proxy "flex-end"
-center = Proxy :: Proxy "center"
-spaceBetween = Proxy :: Proxy "space-between"
-spaceAround = Proxy :: Proxy "space-around"
-
-class JustifyContentKeyword (s :: Symbol)
-
-instance JustifyContentKeyword "flex-start"
-instance JustifyContentKeyword "flex-end"
-instance JustifyContentKeyword "center"
-instance JustifyContentKeyword "space-between"
-instance JustifyContentKeyword "space-around"
-
-instance declarationJustifyContent ::
-  ( JustifyContentKeyword s
-  , ToVal (Proxy s)
-  ) =>
-  Declaration "justify-content" (Proxy s) where
-  pval = const val
 
 -- https://www.w3.org/TR/css-flexbox-1/#propdef-align-content
 
