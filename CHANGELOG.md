@@ -7,6 +7,24 @@ Notable changes are documented in this file. The format is based on [Keep a Chan
 Breaking changes:
 
 New features:
+- Grid support / new CSS properties
+  - `grid-auto-columns`
+  - `grid-auto-flow`
+  - `grid-auto-rows`
+  - `grid-column-end`
+  - `grid-column-start`
+  - `grid-row-end`
+  - `grid-row-start`
+  - `grid-template-columns`
+  - `grid-template-rows`
+- Flexbox properties extended to support additional values defined in
+  [Box Alignment Module Level 3](https://www.w3.org/TR/css-align-3)
+  - `justify-content`
+  - `align-content`
+  - `justify-self`
+  - `align-self`
+  - `justify-items`
+  - `align-items`
 
 Bugfixes:
 

@@ -16,6 +16,7 @@ import Test.ContentSpec as Content
 import Test.DisplaySpec as Display
 import Test.FlexboxSpec as Flexbox
 import Test.FontsSpec as Fonts
+import Test.GridSpec as Grid
 import Test.ImagesSpec as Images
 import Test.InlineSpec as Inline
 import Test.ListsSpec as Lists
@@ -48,6 +49,7 @@ main =
       Display.spec
       Flexbox.spec
       Fonts.spec
+      Grid.spec
       Images.spec
       Inline.spec
       Lists.spec

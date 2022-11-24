@@ -40,6 +40,8 @@ import Tecton.Internal
   , att
   , audio
   , auto
+  , autoFill
+  , autoFit
   , autocomplete
   , autofocus
   , autoplay
@@ -143,6 +145,7 @@ import Tecton.Internal
   , default
   , defer
   , deg
+  , dense
   , details
   , devanagari
   , dir
@@ -218,11 +221,21 @@ import Tecton.Internal
   , formaction
   , format
   , forwards
+  , fr
   , fullSizeKana
   , fullWidth
   , gap
   , georgian
   , grid
+  , gridAutoColumns
+  , gridAutoFlow
+  , gridAutoRows
+  , gridColumnEnd
+  , gridColumnStart
+  , gridRowEnd
+  , gridRowStart
+  , gridTemplateColumns
+  , gridTemplateRows
   , groove
   , gujarati
   , gurmukhi
@@ -280,6 +293,8 @@ import Tecton.Internal
   , justify
   , justifyAll
   , justifyContent
+  , justifyItems
+  , justifySelf
   , kannada
   , katakana
   , katakanaIroha
@@ -298,12 +313,14 @@ import Tecton.Internal
   , lastChild
   , lastOfType
   , left
+  , legacy
   , legend
   , letterSpacing
   , li
   , lighter
   , line
   , lineHeight
+  , lineName
   , lineThrough
   , linear
   , linearGradient
@@ -354,6 +371,7 @@ import Tecton.Internal
   , minContent
   , minHeight
   , minWidth
+  , minmax
   , mm
   , mongolian
   , monospace
@@ -506,6 +524,7 @@ import Tecton.Internal
   , rem
   , renderInline
   , renderSheet
+  , repeat
   , repeat'
   , repeatX
   , repeatY
@@ -530,6 +549,7 @@ import Tecton.Internal
   , rowspan
   , rtl
   , running
+  , safe
   , sandbox
   , sansSerif
   , scale
@@ -545,6 +565,8 @@ import Tecton.Internal
   , select
   , selected
   , selection
+  , selfEnd
+  , selfStart
   , semiCondensed
   , semiExpanded
   , serif
@@ -559,6 +581,7 @@ import Tecton.Internal
   , space
   , spaceAround
   , spaceBetween
+  , spaceEvenly
   , span
   , spellcheck
   , square
@@ -644,6 +667,7 @@ import Tecton.Internal
   , ultraExpanded
   , underline
   , universal
+  , unsafe
   , unset
   , upperAlpha
   , upperArmenian

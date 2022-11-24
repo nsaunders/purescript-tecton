@@ -1,8 +1,5 @@
 module Tecton.Internal
-  ( class AlignContentKeyword
-  , class AlignItemsKeyword
-  , class AlignSelfKeyword
-  , class AlignmentBaselineKeyword
+  ( class AlignmentBaselineKeyword
   , class AlignmentBaselineOrBaselineShiftKeyword
   , class AllPropertiesAnimatable
   , class AngleTag
@@ -13,6 +10,7 @@ module Tecton.Internal
   , class Assoc
   , class AttachmentKeyword
   , class Attribute
+  , class AutoRepeatKeyword
   , class BaselineShiftKeyword
   , class BaselineSourceKeyword
   , class BoxKeyword
@@ -22,6 +20,7 @@ module Tecton.Internal
   , class CollectMediaFeatures
   , class Combine
   , class ContentKeyword
+  , class ContentPositionKeyword
   , class CounterStyleKeyword
   , class Declaration
   , class DirectionKeyword
@@ -32,6 +31,7 @@ module Tecton.Internal
   , class FlexDirectionKeyword
   , class FlexWrapKeyword
   , class FloatKeyword
+  , class FoldLineNames
   , class FontFaceDeclaration
   , class FontFaceFontStyleKeyword
   , class FontFaceFontWeightKeyword
@@ -109,7 +109,6 @@ module Tecton.Internal
   , class IsVerticalAlign
   , class IsWidth
   , class IsWordSpacing
-  , class JustifyContentKeyword
   , class LengthPercentageTag
   , class LengthTag
   , class LineStyleKeyword
@@ -119,19 +118,24 @@ module Tecton.Internal
   , class MediaFeature
   , class MediaTypeKeyword
   , class MinWidthKeyword
+  , class Minmax
   , class MkStatement
   , class MultiVal
   , class OutlineLineStyleKeyword
   , class OverflowKeyword
+  , class OverflowPositionKeyword
   , class PercentageTag
   , class PositionKeyword
   , class Property
   , class Pseudo
   , class Pseudo'
   , class PseudoPrefix
+  , class Repeat
   , class RepeatStyle1dKeyword
   , class RepeatStyle2dKeyword
+  , class RepeatTrackList
   , class SelectorStatus
+  , class SelfPositionKeyword
   , class ShapeKeyword
   , class StepPosition
   , class TextAlignKeyword
@@ -140,6 +144,9 @@ module Tecton.Internal
   , class TextTransformCapitalizationKeyword
   , class TimeTag
   , class ToNumber
+  , class TrackBreadthKeyword
+  , class TrackCompat
+  , class TrackList
   , class ToVal
   , class VisibilityKeyword
   , class WhiteSpaceKeyword
@@ -147,6 +154,7 @@ module Tecton.Internal
   , Add
   , Angle
   , AttributePredicate
+  , Auto
   , CSS
   , CSSColor
   , CommonKeyword
@@ -157,6 +165,8 @@ module Tecton.Internal
   , EasingFunction
   , Extensible
   , FitContent
+  , Fixed
+  , Flex
   , FontFace
   , FontFaceDeclaration'
   , FontFaceFormatFunction
@@ -167,12 +177,16 @@ module Tecton.Internal
   , KeyframesName
   , Length
   , LengthPercentage
+  , LineName
   , LocalFunction
   , Measure
   , MediaQuery
+  , Minmax'
   , Multiply
+  , Names
   , NestedRule
   , Nil
+  , NoAuto
   , Nth
   , Orientation
   , Pair(..)
@@ -180,12 +194,14 @@ module Tecton.Internal
   , PseudoClass
   , PseudoElement
   , Ratio(..)
+  , Repeat'
   , Repeating
   , Resolution
   , Selector
   , Statement
   , Subtract
   , Time
+  , Track
   , TransformFunction
   , URL
   , Val
@@ -233,6 +249,8 @@ module Tecton.Internal
   , attStartsWithHyphen
   , audio
   , auto
+  , autoFill
+  , autoFit
   , autocomplete
   , autofocus
   , autoplay
@@ -343,6 +361,7 @@ module Tecton.Internal
   , default
   , defer
   , deg
+  , dense
   , descendant
   , details
   , devanagari
@@ -409,6 +428,7 @@ module Tecton.Internal
   , flowRoot
   , focus
   , foldlMultiVal
+  , foldLineNames
   , fontFace
   , fontFamily
   , fontSize
@@ -422,12 +442,22 @@ module Tecton.Internal
   , formaction
   , format
   , forwards
+  , fr
   , fullSizeKana
   , fullWidth
   , gap
   , generalSibling
   , georgian
   , grid
+  , gridAutoColumns
+  , gridAutoFlow
+  , gridAutoRows
+  , gridColumnEnd
+  , gridColumnStart
+  , gridRowEnd
+  , gridRowStart
+  , gridTemplateColumns
+  , gridTemplateRows
   , groove
   , gujarati
   , gurmukhi
@@ -485,6 +515,8 @@ module Tecton.Internal
   , justify
   , justifyAll
   , justifyContent
+  , justifyItems
+  , justifySelf
   , kannada
   , katakana
   , katakanaIroha
@@ -503,12 +535,14 @@ module Tecton.Internal
   , lastChild
   , lastOfType
   , left
+  , legacy
   , legend
   , letterSpacing
   , li
   , lighter
   , line
   , lineHeight
+  , lineName
   , lineThrough
   , linear
   , linearGradient
@@ -560,6 +594,7 @@ module Tecton.Internal
   , minContent
   , minHeight
   , minWidth
+  , minmax
   , mkStatement
   , mm
   , mongolian
@@ -719,6 +754,7 @@ module Tecton.Internal
   , renderInline
   , renderInline'
   , renderSheet
+  , repeat
   , repeat'
   , repeatX
   , repeatY
@@ -744,6 +780,7 @@ module Tecton.Internal
   , rtl
   , runVal
   , running
+  , safe
   , sandbox
   , sansSerif
   , scale
@@ -759,6 +796,8 @@ module Tecton.Internal
   , select
   , selected
   , selection
+  , selfEnd
+  , selfStart
   , semiCondensed
   , semiExpanded
   , serif
@@ -773,6 +812,7 @@ module Tecton.Internal
   , space
   , spaceAround
   , spaceBetween
+  , spaceEvenly
   , span
   , spellcheck
   , square
@@ -859,6 +899,7 @@ module Tecton.Internal
   , ultraExpanded
   , underline
   , universal
+  , unsafe
   , unset
   , upperAlpha
   , upperArmenian
@@ -921,6 +962,7 @@ import Prelude hiding (add, bottom, sub, top)
 import Color (Color, cssStringHSLA, toHexString)
 import Control.Monad.Writer (Writer, execWriter, tell)
 import Data.Either as Either
+import Data.Either.Nested (type (\/))
 import Data.Foldable (foldl, intercalate)
 import Data.Int as Int
 import Data.List (List(..), (:))
@@ -1276,14 +1318,435 @@ renderSheet config =
 -- Box Alignment
 -- https://www.w3.org/TR/css-align-3/
 
+-- https://www.w3.org/TR/css-align-3/#propdef-justify-content
+
+justifyContent = Proxy :: Proxy "justify-content"
+
+instance Property "justify-content"
+
+normal = Proxy :: Proxy "normal"
+
+spaceAround = Proxy :: Proxy "space-around"
+spaceBetween = Proxy :: Proxy "space-between"
+spaceEvenly = Proxy :: Proxy "space-evenly"
+stretch = Proxy :: Proxy "stretch"
+
+safe = Proxy :: Proxy "safe"
+unsafe = Proxy :: Proxy "unsafe"
+
+class OverflowPositionKeyword (s :: Symbol)
+
+instance OverflowPositionKeyword "safe"
+instance OverflowPositionKeyword "unsafe"
+
+class ContentPositionKeyword (s :: Symbol)
+
+instance ContentPositionKeyword "center"
+instance ContentPositionKeyword "start"
+instance ContentPositionKeyword "end"
+instance ContentPositionKeyword "flex-start"
+instance ContentPositionKeyword "flex-end"
+
+instance declarationJustifyContentOverflowPositionKeywordLeft ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-content" (Proxy s ~ Proxy "left") where
+  pval = const val
+
+else instance declarationJustifyContentOverflowPositionKeywordRight ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-content" (Proxy s ~ Proxy "right") where
+  pval = const val
+
+else instance declarationJustifyContentOverflowPositionKeywordContentPositionKeyword ::
+  ( OverflowPositionKeyword sa
+  , IsSymbol sa
+  , ContentPositionKeyword sb
+  , IsSymbol sb
+  ) =>
+  Declaration "justify-content" (Proxy sa ~ Proxy sb) where
+  pval = const val
+
+instance declarationJustifyContentNormal ::
+  Declaration "justify-content" (Proxy "normal") where
+  pval = const val
+
+else instance declarationJustifyContentSpaceBetween ::
+  Declaration "justify-content" (Proxy "space-between") where
+  pval = const val
+
+else instance declarationJustifyContentSpaceAround ::
+  Declaration "justify-content" (Proxy "space-around") where
+  pval = const val
+
+else instance declarationJustifyContentSpaceEvenly ::
+  Declaration "justify-content" (Proxy "space-evenly") where
+  pval = const val
+
+else instance declarationJustifyContentStretch ::
+  Declaration "justify-content" (Proxy "stretch") where
+  pval = const val
+
+else instance declarationJustifyContentLeft ::
+  Declaration "justify-content" (Proxy "left") where
+  pval = const val
+
+else instance declarationJustifyContentRight ::
+  Declaration "justify-content" (Proxy "right") where
+  pval = const val
+
+else instance declarationJustifyContentContentPositionKeyword ::
+  ( ContentPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-content" (Proxy s) where
+  pval = const val
+
+-- https://www.w3.org/TR/css-align-3/#propdef-align-content
+
+alignContent = Proxy :: Proxy "align-content"
+
+instance Property "align-content"
+
+instance declarationAlignContentFirstBaseline ::
+  Declaration "align-content" (Proxy "first" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationAlignContentLastBaseline ::
+  Declaration "align-content" (Proxy "last" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationAlignContentOverflowPositionKeywordContentPositionKeyword ::
+  ( OverflowPositionKeyword sa
+  , IsSymbol sa
+  , ContentPositionKeyword sb
+  , IsSymbol sb
+  ) =>
+  Declaration "align-content" (Proxy sa ~ Proxy sb) where
+  pval = const val
+
+instance declarationAlignContentNormal ::
+  Declaration "align-content" (Proxy "normal") where
+  pval = const val
+
+else instance declarationAlignContentBaseline ::
+  Declaration "align-content" (Proxy "baseline") where
+  pval = const val
+
+else instance declarationAlignContentSpaceBetween ::
+  Declaration "align-content" (Proxy "space-between") where
+  pval = const val
+
+else instance declarationAlignContentSpaceAround ::
+  Declaration "align-content" (Proxy "space-around") where
+  pval = const val
+
+else instance declarationAlignContentSpaceEvenly ::
+  Declaration "align-content" (Proxy "space-evenly") where
+  pval = const val
+
+else instance declarationAlignContentStretch ::
+  Declaration "align-content" (Proxy "stretch") where
+  pval = const val
+
+else instance declarationAlignContentContentPositionKeyword ::
+  ( ContentPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "align-content" (Proxy s) where
+  pval = const val
+
+-- https://www.w3.org/TR/css-align-3/#propdef-justify-self
+
+justifySelf = Proxy :: Proxy "justify-self"
+
+instance Property "justify-self"
+
+baseline = Proxy :: Proxy "baseline"
+
+center = Proxy :: Proxy "center"
+selfStart = Proxy :: Proxy "self-start"
+selfEnd = Proxy :: Proxy "self-end"
+flexStart = Proxy :: Proxy "flex-start"
+flexEnd = Proxy :: Proxy "flex-end"
+
+class SelfPositionKeyword (s :: Symbol)
+
+instance SelfPositionKeyword "center"
+instance SelfPositionKeyword "start"
+instance SelfPositionKeyword "end"
+instance SelfPositionKeyword "self-start"
+instance SelfPositionKeyword "self-end"
+instance SelfPositionKeyword "flex-start"
+instance SelfPositionKeyword "flex-end"
+
+instance declarationJustifySelfFirstBaseline ::
+  Declaration "justify-self" (Proxy "first" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationJustifySelfLastBaseline ::
+  Declaration "justify-self" (Proxy "last" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationJustifySelfOverflowPositionKeywordLeft ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-self" (Proxy s ~ Proxy "left") where
+  pval = const val
+
+else instance declarationJustifySelfOverflowPositionKeywordRight ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-self" (Proxy s ~ Proxy "right") where
+  pval = const val
+
+else instance declarationJustifySelfOverflowPositionKeywordSelfPositionKeyword ::
+  ( OverflowPositionKeyword sa
+  , IsSymbol sa
+  , SelfPositionKeyword sb
+  , IsSymbol sb
+  ) =>
+  Declaration "justify-self" (Proxy sa ~ Proxy sb) where
+  pval = const val
+
+instance declarationJustifySelfAuto :: Declaration "justify-self" (Proxy "auto") where
+  pval = const val
+
+else instance declarationJustifySelfNormal ::
+  Declaration "justify-self" (Proxy "normal") where
+  pval = const val
+
+else instance declarationJustifySelfStretch ::
+  Declaration "justify-self" (Proxy "stretch") where
+  pval = const val
+
+else instance declarationJustifySelfBaseline ::
+  Declaration "justify-self" (Proxy "baseline") where
+  pval = const val
+
+else instance declarationJustifySelfLeft ::
+  Declaration "justify-self" (Proxy "left") where
+  pval = const val
+
+else instance declarationJustifySelfRight ::
+  Declaration "justify-self" (Proxy "right") where
+  pval = const val
+
+else instance declarationJustifySelfSelfPositionKeyword ::
+  ( SelfPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-self" (Proxy s) where
+  pval = const val
+
+-- https://www.w3.org/TR/css-align-3/#propdef-align-self
+
+alignSelf = Proxy :: Proxy "align-self"
+
+instance Property "align-self"
+
+instance declarationAlignSelfFirstBaseline ::
+  Declaration "align-self" (Proxy "first" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationAlignSelfLastBaseline ::
+  Declaration "align-self" (Proxy "last" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationAlignSelfOverflowPositionKeywordLeft ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "align-self" (Proxy s ~ Proxy "left") where
+  pval = const val
+
+else instance declarationAlignSelfOverflowPositionKeywordRight ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "align-self" (Proxy s ~ Proxy "right") where
+  pval = const val
+
+else instance declarationAlignSelfOverflowPositionKeywordSelfPositionKeyword ::
+  ( OverflowPositionKeyword sa
+  , IsSymbol sa
+  , SelfPositionKeyword sb
+  , IsSymbol sb
+  ) =>
+  Declaration "align-self" (Proxy sa ~ Proxy sb) where
+  pval = const val
+
+instance declarationAlignSelfAuto :: Declaration "align-self" (Proxy "auto") where
+  pval = const val
+
+else instance declarationAlignSelfNormal ::
+  Declaration "align-self" (Proxy "normal") where
+  pval = const val
+
+else instance declarationAlignSelfStretch ::
+  Declaration "align-self" (Proxy "stretch") where
+  pval = const val
+
+else instance declarationAlignSelfBaseline ::
+  Declaration "align-self" (Proxy "baseline") where
+  pval = const val
+
+else instance declarationAlignSelfSelfPositionKeyword ::
+  ( SelfPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "align-self" (Proxy s) where
+  pval = const val
+
+-- https://www.w3.org/TR/css-align-3/#propdef-justify-items
+
+justifyItems = Proxy :: Proxy "justify-items"
+
+instance Property "justify-items"
+
+legacy = Proxy :: Proxy "legacy"
+
+instance declarationJustifyItemsFirstBaseline ::
+  Declaration "justify-items" (Proxy "first" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationJustifyItemsLastBaseline ::
+  Declaration "justify-items" (Proxy "last" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationJustifyItemsLegacyLeft ::
+  Declaration "justify-items" (Proxy "legacy" ~ Proxy "left") where
+  pval = const val
+
+else instance declarationJustifyItemsLegacyRight ::
+  Declaration "justify-items" (Proxy "legacy" ~ Proxy "right") where
+  pval = const val
+
+else instance declarationJustifyItemsLegacyCenter ::
+  Declaration "justify-items" (Proxy "legacy" ~ Proxy "center") where
+  pval = const val
+
+else instance declarationJustifyItemsOverflowPositionKeywordLeft ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-items" (Proxy s ~ Proxy "left") where
+  pval = const val
+
+else instance declarationJustifyItemsOverflowPositionKeywordRight ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-items" (Proxy s ~ Proxy "right") where
+  pval = const val
+
+else instance declarationJustifyItemsOverflowPositionKeywordSelfPositionKeyword ::
+  ( OverflowPositionKeyword sa
+  , IsSymbol sa
+  , SelfPositionKeyword sb
+  , IsSymbol sb
+  ) =>
+  Declaration "justify-items" (Proxy sa ~ Proxy sb) where
+  pval = const val
+
+else instance declarationJustifyItemsNormal ::
+  Declaration "justify-items" (Proxy "normal") where
+  pval = const val
+
+else instance declarationJustifyItemsStretch ::
+  Declaration "justify-items" (Proxy "stretch") where
+  pval = const val
+
+else instance declarationJustifyItemsBaseline ::
+  Declaration "justify-items" (Proxy "baseline") where
+  pval = const val
+
+else instance declarationJustifyItemsLeft ::
+  Declaration "justify-items" (Proxy "left") where
+  pval = const val
+
+else instance declarationJustifyItemsRight ::
+  Declaration "justify-items" (Proxy "right") where
+  pval = const val
+
+else instance declarationJustifyItemsLegacy ::
+  Declaration "justify-items" (Proxy "legacy") where
+  pval = const val
+
+else instance declarationJustifyItemsSelfPositionKeyword ::
+  ( SelfPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "justify-items" (Proxy s) where
+  pval = const val
+
+-- https://www.w3.org/TR/css-align-3/#propdef-align-items
+
+alignItems = Proxy :: Proxy "align-items"
+
+instance Property "align-items"
+
+instance declarationAlignItemsFirstBaseline ::
+  Declaration "align-items" (Proxy "first" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationAlignItemsLastBaseline ::
+  Declaration "align-items" (Proxy "last" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationAlignItemsOverflowPositionKeywordLeft ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "align-items" (Proxy s ~ Proxy "left") where
+  pval = const val
+
+else instance declarationAlignItemsOverflowPositionKeywordRight ::
+  ( OverflowPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "align-items" (Proxy s ~ Proxy "right") where
+  pval = const val
+
+else instance declarationAlignItemsOverflowPositionKeywordSelfPositionKeyword ::
+  ( OverflowPositionKeyword sa
+  , IsSymbol sa
+  , SelfPositionKeyword sb
+  , IsSymbol sb
+  ) =>
+  Declaration "align-items" (Proxy sa ~ Proxy sb) where
+  pval = const val
+
+instance declarationAlignItemsNormal ::
+  Declaration "align-items" (Proxy "normal") where
+  pval = const val
+
+else instance declarationAlignItemsStretch ::
+  Declaration "align-items" (Proxy "stretch") where
+  pval = const val
+
+else instance declarationAlignItemsBaseline ::
+  Declaration "align-items" (Proxy "baseline") where
+  pval = const val
+
+else instance declarationAlignItemsSelfPositionKeyword ::
+  ( SelfPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "align-items" (Proxy s) where
+  pval = const val
+
 -- https://www.w3.org/TR/css-align-3/#propdef-row-gap
 
 rowGap = Proxy :: Proxy "row-gap"
 
 instance Property "row-gap"
 instance Animatable "row-gap"
-
-normal = Proxy :: Proxy "normal"
 
 instance declarationRowGapNormal :: Declaration "row-gap" (Proxy "normal") where
   pval = const val
@@ -3022,101 +3485,6 @@ else instance declarationFlexBasisWidth ::
   Declaration "flex-basis" a where
   pval = const $ pval width
 
--- https://www.w3.org/TR/css-flexbox-1/#propdef-justify-content
-
-justifyContent = Proxy :: Proxy "justify-content"
-
-instance Property "justify-content"
-
-flexStart = Proxy :: Proxy "flex-start"
-flexEnd = Proxy :: Proxy "flex-end"
-center = Proxy :: Proxy "center"
-spaceBetween = Proxy :: Proxy "space-between"
-spaceAround = Proxy :: Proxy "space-around"
-
-class JustifyContentKeyword (s :: Symbol)
-
-instance JustifyContentKeyword "flex-start"
-instance JustifyContentKeyword "flex-end"
-instance JustifyContentKeyword "center"
-instance JustifyContentKeyword "space-between"
-instance JustifyContentKeyword "space-around"
-
-instance declarationJustifyContent ::
-  ( JustifyContentKeyword s
-  , ToVal (Proxy s)
-  ) =>
-  Declaration "justify-content" (Proxy s) where
-  pval = const val
-
--- https://www.w3.org/TR/css-flexbox-1/#propdef-align-items
-
-alignItems = Proxy :: Proxy "align-items"
-
-instance Property "align-items"
-
-baseline = Proxy :: Proxy "baseline"
-stretch = Proxy :: Proxy "stretch"
-
-class AlignItemsKeyword (s :: Symbol)
-
-instance AlignItemsKeyword "flex-start"
-instance AlignItemsKeyword "flex-end"
-instance AlignItemsKeyword "center"
-instance AlignItemsKeyword "baseline"
-instance AlignItemsKeyword "stretch"
-
-instance declarationAlignItems ::
-  ( AlignItemsKeyword s
-  , ToVal (Proxy s)
-  ) =>
-  Declaration "align-items" (Proxy s) where
-  pval = const val
-
--- https://www.w3.org/TR/css-flexbox-1/#propdef-align-self
-
-alignSelf = Proxy :: Proxy "align-self"
-
-instance Property "align-self"
-
-class AlignSelfKeyword (s :: Symbol)
-
-instance AlignSelfKeyword "auto"
-instance AlignSelfKeyword "flex-start"
-instance AlignSelfKeyword "flex-end"
-instance AlignSelfKeyword "center"
-instance AlignSelfKeyword "baseline"
-instance AlignSelfKeyword "stretch"
-
-instance declarationAlignSelf ::
-  ( AlignSelfKeyword s
-  , ToVal (Proxy s)
-  ) =>
-  Declaration "align-self" (Proxy s) where
-  pval = const val
-
--- https://www.w3.org/TR/css-flexbox-1/#propdef-align-content
-
-alignContent = Proxy :: Proxy "align-content"
-
-instance Property "align-content"
-
-class AlignContentKeyword (s :: Symbol)
-
-instance AlignContentKeyword "flex-start"
-instance AlignContentKeyword "flex-end"
-instance AlignContentKeyword "center"
-instance AlignContentKeyword "space-between"
-instance AlignContentKeyword "space-around"
-instance AlignContentKeyword "stretch"
-
-instance declarationAlignContent ::
-  ( AlignContentKeyword s
-  , ToVal (Proxy s)
-  ) =>
-  Declaration "align-content" (Proxy s) where
-  pval = const val
-
 --------------------------------------------------------------------------------
 
 -- Fonts
@@ -3486,6 +3854,462 @@ instance declarationFontSizeAdjust :: Declaration "font-size-adjust" Number wher
 
 --------------------------------------------------------------------------------
 
+-- Grid
+-- https://www.w3.org/TR/css-grid-1/
+
+-- Tags
+
+data Track
+data Fixed
+data Names
+data Auto
+data NoAuto
+
+-- https://www.w3.org/TR/css-grid-1/#typedef-flex
+
+newtype Flex = Flex Number
+
+instance ToVal Flex where
+  val (Flex n) = val $ Number.toString n <> "fr"
+
+fr :: forall n. ToNumber n => n -> Flex
+fr = Flex <<< number
+
+-- https://www.w3.org/TR/css-grid-1/#line-name
+
+newtype LineName = LineName String
+
+derive newtype instance ToVal LineName
+
+lineName :: String -> LineName
+lineName = LineName
+
+instance ToVal (List LineName) where
+  val = (_ <> val "]") <<< val <<< go mempty
+    where
+    go acc Nil = "[" <> acc
+    go "" (LineName x : xs) = go x xs
+    go acc (LineName x : xs) = go (x <> " " <> acc) xs
+
+-- https://www.w3.org/TR/css-grid-1/#typedef-track-breadth
+
+class TrackBreadthKeyword (s :: Symbol)
+
+instance TrackBreadthKeyword "min-content"
+instance TrackBreadthKeyword "max-content"
+instance TrackBreadthKeyword "auto"
+
+-- https://www.w3.org/TR/css-grid-1/#valdef-grid-template-columns-minmax
+
+newtype Minmax' (compat :: Type) = Minmax' Val
+
+derive newtype instance ToVal (Minmax' a)
+
+class Minmax (min :: Type) (max :: Type) (compat :: Type) | min max -> compat
+
+instance
+  ( TrackBreadthKeyword s
+  , LengthPercentageTag t
+  ) =>
+  Minmax (Proxy s) (Measure t) (Track \/ Fixed)
+
+instance
+  ( LengthPercentageTag t
+  , TrackBreadthKeyword s
+  ) =>
+  Minmax (Measure t) (Proxy s) (Track \/ Fixed)
+
+instance LengthPercentageTag t => Minmax (Measure t) Flex (Track \/ Fixed)
+instance
+  ( LengthPercentageTag tmin
+  , LengthPercentageTag tmax
+  ) =>
+  Minmax (Measure tmin) (Measure tmax) (Track \/ Fixed)
+
+instance TrackBreadthKeyword s => Minmax (Proxy s) Flex Track
+instance
+  ( TrackBreadthKeyword smin
+  , TrackBreadthKeyword smax
+  ) =>
+  Minmax (Proxy smin) (Proxy smax) Track
+
+minmax
+  :: forall min max compat
+   . Minmax min max compat
+  => MultiVal (min /\ max)
+  => min
+  -> max
+  -> Minmax' compat
+minmax m n = Minmax' $ fn "minmax" $ m /\ n
+
+-- https://www.w3.org/TR/css-grid-1/#track-list
+
+class
+  TrackCompat (this :: Type) (previous :: Type) (out :: Type)
+  | this previous -> out
+
+instance TrackCompat (Track \/ Fixed) (Track \/ Fixed) (Track \/ Fixed)
+instance TrackCompat (Track \/ Fixed) Track Track
+instance TrackCompat (Track \/ Fixed) Fixed Fixed
+instance TrackCompat Track (Track \/ Fixed) Track
+instance TrackCompat Fixed (Track \/ Fixed) Fixed
+instance TrackCompat Track Track Track
+instance TrackCompat Names Names Names
+else instance TrackCompat Names a a
+else instance TrackCompat a Names a
+
+-- https://www.w3.org/TR/css-grid-1/#repeat-notation
+
+autoFill = Proxy :: Proxy "auto-fill"
+autoFit = Proxy :: Proxy "auto-fit"
+
+class AutoRepeatKeyword (s :: Symbol)
+
+instance AutoRepeatKeyword "auto-fill"
+instance AutoRepeatKeyword "auto-fit"
+
+class FoldLineNames (i :: Type) (o :: Type) | i -> o where
+  foldLineNames :: i -> o
+
+instance
+  FoldLineNames (List LineName /\ xsin) xsout =>
+  FoldLineNames (LineName /\ LineName /\ xsin) xsout where
+  foldLineNames (a' /\ b' /\ xs) = foldLineNames $ (b' : a' : Nil) /\ xs
+
+else instance
+  FoldLineNames (List LineName /\ xsin) xsout =>
+  FoldLineNames (List LineName /\ LineName /\ xsin) xsout where
+  foldLineNames (a' /\ b' /\ xs) = foldLineNames $ (b' : a') /\ xs
+
+else instance FoldLineNames (List LineName /\ LineName) (List LineName) where
+  foldLineNames (a' /\ b') = foldLineNames $ b' : a'
+
+else instance
+  FoldLineNames (List LineName /\ xsin) xsout =>
+  FoldLineNames (LineName /\ xsin) xsout where
+  foldLineNames (x /\ xs) = foldLineNames $ (x : Nil) /\ xs
+
+else instance FoldLineNames LineName (List LineName) where
+  foldLineNames = pure
+
+else instance FoldLineNames xsin xsout => FoldLineNames (x /\ xsin) (x /\ xsout) where
+  foldLineNames (x /\ xs) = x /\ foldLineNames xs
+
+else instance FoldLineNames x x where
+  foldLineNames = identity
+
+class RepeatTrackList (xs :: Type) (compat :: Type) | xs -> compat
+
+instance LengthPercentageTag t => RepeatTrackList (Measure t) (Track \/ Fixed)
+instance RepeatTrackList Flex Track
+instance TrackBreadthKeyword s => RepeatTrackList (Proxy s) Track
+instance RepeatTrackList (Minmax' compat) compat
+instance RepeatTrackList FitContent Track
+instance RepeatTrackList LineName Names
+
+instance
+  ( RepeatTrackList xs previouscompat
+  , TrackCompat (Track \/ Fixed) previouscompat compat
+  , LengthPercentageTag t
+  ) =>
+  RepeatTrackList (Measure t /\ xs) compat
+
+instance
+  ( RepeatTrackList xs previouscompat
+  , TrackCompat Track previouscompat compat
+  ) =>
+  RepeatTrackList (Flex /\ xs) compat
+
+instance
+  ( RepeatTrackList xs previouscompat
+  , TrackCompat Track previouscompat compat
+  , TrackBreadthKeyword s
+  ) =>
+  RepeatTrackList (Proxy s /\ xs) compat
+
+instance
+  ( RepeatTrackList xs previouscompat
+  , TrackCompat thiscompat previouscompat compat
+  ) =>
+  RepeatTrackList (Minmax' thiscompat /\ xs) compat
+
+instance
+  ( RepeatTrackList xs previouscompat
+  , TrackCompat Track previouscompat compat
+  ) =>
+  RepeatTrackList (FitContent /\ xs) compat
+
+instance RepeatTrackList xs compat => RepeatTrackList (LineName /\ xs) compat
+
+newtype Repeat' (compat :: Type) = Repeat' Val
+
+derive newtype instance ToVal (Repeat' a)
+
+class Repeat (n :: Type) (tracks :: Type) (compat :: Type) | n tracks -> compat
+
+instance
+  ( RepeatTrackList xs compat
+  , TrackCompat Fixed compat Fixed
+  , AutoRepeatKeyword s
+  ) =>
+  Repeat (Proxy s) xs Auto
+
+instance RepeatTrackList xs compat => Repeat Int xs compat
+
+repeat
+  :: forall n tracks tracks' compat
+   . Repeat n tracks compat
+  => MultiVal (n /\ Val)
+  => FoldLineNames tracks tracks'
+  => MultiVal tracks'
+  => n
+  -> tracks
+  -> Repeat' compat
+repeat n = Repeat' <<< fn "repeat" <<< (n /\ _) <<< intercalateMultiVal " " <<<
+  foldLineNames
+
+-- https://www.w3.org/TR/css-grid-1/#typedef-track-list
+
+class TrackList (xs :: Type) (auto :: Type) (compat :: Type) | xs -> auto compat
+
+instance LengthPercentageTag t => TrackList (Measure t) NoAuto (Track \/ Fixed)
+instance TrackList Flex NoAuto Track
+instance TrackBreadthKeyword s => TrackList (Proxy s) NoAuto Track
+instance TrackList (Minmax' compat) NoAuto compat
+instance TrackList FitContent NoAuto compat
+instance TrackList (Repeat' Auto) Auto Fixed
+else instance TrackList (Repeat' compat) NoAuto compat
+
+instance TrackList LineName NoAuto (Track \/ Fixed)
+
+instance
+  ( TrackList xs auto tailcompat
+  , TrackCompat (Track \/ Fixed) tailcompat compat
+  , LengthPercentageTag t
+  ) =>
+  TrackList (Measure t /\ xs) auto compat
+
+instance
+  ( TrackList xs auto tailcompat
+  , TrackCompat Track tailcompat compat
+  ) =>
+  TrackList (Flex /\ xs) auto compat
+
+instance
+  ( TrackList xs auto tailcompat
+  , TrackCompat Track tailcompat compat
+  , TrackBreadthKeyword s
+  ) =>
+  TrackList (Proxy s /\ xs) auto compat
+
+instance
+  ( TrackList xs auto tailcompat
+  , TrackCompat minmaxcompat tailcompat compat
+  ) =>
+  TrackList (Minmax' minmaxcompat /\ xs) auto compat
+
+instance
+  ( TrackList xs auto tailcompat
+  , TrackCompat Track tailcompat compat
+  ) =>
+  TrackList (FitContent /\ xs) auto compat
+
+instance
+  ( TrackList xs NoAuto tailcompat
+  , TrackCompat Fixed tailcompat compat
+  ) =>
+  TrackList (Repeat' Auto /\ xs) Auto compat
+else instance
+  ( TrackList xs auto tailcompat
+  , TrackCompat repeatcompat tailcompat compat
+  ) =>
+  TrackList (Repeat' repeatcompat /\ xs) auto compat
+
+instance TrackList xs auto compat => TrackList (LineName /\ xs) auto compat
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-template-columns
+
+gridTemplateColumns = Proxy :: Proxy "grid-template-columns"
+
+instance Property "grid-template-columns"
+instance Animatable "grid-template-columns"
+
+instance declarationGridTemplateColumnsNone ::
+  Declaration "grid-template-columns" (Proxy "none") where
+  pval = const val
+
+else instance declarationGridTemplateColumnsTrackList ::
+  ( TrackList tracks auto compat
+  , FoldLineNames tracks tracks'
+  , MultiVal tracks'
+  ) =>
+  Declaration "grid-template-columns" tracks where
+  pval = const $ intercalateMultiVal " " <<< foldLineNames
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-template-rows
+
+gridTemplateRows = Proxy :: Proxy "grid-template-rows"
+
+instance Property "grid-template-rows"
+instance Animatable "grid-template-rows"
+
+instance declarationGridTemplateRowsNone ::
+  Declaration "grid-template-rows" (Proxy "none") where
+  pval = const val
+
+else instance declarationGridTemplateRowsTrackList ::
+  ( TrackList tracks auto compat
+  , FoldLineNames tracks tracks'
+  , MultiVal tracks'
+  ) =>
+  Declaration "grid-template-rows" tracks where
+  pval = const $ intercalateMultiVal " " <<< foldLineNames
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-auto-columns
+
+gridAutoColumns = Proxy :: Proxy "grid-auto-columns"
+
+instance Property "grid-auto-columns"
+
+instance declarationGridAutoColumnsLengthPercentage ::
+  LengthPercentageTag t =>
+  Declaration "grid-auto-columns" (Measure t) where
+  pval = const val
+
+instance declarationGridAutoColumnsFlex :: Declaration "grid-auto-columns" Flex where
+  pval = const val
+
+instance declarationGridAutoColumnsTrackBreadthKeyword ::
+  ( IsSymbol s
+  , TrackBreadthKeyword s
+  ) =>
+  Declaration "grid-auto-columns" (Proxy s) where
+  pval = const val
+
+instance declarationGridAutoColumnsMinmax ::
+  TrackCompat Track compat' compat =>
+  Declaration "grid-auto-columns" (Minmax' compat') where
+  pval = const val
+
+instance declarationGridAutioColumnsFitContent ::
+  Declaration "grid-auto-columns" FitContent where
+  pval = const val
+
+instance declarationGridAutoColumnsList ::
+  ( Declaration "grid-auto-columns" x
+  , Declaration "grid-auto-columns" xs
+  ) =>
+  Declaration "grid-auto-columns" (x /\ xs) where
+  pval p' (x /\ xs) = pval p' x <> val " " <> pval p' xs
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-auto-rows
+
+gridAutoRows = Proxy :: Proxy "grid-auto-rows"
+
+instance Property "grid-auto-rows"
+
+instance declarationGridAutoRowsGridAutoColumns ::
+  Declaration "grid-auto-columns" v =>
+  Declaration "grid-auto-rows" v where
+  pval = const $ pval (Proxy :: Proxy "grid-auto-columns")
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-auto-flow
+
+gridAutoFlow = Proxy :: Proxy "grid-auto-flow"
+
+instance Property "grid-auto-flow"
+
+dense = Proxy :: Proxy "dense"
+
+instance declarationGridAutoFlowRow ::
+  Declaration "grid-auto-flow" (Proxy "row") where
+  pval = const val
+
+instance declarationGridAutoFlowColumn ::
+  Declaration "grid-auto-flow" (Proxy "column") where
+  pval = const val
+
+instance declarationGridAutoFlowDense ::
+  Declaration "grid-auto-flow" (Proxy "dense") where
+  pval = const val
+
+instance declarationGridAutoFlowRowDense ::
+  Declaration "grid-auto-flow" (Proxy "row" ~ Proxy "dense") where
+  pval = const val
+
+instance declarationGridAutoFlowColumnDense ::
+  Declaration "grid-auto-flow" (Proxy "column" ~ Proxy "dense") where
+  pval = const val
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-row-start
+
+gridRowStart = Proxy :: Proxy "grid-row-start"
+
+instance Property "grid-row-start"
+
+instance declarationGridRowStartAuto ::
+  Declaration "grid-row-start" (Proxy "auto") where
+  pval = const val
+
+instance declarationGridRowStartLineName ::
+  Declaration "grid-row-start" LineName where
+  pval = const val
+
+instance declarationGridRowStartInt :: Declaration "grid-row-start" Int where
+  pval = const val
+
+instance declarationGridRowStartIntLineName ::
+  Declaration "grid-row-start" (Int ~ LineName) where
+  pval = const val
+
+instance declarationGridRowStartSpanInt ::
+  Declaration "grid-row-start" (Proxy "span" ~ Int) where
+  pval = const val
+
+instance declarationGridRowStartSpanLineName ::
+  Declaration "grid-row-start" (Proxy "span" ~ LineName) where
+  pval = const val
+
+instance declarationGridRowStartSpanIntLineName ::
+  Declaration "grid-row-start" (Proxy "span" ~ Int ~ LineName) where
+  pval = const val
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-column-start
+
+gridColumnStart = Proxy :: Proxy "grid-column-start"
+
+instance Property "grid-column-start"
+
+instance declarationGridColumnStartGridRowStart ::
+  Declaration "grid-row-start" a =>
+  Declaration "grid-column-start" a where
+  pval = const $ pval (Proxy :: Proxy "grid-row-start")
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-row-end
+
+gridRowEnd = Proxy :: Proxy "grid-row-end"
+
+instance Property "grid-row-end"
+
+instance declarationGridRowEndGridRowStart ::
+  Declaration "grid-row-start" a =>
+  Declaration "grid-row-end" a where
+  pval = const $ pval (Proxy :: Proxy "grid-row-start")
+
+-- https://www.w3.org/TR/css-grid-1/#propdef-grid-column-end
+
+gridColumnEnd = Proxy :: Proxy "grid-column-end"
+
+instance Property "grid-column-end"
+
+instance declarationGridColumnEndGridRowStart ::
+  Declaration "grid-row-start" a =>
+  Declaration "grid-column-end" a where
+  pval = const $ pval (Proxy :: Proxy "grid-row-start")
+
+--------------------------------------------------------------------------------
+
+-- Images
 -- https://www.w3.org/TR/css-images-3/
 
 -- https://www.w3.org/TR/css-images-3/#typedef-image
