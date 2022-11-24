@@ -32,7 +32,7 @@ for (let example of examples) {
   }
   catch {}
 
-  const { stdout: actual } = await execa("spago", ["-x", "example.dhall", "run", "-m", `Example.${example}`]);
+  const { stdout: actual } = await execa("spago", ["-x", "example.dhall", "run", "-p", path.join("examples", `${example}.purs`), "-m", `Example.${example}`]);
 
   const needsUpdate = updateFlag || !expected;
 
@@ -59,3 +59,4 @@ for (let example of examples) {
     }
   }
 }
+process.stdout.write(chalk.green("✓ CSS output is unchanged.") + "\n");
