@@ -4,7 +4,7 @@ module Test.AlignSpec where
 
 import Prelude
 
-import Tecton (alignItems, alignSelf, auto, baseline, center, columnGap, end, first, flexEnd, flexStart, gap, initial, inherit, justifyContent, justifyItems, justifySelf, last, left, legacy, normal, pct, px, right, rowGap, safe, selfEnd, selfStart, spaceAround, spaceBetween, spaceEvenly, start, stretch, unsafe, unset, (:=), (~))
+import Tecton (alignContent, alignItems, alignSelf, auto, baseline, center, columnGap, end, first, flexEnd, flexStart, gap, initial, inherit, justifyContent, justifyItems, justifySelf, last, left, legacy, normal, pct, px, right, rowGap, safe, selfEnd, selfStart, spaceAround, spaceBetween, spaceEvenly, start, stretch, unsafe, unset, (:=), (~))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -106,6 +106,88 @@ spec = do
       "justify-content:unsafe right"
         `isRenderedFrom`
         (justifyContent := unsafe ~ right)
+
+    describe "align-content property" do
+
+      "align-content:inherit" `isRenderedFrom` (alignContent := inherit)
+
+      "align-content:initial" `isRenderedFrom` (alignContent := initial)
+
+      "align-content:unset" `isRenderedFrom` (alignContent := unset)
+
+      "align-content:normal" `isRenderedFrom` (alignContent := normal)
+
+      "align-content:baseline" `isRenderedFrom` (alignContent := baseline)
+
+      "align-content:first baseline"
+        `isRenderedFrom`
+        (alignContent := first ~ baseline)
+
+      "align-content:last baseline"
+        `isRenderedFrom`
+        (alignContent := last ~ baseline)
+
+      "align-content:space-between"
+        `isRenderedFrom`
+        (alignContent := spaceBetween)
+
+      "align-content:space-around"
+        `isRenderedFrom`
+        (alignContent := spaceAround)
+
+      "align-content:space-evenly"
+        `isRenderedFrom`
+        (alignContent := spaceEvenly)
+
+      "align-content:stretch" `isRenderedFrom` (alignContent := stretch)
+
+      "align-content:center" `isRenderedFrom` (alignContent := center)
+
+      "align-content:start" `isRenderedFrom` (alignContent := start)
+
+      "align-content:end" `isRenderedFrom` (alignContent := end)
+
+      "align-content:flex-start"
+        `isRenderedFrom`
+        (alignContent := flexStart)
+
+      "align-content:flex-end" `isRenderedFrom` (alignContent := flexEnd)
+ 
+      "align-content:safe center"
+        `isRenderedFrom`
+        (alignContent := safe ~ center)
+
+      "align-content:safe start"
+        `isRenderedFrom`
+        (alignContent := safe ~ start)
+
+      "align-content:safe end" `isRenderedFrom` (alignContent := safe ~ end)
+
+      "align-content:safe flex-start"
+        `isRenderedFrom`
+        (alignContent := safe ~ flexStart)
+
+      "align-content:safe flex-end"
+        `isRenderedFrom`
+        (alignContent := safe ~ flexEnd)
+ 
+      "align-content:unsafe center"
+        `isRenderedFrom`
+        (alignContent := unsafe ~ center)
+
+      "align-content:unsafe start"
+        `isRenderedFrom`
+        (alignContent := unsafe ~ start)
+
+      "align-content:unsafe end" `isRenderedFrom` (alignContent := unsafe ~ end)
+
+      "align-content:unsafe flex-start"
+        `isRenderedFrom`
+        (alignContent := unsafe ~ flexStart)
+
+      "align-content:unsafe flex-end"
+        `isRenderedFrom`
+        (alignContent := unsafe ~ flexEnd)
 
     describe "justify-self property" do
 

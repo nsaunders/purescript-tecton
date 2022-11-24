@@ -1,6 +1,5 @@
 module Tecton.Internal
-  ( class AlignContentKeyword
-  , class AlignmentBaselineKeyword
+  ( class AlignmentBaselineKeyword
   , class AlignmentBaselineOrBaselineShiftKeyword
   , class AllPropertiesAnimatable
   , class AngleTag
@@ -1332,6 +1331,14 @@ spaceBetween = Proxy :: Proxy "space-between"
 spaceEvenly = Proxy :: Proxy "space-evenly"
 stretch = Proxy :: Proxy "stretch"
 
+safe = Proxy :: Proxy "safe"
+unsafe = Proxy :: Proxy "unsafe"
+
+class OverflowPositionKeyword (s :: Symbol)
+
+instance OverflowPositionKeyword "safe"
+instance OverflowPositionKeyword "unsafe"
+
 class ContentPositionKeyword (s :: Symbol)
 
 instance ContentPositionKeyword "center"
@@ -1398,6 +1405,60 @@ else instance declarationJustifyContentContentPositionKeyword ::
   Declaration "justify-content" (Proxy s) where
   pval = const val
 
+-- https://www.w3.org/TR/css-align-3/#propdef-align-content
+
+alignContent = Proxy :: Proxy "align-content"
+
+instance Property "align-content"
+
+instance declarationAlignContentFirstBaseline ::
+  Declaration "align-content" (Proxy "first" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationAlignContentLastBaseline ::
+  Declaration "align-content" (Proxy "last" ~ Proxy "baseline") where
+  pval = const val
+
+else instance declarationAlignContentOverflowPositionKeywordContentPositionKeyword ::
+  ( OverflowPositionKeyword sa
+  , IsSymbol sa
+  , ContentPositionKeyword sb
+  , IsSymbol sb
+  ) =>
+  Declaration "align-content" (Proxy sa ~ Proxy sb) where
+  pval = const val
+
+instance declarationAlignContentNormal ::
+  Declaration "align-content" (Proxy "normal") where
+  pval = const val
+
+else instance declarationAlignContentBaseline ::
+  Declaration "align-content" (Proxy "baseline") where
+  pval = const val
+
+else instance declarationAlignContentSpaceBetween ::
+  Declaration "align-content" (Proxy "space-between") where
+  pval = const val
+
+else instance declarationAlignContentSpaceAround ::
+  Declaration "align-content" (Proxy "space-around") where
+  pval = const val
+
+else instance declarationAlignContentSpaceEvenly ::
+  Declaration "align-content" (Proxy "space-evenly") where
+  pval = const val
+
+else instance declarationAlignContentStretch ::
+  Declaration "align-content" (Proxy "stretch") where
+  pval = const val
+
+else instance declarationAlignContentContentPositionKeyword ::
+  ( ContentPositionKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "align-content" (Proxy s) where
+  pval = const val
+
 -- https://www.w3.org/TR/css-align-3/#propdef-justify-self
 
 justifySelf = Proxy :: Proxy "justify-self"
@@ -1421,14 +1482,6 @@ instance SelfPositionKeyword "self-start"
 instance SelfPositionKeyword "self-end"
 instance SelfPositionKeyword "flex-start"
 instance SelfPositionKeyword "flex-end"
-
-safe = Proxy :: Proxy "safe"
-unsafe = Proxy :: Proxy "unsafe"
-
-class OverflowPositionKeyword (s :: Symbol)
-
-instance OverflowPositionKeyword "safe"
-instance OverflowPositionKeyword "unsafe"
 
 instance declarationJustifySelfFirstBaseline ::
   Declaration "justify-self" (Proxy "first" ~ Proxy "baseline") where
@@ -3431,28 +3484,6 @@ else instance declarationFlexBasisWidth ::
   Declaration "width" a =>
   Declaration "flex-basis" a where
   pval = const $ pval width
-
--- https://www.w3.org/TR/css-flexbox-1/#propdef-align-content
-
-alignContent = Proxy :: Proxy "align-content"
-
-instance Property "align-content"
-
-class AlignContentKeyword (s :: Symbol)
-
-instance AlignContentKeyword "flex-start"
-instance AlignContentKeyword "flex-end"
-instance AlignContentKeyword "center"
-instance AlignContentKeyword "space-between"
-instance AlignContentKeyword "space-around"
-instance AlignContentKeyword "stretch"
-
-instance declarationAlignContent ::
-  ( AlignContentKeyword s
-  , ToVal (Proxy s)
-  ) =>
-  Declaration "align-content" (Proxy s) where
-  pval = const val
 
 --------------------------------------------------------------------------------
 
