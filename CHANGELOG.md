@@ -29,6 +29,13 @@ New features:
 Bugfixes:
 
 Other improvements:
+- New examples of type safety
+  - [`TypeError.SelectorPseudoClassingPseudoElement`](examples/type-errors/SelectorPseudoClassingPseudoElement.purs)
+  - [`TypeError.SelectorPseudoElementDescendant`](examples/type-errors/SelectorPseudoElementDescendant.purs)
+  - [`TypeError.GridTemplateColumnsAutoRepeatWithFlex`](examples/type-errors/GridTemplateColumnsAutoRepeatWithFlex.purs)
+  - [`TypeError.GridTemplateColumnsMultipleAutoRepeat`](examples/type-errors/GridTemplateColumnsMultipleAutoRepeat.purs)
+- The `check-examples` script now verifies that each `TypeError.*` example fails
+  to compile.
 
 ## [0.1.3] - 2022-11-09
 
