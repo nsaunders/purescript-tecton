@@ -7,6 +7,14 @@ Notable changes are documented in this file. The format is based on [Keep a Chan
 Breaking changes:
 
 New features:
+
+Bugfixes:
+
+Other improvements:
+
+## [0.1.4] - 2022-11-29
+
+New features:
 - Grid support / new CSS properties
   - `grid-auto-columns`
   - `grid-auto-flow`
@@ -26,15 +34,13 @@ New features:
   - `justify-items`
   - `align-items`
 
-Bugfixes:
-
 Other improvements:
 - New examples of type safety
   - [`TypeError.SelectorPseudoClassingPseudoElement`](examples/type-errors/SelectorPseudoClassingPseudoElement.purs)
   - [`TypeError.SelectorPseudoElementDescendant`](examples/type-errors/SelectorPseudoElementDescendant.purs)
   - [`TypeError.GridTemplateColumnsAutoRepeatWithFlex`](examples/type-errors/GridTemplateColumnsAutoRepeatWithFlex.purs)
   - [`TypeError.GridTemplateColumnsMultipleAutoRepeat`](examples/type-errors/GridTemplateColumnsMultipleAutoRepeat.purs)
-- The `check-examples` script now verifies that each `TypeError.*` example fails
+- The [`check-examples`](scripts/check-examples.mjs) script now verifies that each `TypeError.*` example fails
   to compile.
 
 ## [0.1.3] - 2022-11-09
