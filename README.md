@@ -5,7 +5,7 @@
 [![Package set](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/nsaunders/purescript-tecton/master/meta/registry-status.json)](https://github.com/purescript/registry)
 [![Tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/nsaunders/purescript-tecton/master/meta/test-count.json)](./test)
 
-Tecton is a domain-specific language for authoring CSS, embedded in PureScript. The unique capabilities of PureScript allow Tecton's strongly-typed interface to guard against a wide range of [errors](examples/TypeSafety.purs) while offering a developer experience comparable to that of using CSS directly.
+Tecton is a domain-specific language for authoring CSS, embedded in PureScript. The unique capabilities of PureScript allow Tecton's strongly-typed interface to guard against a wide range of [errors](examples/TypeSafety.purs) while offering a developer experience comparable to that of authoring CSS directly.
 
 ## Quick example
 
