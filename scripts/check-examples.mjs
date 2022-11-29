@@ -32,7 +32,7 @@ for (let example of examples) {
   }
   catch {}
 
-  const { stdout: actual } = await execa("spago", ["-x", "example.dhall", "run", "-p", path.join("examples", `${example}.purs`), "-m", `Example.${example}`]);
+  const { stdout: actual } = await execa("spago", ["-x", "example.dhall", "run", "-p", path.join(examplesDir, `${example}.purs`), "-m", `Example.${example}`]);
 
   const needsUpdate = updateFlag || !expected;
 
@@ -59,4 +59,23 @@ for (let example of examples) {
     }
   }
 }
+
 process.stdout.write(chalk.green("✓ CSS output is unchanged.") + "\n");
+
+const typeErrorsDir = path.join(examplesDir, "type-errors");
+
+const typeErrorsListing = await fs.readdir(typeErrorsDir);
+const typeErrors = typeErrorsListing.flatMap(x => x.match(/^[A-Za-z]+(?=\.purs$)/g) || []);
+
+for (let typeError of typeErrors) {
+  try {
+    await execa("spago", ["build", "-p", path.join(typeErrorsDir, `${typeError}.purs`)]);
+    process.stdout.write(chalk.red(`✗ TypeError.${typeError} compiled successfully.\n`));
+    process.exit(1);
+  }
+  catch {
+    continue;
+  }
+}
+
+process.stdout.write(chalk.green("✓ All type error examples fail to compile.") + "\n");
