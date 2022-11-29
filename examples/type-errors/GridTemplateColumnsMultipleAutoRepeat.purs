@@ -1,8 +1,8 @@
 {-
 
 This example fails to compile because multiple `<auto-repeat>` values (e.g.
-`repeat(auto-fit, 100px)` or `repeat(auto-fill, 10%)`) cannot appear within a
-single track list.
+`repeat(auto-fit, 100px)` or `repeat(auto-fill, 10%)`) cannot appear within the
+same track list.
 
 See https://www.w3.org/TR/css-grid-1/#typedef-auto-track-list for more
 information.
