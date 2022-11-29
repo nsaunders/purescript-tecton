@@ -8,7 +8,7 @@ information.
 
 -}
 
-module TypeError.SelectorLogicAfterPseudoElement where
+module TypeError.SelectorPseudoElementDescendant where
 
 import Tecton (CSS, after, nil, universal, width, (&:), (|*), (?), (:=))
 
