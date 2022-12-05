@@ -3,6 +3,7 @@ module Tecton (module T) where
 import Tecton.Internal
   ( CSS
   , CustomAttribute
+  , Declarations
   , KeyframesName
   , a
   , abbr

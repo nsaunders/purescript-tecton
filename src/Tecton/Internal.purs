@@ -161,6 +161,7 @@ module Tecton.Internal
   , Configuration
   , CustomAttribute
   , Declaration'
+  , Declarations
   , Divide
   , EasingFunction
   , Extensible
@@ -1191,6 +1192,8 @@ infixr 0 mkStatement as ?
 --------------------------------------------------------------------------------
 
 -- Declarations
+
+type Declarations ps = Writer (List Declaration') ps
 
 newtype Declaration' = Declaration' (Val /\ Val)
 
