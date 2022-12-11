@@ -12,6 +12,7 @@ New features:
 Bugfixes:
 
 Other improvements:
+- Examples are now formatted using `purs-tidy`.
 
 ## [0.1.5] - 2022-12-05
 New features:
