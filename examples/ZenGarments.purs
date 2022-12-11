@@ -6,7 +6,164 @@ import Color (black, hsl, rgb, rgba)
 import Data.Tuple.Nested ((/\))
 import Effect (Effect)
 import Effect.Console (log)
-import Tecton (a, abbr, absolute, acronym, after, all, animationDelay, animationDuration, animationFillMode, animationIterationCount, animationName, animationTimingFunction, auto, b, backgroundAttachment, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, before, block, body, bold, borderStyle, borderTopColor, borderTopStyle, borderTopWidth, both, bottom, center, clear, code, color, content, deg, disc, display, dl, easeInOut, em, em', firstChild, fixed, float, focus, fontFamily, fontSize, fontStyle, fontWeight, footer, form, forwards, h1, h2, h3, h4, h5, h6, height, hidden, hover, href, html, i, img, initial, inlineBlock, input, italic, keyframes, keyframesName, label, left, letterSpacing, li, lineHeight, linear, listStyleType, margin, marginBottom, marginLeft, marginRight, marginTop, mark, maskImage, maxWidth, media, monospace, nil, noRepeat, none, normal, nowrap, nth, nthChild, odd, ol, opacity, overflow, p, padding, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, placeholder, position, pretty, px, relative, rem, renderSheet, right, role, rotate, sansSerif, screen, sec, selection, solid, strong, sub, sup, table, td, textAlign, textDecorationLine, textIndent, textTransform, textarea, title, top, transform, transitionDuration, transitionProperty, transitionTimingFunction, transparent, ul, universal, uppercase, url, video, visibility, visible, whiteSpace, width, (:=), (&.), (&:), (&@), (*=), (?), (@=), (|*), (~))
+import Tecton
+  ( a
+  , abbr
+  , absolute
+  , acronym
+  , after
+  , all
+  , animationDelay
+  , animationDuration
+  , animationFillMode
+  , animationIterationCount
+  , animationName
+  , animationTimingFunction
+  , auto
+  , b
+  , backgroundAttachment
+  , backgroundColor
+  , backgroundImage
+  , backgroundPosition
+  , backgroundRepeat
+  , before
+  , block
+  , body
+  , bold
+  , borderStyle
+  , borderTopColor
+  , borderTopStyle
+  , borderTopWidth
+  , both
+  , bottom
+  , center
+  , clear
+  , code
+  , color
+  , content
+  , deg
+  , disc
+  , display
+  , dl
+  , easeInOut
+  , em
+  , em'
+  , firstChild
+  , fixed
+  , float
+  , focus
+  , fontFamily
+  , fontSize
+  , fontStyle
+  , fontWeight
+  , footer
+  , form
+  , forwards
+  , h1
+  , h2
+  , h3
+  , h4
+  , h5
+  , h6
+  , height
+  , hidden
+  , hover
+  , href
+  , html
+  , i
+  , img
+  , initial
+  , inlineBlock
+  , input
+  , italic
+  , keyframes
+  , keyframesName
+  , label
+  , left
+  , letterSpacing
+  , li
+  , lineHeight
+  , linear
+  , listStyleType
+  , margin
+  , marginBottom
+  , marginLeft
+  , marginRight
+  , marginTop
+  , mark
+  , maskImage
+  , maxWidth
+  , media
+  , monospace
+  , nil
+  , noRepeat
+  , none
+  , normal
+  , nowrap
+  , nth
+  , nthChild
+  , odd
+  , ol
+  , opacity
+  , overflow
+  , p
+  , padding
+  , paddingBottom
+  , paddingLeft
+  , paddingRight
+  , paddingTop
+  , pct
+  , placeholder
+  , position
+  , pretty
+  , px
+  , relative
+  , rem
+  , renderSheet
+  , right
+  , role
+  , rotate
+  , sansSerif
+  , screen
+  , sec
+  , selection
+  , solid
+  , strong
+  , sub
+  , sup
+  , table
+  , td
+  , textAlign
+  , textDecorationLine
+  , textIndent
+  , textTransform
+  , textarea
+  , title
+  , top
+  , transform
+  , transitionDuration
+  , transitionProperty
+  , transitionTimingFunction
+  , transparent
+  , ul
+  , universal
+  , uppercase
+  , url
+  , video
+  , visibility
+  , visible
+  , whiteSpace
+  , width
+  , (&.)
+  , (&:)
+  , (&@)
+  , (*=)
+  , (:=)
+  , (?)
+  , (@=)
+  , (|*)
+  , (~)
+  )
 import Tecton.Rule as Rule
 
 main :: Effect Unit
@@ -52,12 +209,12 @@ main = log $ renderSheet pretty do
     fontSize := rem 1.2
 
   ( universal &. "wf-active" |* body
-    /\ universal &. "wf-active" |* h1
-    /\ universal &. "wf-active" |* h2
-    /\ universal &. "wf-active" |* h3
-    /\ universal &. "wf-active" |* h4
-    /\ universal &. "wf-active" |* h5
-    /\ universal &. "wf-active" |* h6
+      /\ universal &. "wf-active" |* h1
+      /\ universal &. "wf-active" |* h2
+      /\ universal &. "wf-active" |* h3
+      /\ universal &. "wf-active" |* h4
+      /\ universal &. "wf-active" |* h5
+      /\ universal &. "wf-active" |* h6
   ) ? Rule.do
     fontFamily := "effra" /\ sansSerif
 
@@ -74,7 +231,9 @@ main = log $ renderSheet pretty do
 
   label ? Rule.do
     fontSize := rem 1.6
-  input &. "empty" &: placeholder /\ textarea &. "empty" &: placeholder ? Rule.do
+  ( input &. "empty" &: placeholder
+      /\ textarea &. "empty" &: placeholder
+  ) ? Rule.do
     color := rgb 255 0 0
   universal &. "error" ? Rule.do
     color := rgb 255 0 0
@@ -215,8 +374,8 @@ main = log $ renderSheet pretty do
     margin := nil ~ auto
 
   ( universal &. "main" |* h3
-    /\ universal &. "preamble" |* h3
-    /\ universal &. "select"
+      /\ universal &. "preamble" |* h3
+      /\ universal &. "select"
   ) ? Rule.do
     visibility := hidden
     fontSize := rem 2
@@ -224,13 +383,13 @@ main = log $ renderSheet pretty do
     letterSpacing := em 0.1
     color := hsl 224.0 0.4 0.25
   ( universal &. "wf-active" |* universal &. "main" |* h3
-    /\ universal &. "wf-active" |* universal &. "preamble" |* h3
+      /\ universal &. "wf-active" |* universal &. "preamble" |* h3
   ) ? Rule.do
     fontWeight := 900
 
   ( universal &. "main" |* h3 &: after
-    /\ universal &. "preamble" |* h3 &: after
-    /\ universal &. "select" &: after
+      /\ universal &. "preamble" |* h3 &: after
+      /\ universal &. "select" &: after
   ) ? Rule.do
     visibility := visible
     display := block
@@ -238,23 +397,23 @@ main = log $ renderSheet pretty do
   universal &. "main" |* p /\ universal &. "preamble" |* p ? Rule.do
     fontSize := rem 2
   ( universal &. "wf-active" |* universal &. "main" |* p
-    /\ universal &. "wf-active" |* universal &. "preamble" |* p
+      /\ universal &. "wf-active" |* universal &. "preamble" |* p
   ) ? Rule.do
     lineHeight := 1.4
 
   ( universal &. "next" |* a
-    /\ universal &. "previous" |* a
-    /\ universal &. "viewall" |* a
-    /\ universal &. "zen-resources" |* a
-    /\ universal &. "summary" |* p &: nthChild (nth 0 2) |* a
+      /\ universal &. "previous" |* a
+      /\ universal &. "viewall" |* a
+      /\ universal &. "zen-resources" |* a
+      /\ universal &. "summary" |* p &: nthChild (nth 0 2) |* a
   ) ? Rule.do
     transitionProperty := none
 
   ( universal &. "next" |* a &: after
-    /\ universal &. "previous" |* a &: after
-    /\ universal &. "viewall" |* a &: after
-    /\ universal &. "zen-resources" |* a &: after
-    /\ universal &. "summary" |* p &: nthChild (nth 0 2) |* a &: after
+      /\ universal &. "previous" |* a &: after
+      /\ universal &. "viewall" |* a &: after
+      /\ universal &. "zen-resources" |* a &: after
+      /\ universal &. "summary" |* p &: nthChild (nth 0 2) |* a &: after
   ) ? Rule.do
     opacity := 0
 
@@ -408,7 +567,7 @@ main = log $ renderSheet pretty do
     textIndent := pct 100
     whiteSpace := nowrap
     overflow := hidden
-  
+
   universal &. "next" ? Rule.do
     marginRight := em 3
   universal &. "next" |* a ? Rule.do
@@ -418,7 +577,9 @@ main = log $ renderSheet pretty do
     backgroundPosition := px 10 ~ px (-56)
     width := px 43
     height := px 37
-  universal &. "next" |* a &: hover /\ universal &. "next" |* a &: focus ? Rule.do
+  ( universal &. "next" |* a &: hover
+      /\ universal &. "next" |* a &: focus
+  ) ? Rule.do
     backgroundPosition := px 10 ~ px (-138)
 
   universal &. "previous" ? Rule.do
@@ -431,7 +592,7 @@ main = log $ renderSheet pretty do
     width := px 43
     height := px 37
   ( universal &. "previous" |* a &: hover
-    /\ universal &. "previous" |* a &: focus
+      /\ universal &. "previous" |* a &: focus
   ) ? Rule.do
     backgroundPosition := px 10 ~ px (-302)
 
@@ -444,7 +605,9 @@ main = log $ renderSheet pretty do
     backgroundPosition := px (-56) ~ px (-55)
     width := px 39
     height := px 39
-  universal &. "viewall" |* a &: hover /\ universal &. "viewall" |* a &: focus ? Rule.do
+  ( universal &. "viewall" |* a &: hover
+      /\ universal &. "viewall" |* a &: focus
+  ) ? Rule.do
     backgroundPosition := px (-56) ~ px (-137)
 
   footer ? Rule.do
@@ -486,33 +649,35 @@ main = log $ renderSheet pretty do
   universal &. "view-css" |* a ? Rule.do
     backgroundPosition := px (-502) ~ px 12
   ( universal &. "view-css" |* a &: hover
-    /\ universal &. "view-css" |* a &: focus
+      /\ universal &. "view-css" |* a &: focus
   ) ? Rule.do
     backgroundPosition := px (-502) ~ px (-78)
 
   universal &. "css-resources" |* a ? Rule.do
     backgroundPosition := px (-150) ~ px (-194)
   ( universal &. "css-resources" |* a &: hover
-    /\ universal &. "css-resources" |* a &: focus
+      /\ universal &. "css-resources" |* a &: focus
   ) ? Rule.do
     backgroundPosition := px (-150) ~ px (-286)
 
   universal &. "zen-faq" |* a ? Rule.do
     backgroundPosition := px (-265) ~ px (-192)
-  universal &. "zen-faq" |* a &: hover /\ universal &. "zen-faq" |* a &: focus ? Rule.do
+  ( universal &. "zen-faq" |* a &: hover
+      /\ universal &. "zen-faq" |* a &: focus
+  ) ? Rule.do
     backgroundPosition := px (-265) ~ px (-284)
 
   universal &. "zen-submit" |* a ? Rule.do
     backgroundPosition := px (-502) ~ px (-194)
   ( universal &. "zen-submit" |* a &: hover
-    /\ universal &. "zen-submit" |* a &: focus
+      /\ universal &. "zen-submit" |* a &: focus
   ) ? Rule.do
     backgroundPosition := px (-502) ~ px (-286)
 
   universal &. "zen-translations" |* a ? Rule.do
     backgroundPosition := px (-380) ~ px (-193)
   ( universal &. "zen-translations" |* a &: hover
-    /\ universal &. "zen-translations" |* a &: focus
+      /\ universal &. "zen-translations" |* a &: focus
   ) ? Rule.do
     backgroundPosition := px (-380) ~ px (-285)
 
@@ -534,14 +699,14 @@ main = log $ renderSheet pretty do
       backgroundImage := url "s/czg.svg"
       backgroundRepeat := noRepeat
       backgroundPosition := px (-184) ~ px (-99)
- 
+
     ( universal &@ role @= "article" /\ universal &@ role @= "banner" /\ footer
     ) ? Rule.do
       padding := nil ~ pct 30 ~ em 10 ~ pct 10
       textAlign := right
       position := relative
     ( universal &@ role @= "article" |* h3
-      /\ universal &@ role @= "banner" |* h2
+        /\ universal &@ role @= "banner" |* h2
     ) ? Rule.do
       position := absolute
       top := em (-0.75)
@@ -644,7 +809,7 @@ main = log $ renderSheet pretty do
       top := nil
       right := em 7
     ( universal &. "summary" |* p &: nthChild (nth 0 2) |* a &: hover
-      /\ universal &. "summary" |* p &: nthChild (nth 0 2) |* a &: focus
+        /\ universal &. "summary" |* p &: nthChild (nth 0 2) |* a &: focus
     ) ? Rule.do
       backgroundPosition := px (-396) ~ px (-3)
       textIndent := nil
@@ -654,8 +819,11 @@ main = log $ renderSheet pretty do
     ) ? Rule.do
       backgroundPosition := px (-472) ~ px (-94)
       right := nil
-    ( universal &. "summary" |* p &: nthChild (nth 0 2) |* a &@ href *= "css" &: hover
-      /\ universal &. "summary" |* p &: nthChild (nth 0 2) |* a &@ href *= "css" &: focus
+    ( universal &. "summary" |* p &: nthChild (nth 0 2) |* a &@ href *= "css" &:
+        hover
+        /\ universal &. "summary" |* p &: nthChild (nth 0 2) |* a &@ href
+          *= "css"
+          &: focus
     ) ? Rule.do
       backgroundPosition := px (-512) ~ px (-4)
 
@@ -702,7 +870,7 @@ main = log $ renderSheet pretty do
         &. "design-selection"
         &. "design-selection" -- adding specificity in lieu of !important
         &. "design-selection"
-      |* li
+        |* li
     ) ? Rule.do
       width := pct 100
       padding := nil
