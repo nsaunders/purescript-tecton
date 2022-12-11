@@ -7,7 +7,7 @@ Notable changes are documented in this file. The format is based on [Keep a Chan
 Breaking changes:
 
 New features:
-- `:focus-within` pseudo-class
+- `:focus-within` pseudo-class nsaunders/purescript-tecton#17
 
 Bugfixes:
 
@@ -21,7 +21,7 @@ New features:
 ## [0.1.4] - 2022-11-29
 
 New features:
-- Grid support / new CSS properties
+- Grid support / new CSS properties nsaunders/purescript-tecton#12
   - `grid-auto-columns`
   - `grid-auto-flow`
   - `grid-auto-rows`
@@ -41,7 +41,7 @@ New features:
   - `align-items`
 
 Other improvements:
-- New examples of type safety
+- New examples of type safety nsaunders/purescript-tecton#10
   - [`TypeError.SelectorPseudoClassingPseudoElement`](examples/type-errors/SelectorPseudoClassingPseudoElement.purs)
   - [`TypeError.SelectorPseudoElementDescendant`](examples/type-errors/SelectorPseudoElementDescendant.purs)
   - [`TypeError.GridTemplateColumnsAutoRepeatWithFlex`](examples/type-errors/GridTemplateColumnsAutoRepeatWithFlex.purs)
@@ -52,7 +52,7 @@ Other improvements:
 ## [0.1.3] - 2022-11-09
 
 Other improvements:
-- Performance optimizations
+- Performance optimizations nsaunders/purescript-tecton#9
 - Dropped `arrays` dependency
 
 ## [0.1.2] - 2022-11-06
