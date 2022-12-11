@@ -428,6 +428,7 @@ module Tecton.Internal
   , float
   , flowRoot
   , focus
+  , focusWithin
   , foldlMultiVal
   , foldLineNames
   , fontFace
@@ -6187,6 +6188,11 @@ empty = PseudoClass $ val "empty"
 
 not :: forall s. IsSelectorList s => MultiVal s => s -> PseudoClass
 not s = PseudoClass $ fn "not" s
+
+-- https://www.w3.org/TR/selectors-4/#focus-within-pseudo
+
+focusWithin :: PseudoClass
+focusWithin = PseudoClass $ val "focus-within"
 
 -- https://www.w3.org/TR/selectors-3/#sel-first-line
 

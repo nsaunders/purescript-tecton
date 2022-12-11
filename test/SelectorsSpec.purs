@@ -7,7 +7,7 @@ module Test.SelectorsSpec where
 import Prelude hiding (not)
 
 import Data.Tuple.Nested ((/\))
-import Tecton (a, active, after, att, before, checked, disabled, empty, enabled, even, firstChild, firstLetter, firstLine, firstOfType, focus, hover, href, hreflang, indeterminate, lang, lastChild, lastOfType, link, nil, not, nth, nthChild, nthLastChild, nthOfType, odd, onlyChild, onlyOfType, placeholder, root, selection, span, target, title, universal, visited, width, ($=), (&#), (&.), (&:), (&@), (*=), (?), (@=), (^=), (|*), (|+), (|=), (|>), (|~), (~=), (:=))
+import Tecton (a, active, after, att, before, checked, disabled, empty, enabled, even, firstChild, firstLetter, firstLine, firstOfType, focus, focusWithin, hover, href, hreflang, indeterminate, lang, lastChild, lastOfType, link, nil, not, nth, nthChild, nthLastChild, nthOfType, odd, onlyChild, onlyOfType, placeholder, root, selection, span, target, title, universal, visited, width, ($=), (&#), (&.), (&:), (&@), (*=), (?), (@=), (^=), (|*), (|+), (|=), (|>), (|~), (~=), (:=))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromSheet)
 
@@ -188,6 +188,10 @@ spec = do
       "*:not(*,*){width:0}"
         `isRenderedFrom` do
         universal &: not (universal /\ universal) ? width := nil
+
+      "*:focus-within{width:0}"
+        `isRenderedFrom` do
+        universal &: focusWithin ? width := nil
 
     describe "Pseudo-elements" do
 

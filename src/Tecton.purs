@@ -209,6 +209,7 @@ import Tecton.Internal
   , float
   , flowRoot
   , focus
+  , focusWithin
   , fontFace
   , fontFamily
   , fontSize
