@@ -11,7 +11,10 @@ information.
 module TypeError.GradientInsufficientColorStops where
 
 import Color (black, white)
-import Tecton (CSS, backgroundImage, deg, linearGradient, universal, (?), (:=))
+import Tecton (CSS, backgroundImage, deg, linearGradient, universal, (:=), (?))
+import Tecton.Rule as Rule
 
 css :: CSS
-css = universal ? backgroundImage := linearGradient (deg 180) black
+css =
+  universal ? Rule.do
+    backgroundImage := linearGradient (deg 180) black

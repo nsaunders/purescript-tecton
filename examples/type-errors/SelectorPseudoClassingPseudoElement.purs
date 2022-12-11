@@ -12,7 +12,20 @@ nor Firefox 107, supports this notion of "pseudo-classing pseudo-elements".
 
 module TypeError.SelectorPseudoClassingPseudoElement where
 
-import Tecton (CSS, after, hover, textDecorationLine, underline, universal, (&:), (?), (:=))
+import Tecton
+  ( CSS
+  , after
+  , hover
+  , textDecorationLine
+  , underline
+  , universal
+  , (&:)
+  , (:=)
+  , (?)
+  )
+import Tecton.Rule as Rule
 
 css :: CSS
-css = universal &: after &: hover ? textDecorationLine := underline
+css =
+  universal &: after &: hover ? Rule.do
+    textDecorationLine := underline

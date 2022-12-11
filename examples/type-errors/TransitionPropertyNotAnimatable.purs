@@ -11,7 +11,10 @@ for more information.
 
 module TypeError.TransitionPropertyNotAnimatable where
 
-import Tecton (CSS, alignContent, transitionProperty, universal, (?), (:=))
+import Tecton (CSS, alignContent, transitionProperty, universal, (:=), (?))
+import Tecton.Rule as Rule
 
 css :: CSS
-css = universal ? transitionProperty := alignContent
+css =
+  universal ? Rule.do
+    transitionProperty := alignContent

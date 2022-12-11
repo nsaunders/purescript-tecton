@@ -12,9 +12,21 @@ information.
 module TypeError.GridTemplateColumnsMultipleAutoRepeat where
 
 import Data.Tuple.Nested ((/\))
-import Tecton (CSS, autoFill, autoFit, gridTemplateColumns, pct, px, repeat, universal, (?), (:=))
+import Tecton
+  ( CSS
+  , autoFill
+  , autoFit
+  , gridTemplateColumns
+  , pct
+  , px
+  , repeat
+  , universal
+  , (:=)
+  , (?)
+  )
+import Tecton.Rule as Rule
 
 css :: CSS
 css =
-  universal ?
+  universal ? Rule.do
     gridTemplateColumns := repeat autoFit (px 100) /\ repeat autoFill (pct 10)

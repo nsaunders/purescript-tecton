@@ -10,7 +10,7 @@ reviewed.
 module TypeError.RulesetPropertyAppearsTwice where
 
 import Color (black, white)
-import Tecton (CSS, color, universal, (?), (:=))
+import Tecton (CSS, color, universal, (:=), (?))
 import Tecton.Rule as Rule
 
 css :: CSS

@@ -11,12 +11,23 @@ information.
 module TypeError.GradientConsecutiveTransitionHints where
 
 import Prelude
+
 import Color (black, white)
 import Data.Tuple.Nested ((/\))
-import Tecton (CSS, backgroundImage, deg, linearGradient, pct, universal, (:=), (?))
+import Tecton
+  ( CSS
+  , backgroundImage
+  , deg
+  , linearGradient
+  , pct
+  , universal
+  , (:=)
+  , (?)
+  )
+import Tecton.Rule as Rule
 
 css :: CSS
 css =
-  universal ?
+  universal ? Rule.do
     backgroundImage :=
       linearGradient (deg 180) $ black /\ pct 40 /\ pct 50 /\ white

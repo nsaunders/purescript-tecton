@@ -14,7 +14,20 @@ unclear. Google it: https://www.google.com/search?q=%22sub+pseudo+elements%22
 
 module TypeError.SelectorMultiplePseudoElements where
 
-import Tecton (CSS, after, color, currentColor, placeholder, universal, (&:), (?), (:=))
+import Tecton
+  ( CSS
+  , after
+  , color
+  , currentColor
+  , placeholder
+  , universal
+  , (&:)
+  , (:=)
+  , (?)
+  )
+import Tecton.Rule as Rule
 
 css :: CSS
-css = universal &: placeholder &: after ? color := currentColor
+css =
+  universal &: placeholder &: after ? Rule.do
+    color := currentColor
