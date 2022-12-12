@@ -6,7 +6,83 @@ import Prelude hiding (bottom, top)
 
 import Color (black, rgb, rgba, white)
 import Data.Tuple.Nested ((/\))
-import Tecton (auto, backgroundAttachment, backgroundClip, backgroundColor, backgroundImage, backgroundOrigin, backgroundPosition, backgroundRepeat, backgroundSize, borderBox, borderBottomColor, borderBottomLeftRadius, borderBottomRightRadius, borderBottomStyle, borderBottomWidth, borderColor, borderLeftColor, borderLeftStyle, borderLeftWidth, borderRadius, borderRightColor, borderRightStyle, borderRightWidth, borderStyle, borderTopColor, borderTopLeftRadius, borderTopRightRadius, borderTopStyle, borderTopWidth, borderWidth, bottom, boxShadow, center, circle, contain, contentBox, cover, currentColor, dashed, dotted, double, fixed, groove, hidden, inherit, initial, inset, left, local', medium, nil, noRepeat, none, outset, paddingBox, pct, px, radialGradient, repeat', repeatX, repeatY, ridge, right, round, scroll, solid, space, thick, thin, top, transparent, unset, url, (:=), (~))
+import Tecton
+  ( auto
+  , backgroundAttachment
+  , backgroundClip
+  , backgroundColor
+  , backgroundImage
+  , backgroundOrigin
+  , backgroundPosition
+  , backgroundRepeat
+  , backgroundSize
+  , borderBottomColor
+  , borderBottomLeftRadius
+  , borderBottomRightRadius
+  , borderBottomStyle
+  , borderBottomWidth
+  , borderBox
+  , borderColor
+  , borderLeftColor
+  , borderLeftStyle
+  , borderLeftWidth
+  , borderRadius
+  , borderRightColor
+  , borderRightStyle
+  , borderRightWidth
+  , borderStyle
+  , borderTopColor
+  , borderTopLeftRadius
+  , borderTopRightRadius
+  , borderTopStyle
+  , borderTopWidth
+  , borderWidth
+  , bottom
+  , boxShadow
+  , center
+  , circle
+  , contain
+  , contentBox
+  , cover
+  , currentColor
+  , dashed
+  , dotted
+  , double
+  , fixed
+  , groove
+  , hidden
+  , inherit
+  , initial
+  , inset
+  , left
+  , local'
+  , medium
+  , nil
+  , noRepeat
+  , none
+  , outset
+  , paddingBox
+  , pct
+  , px
+  , radialGradient
+  , repeat'
+  , repeatX
+  , repeatY
+  , ridge
+  , right
+  , round
+  , scroll
+  , solid
+  , space
+  , thick
+  , thin
+  , top
+  , transparent
+  , unset
+  , url
+  , (:=)
+  , (~)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -27,15 +103,15 @@ spec = do
 
       "background-color:#0000ff"
         `isRenderedFrom`
-        (backgroundColor := rgb 0 0 255)
+          (backgroundColor := rgb 0 0 255)
 
       "background-color:currentColor"
         `isRenderedFrom`
-        (backgroundColor := currentColor)
+          (backgroundColor := currentColor)
 
       "background-color:transparent"
         `isRenderedFrom`
-        (backgroundColor := transparent)
+          (backgroundColor := transparent)
 
     describe "background-image property" do
 
@@ -47,23 +123,25 @@ spec = do
 
       "background-image:url(\"marble.svg\")"
         `isRenderedFrom`
-        (backgroundImage := url "marble.svg")
+          (backgroundImage := url "marble.svg")
 
       "background-image:none"
         `isRenderedFrom`
-        (backgroundImage := none)
+          (backgroundImage := none)
 
       "background-image:url(\"tl.png\"),url(\"tr.png\")"
         `isRenderedFrom`
-        (backgroundImage := url "tl.png" /\ url "tr.png")
+          (backgroundImage := url "tl.png" /\ url "tr.png")
 
       "background-image:radial-gradient(circle at center,transparent,#ffffff)"
         `isRenderedFrom`
-        (backgroundImage := radialGradient circle center $ transparent /\ white)
+          ( backgroundImage :=
+              radialGradient circle center $ transparent /\ white
+          )
 
       "background-image:none,url(\"cat.jpg\")"
         `isRenderedFrom`
-        (backgroundImage := none /\ url "cat.jpg")
+          (backgroundImage := none /\ url "cat.jpg")
 
     describe "background-repeat property" do
 
@@ -75,15 +153,15 @@ spec = do
 
       "background-repeat:repeat-x"
         `isRenderedFrom`
-        (backgroundRepeat := repeatX)
+          (backgroundRepeat := repeatX)
 
       "background-repeat:repeat-y"
         `isRenderedFrom`
-        (backgroundRepeat := repeatY)
+          (backgroundRepeat := repeatY)
 
       "background-repeat:repeat"
         `isRenderedFrom`
-        (backgroundRepeat := repeat')
+          (backgroundRepeat := repeat')
 
       "background-repeat:space" `isRenderedFrom` (backgroundRepeat := space)
 
@@ -91,83 +169,83 @@ spec = do
 
       "background-repeat:no-repeat"
         `isRenderedFrom`
-        (backgroundRepeat := noRepeat)
+          (backgroundRepeat := noRepeat)
 
       "background-repeat:repeat no-repeat"
         `isRenderedFrom`
-        (backgroundRepeat := repeat' ~ noRepeat)
+          (backgroundRepeat := repeat' ~ noRepeat)
 
       "background-repeat:space round,repeat-x"
         `isRenderedFrom`
-        (backgroundRepeat := space ~ round /\ repeatX)
+          (backgroundRepeat := space ~ round /\ repeatX)
 
     describe "background-attachment property" do
 
       "background-attachment:inherit"
         `isRenderedFrom`
-        (backgroundAttachment := inherit)
+          (backgroundAttachment := inherit)
 
       "background-attachment:initial"
         `isRenderedFrom`
-        (backgroundAttachment := initial)
+          (backgroundAttachment := initial)
 
       "background-attachment:unset"
         `isRenderedFrom`
-        (backgroundAttachment := unset)
+          (backgroundAttachment := unset)
 
       "background-attachment:fixed"
         `isRenderedFrom`
-        (backgroundAttachment := fixed)
+          (backgroundAttachment := fixed)
 
       "background-attachment:local"
         `isRenderedFrom`
-        (backgroundAttachment := local')
+          (backgroundAttachment := local')
 
       "background-attachment:scroll"
         `isRenderedFrom`
-        (backgroundAttachment := scroll)
+          (backgroundAttachment := scroll)
 
       "background-attachment:fixed,local,scroll"
         `isRenderedFrom`
-        (backgroundAttachment := fixed /\ local' /\ scroll)
+          (backgroundAttachment := fixed /\ local' /\ scroll)
 
     describe "background-position property" do
 
       "background-position:inherit"
         `isRenderedFrom`
-        (backgroundPosition := inherit)
+          (backgroundPosition := inherit)
 
       "background-position:initial"
         `isRenderedFrom`
-        (backgroundPosition := initial)
+          (backgroundPosition := initial)
 
       "background-position:unset" `isRenderedFrom` (backgroundPosition := unset)
-       
+
       "background-position:top" `isRenderedFrom` (backgroundPosition := top)
 
       "background-position:right" `isRenderedFrom` (backgroundPosition := right)
 
       "background-position:bottom"
         `isRenderedFrom`
-        (backgroundPosition := bottom )
+          (backgroundPosition := bottom)
 
       "background-position:left" `isRenderedFrom` (backgroundPosition := left)
 
       "background-position:left top"
         `isRenderedFrom`
-        (backgroundPosition := left ~ top)
+          (backgroundPosition := left ~ top)
 
       "background-position:10px 50%"
         `isRenderedFrom`
-        (backgroundPosition := px 10 ~ pct 50)
+          (backgroundPosition := px 10 ~ pct 50)
 
       "background-position:50% 10px"
         `isRenderedFrom`
-        (backgroundPosition := pct 50 ~ px 10)
+          (backgroundPosition := pct 50 ~ px 10)
 
       "background-position:top,left top,50px,center"
         `isRenderedFrom`
-        (backgroundPosition := top /\ left ~ top /\ px 50 /\ center)
+          (backgroundPosition := top /\ left ~ top /\ px 50 /\ center)
 
     describe "background-clip property" do
 
@@ -179,19 +257,19 @@ spec = do
 
       "background-clip:border-box"
         `isRenderedFrom`
-        (backgroundClip := borderBox)
+          (backgroundClip := borderBox)
 
       "background-clip:padding-box"
         `isRenderedFrom`
-        (backgroundClip := paddingBox)
+          (backgroundClip := paddingBox)
 
       "background-clip:content-box"
         `isRenderedFrom`
-        (backgroundClip := contentBox)
+          (backgroundClip := contentBox)
 
       "background-clip:border-box,padding-box,content-box"
         `isRenderedFrom`
-        (backgroundClip := borderBox /\ paddingBox /\ contentBox)
+          (backgroundClip := borderBox /\ paddingBox /\ contentBox)
 
     describe "background-origin property" do
 
@@ -203,19 +281,19 @@ spec = do
 
       "background-origin:border-box"
         `isRenderedFrom`
-        (backgroundOrigin := borderBox)
+          (backgroundOrigin := borderBox)
 
       "background-origin:padding-box"
         `isRenderedFrom`
-        (backgroundOrigin := paddingBox)
+          (backgroundOrigin := paddingBox)
 
       "background-origin:content-box"
         `isRenderedFrom`
-        (backgroundOrigin := contentBox)
+          (backgroundOrigin := contentBox)
 
       "background-origin:border-box,padding-box,content-box"
         `isRenderedFrom`
-        (backgroundOrigin := borderBox /\ paddingBox /\ contentBox)
+          (backgroundOrigin := borderBox /\ paddingBox /\ contentBox)
 
     describe "background-size property" do
 
@@ -237,21 +315,21 @@ spec = do
 
       "background-size:50% 100px"
         `isRenderedFrom`
-        (backgroundSize := pct 50 ~ px 100)
+          (backgroundSize := pct 50 ~ px 100)
 
       "background-size:25% auto"
         `isRenderedFrom`
-        (backgroundSize := pct 25 ~ auto)
+          (backgroundSize := pct 25 ~ auto)
 
       "background-size:auto 5px"
         `isRenderedFrom`
-        (backgroundSize := auto ~ px 5)
+          (backgroundSize := auto ~ px 5)
 
       "background-size:50%,50px,auto 100px,auto,cover,contain"
         `isRenderedFrom`
-        ( backgroundSize :=
-            pct 50 /\ px 50 /\ auto ~ px 100 /\ auto /\ cover /\ contain
-        )
+          ( backgroundSize :=
+              pct 50 /\ px 50 /\ auto ~ px 100 /\ auto /\ cover /\ contain
+          )
 
     describe "border-top-color property" do
 
@@ -263,7 +341,7 @@ spec = do
 
       "border-top-color:currentColor"
         `isRenderedFrom`
-        (borderTopColor := currentColor)
+          (borderTopColor := currentColor)
 
       "border-top-color:#000055" `isRenderedFrom` (borderTopColor := rgb 0 0 85)
 
@@ -271,41 +349,41 @@ spec = do
 
       "border-right-color:inherit"
         `isRenderedFrom`
-        (borderRightColor := inherit)
+          (borderRightColor := inherit)
 
       "border-right-color:initial"
         `isRenderedFrom`
-        (borderRightColor := initial)
+          (borderRightColor := initial)
 
       "border-right-color:unset" `isRenderedFrom` (borderRightColor := unset)
 
       "border-right-color:currentColor"
         `isRenderedFrom`
-        (borderRightColor := currentColor)
+          (borderRightColor := currentColor)
 
       "border-right-color:#000055"
         `isRenderedFrom`
-        (borderRightColor := rgb 0 0 85)
+          (borderRightColor := rgb 0 0 85)
 
     describe "border-bottom-color property" do
 
       "border-bottom-color:inherit"
         `isRenderedFrom`
-        (borderBottomColor := inherit)
+          (borderBottomColor := inherit)
 
       "border-bottom-color:initial"
         `isRenderedFrom`
-        (borderBottomColor := initial)
+          (borderBottomColor := initial)
 
       "border-bottom-color:unset" `isRenderedFrom` (borderBottomColor := unset)
 
       "border-bottom-color:currentColor"
         `isRenderedFrom`
-        (borderBottomColor := currentColor)
+          (borderBottomColor := currentColor)
 
       "border-bottom-color:#000055"
         `isRenderedFrom`
-        (borderBottomColor := rgb 0 0 85)
+          (borderBottomColor := rgb 0 0 85)
 
     describe "border-left-color property" do
 
@@ -317,11 +395,11 @@ spec = do
 
       "border-left-color:currentColor"
         `isRenderedFrom`
-        (borderLeftColor := currentColor)
+          (borderLeftColor := currentColor)
 
       "border-left-color:#000055"
         `isRenderedFrom`
-        (borderLeftColor := rgb 0 0 85)
+          (borderLeftColor := rgb 0 0 85)
 
     describe "border-color property" do
 
@@ -335,15 +413,15 @@ spec = do
 
       "border-color:currentColor #0000ff"
         `isRenderedFrom`
-        (borderColor := currentColor ~ rgb 0 0 255)
+          (borderColor := currentColor ~ rgb 0 0 255)
 
       "border-color:#008000 #000000 #0000ff"
         `isRenderedFrom`
-        (borderColor := rgb 0 128 0 ~ black ~ rgb 0 0 255)
+          (borderColor := rgb 0 128 0 ~ black ~ rgb 0 0 255)
 
       "border-color:#008000 #000000 #0000ff #ffffff"
         `isRenderedFrom`
-        (borderColor := rgb 0 128 0 ~ black ~ rgb 0 0 255 ~ rgb 255 255 255)
+          (borderColor := rgb 0 128 0 ~ black ~ rgb 0 0 255 ~ rgb 255 255 255)
 
     describe "border-top-style property" do
 
@@ -377,11 +455,11 @@ spec = do
 
       "border-right-style:inherit"
         `isRenderedFrom`
-        (borderRightStyle := inherit)
+          (borderRightStyle := inherit)
 
       "border-right-style:initial"
         `isRenderedFrom`
-        (borderRightStyle := initial)
+          (borderRightStyle := initial)
 
       "border-right-style:unset" `isRenderedFrom` (borderRightStyle := unset)
 
@@ -409,11 +487,11 @@ spec = do
 
       "border-bottom-style:inherit"
         `isRenderedFrom`
-        (borderBottomStyle := inherit)
+          (borderBottomStyle := inherit)
 
       "border-bottom-style:initial"
         `isRenderedFrom`
-        (borderBottomStyle := initial)
+          (borderBottomStyle := initial)
 
       "border-bottom-style:unset" `isRenderedFrom` (borderBottomStyle := unset)
 
@@ -421,25 +499,25 @@ spec = do
 
       "border-bottom-style:hidden"
         `isRenderedFrom`
-        (borderBottomStyle := hidden)
+          (borderBottomStyle := hidden)
 
       "border-bottom-style:dotted"
         `isRenderedFrom`
-        (borderBottomStyle := dotted)
+          (borderBottomStyle := dotted)
 
       "border-bottom-style:dashed"
         `isRenderedFrom`
-        (borderBottomStyle := dashed)
+          (borderBottomStyle := dashed)
 
       "border-bottom-style:solid" `isRenderedFrom` (borderBottomStyle := solid)
 
       "border-bottom-style:double"
         `isRenderedFrom`
-        (borderBottomStyle := double)
+          (borderBottomStyle := double)
 
       "border-bottom-style:groove"
         `isRenderedFrom`
-        (borderBottomStyle := groove)
+          (borderBottomStyle := groove)
 
       "border-bottom-style:ridge" `isRenderedFrom` (borderBottomStyle := ridge)
 
@@ -447,7 +525,7 @@ spec = do
 
       "border-bottom-style:outset"
         `isRenderedFrom`
-        (borderBottomStyle := outset)
+          (borderBottomStyle := outset)
 
     describe "border-left-style property" do
 
@@ -507,27 +585,27 @@ spec = do
 
       "border-style:none ridge"
         `isRenderedFrom`
-        (borderStyle := none ~ ridge)
+          (borderStyle := none ~ ridge)
 
       "border-style:hidden groove"
         `isRenderedFrom`
-        (borderStyle := hidden ~ groove)
+          (borderStyle := hidden ~ groove)
 
       "border-style:dotted solid groove"
         `isRenderedFrom`
-        (borderStyle := dotted ~ solid ~ groove)
+          (borderStyle := dotted ~ solid ~ groove)
 
       "border-style:double dashed hidden"
         `isRenderedFrom`
-        (borderStyle := double ~ dashed ~ hidden)
+          (borderStyle := double ~ dashed ~ hidden)
 
       "border-style:none dotted solid double"
         `isRenderedFrom`
-        (borderStyle := none ~ dotted ~ solid ~ double)
+          (borderStyle := none ~ dotted ~ solid ~ double)
 
       "border-style:outset inset ridge groove"
         `isRenderedFrom`
-        (borderStyle := outset ~ inset ~ ridge ~ groove)
+          (borderStyle := outset ~ inset ~ ridge ~ groove)
 
     describe "border-top-width" do
 
@@ -549,11 +627,11 @@ spec = do
 
       "border-right-width:inherit"
         `isRenderedFrom`
-        (borderRightWidth := inherit)
+          (borderRightWidth := inherit)
 
       "border-right-width:initial"
         `isRenderedFrom`
-        (borderRightWidth := initial)
+          (borderRightWidth := initial)
 
       "border-right-width:unset" `isRenderedFrom` (borderRightWidth := unset)
 
@@ -569,11 +647,11 @@ spec = do
 
       "border-bottom-width:inherit"
         `isRenderedFrom`
-        (borderBottomWidth := inherit)
+          (borderBottomWidth := inherit)
 
       "border-bottom-width:initial"
         `isRenderedFrom`
-        (borderBottomWidth := initial)
+          (borderBottomWidth := initial)
 
       "border-bottom-width:unset" `isRenderedFrom` (borderBottomWidth := unset)
 
@@ -581,7 +659,7 @@ spec = do
 
       "border-bottom-width:medium"
         `isRenderedFrom`
-        (borderBottomWidth := medium)
+          (borderBottomWidth := medium)
 
       "border-bottom-width:thick" `isRenderedFrom` (borderBottomWidth := thick)
 
@@ -621,147 +699,147 @@ spec = do
 
       "border-width:1px medium"
         `isRenderedFrom`
-        (borderWidth := px 1 ~ medium)
+          (borderWidth := px 1 ~ medium)
 
       "border-width:thick thin"
         `isRenderedFrom`
-        (borderWidth := thick ~ thin)
+          (borderWidth := thick ~ thin)
 
       "border-width:medium 1px thick"
         `isRenderedFrom`
-        (borderWidth := medium ~ px 1 ~ thick)
+          (borderWidth := medium ~ px 1 ~ thick)
 
       "border-width:thin 1px 2px"
         `isRenderedFrom`
-        (borderWidth := thin ~ px 1 ~ px 2)
+          (borderWidth := thin ~ px 1 ~ px 2)
 
       "border-width:1px thin 1px 2px"
         `isRenderedFrom`
-        (borderWidth := px 1 ~ thin ~ px 1 ~ px 2)
+          (borderWidth := px 1 ~ thin ~ px 1 ~ px 2)
 
       "border-width:medium thin 1px thick"
         `isRenderedFrom`
-        (borderWidth := medium ~ thin ~ px 1 ~ thick)
+          (borderWidth := medium ~ thin ~ px 1 ~ thick)
 
     describe "border-top-left-radius property" do
 
       "border-top-left-radius:inherit"
         `isRenderedFrom`
-        (borderTopLeftRadius := inherit)
+          (borderTopLeftRadius := inherit)
 
       "border-top-left-radius:initial"
         `isRenderedFrom`
-        (borderTopLeftRadius := initial)
+          (borderTopLeftRadius := initial)
 
       "border-top-left-radius:unset"
         `isRenderedFrom`
-        (borderTopLeftRadius := unset)
+          (borderTopLeftRadius := unset)
 
       "border-top-left-radius:1px"
         `isRenderedFrom`
-        (borderTopLeftRadius := px 1)
+          (borderTopLeftRadius := px 1)
 
       "border-top-left-radius:10%"
         `isRenderedFrom`
-        (borderTopLeftRadius := pct 10)
+          (borderTopLeftRadius := pct 10)
 
       "border-top-left-radius:1px 10%"
         `isRenderedFrom`
-        (borderTopLeftRadius := px 1 ~ pct 10)
+          (borderTopLeftRadius := px 1 ~ pct 10)
 
       "border-top-left-radius:10% 1px"
         `isRenderedFrom`
-        (borderTopLeftRadius := pct 10 ~ px 1)
+          (borderTopLeftRadius := pct 10 ~ px 1)
 
     describe "border-top-right-radius property" do
 
       "border-top-right-radius:inherit"
         `isRenderedFrom`
-        (borderTopRightRadius := inherit)
+          (borderTopRightRadius := inherit)
 
       "border-top-right-radius:initial"
         `isRenderedFrom`
-        (borderTopRightRadius := initial)
+          (borderTopRightRadius := initial)
 
       "border-top-right-radius:unset"
         `isRenderedFrom`
-        (borderTopRightRadius := unset)
+          (borderTopRightRadius := unset)
 
       "border-top-right-radius:1px"
         `isRenderedFrom`
-        (borderTopRightRadius := px 1)
+          (borderTopRightRadius := px 1)
 
       "border-top-right-radius:10%"
         `isRenderedFrom`
-        (borderTopRightRadius := pct 10)
+          (borderTopRightRadius := pct 10)
 
       "border-top-right-radius:1px 10%"
         `isRenderedFrom`
-        (borderTopRightRadius := px 1 ~ pct 10)
+          (borderTopRightRadius := px 1 ~ pct 10)
 
       "border-top-right-radius:10% 1px"
         `isRenderedFrom`
-        (borderTopRightRadius := pct 10 ~ px 1)
+          (borderTopRightRadius := pct 10 ~ px 1)
 
     describe "border-bottom-right-radius property" do
 
       "border-bottom-right-radius:inherit"
         `isRenderedFrom`
-        (borderBottomRightRadius := inherit)
+          (borderBottomRightRadius := inherit)
 
       "border-bottom-right-radius:initial"
         `isRenderedFrom`
-        (borderBottomRightRadius := initial)
+          (borderBottomRightRadius := initial)
 
       "border-bottom-right-radius:unset"
         `isRenderedFrom`
-        (borderBottomRightRadius := unset)
+          (borderBottomRightRadius := unset)
 
       "border-bottom-right-radius:1px"
         `isRenderedFrom`
-        (borderBottomRightRadius := px 1)
+          (borderBottomRightRadius := px 1)
 
       "border-bottom-right-radius:10%"
         `isRenderedFrom`
-        (borderBottomRightRadius := pct 10)
+          (borderBottomRightRadius := pct 10)
 
       "border-bottom-right-radius:1px 10%"
         `isRenderedFrom`
-        (borderBottomRightRadius := px 1 ~ pct 10)
+          (borderBottomRightRadius := px 1 ~ pct 10)
 
       "border-bottom-right-radius:10% 1px"
         `isRenderedFrom`
-        (borderBottomRightRadius := pct 10 ~ px 1)
+          (borderBottomRightRadius := pct 10 ~ px 1)
 
     describe "border-bottom-left-radius property" do
 
       "border-bottom-left-radius:inherit"
         `isRenderedFrom`
-        (borderBottomLeftRadius := inherit)
+          (borderBottomLeftRadius := inherit)
 
       "border-bottom-left-radius:initial"
         `isRenderedFrom`
-        (borderBottomLeftRadius := initial)
+          (borderBottomLeftRadius := initial)
 
       "border-bottom-left-radius:unset"
         `isRenderedFrom`
-        (borderBottomLeftRadius := unset)
+          (borderBottomLeftRadius := unset)
 
       "border-bottom-left-radius:1px"
         `isRenderedFrom`
-        (borderBottomLeftRadius := px 1)
+          (borderBottomLeftRadius := px 1)
 
       "border-bottom-left-radius:10%"
         `isRenderedFrom`
-        (borderBottomLeftRadius := pct 10)
+          (borderBottomLeftRadius := pct 10)
 
       "border-bottom-left-radius:1px 10%"
         `isRenderedFrom`
-        (borderBottomLeftRadius := px 1 ~ pct 10)
+          (borderBottomLeftRadius := px 1 ~ pct 10)
 
       "border-bottom-left-radius:10% 1px"
         `isRenderedFrom`
-        (borderBottomLeftRadius := pct 10 ~ px 1)
+          (borderBottomLeftRadius := pct 10 ~ px 1)
 
     describe "border-radius property" do
 
@@ -773,125 +851,133 @@ spec = do
 
       "border-radius:1px 2px 3px 4px/10% 20% 30% 40%"
         `isRenderedFrom`
-        ( borderRadius :=
-            px 1 ~ px 2 ~ px 3 ~ px 4 /\ pct 10 ~ pct 20 ~ pct 30 ~ pct 40
-        )
+          ( borderRadius :=
+              (px 1 ~ px 2 ~ px 3 ~ px 4)
+              /\ (pct 10 ~ pct 20 ~ pct 30 ~ pct 40)
+          )
 
       "border-radius:10% 20% 30% 40%/1px 2px 3px 4px"
         `isRenderedFrom`
-        ( borderRadius :=
-            pct 10 ~ pct 20 ~ pct 30 ~ pct 40 /\ px 1 ~ px 2 ~ px 3 ~ px 4 
-        )
+          ( borderRadius :=
+              (pct 10 ~ pct 20 ~ pct 30 ~ pct 40)
+              /\ (px 1 ~ px 2 ~ px 3 ~ px 4)
+          )
 
       "border-radius:1px 2px 3px 4px/10% 20% 30%"
         `isRenderedFrom`
-        (borderRadius := px 1 ~ px 2 ~ px 3 ~ px 4 /\ pct 10 ~ pct 20 ~ pct 30)
+          ( borderRadius :=
+              (px 1 ~ px 2 ~ px 3 ~ px 4)
+              /\ (pct 10 ~ pct 20 ~ pct 30)
+          )
 
       "border-radius:10% 20% 30% 40%/1px 2px 3px"
         `isRenderedFrom`
-        ( borderRadius :=
-            pct 10 ~ pct 20 ~ pct 30 ~ pct 40 /\ px 1 ~ px 2 ~ px 3
-        )
+          ( borderRadius :=
+              (pct 10 ~ pct 20 ~ pct 30 ~ pct 40)
+              /\ (px 1 ~ px 2 ~ px 3)
+          )
 
       "border-radius:1px 2px 3px 4px/10% 20%"
         `isRenderedFrom`
-        (borderRadius := px 1 ~ px 2 ~ px 3 ~ px 4 /\ pct 10 ~ pct 20)
+          (borderRadius := px 1 ~ px 2 ~ px 3 ~ px 4 /\ pct 10 ~ pct 20)
 
       "border-radius:10% 20% 30% 40%/1px 2px"
         `isRenderedFrom`
-        (borderRadius := pct 10 ~ pct 20 ~ pct 30 ~ pct 40 /\ px 1 ~ px 2)
+          (borderRadius := pct 10 ~ pct 20 ~ pct 30 ~ pct 40 /\ px 1 ~ px 2)
 
       "border-radius:1px 2px 3px 4px/10%"
         `isRenderedFrom`
-        (borderRadius := px 1 ~ px 2 ~ px 3 ~ px 4 /\ pct 10)
+          (borderRadius := px 1 ~ px 2 ~ px 3 ~ px 4 /\ pct 10)
 
       "border-radius:10% 20% 30% 40%/1px"
         `isRenderedFrom`
-        (borderRadius := pct 10 ~ pct 20 ~ pct 30 ~ pct 40 /\ px 1)
+          (borderRadius := pct 10 ~ pct 20 ~ pct 30 ~ pct 40 /\ px 1)
 
       "border-radius:1px 2px 3px 4px"
         `isRenderedFrom`
-        (borderRadius := px 1 ~ px 2 ~ px 3 ~ px 4)
+          (borderRadius := px 1 ~ px 2 ~ px 3 ~ px 4)
 
       "border-radius:10% 20% 30% 40%"
         `isRenderedFrom`
-        (borderRadius := pct 10 ~ pct 20 ~ pct 30 ~ pct 40)
+          (borderRadius := pct 10 ~ pct 20 ~ pct 30 ~ pct 40)
 
       "border-radius:1px 2px 3px/10% 20% 30% 40%"
         `isRenderedFrom`
-        ( borderRadius :=
-            px 1 ~ px 2 ~ px 3 /\ pct 10 ~ pct 20 ~ pct 30 ~ pct 40
-        )
+          ( borderRadius :=
+              (px 1 ~ px 2 ~ px 3)
+              /\ (pct 10 ~ pct 20 ~ pct 30 ~ pct 40)
+          )
 
       "border-radius:10% 20% 30%/1px 2px 3px 4px"
         `isRenderedFrom`
-        (borderRadius := pct 10 ~ pct 20 ~ pct 30 /\ px 1 ~ px 2 ~ px 3 ~ px 4)
+          ( borderRadius :=
+              (pct 10 ~ pct 20 ~ pct 30)
+              /\ (px 1 ~ px 2 ~ px 3 ~ px 4)
+          )
 
       "border-radius:1px 2px 3px/10% 20% 30%"
         `isRenderedFrom`
-        (borderRadius := px 1 ~ px 2 ~ px 3 /\ pct 10 ~ pct 20 ~ pct 30)
+          (borderRadius := px 1 ~ px 2 ~ px 3 /\ pct 10 ~ pct 20 ~ pct 30)
 
       "border-radius:10% 20% 30%/1px 2px 3px"
         `isRenderedFrom`
-        (borderRadius := pct 10 ~ pct 20 ~ pct 30 /\ px 1 ~ px 2 ~ px 3)
+          (borderRadius := pct 10 ~ pct 20 ~ pct 30 /\ px 1 ~ px 2 ~ px 3)
 
       "border-radius:1px 2px 3px/10% 20%"
         `isRenderedFrom`
-        (borderRadius := px 1 ~ px 2 ~ px 3 /\ pct 10 ~ pct 20)
+          (borderRadius := px 1 ~ px 2 ~ px 3 /\ pct 10 ~ pct 20)
 
       "border-radius:10% 20% 30%/1px 2px"
         `isRenderedFrom`
-        (borderRadius := pct 10 ~ pct 20 ~ pct 30 /\ px 1 ~ px 2)
+          (borderRadius := pct 10 ~ pct 20 ~ pct 30 /\ px 1 ~ px 2)
 
       "border-radius:1px 2px 3px/10%"
         `isRenderedFrom`
-        (borderRadius := px 1 ~ px 2 ~ px 3 /\ pct 10)
+          (borderRadius := px 1 ~ px 2 ~ px 3 /\ pct 10)
 
       "border-radius:10% 20% 30%/1px"
         `isRenderedFrom`
-        (borderRadius := pct 10 ~ pct 20 ~ pct 30 /\ px 1)
+          (borderRadius := pct 10 ~ pct 20 ~ pct 30 /\ px 1)
 
       "border-radius:1px 2px 3px"
         `isRenderedFrom`
-        (borderRadius := px 1 ~ px 2 ~ px 3)
+          (borderRadius := px 1 ~ px 2 ~ px 3)
 
       "border-radius:10% 20% 30%"
         `isRenderedFrom`
-        (borderRadius := pct 10 ~ pct 20 ~ pct 30)
+          (borderRadius := pct 10 ~ pct 20 ~ pct 30)
 
       "border-radius:1px 2px/10% 20% 30% 40%"
         `isRenderedFrom`
-        ( borderRadius :=
-            px 1 ~ px 2 /\ pct 10 ~ pct 20 ~ pct 30 ~ pct 40
-        )
+          (borderRadius := px 1 ~ px 2 /\ pct 10 ~ pct 20 ~ pct 30 ~ pct 40)
 
       "border-radius:10% 20%/1px 2px 3px 4px"
         `isRenderedFrom`
-        (borderRadius := pct 10 ~ pct 20 /\ px 1 ~ px 2 ~ px 3 ~ px 4)
+          (borderRadius := pct 10 ~ pct 20 /\ px 1 ~ px 2 ~ px 3 ~ px 4)
 
       "border-radius:1px 2px/10% 20% 30%"
         `isRenderedFrom`
-        (borderRadius := px 1 ~ px 2 /\ pct 10 ~ pct 20 ~ pct 30)
+          (borderRadius := px 1 ~ px 2 /\ pct 10 ~ pct 20 ~ pct 30)
 
       "border-radius:10% 20%/1px 2px 3px"
         `isRenderedFrom`
-        (borderRadius := pct 10 ~ pct 20 /\ px 1 ~ px 2 ~ px 3)
+          (borderRadius := pct 10 ~ pct 20 /\ px 1 ~ px 2 ~ px 3)
 
       "border-radius:1px 2px/10% 20%"
         `isRenderedFrom`
-        (borderRadius := px 1 ~ px 2 /\ pct 10 ~ pct 20)
+          (borderRadius := px 1 ~ px 2 /\ pct 10 ~ pct 20)
 
       "border-radius:10% 20%/1px 2px"
         `isRenderedFrom`
-        (borderRadius := pct 10 ~ pct 20 /\ px 1 ~ px 2)
+          (borderRadius := pct 10 ~ pct 20 /\ px 1 ~ px 2)
 
       "border-radius:1px 2px/10%"
         `isRenderedFrom`
-        (borderRadius := px 1 ~ px 2 /\ pct 10)
+          (borderRadius := px 1 ~ px 2 /\ pct 10)
 
       "border-radius:10% 20%/1px"
         `isRenderedFrom`
-        (borderRadius := pct 10 ~ pct 20 /\ px 1)
+          (borderRadius := pct 10 ~ pct 20 /\ px 1)
 
       "border-radius:1px 2px" `isRenderedFrom` (borderRadius := px 1 ~ px 2)
 
@@ -899,27 +985,27 @@ spec = do
 
       "border-radius:1px/10% 20% 30% 40%"
         `isRenderedFrom`
-        (borderRadius := px 1 /\ pct 10 ~ pct 20 ~ pct 30 ~ pct 40)
+          (borderRadius := px 1 /\ pct 10 ~ pct 20 ~ pct 30 ~ pct 40)
 
       "border-radius:10%/1px 2px 3px 4px"
         `isRenderedFrom`
-        (borderRadius := pct 10 /\ px 1 ~ px 2 ~ px 3 ~ px 4)
+          (borderRadius := pct 10 /\ px 1 ~ px 2 ~ px 3 ~ px 4)
 
       "border-radius:1px/10% 20% 30%"
         `isRenderedFrom`
-        (borderRadius := px 1 /\ pct 10 ~ pct 20 ~ pct 30)
+          (borderRadius := px 1 /\ pct 10 ~ pct 20 ~ pct 30)
 
       "border-radius:10%/1px 2px 3px"
         `isRenderedFrom`
-        (borderRadius := pct 10 /\ px 1 ~ px 2 ~ px 3)
+          (borderRadius := pct 10 /\ px 1 ~ px 2 ~ px 3)
 
       "border-radius:1px/10% 20%"
         `isRenderedFrom`
-        (borderRadius := px 1 /\ pct 10 ~ pct 20)
+          (borderRadius := px 1 /\ pct 10 ~ pct 20)
 
       "border-radius:10%/1px 2px"
         `isRenderedFrom`
-        (borderRadius := pct 10 /\ px 1 ~ px 2)
+          (borderRadius := pct 10 /\ px 1 ~ px 2)
 
       "border-radius:1px/10%" `isRenderedFrom` (borderRadius := px 1 /\ pct 10)
 
@@ -941,27 +1027,27 @@ spec = do
 
       "box-shadow:4px 8px"
         `isRenderedFrom`
-        (boxShadow := px 4 ~ px 8)
+          (boxShadow := px 4 ~ px 8)
 
       "box-shadow:4px 8px 4px inset"
         `isRenderedFrom`
-        (boxShadow := px 4 ~ px 8 ~ px 4 ~ inset)
+          (boxShadow := px 4 ~ px 8 ~ px 4 ~ inset)
 
       "box-shadow:#000000 64px 64px 12px 40px"
         `isRenderedFrom`
-        (boxShadow := black ~ px 64 ~ px 64 ~ px 12 ~ px 40)
+          (boxShadow := black ~ px 64 ~ px 64 ~ px 12 ~ px 40)
 
       "box-shadow:64px 64px 12px 40px inset"
         `isRenderedFrom`
-        (boxShadow := px 64 ~ px 64 ~ px 12 ~ px 40 ~ inset)
+          (boxShadow := px 64 ~ px 64 ~ px 12 ~ px 40 ~ inset)
 
       "box-shadow:#00000066 8px 16px 0 8px inset"
         `isRenderedFrom`
-        (boxShadow := rgba 0 0 0 0.4 ~ px 8 ~ px 16 ~ nil ~ px 8 ~ inset)
+          (boxShadow := rgba 0 0 0 0.4 ~ px 8 ~ px 16 ~ nil ~ px 8 ~ inset)
 
       "box-shadow:#000000 5px 5px 10px inset,#0000ff -5px -5px 10px inset"
         `isRenderedFrom`
-        ( boxShadow :=
-            black ~ px 5 ~ px 5 ~ px 10 ~ inset /\
-            rgb 0 0 255 ~ px (-5) ~ px (-5) ~ px 10 ~ inset
-        )
+          ( boxShadow :=
+              (black ~ px 5 ~ px 5 ~ px 10 ~ inset) /\
+              (rgb 0 0 255 ~ px (-5) ~ px (-5) ~ px 10 ~ inset)
+          )
