@@ -5,7 +5,7 @@ module Test.UISpec where
 import Prelude
 
 import Color (rgb)
-import Tecton (auto, dashed, dotted, double, groove, inherit, initial, inset, invert, medium, nil, none, outlineColor, outlineOffset, outlineStyle, outlineWidth, outset, px, ridge, solid, thick, thin, transparent, unset, (:=))
+import Tecton (appearance, auto, dashed, dotted, double, groove, inherit, initial, inset, invert, medium, menulistButton, nil, none, outlineColor, outlineOffset, outlineStyle, outlineWidth, outset, px, ridge, solid, textfield, thick, thin, transparent, unset, (:=))
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -85,3 +85,21 @@ spec = do
       "outline-offset:4px" `isRenderedFrom` (outlineOffset := px 4)
 
       "outline-offset:0" `isRenderedFrom` (outlineOffset := nil)
+
+    describe "appearance property" do
+
+      "appearance:inherit" `isRenderedFrom` (appearance := inherit)
+
+      "appearance:initial" `isRenderedFrom` (appearance := initial)
+
+      "appearance:unset" `isRenderedFrom` (appearance := unset)
+
+      "appearance:none" `isRenderedFrom` (appearance := none)
+
+      "appearance:auto" `isRenderedFrom` (appearance := auto)
+
+      "appearance:textfield" `isRenderedFrom` (appearance := textfield)
+
+      "appearance:menulist-button"
+        `isRenderedFrom`
+        (appearance := menulistButton)

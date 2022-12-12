@@ -33,6 +33,7 @@ import Tecton.Internal
   , animationName
   , animationPlayState
   , animationTimingFunction
+  , appearance
   , arabicIndic
   , armenian
   , article
@@ -367,6 +368,7 @@ import Tecton.Internal
   , media'
   , medium
   , menu
+  , menulistButton
   , method
   , middle
   , min
@@ -633,6 +635,7 @@ import Tecton.Internal
   , textTop
   , textTransform
   , textarea
+  , textfield
   , tfoot
   , th
   , thai
