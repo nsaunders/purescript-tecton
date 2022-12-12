@@ -8,6 +8,7 @@ Breaking changes:
 
 New features:
 - `:focus-within` pseudo-class nsaunders/purescript-tecton#17
+- `appearance` property nsaunders/purescript-tecton#18
 
 Bugfixes:
 

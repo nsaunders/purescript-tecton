@@ -7,6 +7,7 @@ module Tecton.Internal
   , class AnimationDirectionKeyword
   , class AnimationFillModeKeyword
   , class AnimationPlayStateKeyword
+  , class AppearanceKeyword
   , class Assoc
   , class AttachmentKeyword
   , class Attribute
@@ -235,6 +236,7 @@ module Tecton.Internal
   , animationName
   , animationPlayState
   , animationTimingFunction
+  , appearance
   , arabicIndic
   , armenian
   , article
@@ -590,6 +592,7 @@ module Tecton.Internal
   , media'
   , medium
   , menu
+  , menulistButton
   , method
   , middle
   , min
@@ -865,6 +868,7 @@ module Tecton.Internal
   , textTop
   , textTransform
   , textarea
+  , textfield
   , tfoot
   , th
   , thai
@@ -7067,6 +7071,29 @@ instance Animatable "outline-offset"
 instance declarationOutlineOffset ::
   LengthTag t =>
   Declaration "outline-offset" (Measure t) where
+  pval = const val
+
+-- https://www.w3.org/TR/css-ui-4/#propdef-appearance
+
+appearance = Proxy :: Proxy "appearance"
+
+instance Property "appearance"
+
+textfield = Proxy :: Proxy "textfield"
+menulistButton = Proxy :: Proxy "menulist-button"
+
+class AppearanceKeyword (s :: Symbol)
+
+instance AppearanceKeyword "none"
+instance AppearanceKeyword "auto"
+instance AppearanceKeyword "textfield"
+instance AppearanceKeyword "menulist-button"
+
+instance declarationAppearance ::
+  ( AppearanceKeyword s
+  , IsSymbol s
+  ) =>
+  Declaration "appearance" (Proxy s) where
   pval = const val
 
 --------------------------------------------------------------------------------
