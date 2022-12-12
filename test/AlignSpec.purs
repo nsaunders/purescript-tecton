@@ -4,7 +4,45 @@ module Test.AlignSpec where
 
 import Prelude
 
-import Tecton (alignContent, alignItems, alignSelf, auto, baseline, center, columnGap, end, first, flexEnd, flexStart, gap, initial, inherit, justifyContent, justifyItems, justifySelf, last, left, legacy, normal, pct, px, right, rowGap, safe, selfEnd, selfStart, spaceAround, spaceBetween, spaceEvenly, start, stretch, unsafe, unset, (:=), (~))
+import Tecton
+  ( alignContent
+  , alignItems
+  , alignSelf
+  , auto
+  , baseline
+  , center
+  , columnGap
+  , end
+  , first
+  , flexEnd
+  , flexStart
+  , gap
+  , inherit
+  , initial
+  , justifyContent
+  , justifyItems
+  , justifySelf
+  , last
+  , left
+  , legacy
+  , normal
+  , pct
+  , px
+  , right
+  , rowGap
+  , safe
+  , selfEnd
+  , selfStart
+  , spaceAround
+  , spaceBetween
+  , spaceEvenly
+  , start
+  , stretch
+  , unsafe
+  , unset
+  , (:=)
+  , (~)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -27,18 +65,18 @@ spec = do
 
       "justify-content:space-between"
         `isRenderedFrom`
-        (justifyContent := spaceBetween)
+          (justifyContent := spaceBetween)
 
       "justify-content:space-around"
         `isRenderedFrom`
-        (justifyContent := spaceAround)
+          (justifyContent := spaceAround)
 
       "justify-content:space-evenly"
         `isRenderedFrom`
-        (justifyContent := spaceEvenly)
+          (justifyContent := spaceEvenly)
 
       "justify-content:stretch" `isRenderedFrom` (justifyContent := stretch)
- 
+
       "justify-content:center" `isRenderedFrom` (justifyContent := center)
 
       "justify-content:start" `isRenderedFrom` (justifyContent := start)
@@ -47,65 +85,67 @@ spec = do
 
       "justify-content:flex-start"
         `isRenderedFrom`
-        (justifyContent := flexStart)
+          (justifyContent := flexStart)
 
       "justify-content:flex-end" `isRenderedFrom` (justifyContent := flexEnd)
 
       "justify-content:left" `isRenderedFrom` (justifyContent := left)
 
       "justify-content:right" `isRenderedFrom` (justifyContent := right)
- 
+
       "justify-content:safe center"
         `isRenderedFrom`
-        (justifyContent := safe ~ center)
+          (justifyContent := safe ~ center)
 
       "justify-content:safe start"
         `isRenderedFrom`
-        (justifyContent := safe ~ start)
+          (justifyContent := safe ~ start)
 
       "justify-content:safe end" `isRenderedFrom` (justifyContent := safe ~ end)
 
       "justify-content:safe flex-start"
         `isRenderedFrom`
-        (justifyContent := safe ~ flexStart)
+          (justifyContent := safe ~ flexStart)
 
       "justify-content:safe flex-end"
         `isRenderedFrom`
-        (justifyContent := safe ~ flexEnd)
+          (justifyContent := safe ~ flexEnd)
 
       "justify-content:safe left"
         `isRenderedFrom`
-        (justifyContent := safe ~ left)
+          (justifyContent := safe ~ left)
 
       "justify-content:safe right"
         `isRenderedFrom`
-        (justifyContent := safe ~ right)
- 
+          (justifyContent := safe ~ right)
+
       "justify-content:unsafe center"
         `isRenderedFrom`
-        (justifyContent := unsafe ~ center)
+          (justifyContent := unsafe ~ center)
 
       "justify-content:unsafe start"
         `isRenderedFrom`
-        (justifyContent := unsafe ~ start)
+          (justifyContent := unsafe ~ start)
 
-      "justify-content:unsafe end" `isRenderedFrom` (justifyContent := unsafe ~ end)
+      "justify-content:unsafe end"
+        `isRenderedFrom`
+          (justifyContent := unsafe ~ end)
 
       "justify-content:unsafe flex-start"
         `isRenderedFrom`
-        (justifyContent := unsafe ~ flexStart)
+          (justifyContent := unsafe ~ flexStart)
 
       "justify-content:unsafe flex-end"
         `isRenderedFrom`
-        (justifyContent := unsafe ~ flexEnd)
+          (justifyContent := unsafe ~ flexEnd)
 
       "justify-content:unsafe left"
         `isRenderedFrom`
-        (justifyContent := unsafe ~ left)
+          (justifyContent := unsafe ~ left)
 
       "justify-content:unsafe right"
         `isRenderedFrom`
-        (justifyContent := unsafe ~ right)
+          (justifyContent := unsafe ~ right)
 
     describe "align-content property" do
 
@@ -121,23 +161,23 @@ spec = do
 
       "align-content:first baseline"
         `isRenderedFrom`
-        (alignContent := first ~ baseline)
+          (alignContent := first ~ baseline)
 
       "align-content:last baseline"
         `isRenderedFrom`
-        (alignContent := last ~ baseline)
+          (alignContent := last ~ baseline)
 
       "align-content:space-between"
         `isRenderedFrom`
-        (alignContent := spaceBetween)
+          (alignContent := spaceBetween)
 
       "align-content:space-around"
         `isRenderedFrom`
-        (alignContent := spaceAround)
+          (alignContent := spaceAround)
 
       "align-content:space-evenly"
         `isRenderedFrom`
-        (alignContent := spaceEvenly)
+          (alignContent := spaceEvenly)
 
       "align-content:stretch" `isRenderedFrom` (alignContent := stretch)
 
@@ -149,45 +189,45 @@ spec = do
 
       "align-content:flex-start"
         `isRenderedFrom`
-        (alignContent := flexStart)
+          (alignContent := flexStart)
 
       "align-content:flex-end" `isRenderedFrom` (alignContent := flexEnd)
- 
+
       "align-content:safe center"
         `isRenderedFrom`
-        (alignContent := safe ~ center)
+          (alignContent := safe ~ center)
 
       "align-content:safe start"
         `isRenderedFrom`
-        (alignContent := safe ~ start)
+          (alignContent := safe ~ start)
 
       "align-content:safe end" `isRenderedFrom` (alignContent := safe ~ end)
 
       "align-content:safe flex-start"
         `isRenderedFrom`
-        (alignContent := safe ~ flexStart)
+          (alignContent := safe ~ flexStart)
 
       "align-content:safe flex-end"
         `isRenderedFrom`
-        (alignContent := safe ~ flexEnd)
- 
+          (alignContent := safe ~ flexEnd)
+
       "align-content:unsafe center"
         `isRenderedFrom`
-        (alignContent := unsafe ~ center)
+          (alignContent := unsafe ~ center)
 
       "align-content:unsafe start"
         `isRenderedFrom`
-        (alignContent := unsafe ~ start)
+          (alignContent := unsafe ~ start)
 
       "align-content:unsafe end" `isRenderedFrom` (alignContent := unsafe ~ end)
 
       "align-content:unsafe flex-start"
         `isRenderedFrom`
-        (alignContent := unsafe ~ flexStart)
+          (alignContent := unsafe ~ flexStart)
 
       "align-content:unsafe flex-end"
         `isRenderedFrom`
-        (alignContent := unsafe ~ flexEnd)
+          (alignContent := unsafe ~ flexEnd)
 
     describe "justify-self property" do
 
@@ -207,11 +247,11 @@ spec = do
 
       "justify-self:first baseline"
         `isRenderedFrom`
-        (justifySelf := first ~ baseline)
+          (justifySelf := first ~ baseline)
 
       "justify-self:last baseline"
         `isRenderedFrom`
-        (justifySelf := last ~ baseline)
+          (justifySelf := last ~ baseline)
 
       "justify-self:center" `isRenderedFrom` (justifySelf := center)
 
@@ -239,19 +279,19 @@ spec = do
 
       "justify-self:safe self-start"
         `isRenderedFrom`
-        (justifySelf := safe ~ selfStart)
+          (justifySelf := safe ~ selfStart)
 
       "justify-self:safe self-end"
         `isRenderedFrom`
-        (justifySelf := safe ~ selfEnd)
+          (justifySelf := safe ~ selfEnd)
 
       "justify-self:safe flex-start"
         `isRenderedFrom`
-        (justifySelf := safe ~ flexStart)
+          (justifySelf := safe ~ flexStart)
 
       "justify-self:safe flex-end"
         `isRenderedFrom`
-        (justifySelf := safe ~ flexEnd)
+          (justifySelf := safe ~ flexEnd)
 
       "justify-self:safe left" `isRenderedFrom` (justifySelf := safe ~ left)
 
@@ -259,35 +299,35 @@ spec = do
 
       "justify-self:unsafe center"
         `isRenderedFrom`
-        (justifySelf := unsafe ~ center)
+          (justifySelf := unsafe ~ center)
 
       "justify-self:unsafe start"
         `isRenderedFrom`
-        (justifySelf := unsafe ~ start)
+          (justifySelf := unsafe ~ start)
 
       "justify-self:unsafe end" `isRenderedFrom` (justifySelf := unsafe ~ end)
 
       "justify-self:unsafe self-start"
         `isRenderedFrom`
-        (justifySelf := unsafe ~ selfStart)
+          (justifySelf := unsafe ~ selfStart)
 
       "justify-self:unsafe self-end"
         `isRenderedFrom`
-        (justifySelf := unsafe ~ selfEnd)
+          (justifySelf := unsafe ~ selfEnd)
 
       "justify-self:unsafe flex-start"
         `isRenderedFrom`
-        (justifySelf := unsafe ~ flexStart)
+          (justifySelf := unsafe ~ flexStart)
 
       "justify-self:unsafe flex-end"
         `isRenderedFrom`
-        (justifySelf := unsafe ~ flexEnd)
+          (justifySelf := unsafe ~ flexEnd)
 
       "justify-self:unsafe left" `isRenderedFrom` (justifySelf := unsafe ~ left)
 
       "justify-self:unsafe right"
         `isRenderedFrom`
-        (justifySelf := unsafe ~ right)
+          (justifySelf := unsafe ~ right)
 
     describe "align-self property" do
 
@@ -307,7 +347,7 @@ spec = do
 
       "align-self:first baseline"
         `isRenderedFrom`
-        (alignSelf := first ~ baseline)
+          (alignSelf := first ~ baseline)
 
       "align-self:last baseline" `isRenderedFrom` (alignSelf := last ~ baseline)
 
@@ -319,9 +359,9 @@ spec = do
 
       "align-self:self-start" `isRenderedFrom` (alignSelf := selfStart)
 
-      "align-self:self-end" `isRenderedFrom` (alignSelf :=  selfEnd)
+      "align-self:self-end" `isRenderedFrom` (alignSelf := selfEnd)
 
-      "align-self:flex-start" `isRenderedFrom` (alignSelf :=  flexStart)
+      "align-self:flex-start" `isRenderedFrom` (alignSelf := flexStart)
 
       "align-self:flex-end" `isRenderedFrom` (alignSelf := flexEnd)
 
@@ -333,15 +373,17 @@ spec = do
 
       "align-self:safe self-start"
         `isRenderedFrom`
-        (alignSelf := safe ~ selfStart)
+          (alignSelf := safe ~ selfStart)
 
       "align-self:safe self-end" `isRenderedFrom` (alignSelf := safe ~ selfEnd)
 
       "align-self:safe flex-start"
         `isRenderedFrom`
-        (alignSelf := safe ~ flexStart)
+          (alignSelf := safe ~ flexStart)
 
-      "align-self:unsafe flex-end" `isRenderedFrom` (alignSelf := unsafe ~ flexEnd)
+      "align-self:unsafe flex-end"
+        `isRenderedFrom`
+          (alignSelf := unsafe ~ flexEnd)
 
       "align-self:unsafe center" `isRenderedFrom` (alignSelf := unsafe ~ center)
 
@@ -351,15 +393,19 @@ spec = do
 
       "align-self:unsafe self-start"
         `isRenderedFrom`
-        (alignSelf := unsafe ~ selfStart)
+          (alignSelf := unsafe ~ selfStart)
 
-      "align-self:unsafe self-end" `isRenderedFrom` (alignSelf := unsafe ~ selfEnd)
+      "align-self:unsafe self-end"
+        `isRenderedFrom`
+          (alignSelf := unsafe ~ selfEnd)
 
       "align-self:unsafe flex-start"
         `isRenderedFrom`
-        (alignSelf := unsafe ~ flexStart)
+          (alignSelf := unsafe ~ flexStart)
 
-      "align-self:unsafe flex-end" `isRenderedFrom` (alignSelf := unsafe ~ flexEnd)
+      "align-self:unsafe flex-end"
+        `isRenderedFrom`
+          (alignSelf := unsafe ~ flexEnd)
 
     describe "justify-items property" do
 
@@ -377,11 +423,11 @@ spec = do
 
       "justify-items:first baseline"
         `isRenderedFrom`
-        (justifyItems := first ~ baseline)
+          (justifyItems := first ~ baseline)
 
       "justify-items:last baseline"
         `isRenderedFrom`
-        (justifyItems := last ~ baseline)
+          (justifyItems := last ~ baseline)
 
       "justify-items:center" `isRenderedFrom` (justifyItems := center)
 
@@ -403,7 +449,7 @@ spec = do
 
       "justify-items:safe center"
         `isRenderedFrom`
-        (justifyItems := safe ~ center)
+          (justifyItems := safe ~ center)
 
       "justify-items:safe start" `isRenderedFrom` (justifyItems := safe ~ start)
 
@@ -411,19 +457,19 @@ spec = do
 
       "justify-items:safe self-start"
         `isRenderedFrom`
-        (justifyItems := safe ~ selfStart)
+          (justifyItems := safe ~ selfStart)
 
       "justify-items:safe self-end"
         `isRenderedFrom`
-        (justifyItems := safe ~ selfEnd)
+          (justifyItems := safe ~ selfEnd)
 
       "justify-items:safe flex-start"
         `isRenderedFrom`
-        (justifyItems := safe ~ flexStart)
+          (justifyItems := safe ~ flexStart)
 
       "justify-items:safe flex-end"
         `isRenderedFrom`
-        (justifyItems := safe ~ flexEnd)
+          (justifyItems := safe ~ flexEnd)
 
       "justify-items:safe left" `isRenderedFrom` (justifyItems := safe ~ left)
 
@@ -431,49 +477,51 @@ spec = do
 
       "justify-items:unsafe center"
         `isRenderedFrom`
-        (justifyItems := unsafe ~ center)
+          (justifyItems := unsafe ~ center)
 
       "justify-items:unsafe start"
         `isRenderedFrom`
-        (justifyItems := unsafe ~ start)
+          (justifyItems := unsafe ~ start)
 
       "justify-items:unsafe end" `isRenderedFrom` (justifyItems := unsafe ~ end)
 
       "justify-items:unsafe self-start"
         `isRenderedFrom`
-        (justifyItems := unsafe ~ selfStart)
+          (justifyItems := unsafe ~ selfStart)
 
       "justify-items:unsafe self-end"
         `isRenderedFrom`
-        (justifyItems := unsafe ~ selfEnd)
+          (justifyItems := unsafe ~ selfEnd)
 
       "justify-items:unsafe flex-start"
         `isRenderedFrom`
-        (justifyItems := unsafe ~ flexStart)
+          (justifyItems := unsafe ~ flexStart)
 
       "justify-items:unsafe flex-end"
         `isRenderedFrom`
-        (justifyItems := unsafe ~ flexEnd)
+          (justifyItems := unsafe ~ flexEnd)
 
-      "justify-items:unsafe left" `isRenderedFrom` (justifyItems := unsafe ~ left)
+      "justify-items:unsafe left"
+        `isRenderedFrom`
+          (justifyItems := unsafe ~ left)
 
       "justify-items:unsafe right"
         `isRenderedFrom`
-        (justifyItems := unsafe ~ right)
+          (justifyItems := unsafe ~ right)
 
       "justify-items:legacy" `isRenderedFrom` (justifyItems := legacy)
 
       "justify-items:legacy left"
         `isRenderedFrom`
-        (justifyItems := legacy ~ left)
+          (justifyItems := legacy ~ left)
 
       "justify-items:legacy right"
         `isRenderedFrom`
-        (justifyItems := legacy ~ right)
+          (justifyItems := legacy ~ right)
 
       "justify-items:legacy center"
         `isRenderedFrom`
-        (justifyItems := legacy ~ center)
+          (justifyItems := legacy ~ center)
 
     describe "align-items property" do
 
@@ -491,11 +539,11 @@ spec = do
 
       "align-items:first baseline"
         `isRenderedFrom`
-        (alignItems := first ~ baseline)
+          (alignItems := first ~ baseline)
 
       "align-items:last baseline"
         `isRenderedFrom`
-        (alignItems := last ~ baseline)
+          (alignItems := last ~ baseline)
 
       "align-items:center" `isRenderedFrom` (alignItems := center)
 
@@ -519,23 +567,23 @@ spec = do
 
       "align-items:safe self-start"
         `isRenderedFrom`
-        (alignItems := safe ~ selfStart)
+          (alignItems := safe ~ selfStart)
 
       "align-items:safe self-end"
         `isRenderedFrom`
-        (alignItems := safe ~ selfEnd)
+          (alignItems := safe ~ selfEnd)
 
       "align-items:safe flex-start"
         `isRenderedFrom`
-        (alignItems := safe ~ flexStart)
+          (alignItems := safe ~ flexStart)
 
       "align-items:safe flex-end"
         `isRenderedFrom`
-        (alignItems := safe ~ flexEnd)
+          (alignItems := safe ~ flexEnd)
 
       "align-items:unsafe center"
         `isRenderedFrom`
-        (alignItems := unsafe ~ center)
+          (alignItems := unsafe ~ center)
 
       "align-items:unsafe start" `isRenderedFrom` (alignItems := unsafe ~ start)
 
@@ -543,19 +591,19 @@ spec = do
 
       "align-items:unsafe self-start"
         `isRenderedFrom`
-        (alignItems := unsafe ~ selfStart)
+          (alignItems := unsafe ~ selfStart)
 
       "align-items:unsafe self-end"
         `isRenderedFrom`
-        (alignItems := unsafe ~ selfEnd)
+          (alignItems := unsafe ~ selfEnd)
 
       "align-items:unsafe flex-start"
         `isRenderedFrom`
-        (alignItems := unsafe ~ flexStart)
+          (alignItems := unsafe ~ flexStart)
 
       "align-items:unsafe flex-end"
         `isRenderedFrom`
-        (alignItems := unsafe ~ flexEnd)
+          (alignItems := unsafe ~ flexEnd)
 
     describe "row-gap property" do
 
