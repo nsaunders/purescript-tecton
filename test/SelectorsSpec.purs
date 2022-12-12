@@ -7,7 +7,66 @@ module Test.SelectorsSpec where
 import Prelude hiding (not)
 
 import Data.Tuple.Nested ((/\))
-import Tecton (a, active, after, att, before, checked, disabled, empty, enabled, even, firstChild, firstLetter, firstLine, firstOfType, focus, focusWithin, hover, href, hreflang, indeterminate, lang, lastChild, lastOfType, link, nil, not, nth, nthChild, nthLastChild, nthOfType, odd, onlyChild, onlyOfType, placeholder, root, selection, span, target, title, universal, visited, width, ($=), (&#), (&.), (&:), (&@), (*=), (?), (@=), (^=), (|*), (|+), (|=), (|>), (|~), (~=), (:=))
+import Tecton
+  ( a
+  , active
+  , after
+  , att
+  , before
+  , checked
+  , disabled
+  , empty
+  , enabled
+  , even
+  , firstChild
+  , firstLetter
+  , firstLine
+  , firstOfType
+  , focus
+  , focusWithin
+  , hover
+  , href
+  , hreflang
+  , indeterminate
+  , lang
+  , lastChild
+  , lastOfType
+  , link
+  , nil
+  , not
+  , nth
+  , nthChild
+  , nthLastChild
+  , nthOfType
+  , odd
+  , onlyChild
+  , onlyOfType
+  , placeholder
+  , root
+  , selection
+  , span
+  , target
+  , title
+  , universal
+  , visited
+  , width
+  , ($=)
+  , (&#)
+  , (&.)
+  , (&:)
+  , (&@)
+  , (*=)
+  , (:=)
+  , (?)
+  , (@=)
+  , (^=)
+  , (|*)
+  , (|+)
+  , (|=)
+  , (|>)
+  , (|~)
+  , (~=)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromSheet)
 
@@ -32,47 +91,47 @@ spec = do
 
       "*[href]{width:0}"
         `isRenderedFrom` do
-        universal &@ href ? width := nil
+          universal &@ href ? width := nil
 
       "*[href=\"http://www.w3.org/\"]{width:0}"
         `isRenderedFrom` do
-        universal &@ href @= "http://www.w3.org/" ? width := nil
+          universal &@ href @= "http://www.w3.org/" ? width := nil
 
       "*[data-states~=\"selected\"]{width:0}"
         `isRenderedFrom` do
-        universal &@ att "data-states" ~= "selected" ? width := nil
+          universal &@ att "data-states" ~= "selected" ? width := nil
 
       "*[hreflang|=\"en\"]{width:0}"
         `isRenderedFrom` do
-        universal &@ hreflang |= "en" ? width := nil
+          universal &@ hreflang |= "en" ? width := nil
 
       "*[data-timezone^=\"UTC-\"]{width:0}"
         `isRenderedFrom` do
-        universal &@ att "data-timezone" ^= "UTC-" ? width := nil
+          universal &@ att "data-timezone" ^= "UTC-" ? width := nil
 
       "*[data-timezone$=\":30\"]{width:0}"
         `isRenderedFrom` do
-        universal &@ att "data-timezone" $= ":30" ? width := nil
+          universal &@ att "data-timezone" $= ":30" ? width := nil
 
       "*[title*=\"hello\"]{width:0}"
         `isRenderedFrom` do
-        universal &@ title *= "hello" ? width := nil
+          universal &@ title *= "hello" ? width := nil
 
     describe "Class selectors" do
 
       "*.pastoral{width:0}"
-        `isRenderedFrom`
-        do universal &. "pastoral" ? width := nil
+        `isRenderedFrom` do
+          universal &. "pastoral" ? width := nil
 
       "*.pastoral.marine{width:0}"
         `isRenderedFrom` do
-        universal &. "pastoral" &. "marine" ? width := nil
+          universal &. "pastoral" &. "marine" ? width := nil
 
     describe "ID selectors" do
 
       "*#chapter1{width:0}"
-        `isRenderedFrom`
-        do universal &# "chapter1" ? width := nil
+        `isRenderedFrom` do
+          universal &# "chapter1" ? width := nil
 
       "*#z98y{width:0}" `isRenderedFrom` do universal &# "z98y" ? width := nil
 
@@ -82,7 +141,7 @@ spec = do
 
       "*:visited{width:0}"
         `isRenderedFrom` do
-        universal &: visited ? width := nil
+          universal &: visited ? width := nil
 
       "*:hover{width:0}" `isRenderedFrom` do universal &: hover ? width := nil
 
@@ -94,130 +153,130 @@ spec = do
 
       "*:lang(en-US){width:0}"
         `isRenderedFrom` do
-        universal &: lang "en-US" ? width := nil
+          universal &: lang "en-US" ? width := nil
 
       "*:enabled{width:0}"
         `isRenderedFrom` do
-        universal &: enabled ? width := nil
+          universal &: enabled ? width := nil
 
       "*:disabled{width:0}"
         `isRenderedFrom` do
-        universal &: disabled ? width := nil
+          universal &: disabled ? width := nil
 
       "*:checked{width:0}"
         `isRenderedFrom` do
-        universal &: checked ? width := nil
+          universal &: checked ? width := nil
 
       "*:indeterminate{width:0}"
         `isRenderedFrom` do
-        universal &: indeterminate ? width := nil
+          universal &: indeterminate ? width := nil
 
       "*:root{width:0}" `isRenderedFrom` do universal &: root ? width := nil
 
       "*:nth-child(even){width:0}"
         `isRenderedFrom` do
-        universal &: nthChild even ? width := nil
+          universal &: nthChild even ? width := nil
 
       "*:nth-child(odd){width:0}"
         `isRenderedFrom` do
-        universal &: nthChild odd ? width := nil
+          universal &: nthChild odd ? width := nil
 
       "*:nth-child(2n){width:0}"
         `isRenderedFrom` do
-        universal &: nthChild (nth 2 0) ? width := nil
+          universal &: nthChild (nth 2 0) ? width := nil
 
       "*:nth-child(2n+1){width:0}"
         `isRenderedFrom` do
-        universal &: nthChild (nth 2 1) ? width := nil
+          universal &: nthChild (nth 2 1) ? width := nil
 
       "*:nth-child(10n-1){width:0}"
         `isRenderedFrom` do
-        universal &: nthChild (nth 10 (-1)) ? width := nil
+          universal &: nthChild (nth 10 (-1)) ? width := nil
 
       "*:nth-last-child(-n+2){width:0}"
         `isRenderedFrom` do
-        universal &: nthLastChild (nth (-1) 2) ? width := nil
+          universal &: nthLastChild (nth (-1) 2) ? width := nil
 
       "*:nth-last-child(odd){width:0}"
         `isRenderedFrom` do
-        universal &: nthLastChild odd ? width := nil
+          universal &: nthLastChild odd ? width := nil
 
       "*:nth-of-type(2n+1){width:0}"
         `isRenderedFrom` do
-        universal &: nthOfType (nth 2 1) ? width := nil
+          universal &: nthOfType (nth 2 1) ? width := nil
 
       "*:nth-of-type(2n){width:0}"
         `isRenderedFrom` do
-        universal &: nthOfType (nth 2 0) ? width := nil
+          universal &: nthOfType (nth 2 0) ? width := nil
 
       "*:first-child{width:0}"
         `isRenderedFrom` do
-        universal &: firstChild ? width := nil
+          universal &: firstChild ? width := nil
 
       "*:last-child{width:0}"
         `isRenderedFrom` do
-        universal &: lastChild ? width := nil
+          universal &: lastChild ? width := nil
 
       "*:first-of-type{width:0}"
         `isRenderedFrom` do
-        universal &: firstOfType ? width := nil
+          universal &: firstOfType ? width := nil
 
       "*:last-of-type{width:0}"
         `isRenderedFrom` do
-        universal &: lastOfType ? width := nil
+          universal &: lastOfType ? width := nil
 
       "*:only-child{width:0}"
         `isRenderedFrom` do
-        universal &: onlyChild ? width := nil
+          universal &: onlyChild ? width := nil
 
       "*:only-of-type{width:0}"
         `isRenderedFrom` do
-        universal &: onlyOfType ? width := nil
+          universal &: onlyOfType ? width := nil
 
       "*:empty{width:0}" `isRenderedFrom` do universal &: empty ? width := nil
 
       "*:not(*){width:0}"
         `isRenderedFrom` do
-        universal &: not universal ? width := nil
+          universal &: not universal ? width := nil
 
       "*:not(*.foo~*:checked){width:0}"
         `isRenderedFrom` do
-        universal &: not (universal &. "foo" |~ universal &: checked) ?
-          width := nil
+          universal &: not (universal &. "foo" |~ universal &: checked) ? do
+            width := nil
 
       "*:not(*,*){width:0}"
         `isRenderedFrom` do
-        universal &: not (universal /\ universal) ? width := nil
+          universal &: not (universal /\ universal) ? width := nil
 
       "*:focus-within{width:0}"
         `isRenderedFrom` do
-        universal &: focusWithin ? width := nil
+          universal &: focusWithin ? width := nil
 
     describe "Pseudo-elements" do
 
       "*::first-line{width:0}"
         `isRenderedFrom` do
-        universal &: firstLine ? width := nil
+          universal &: firstLine ? width := nil
 
       "*::first-letter{width:0}"
         `isRenderedFrom` do
-        universal &: firstLetter ? width := nil
+          universal &: firstLetter ? width := nil
 
       "*::before{width:0}"
         `isRenderedFrom` do
-        universal &: before ? width := nil
+          universal &: before ? width := nil
 
       "*::after{width:0}"
         `isRenderedFrom` do
-        universal &: after ? width := nil
+          universal &: after ? width := nil
 
       "*::placeholder{width:0}"
         `isRenderedFrom` do
-        universal &: placeholder ? width := nil
+          universal &: placeholder ? width := nil
 
       "*::selection{width:0}"
         `isRenderedFrom` do
-        universal &: selection ? width := nil
+          universal &: selection ? width := nil
 
     describe "Combinators" do
 
@@ -233,8 +292,8 @@ spec = do
 
       "*:checked,*.checked{width:0}"
         `isRenderedFrom` do
-        universal &: checked /\ universal &. "checked" ? width := nil
+          universal &: checked /\ universal &. "checked" ? width := nil
 
       "*.foo,*::after{width:0}"
         `isRenderedFrom` do
-        universal &. "foo" /\ universal &: after ? width := nil
+          universal &. "foo" /\ universal &: after ? width := nil
