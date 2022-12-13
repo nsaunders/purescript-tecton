@@ -4,7 +4,23 @@ module Test.OverflowSpec where
 
 import Prelude
 
-import Tecton (auto, clip, ellipsis, hidden, inherit, initial, overflow, overflowX, overflowY, scroll, textOverflow, unset, visible, (:=), (~))
+import Tecton
+  ( auto
+  , clip
+  , ellipsis
+  , hidden
+  , inherit
+  , initial
+  , overflow
+  , overflowX
+  , overflowY
+  , scroll
+  , textOverflow
+  , unset
+  , visible
+  , (:=)
+  , (~)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
