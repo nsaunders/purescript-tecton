@@ -10,7 +10,7 @@ import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
 spec = do
-  
+
   let isRenderedFrom = isRenderedFromInline
 
   describe "Writing Modes Module" do
