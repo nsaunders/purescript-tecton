@@ -4,7 +4,20 @@ module Test.VisurenSpec where
 
 import Prelude
 
-import Tecton (auto, both, clear, float, inherit, initial, left, none, right, unset, zIndex, (:=))
+import Tecton
+  ( auto
+  , both
+  , clear
+  , float
+  , inherit
+  , initial
+  , left
+  , none
+  , right
+  , unset
+  , zIndex
+  , (:=)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
