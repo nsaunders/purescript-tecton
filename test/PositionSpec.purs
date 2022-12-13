@@ -4,7 +4,34 @@ module Test.PositionSpec where
 
 import Prelude hiding (bottom, top)
 
-import Tecton (absolute, auto, bottom, fixed, inherit, initial, inset, insetBlock, insetBlockEnd, insetBlockStart, insetInline, insetInlineEnd, insetInlineStart, left, nil, pct, position, px, relative, right, static, sticky, top, unset, (:=), (~))
+import Tecton
+  ( absolute
+  , auto
+  , bottom
+  , fixed
+  , inherit
+  , initial
+  , inset
+  , insetBlock
+  , insetBlockEnd
+  , insetBlockStart
+  , insetInline
+  , insetInlineEnd
+  , insetInlineStart
+  , left
+  , nil
+  , pct
+  , position
+  , px
+  , relative
+  , right
+  , static
+  , sticky
+  , top
+  , unset
+  , (:=)
+  , (~)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -44,7 +71,7 @@ spec = do
       "top:auto" `isRenderedFrom` (top := auto)
 
       "top:0" `isRenderedFrom` (top := nil)
-   
+
       "top:8px" `isRenderedFrom` (top := px 8)
 
       "top:10%" `isRenderedFrom` (top := pct 10)
@@ -60,7 +87,7 @@ spec = do
       "right:auto" `isRenderedFrom` (right := auto)
 
       "right:0" `isRenderedFrom` (right := nil)
-   
+
       "right:8px" `isRenderedFrom` (right := px 8)
 
       "right:10%" `isRenderedFrom` (right := pct 10)
@@ -76,7 +103,7 @@ spec = do
       "bottom:auto" `isRenderedFrom` (bottom := auto)
 
       "bottom:0" `isRenderedFrom` (bottom := nil)
-   
+
       "bottom:8px" `isRenderedFrom` (bottom := px 8)
 
       "bottom:10%" `isRenderedFrom` (bottom := pct 10)
@@ -92,7 +119,7 @@ spec = do
       "left:auto" `isRenderedFrom` (left := auto)
 
       "left:0" `isRenderedFrom` (left := nil)
-   
+
       "left:8px" `isRenderedFrom` (left := px 8)
 
       "left:10%" `isRenderedFrom` (left := pct 10)
@@ -108,7 +135,7 @@ spec = do
       "inset-block-start:auto" `isRenderedFrom` (insetBlockStart := auto)
 
       "inset-block-start:0" `isRenderedFrom` (insetBlockStart := nil)
-   
+
       "inset-block-start:8px" `isRenderedFrom` (insetBlockStart := px 8)
 
       "inset-block-start:10%" `isRenderedFrom` (insetBlockStart := pct 10)
@@ -117,18 +144,18 @@ spec = do
 
       "inset-inline-start:inherit"
         `isRenderedFrom`
-        (insetInlineStart := inherit)
+          (insetInlineStart := inherit)
 
       "inset-inline-start:initial"
         `isRenderedFrom`
-        (insetInlineStart := initial)
+          (insetInlineStart := initial)
 
       "inset-inline-start:unset" `isRenderedFrom` (insetInlineStart := unset)
 
       "inset-inline-start:auto" `isRenderedFrom` (insetInlineStart := auto)
 
       "inset-inline-start:0" `isRenderedFrom` (insetInlineStart := nil)
-   
+
       "inset-inline-start:8px" `isRenderedFrom` (insetInlineStart := px 8)
 
       "inset-inline-start:10%" `isRenderedFrom` (insetInlineStart := pct 10)
@@ -144,7 +171,7 @@ spec = do
       "inset-block-end:auto" `isRenderedFrom` (insetBlockEnd := auto)
 
       "inset-block-end:0" `isRenderedFrom` (insetBlockEnd := nil)
-   
+
       "inset-block-end:8px" `isRenderedFrom` (insetBlockEnd := px 8)
 
       "inset-block-end:10%" `isRenderedFrom` (insetBlockEnd := pct 10)
@@ -160,7 +187,7 @@ spec = do
       "inset-inline-end:auto" `isRenderedFrom` (insetInlineEnd := auto)
 
       "inset-inline-end:0" `isRenderedFrom` (insetInlineEnd := nil)
-   
+
       "inset-inline-end:8px" `isRenderedFrom` (insetInlineEnd := px 8)
 
       "inset-inline-end:10%" `isRenderedFrom` (insetInlineEnd := pct 10)
@@ -237,16 +264,16 @@ spec = do
 
       "inset:1% 1px auto 2%"
         `isRenderedFrom`
-        (inset := pct 1 ~ px 1 ~ auto ~ pct 2)
+          (inset := pct 1 ~ px 1 ~ auto ~ pct 2)
 
       "inset:2% 1% 1px auto"
         `isRenderedFrom`
-        (inset := pct 2 ~ pct 1 ~ px 1 ~ auto)
+          (inset := pct 2 ~ pct 1 ~ px 1 ~ auto)
 
       "inset:auto 2% 1% 1px"
         `isRenderedFrom`
-        (inset := auto ~ pct 2 ~ pct 1 ~ px 1)
+          (inset := auto ~ pct 2 ~ pct 1 ~ px 1)
 
       "inset:1px auto 2% 1%"
         `isRenderedFrom`
-        (inset := px 1 ~ auto ~ pct 2 ~ pct 1)
+          (inset := px 1 ~ auto ~ pct 2 ~ pct 1)
