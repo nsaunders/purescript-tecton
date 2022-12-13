@@ -4,9 +4,6 @@ import Prelude
 
 import Effect (Effect)
 import Effect.Aff (launchAff_)
-import Test.Spec.Reporter (consoleReporter)
-import Test.Spec.Runner (runSpec)
-
 import Test.AlignSpec as Align
 import Test.AnimationsSpec as Animations
 import Test.BackgroundsSpec as Backgrounds
@@ -27,8 +24,10 @@ import Test.PositionSpec as Position
 import Test.RenderSpec as Render
 import Test.SelectorsSpec as Selectors
 import Test.SizingSpec as Sizing
-import Test.TextSpec as Text
+import Test.Spec.Reporter (consoleReporter)
+import Test.Spec.Runner (runSpec)
 import Test.TextDecorSpec as TextDecor
+import Test.TextSpec as Text
 import Test.TransformsSpec as Transforms
 import Test.TransitionsSpec as Transitions
 import Test.UISpec as UI
@@ -39,7 +38,7 @@ import Test.WritingModesSpec as WritingModes
 main :: Effect Unit
 main =
   launchAff_ $
-    runSpec [consoleReporter] do
+    runSpec [ consoleReporter ] do
       Align.spec
       Animations.spec
       Backgrounds.spec
