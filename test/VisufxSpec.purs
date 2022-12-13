@@ -4,13 +4,22 @@ module Test.VisufxSpec where
 
 import Prelude
 
-import Tecton (collapse, hidden, inherit, initial, unset, visibility, visible, (:=))
+import Tecton
+  ( collapse
+  , hidden
+  , inherit
+  , initial
+  , unset
+  , visibility
+  , visible
+  , (:=)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
 spec :: Spec Unit
 spec = do
-  
+
   let isRenderedFrom = isRenderedFromInline
 
   describe "Visual Effects" do
