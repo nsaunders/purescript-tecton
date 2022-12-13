@@ -41,7 +41,7 @@ jobs:
         run: spago -x test.dhall test
 
       - name: Check formatting
-        run: purs-tidy check src
+        run: purs-tidy check examples src test
 
       - name: Install Node.js dependencies
         run: npm install
