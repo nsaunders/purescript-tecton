@@ -6,7 +6,19 @@ import Prelude
 
 import Color (rgb)
 import Data.Tuple.Nested ((/\))
-import Tecton (content, contents, inherit, initial, linearGradient, nil, none, normal, unset, url, (:=))
+import Tecton
+  ( content
+  , contents
+  , inherit
+  , initial
+  , linearGradient
+  , nil
+  , none
+  , normal
+  , unset
+  , url
+  , (:=)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -33,16 +45,16 @@ spec = do
 
       "content:url(\"http://www.example.com/test.png\")"
         `isRenderedFrom`
-        (content := url "http://www.example.com/test.png")
+          (content := url "http://www.example.com/test.png")
 
       "content:linear-gradient(0,#e66465,#9198e5)"
         `isRenderedFrom`
-        (content := linearGradient nil $ rgb 230 100 101 /\ rgb 145 152 229)
+          (content := linearGradient nil $ rgb 230 100 101 /\ rgb 145 152 229)
 
       "content:url(\"http://www.example.com/test.png\")/\"This is the alt text\""
         `isRenderedFrom`
-        ( content :=
-            url "http://www.example.com/test.png" /\ "This is the alt text"
-        )
+          ( content :=
+              url "http://www.example.com/test.png" /\ "This is the alt text"
+          )
 
       "content:\"prefix\"" `isRenderedFrom` (content := "prefix")
