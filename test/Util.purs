@@ -4,7 +4,16 @@ import Prelude
 
 import Control.Monad.Writer (Writer)
 import Data.List (List)
-import Tecton.Internal (class ToVal, Declaration', Statement, compact, renderInline', renderSheet, runVal, val)
+import Tecton.Internal
+  ( class ToVal
+  , Declaration'
+  , Statement
+  , compact
+  , renderInline'
+  , renderSheet
+  , runVal
+  , val
+  )
 import Test.Spec (Spec, it)
 import Test.Spec.Assertions (shouldEqual)
 

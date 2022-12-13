@@ -4,7 +4,27 @@ module Test.BoxSpec where
 
 import Prelude
 
-import Tecton (auto, em, inherit, initial, margin, marginBottom, marginLeft, marginRight, marginTop, padding, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, px, unset, (:=), (~))
+import Tecton
+  ( auto
+  , em
+  , inherit
+  , initial
+  , margin
+  , marginBottom
+  , marginLeft
+  , marginRight
+  , marginTop
+  , padding
+  , paddingBottom
+  , paddingLeft
+  , paddingRight
+  , paddingTop
+  , pct
+  , px
+  , unset
+  , (:=)
+  , (~)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -89,7 +109,7 @@ spec = do
 
       "margin:1px 1em 25% auto"
         `isRenderedFrom`
-        (margin := px 1 ~ em 1 ~ pct 25 ~ auto)
+          (margin := px 1 ~ em 1 ~ pct 25 ~ auto)
 
     describe "padding-top property" do
 
@@ -157,4 +177,4 @@ spec = do
 
       "padding:2em 1% 1px 10%"
         `isRenderedFrom`
-        (padding := em 2 ~ pct 1 ~ px 1 ~ pct 10)
+          (padding := em 2 ~ pct 1 ~ px 1 ~ pct 10)

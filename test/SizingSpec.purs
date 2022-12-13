@@ -4,7 +4,26 @@ module Test.SizingSpec where
 
 import Prelude
 
-import Tecton (auto, fitContent, height, inherit, initial, maxContent, minContent, maxHeight, maxWidth, minHeight, minWidth, none, pct, px, unset, width, (:=), (@+@))
+import Tecton
+  ( auto
+  , fitContent
+  , height
+  , inherit
+  , initial
+  , maxContent
+  , maxHeight
+  , maxWidth
+  , minContent
+  , minHeight
+  , minWidth
+  , none
+  , pct
+  , px
+  , unset
+  , width
+  , (:=)
+  , (@+@)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -40,8 +59,8 @@ spec = do
       "width:fit-content(50%)" `isRenderedFrom` (width := fitContent (pct 50))
 
       "width:fit-content(calc(100px + 50%))"
-       `isRenderedFrom`
-       (width := fitContent (px 100 @+@ pct 50))
+        `isRenderedFrom`
+          (width := fitContent (px 100 @+@ pct 50))
 
     describe "height property" do
 
@@ -63,13 +82,14 @@ spec = do
 
       "height:max-content" `isRenderedFrom` (height := maxContent)
 
-      "height:fit-content(100px)" `isRenderedFrom` (height := fitContent (px 100))
+      "height:fit-content(100px)" `isRenderedFrom`
+        (height := fitContent (px 100))
 
       "height:fit-content(50%)" `isRenderedFrom` (height := fitContent (pct 50))
 
       "height:fit-content(calc(100px + 50%))"
-       `isRenderedFrom`
-       (height := fitContent (px 100 @+@ pct 50))
+        `isRenderedFrom`
+          (height := fitContent (px 100 @+@ pct 50))
 
     describe "min-width property" do
 
@@ -87,7 +107,7 @@ spec = do
 
       "min-width:calc(100px + 50%)"
         `isRenderedFrom`
-        (minWidth := px 100 @+@ pct 50)
+          (minWidth := px 100 @+@ pct 50)
 
       "min-width:min-content" `isRenderedFrom` (minWidth := minContent)
 
@@ -95,15 +115,15 @@ spec = do
 
       "min-width:fit-content(100px)"
         `isRenderedFrom`
-        (minWidth := fitContent (px 100))
+          (minWidth := fitContent (px 100))
 
       "min-width:fit-content(50%)"
         `isRenderedFrom`
-        (minWidth := fitContent (pct 50))
+          (minWidth := fitContent (pct 50))
 
       "min-width:fit-content(calc(100px + 50%))"
         `isRenderedFrom`
-        (minWidth := fitContent (px 100 @+@ pct 50))
+          (minWidth := fitContent (px 100 @+@ pct 50))
 
     describe "min-height property" do
 
@@ -121,7 +141,7 @@ spec = do
 
       "min-height:calc(100px + 50%)"
         `isRenderedFrom`
-        (minHeight := px 100 @+@ pct 50)
+          (minHeight := px 100 @+@ pct 50)
 
       "min-height:min-content" `isRenderedFrom` (minHeight := minContent)
 
@@ -129,15 +149,15 @@ spec = do
 
       "min-height:fit-content(100px)"
         `isRenderedFrom`
-        (minHeight := fitContent (px 100))
+          (minHeight := fitContent (px 100))
 
       "min-height:fit-content(50%)"
         `isRenderedFrom`
-        (minHeight := fitContent (pct 50))
+          (minHeight := fitContent (pct 50))
 
       "min-height:fit-content(calc(100px + 50%))"
         `isRenderedFrom`
-        (minHeight := fitContent (px 100 @+@ pct 50))
+          (minHeight := fitContent (px 100 @+@ pct 50))
 
     describe "max-width property" do
 
@@ -155,7 +175,7 @@ spec = do
 
       "max-width:calc(100px + 50%)"
         `isRenderedFrom`
-        (maxWidth := px 100 @+@ pct 50)
+          (maxWidth := px 100 @+@ pct 50)
 
       "max-width:max-content" `isRenderedFrom` (maxWidth := maxContent)
 
@@ -163,15 +183,15 @@ spec = do
 
       "max-width:fit-content(100px)"
         `isRenderedFrom`
-        (maxWidth := fitContent (px 100))
+          (maxWidth := fitContent (px 100))
 
       "max-width:fit-content(50%)"
         `isRenderedFrom`
-        (maxWidth := fitContent (pct 50))
+          (maxWidth := fitContent (pct 50))
 
       "max-width:fit-content(calc(100px + 50%))"
         `isRenderedFrom`
-        (maxWidth := fitContent (px 100 @+@ pct 50))
+          (maxWidth := fitContent (px 100 @+@ pct 50))
 
     describe "max-height property" do
 
@@ -189,7 +209,7 @@ spec = do
 
       "max-height:calc(100px + 50%)"
         `isRenderedFrom`
-        (maxHeight := px 100 @+@ pct 50)
+          (maxHeight := px 100 @+@ pct 50)
 
       "max-height:max-content" `isRenderedFrom` (maxHeight := maxContent)
 
@@ -197,12 +217,12 @@ spec = do
 
       "max-height:fit-content(100px)"
         `isRenderedFrom`
-        (maxHeight := fitContent (px 100))
+          (maxHeight := fitContent (px 100))
 
       "max-height:fit-content(50%)"
         `isRenderedFrom`
-        (maxHeight := fitContent (pct 50))
+          (maxHeight := fitContent (pct 50))
 
       "max-height:fit-content(calc(100px + 50%))"
         `isRenderedFrom`
-        (maxHeight := fitContent (px 100 @+@ pct 50))
+          (maxHeight := fitContent (px 100 @+@ pct 50))

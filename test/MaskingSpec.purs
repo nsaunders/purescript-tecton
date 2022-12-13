@@ -6,7 +6,17 @@ import Prelude
 
 import Color (rgb)
 import Data.Tuple.Nested ((/\))
-import Tecton (inherit, initial, linearGradient, maskImage, nil, none, unset, url, (:=))
+import Tecton
+  ( inherit
+  , initial
+  , linearGradient
+  , maskImage
+  , nil
+  , none
+  , unset
+  , url
+  , (:=)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -29,16 +39,16 @@ spec = do
 
       "mask-image:url(\"https://example.com/xyz.svg\")"
         `isRenderedFrom`
-        (maskImage := url "https://example.com/xyz.svg")
+          (maskImage := url "https://example.com/xyz.svg")
 
       "mask-image:linear-gradient(0,#0000ff,#ff0000)"
         `isRenderedFrom`
-        (maskImage := linearGradient nil $ rgb 0 0 255 /\ rgb 255 0 0)
+          (maskImage := linearGradient nil $ rgb 0 0 255 /\ rgb 255 0 0)
 
       "mask-image:linear-gradient(0,#0000ff,#ff0000),none,url(\"foo.svg\")"
         `isRenderedFrom`
-        ( maskImage :=
-            linearGradient nil (rgb 0 0 255 /\ rgb 255 0 0)
-            /\ none
-            /\ url "foo.svg"
-        )
+          ( maskImage :=
+              linearGradient nil (rgb 0 0 255 /\ rgb 255 0 0)
+              /\ none
+              /\ url "foo.svg"
+          )

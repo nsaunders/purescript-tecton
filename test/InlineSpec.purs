@@ -4,7 +4,39 @@ module Test.InlineSpec where
 
 import Prelude hiding (bottom, sub, top)
 
-import Tecton (alignmentBaseline, alphabetic, auto, baseline, baselineShift, baselineSource, bottom, center, central, dominantBaseline, first, hanging, ideographic, inherit, initial, last, lineHeight, mathematical, middle, normal, pct, px, sub, super, textBottom, textTop, top, unset, verticalAlign, (:=), (~))
+import Tecton
+  ( alignmentBaseline
+  , alphabetic
+  , auto
+  , baseline
+  , baselineShift
+  , baselineSource
+  , bottom
+  , center
+  , central
+  , dominantBaseline
+  , first
+  , hanging
+  , ideographic
+  , inherit
+  , initial
+  , last
+  , lineHeight
+  , mathematical
+  , middle
+  , normal
+  , pct
+  , px
+  , sub
+  , super
+  , textBottom
+  , textTop
+  , top
+  , unset
+  , verticalAlign
+  , (:=)
+  , (~)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -27,15 +59,15 @@ spec = do
 
       "dominant-baseline:text-bottom"
         `isRenderedFrom`
-        (dominantBaseline := textBottom)
+          (dominantBaseline := textBottom)
 
       "dominant-baseline:alphabetic"
         `isRenderedFrom`
-        (dominantBaseline := alphabetic)
+          (dominantBaseline := alphabetic)
 
       "dominant-baseline:ideographic"
         `isRenderedFrom`
-        (dominantBaseline := ideographic)
+          (dominantBaseline := ideographic)
 
       "dominant-baseline:middle" `isRenderedFrom` (dominantBaseline := middle)
 
@@ -43,13 +75,13 @@ spec = do
 
       "dominant-baseline:mathematical"
         `isRenderedFrom`
-        (dominantBaseline := mathematical)
+          (dominantBaseline := mathematical)
 
       "dominant-baseline:hanging" `isRenderedFrom` (dominantBaseline := hanging)
 
       "dominant-baseline:text-top"
         `isRenderedFrom`
-        (dominantBaseline := textTop)
+          (dominantBaseline := textTop)
 
     describe "vertical-align property" do
 
@@ -61,63 +93,63 @@ spec = do
 
       "vertical-align:first central sub"
         `isRenderedFrom`
-        (verticalAlign := first ~ central ~ sub)
+          (verticalAlign := first ~ central ~ sub)
 
       "vertical-align:last middle super"
         `isRenderedFrom`
-        (verticalAlign := last ~ middle ~ super)
+          (verticalAlign := last ~ middle ~ super)
 
       "vertical-align:first baseline bottom"
         `isRenderedFrom`
-        (verticalAlign := first ~ baseline ~ bottom)
+          (verticalAlign := first ~ baseline ~ bottom)
 
       "vertical-align:last text-bottom 10px"
         `isRenderedFrom`
-        (verticalAlign := last ~ textBottom ~ px 10)
+          (verticalAlign := last ~ textBottom ~ px 10)
 
       "vertical-align:first central"
         `isRenderedFrom`
-        (verticalAlign := first ~ central)
+          (verticalAlign := first ~ central)
 
       "vertical-align:last text-top"
         `isRenderedFrom`
-        (verticalAlign := last ~ textTop)
+          (verticalAlign := last ~ textTop)
 
       "vertical-align:first middle"
         `isRenderedFrom`
-        (verticalAlign := first ~ middle)
+          (verticalAlign := first ~ middle)
 
       "vertical-align:first baseline"
         `isRenderedFrom`
-        (verticalAlign := first ~ baseline)
+          (verticalAlign := first ~ baseline)
 
       "vertical-align:last baseline"
         `isRenderedFrom`
-        (verticalAlign := last ~ baseline)
+          (verticalAlign := last ~ baseline)
 
       "vertical-align:first sub"
         `isRenderedFrom`
-        (verticalAlign := first ~ sub)
+          (verticalAlign := first ~ sub)
 
       "vertical-align:last 10%"
         `isRenderedFrom`
-        (verticalAlign := last ~ pct 10)
+          (verticalAlign := last ~ pct 10)
 
       "vertical-align:ideographic top"
         `isRenderedFrom`
-        (verticalAlign := ideographic ~ top)
+          (verticalAlign := ideographic ~ top)
 
       "vertical-align:mathematical super"
         `isRenderedFrom`
-        (verticalAlign := mathematical ~ super)
+          (verticalAlign := mathematical ~ super)
 
       "vertical-align:middle center"
         `isRenderedFrom`
-        (verticalAlign := middle ~ center)
+          (verticalAlign := middle ~ center)
 
       "vertical-align:baseline 1px"
         `isRenderedFrom`
-        (verticalAlign := baseline ~ px 1)
+          (verticalAlign := baseline ~ px 1)
 
       "vertical-align:first" `isRenderedFrom` (verticalAlign := first)
 
@@ -127,13 +159,13 @@ spec = do
 
       "vertical-align:text-bottom"
         `isRenderedFrom`
-        (verticalAlign := textBottom)
+          (verticalAlign := textBottom)
 
       "vertical-align:alphabetic" `isRenderedFrom` (verticalAlign := alphabetic)
 
       "vertical-align:ideographic"
         `isRenderedFrom`
-        (verticalAlign := ideographic)
+          (verticalAlign := ideographic)
 
       "vertical-align:middle" `isRenderedFrom` (verticalAlign := middle)
 
@@ -141,7 +173,7 @@ spec = do
 
       "vertical-align:mathematical"
         `isRenderedFrom`
-        (verticalAlign := mathematical)
+          (verticalAlign := mathematical)
 
       "vertical-align:text-top" `isRenderedFrom` (verticalAlign := textTop)
 
@@ -177,47 +209,47 @@ spec = do
 
       "alignment-baseline:inherit"
         `isRenderedFrom`
-        (alignmentBaseline := inherit)
+          (alignmentBaseline := inherit)
 
       "alignment-baseline:initial"
         `isRenderedFrom`
-        (alignmentBaseline := initial)
+          (alignmentBaseline := initial)
 
       "alignment-baseline:unset"
         `isRenderedFrom`
-        (alignmentBaseline := unset)
+          (alignmentBaseline := unset)
 
       "alignment-baseline:baseline"
         `isRenderedFrom`
-        (alignmentBaseline := baseline)
+          (alignmentBaseline := baseline)
 
       "alignment-baseline:text-bottom"
         `isRenderedFrom`
-        (alignmentBaseline := textBottom)
+          (alignmentBaseline := textBottom)
 
       "alignment-baseline:alphabetic"
         `isRenderedFrom`
-        (alignmentBaseline := alphabetic)
+          (alignmentBaseline := alphabetic)
 
       "alignment-baseline:ideographic"
         `isRenderedFrom`
-        (alignmentBaseline := ideographic)
+          (alignmentBaseline := ideographic)
 
       "alignment-baseline:middle"
         `isRenderedFrom`
-        (alignmentBaseline := middle)
+          (alignmentBaseline := middle)
 
       "alignment-baseline:central"
         `isRenderedFrom`
-        (alignmentBaseline := central)
+          (alignmentBaseline := central)
 
       "alignment-baseline:mathematical"
         `isRenderedFrom`
-        (alignmentBaseline := mathematical)
+          (alignmentBaseline := mathematical)
 
       "alignment-baseline:text-top"
         `isRenderedFrom`
-        (alignmentBaseline := textTop)
+          (alignmentBaseline := textTop)
 
     describe "baseline-shift property" do
 

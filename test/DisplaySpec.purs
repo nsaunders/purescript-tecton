@@ -4,7 +4,34 @@ module Test.DisplaySpec where
 
 import Prelude
 
-import Tecton (block, contents, display, flex, flowRoot, grid, inherit, initial, inline, inlineBlock, inlineFlex, inlineGrid, inlineTable, listItem, none, table, tableCaption, tableCell, tableColumn, tableColumnGroup, tableFooterGroup, tableHeaderGroup, tableRow, tableRowGroup, unset, (:=))
+import Tecton
+  ( block
+  , contents
+  , display
+  , flex
+  , flowRoot
+  , grid
+  , inherit
+  , initial
+  , inline
+  , inlineBlock
+  , inlineFlex
+  , inlineGrid
+  , inlineTable
+  , listItem
+  , none
+  , table
+  , tableCaption
+  , tableCell
+  , tableColumn
+  , tableColumnGroup
+  , tableFooterGroup
+  , tableHeaderGroup
+  , tableRow
+  , tableRowGroup
+  , unset
+  , (:=)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -41,11 +68,11 @@ spec = do
 
       "display:table-header-group"
         `isRenderedFrom`
-        (display := tableHeaderGroup)
+          (display := tableHeaderGroup)
 
       "display:table-footer-group"
         `isRenderedFrom`
-        (display := tableFooterGroup)
+          (display := tableFooterGroup)
 
       "display:table-row" `isRenderedFrom` (display := tableRow)
 
@@ -53,7 +80,7 @@ spec = do
 
       "display:table-column-group"
         `isRenderedFrom`
-        (display := tableColumnGroup)
+          (display := tableColumnGroup)
 
       "display:table-column" `isRenderedFrom` (display := tableColumn)
 

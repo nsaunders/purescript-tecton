@@ -40,9 +40,7 @@ The `src` directory includes the following modules:
 
 Usually your work will begin in the `Tecton.Internal` module. From this module, export the minimum functions, types, and classes required for client code to compile. Then, from the `Tecton` module, re-export only the subset that client code should interact with directly. This architecture clearly defines the public API while allowing implementation details to remain flexible.
 
-After making any changes, run `purs-tidy format-in-place examples src` to format the code.
-
-> ⚠️ **NOTE**: For now, only format the modules in the `examples` and `src` directories. Formatting for tests is under review.
+After making any changes, run `purs-tidy format-in-place examples src test` to format the code.
 
 Unit test(s) should accompany each change. Ensure that the system under test (e.g. the new property binding you added) is imported from the `Tecton` module so that tests accurately represent client code. Tests are organized into modules corresponding to W3C CSS specifications, which can be found [here](https://www.w3.org/TR/css-2021/), and almost always follow this format:
 

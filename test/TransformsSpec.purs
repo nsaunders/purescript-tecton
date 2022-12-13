@@ -3,10 +3,49 @@
 
 module Test.TransformsSpec where
 
-import Prelude hiding (top, bottom)
+import Prelude hiding (bottom, top)
 
 import Data.Tuple.Nested ((/\))
-import Tecton (bottom, center, deg, inherit, initial, left, matrix, matrix3d, none, pct, perspective, px, rad, right, rotate, rotate3d, rotateX, rotateY, rotateZ, scale, scale3d, scaleX, scaleY, scaleZ, skewX, skewY, top, transform, transformOrigin, translate, translate3d, translateX, translateY, translateZ, turn, unset, (:=), (~))
+import Tecton
+  ( bottom
+  , center
+  , deg
+  , inherit
+  , initial
+  , left
+  , matrix
+  , matrix3d
+  , none
+  , pct
+  , perspective
+  , px
+  , rad
+  , right
+  , rotate
+  , rotate3d
+  , rotateX
+  , rotateY
+  , rotateZ
+  , scale
+  , scale3d
+  , scaleX
+  , scaleY
+  , scaleZ
+  , skewX
+  , skewY
+  , top
+  , transform
+  , transformOrigin
+  , translate
+  , translate3d
+  , translateX
+  , translateY
+  , translateZ
+  , turn
+  , unset
+  , (:=)
+  , (~)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline, isRenderedFromVal)
 
@@ -20,11 +59,11 @@ spec =
 
       "matrix(1.2,0.2,-1,0.9,0,20)"
         `isRenderedFrom`
-        matrix 1.2 0.2 (-1) 0.9 0 20
+          matrix 1.2 0.2 (-1) 0.9 0 20
 
       "matrix(0.4,0,0.5,1.2,60,10)"
         `isRenderedFrom`
-        matrix 0.4 0 0.5 1.2 60 10
+          matrix 0.4 0 0.5 1.2 60 10
 
       "matrix(0,1,1,0,0,0)" `isRenderedFrom` matrix 0 1 1 0 0 0
 
@@ -62,19 +101,24 @@ spec =
 
       "matrix3d(-0.6,1.34788,0,0,-2.34788,-0.6,0,0,0,0,1,0,0,0,10,1)"
         `isRenderedFrom`
-        matrix3d (-0.6) 1.34788 0 0 (-2.34788) (-0.6) 0 0 0 0 1 0 0 0 10 1
- 
+          matrix3d (-0.6) 1.34788 0 0 (-2.34788) (-0.6) 0 0 0 0 1 0 0 0 10 1
+
       "matrix3d(0.5,0,-0.866025,0,0.595877,1.2,-1.03209,0,0.866025,0,0.5,0,25.9808,0,15,1)"
         `isRenderedFrom`
-        matrix3d 0.5 0 (-0.866025) 0 0.595877 1.2 (-1.03209) 0 0.866025 0 0.5 0 25.9808 0 15 1
+          matrix3d 0.5 0 (-0.866025) 0 0.595877 1.2 (-1.03209) 0 0.866025 0 0.5
+            0
+            25.9808
+            0
+            15
+            1
 
       "translate3d(10%,50px,10px)"
         `isRenderedFrom`
-        translate3d (pct 10) (px 50) (px 10)
+          translate3d (pct 10) (px 50) (px 10)
 
       "translate3d(50px,10%,10px)"
         `isRenderedFrom`
-        translate3d (px 50) (pct 10) (px 10)
+          translate3d (px 50) (pct 10) (px 10)
 
       "translateZ(10px)" `isRenderedFrom` translateZ (px 10)
 
@@ -90,11 +134,11 @@ spec =
 
       "rotate3d(2,-1,-1,-0.2turn)"
         `isRenderedFrom`
-        rotate3d 2 (-1) (-1) (turn (-0.2))
+          rotate3d 2 (-1) (-1) (turn (-0.2))
 
       "rotate3d(0.5,1.5,0.5,3.142rad)"
         `isRenderedFrom`
-        rotate3d 0.5 1.5 0.5 (rad 3.142)
+          rotate3d 0.5 1.5 0.5 (rad 3.142)
 
       "rotateX(45deg)" `isRenderedFrom` rotateX (deg 45)
 
@@ -122,7 +166,7 @@ spec =
 
       "transform:rotateX(45deg) translateX(-10px) scaleX(1.5)"
         `isRenderedFrom`
-        (transform := rotateX (deg 45) /\ translateX (px (-10)) /\ scaleX 1.5)
+          (transform := rotateX (deg 45) /\ translateX (px (-10)) /\ scaleX 1.5)
 
     describe "transform-origin property" do
 
@@ -150,76 +194,76 @@ spec =
 
       "transform-origin:left top"
         `isRenderedFrom`
-        (transformOrigin := left ~ top)
+          (transformOrigin := left ~ top)
 
       "transform-origin:center top"
         `isRenderedFrom`
-        (transformOrigin := center ~ top)
+          (transformOrigin := center ~ top)
 
       "transform-origin:right top"
         `isRenderedFrom`
-        (transformOrigin := right ~ top)
+          (transformOrigin := right ~ top)
 
       "transform-origin:left center"
         `isRenderedFrom`
-        (transformOrigin := left ~ center)
+          (transformOrigin := left ~ center)
 
       "transform-origin:center center"
         `isRenderedFrom`
-        (transformOrigin := center ~ center)
+          (transformOrigin := center ~ center)
 
       "transform-origin:right center"
         `isRenderedFrom`
-        (transformOrigin := right ~ center)
+          (transformOrigin := right ~ center)
 
       "transform-origin:left bottom"
         `isRenderedFrom`
-        (transformOrigin := left ~ bottom)
+          (transformOrigin := left ~ bottom)
 
       "transform-origin:center bottom"
         `isRenderedFrom`
-        (transformOrigin := center ~ bottom)
+          (transformOrigin := center ~ bottom)
 
       "transform-origin:right bottom"
         `isRenderedFrom`
-        (transformOrigin := right ~ bottom)
+          (transformOrigin := right ~ bottom)
 
       "transform-origin:10px 20%"
         `isRenderedFrom`
-        (transformOrigin := px 10 ~ pct 20)
+          (transformOrigin := px 10 ~ pct 20)
 
       "transform-origin:20% 10px"
         `isRenderedFrom`
-        (transformOrigin := pct 20 ~ px 10)
+          (transformOrigin := pct 20 ~ px 10)
 
       "transform-origin:10px top"
         `isRenderedFrom`
-        (transformOrigin := px 10 ~ top)
+          (transformOrigin := px 10 ~ top)
 
       "transform-origin:10% bottom"
         `isRenderedFrom`
-        (transformOrigin := pct 10 ~ bottom)
+          (transformOrigin := pct 10 ~ bottom)
 
       "transform-origin:left 10px"
         `isRenderedFrom`
-        (transformOrigin := left ~ px 10)
+          (transformOrigin := left ~ px 10)
 
       "transform-origin:right 20%"
         `isRenderedFrom`
-        (transformOrigin := right ~ pct 20)
+          (transformOrigin := right ~ pct 20)
 
       "transform-origin:left 20% 10px"
         `isRenderedFrom`
-        (transformOrigin := left ~ pct 20 ~ px 10)
+          (transformOrigin := left ~ pct 20 ~ px 10)
 
       "transform-origin:10px top 20px"
         `isRenderedFrom`
-        (transformOrigin := px 10 ~ top ~ px 20)
+          (transformOrigin := px 10 ~ top ~ px 20)
 
       "transform-origin:10px 20% 10px"
         `isRenderedFrom`
-        (transformOrigin := px 10 ~ pct 20 ~ px 10)
+          (transformOrigin := px 10 ~ pct 20 ~ px 10)
 
       "transform-origin:20% 10px 20px"
         `isRenderedFrom`
-        (transformOrigin := pct 20 ~ px 10 ~ px 20)
+          (transformOrigin := pct 20 ~ px 10 ~ px 20)

@@ -4,7 +4,47 @@ module Test.FlexboxSpec where
 
 import Prelude
 
-import Tecton (alignContent, alignItems, alignSelf, auto, baseline, center, column, columnReverse, content, em, fitContent, flex, flexBasis, flexDirection, flexEnd, flexGrow, flexShrink, flexStart, flexWrap, inherit, initial, justifyContent, maxContent, minContent, none, nowrap, order, pct, px, row, rowReverse, spaceAround, spaceBetween, stretch, unset, wrap, wrapReverse, (:=), (~))
+import Tecton
+  ( alignContent
+  , alignItems
+  , alignSelf
+  , auto
+  , baseline
+  , center
+  , column
+  , columnReverse
+  , content
+  , em
+  , fitContent
+  , flex
+  , flexBasis
+  , flexDirection
+  , flexEnd
+  , flexGrow
+  , flexShrink
+  , flexStart
+  , flexWrap
+  , inherit
+  , initial
+  , justifyContent
+  , maxContent
+  , minContent
+  , none
+  , nowrap
+  , order
+  , pct
+  , px
+  , row
+  , rowReverse
+  , spaceAround
+  , spaceBetween
+  , stretch
+  , unset
+  , wrap
+  , wrapReverse
+  , (:=)
+  , (~)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -27,17 +67,17 @@ spec = do
 
       "flex-direction:row-reverse"
         `isRenderedFrom`
-        (flexDirection := rowReverse)
+          (flexDirection := rowReverse)
 
       "flex-direction:column" `isRenderedFrom` (flexDirection := column)
 
       "flex-direction:column-reverse"
         `isRenderedFrom`
-        (flexDirection := columnReverse)
+          (flexDirection := columnReverse)
 
       "flex-direction:column-reverse"
         `isRenderedFrom`
-        (flexDirection := columnReverse)
+          (flexDirection := columnReverse)
 
     describe "flex-wrap property" do
 
@@ -124,7 +164,7 @@ spec = do
       "flex-basis:initial" `isRenderedFrom` (flexBasis := initial)
 
       "flex-basis:unset" `isRenderedFrom` (flexBasis := unset)
-      
+
       "flex-basis:10em" `isRenderedFrom` (flexBasis := em 10)
 
       "flex-basis:3px" `isRenderedFrom` (flexBasis := px 3)
@@ -149,7 +189,7 @@ spec = do
 
       "justify-content:flex-start"
         `isRenderedFrom`
-        (justifyContent := flexStart)
+          (justifyContent := flexStart)
 
       "justify-content:flex-end" `isRenderedFrom` (justifyContent := flexEnd)
 
@@ -157,14 +197,14 @@ spec = do
 
       "justify-content:space-between"
         `isRenderedFrom`
-        (justifyContent := spaceBetween)
+          (justifyContent := spaceBetween)
 
       "justify-content:space-around"
         `isRenderedFrom`
-        (justifyContent := spaceAround)
+          (justifyContent := spaceAround)
 
     describe "align-items property" do
-      
+
       "align-items:inherit" `isRenderedFrom` (alignItems := inherit)
 
       "align-items:initial" `isRenderedFrom` (alignItems := initial)
@@ -182,7 +222,7 @@ spec = do
       "align-items:stretch" `isRenderedFrom` (alignItems := stretch)
 
     describe "align-self property" do
-      
+
       "align-self:inherit" `isRenderedFrom` (alignSelf := inherit)
 
       "align-self:initial" `isRenderedFrom` (alignSelf := initial)
@@ -202,7 +242,7 @@ spec = do
       "align-self:stretch" `isRenderedFrom` (alignSelf := stretch)
 
     describe "align-content property" do
-      
+
       "align-content:inherit" `isRenderedFrom` (alignContent := inherit)
 
       "align-content:initial" `isRenderedFrom` (alignContent := initial)
@@ -217,10 +257,10 @@ spec = do
 
       "align-content:space-between"
         `isRenderedFrom`
-        (alignContent := spaceBetween)
+          (alignContent := spaceBetween)
 
       "align-content:space-around"
         `isRenderedFrom`
-        (alignContent := spaceAround)
+          (alignContent := spaceAround)
 
       "align-content:stretch" `isRenderedFrom` (alignContent := stretch)
