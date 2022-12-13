@@ -6,7 +6,71 @@ import Prelude
 
 import Color (rgb)
 import Data.Tuple.Nested ((/\))
-import Tecton (arabicIndic, armenian, bengali, cambodian, center, circle, cjkDecimal, cjkEarthlyBranch, cjkHeavenlyStem, decimal, decimalLeadingZero, devanagari, disc, disclosureClosed, disclosureOpen, georgian, gujarati, gurmukhi, hebrew, hiragana, hiraganaIroha, inherit, initial, inside, listStyleImage, listStylePosition, listStyleType, kannada, katakana, katakanaIroha, khmer, lao, li, lowerAlpha, lowerArmenian, lowerGreek, lowerLatin, lowerRoman, malayalam, marker, mongolian, myanmar, nil, none, oriya, outside, persian, radialGradient, square, tamil, telugu, thai, tibetan, unset, upperAlpha, upperArmenian, upperLatin, upperRoman, url, width, (:=), (&:), (?))
+import Tecton
+  ( arabicIndic
+  , armenian
+  , bengali
+  , cambodian
+  , center
+  , circle
+  , cjkDecimal
+  , cjkEarthlyBranch
+  , cjkHeavenlyStem
+  , decimal
+  , decimalLeadingZero
+  , devanagari
+  , disc
+  , disclosureClosed
+  , disclosureOpen
+  , georgian
+  , gujarati
+  , gurmukhi
+  , hebrew
+  , hiragana
+  , hiraganaIroha
+  , inherit
+  , initial
+  , inside
+  , kannada
+  , katakana
+  , katakanaIroha
+  , khmer
+  , lao
+  , li
+  , listStyleImage
+  , listStylePosition
+  , listStyleType
+  , lowerAlpha
+  , lowerArmenian
+  , lowerGreek
+  , lowerLatin
+  , lowerRoman
+  , malayalam
+  , marker
+  , mongolian
+  , myanmar
+  , nil
+  , none
+  , oriya
+  , outside
+  , persian
+  , radialGradient
+  , square
+  , tamil
+  , telugu
+  , thai
+  , tibetan
+  , unset
+  , upperAlpha
+  , upperArmenian
+  , upperLatin
+  , upperRoman
+  , url
+  , width
+  , (&:)
+  , (:=)
+  , (?)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline, isRenderedFromSheet)
 
@@ -20,7 +84,7 @@ spec =
 
       "li::marker{width:0}"
         `isRenderedFrom` do
-        li &: marker ? width := nil
+          li &: marker ? width := nil
 
     describe "list-style-image property" do
 
@@ -36,13 +100,13 @@ spec =
 
       "list-style-image:url(\"http://example.com/ellipse.png\")"
         `isRenderedFrom`
-        (listStyleImage := url "http://example.com/ellipse.png")
+          (listStyleImage := url "http://example.com/ellipse.png")
 
       "list-style-image:radial-gradient(circle at center,#0000ff,#ffff00)"
         `isRenderedFrom`
-        (listStyleImage :=
-            radialGradient circle center $ rgb 0 0 255 /\ rgb 255 255 0
-       )
+          ( listStyleImage :=
+              radialGradient circle center $ rgb 0 0 255 /\ rgb 255 255 0
+          )
 
     describe "list-style-type property" do
 
@@ -58,23 +122,23 @@ spec =
 
       "list-style-type:decimal-leading-zero"
         `isRenderedFrom`
-        (listStyleType := decimalLeadingZero)
+          (listStyleType := decimalLeadingZero)
 
       "list-style-type:arabic-indic"
         `isRenderedFrom`
-        (listStyleType := arabicIndic)
+          (listStyleType := arabicIndic)
 
       "list-style-type:armenian"
         `isRenderedFrom`
-        (listStyleType := armenian)
+          (listStyleType := armenian)
 
       "list-style-type:upper-armenian"
         `isRenderedFrom`
-        (listStyleType := upperArmenian)
+          (listStyleType := upperArmenian)
 
       "list-style-type:lower-armenian"
         `isRenderedFrom`
-        (listStyleType := lowerArmenian)
+          (listStyleType := lowerArmenian)
 
       "list-style-type:bengali" `isRenderedFrom` (listStyleType := bengali)
 
@@ -84,11 +148,11 @@ spec =
 
       "list-style-type:cjk-decimal"
         `isRenderedFrom`
-        (listStyleType := cjkDecimal)
+          (listStyleType := cjkDecimal)
 
       "list-style-type:devanagari"
         `isRenderedFrom`
-        (listStyleType := devanagari)
+          (listStyleType := devanagari)
 
       "list-style-type:georgian" `isRenderedFrom` (listStyleType := georgian)
 
@@ -114,11 +178,11 @@ spec =
 
       "list-style-type:lower-roman"
         `isRenderedFrom`
-        (listStyleType := lowerRoman)
+          (listStyleType := lowerRoman)
 
       "list-style-type:upper-roman"
         `isRenderedFrom`
-        (listStyleType := upperRoman)
+          (listStyleType := upperRoman)
 
       "list-style-type:tamil" `isRenderedFrom` (listStyleType := tamil)
 
@@ -130,39 +194,39 @@ spec =
 
       "list-style-type:lower-alpha"
         `isRenderedFrom`
-        (listStyleType := lowerAlpha)
+          (listStyleType := lowerAlpha)
 
       "list-style-type:lower-latin"
         `isRenderedFrom`
-        (listStyleType := lowerLatin)
+          (listStyleType := lowerLatin)
 
       "list-style-type:upper-alpha"
         `isRenderedFrom`
-        (listStyleType := upperAlpha)
+          (listStyleType := upperAlpha)
 
       "list-style-type:upper-latin"
         `isRenderedFrom`
-        (listStyleType := upperLatin)
+          (listStyleType := upperLatin)
 
       "list-style-type:lower-greek"
         `isRenderedFrom`
-        (listStyleType := lowerGreek)
+          (listStyleType := lowerGreek)
 
       "list-style-type:hiragana"
         `isRenderedFrom`
-        (listStyleType := hiragana)
+          (listStyleType := hiragana)
 
       "list-style-type:hiragana-iroha"
         `isRenderedFrom`
-        (listStyleType := hiraganaIroha)
+          (listStyleType := hiraganaIroha)
 
       "list-style-type:katakana"
         `isRenderedFrom`
-        (listStyleType := katakana)
+          (listStyleType := katakana)
 
       "list-style-type:katakana-iroha"
         `isRenderedFrom`
-        (listStyleType := katakanaIroha)
+          (listStyleType := katakanaIroha)
 
       "list-style-type:disc" `isRenderedFrom` (listStyleType := disc)
 
@@ -172,19 +236,19 @@ spec =
 
       "list-style-type:disclosure-open"
         `isRenderedFrom`
-        (listStyleType := disclosureOpen)
+          (listStyleType := disclosureOpen)
 
       "list-style-type:disclosure-closed"
         `isRenderedFrom`
-        (listStyleType := disclosureClosed)
+          (listStyleType := disclosureClosed)
 
       "list-style-type:cjk-earthly-branch"
         `isRenderedFrom`
-        (listStyleType := cjkEarthlyBranch)
+          (listStyleType := cjkEarthlyBranch)
 
       "list-style-type:cjk-heavenly-stem"
         `isRenderedFrom`
-        (listStyleType := cjkHeavenlyStem)
+          (listStyleType := cjkHeavenlyStem)
 
     describe "list-style-position property" do
 
@@ -192,18 +256,18 @@ spec =
 
       "list-style-position:inherit"
         `isRenderedFrom`
-        (listStylePosition := inherit)
+          (listStylePosition := inherit)
 
       "list-style-position:initial"
         `isRenderedFrom`
-        (listStylePosition := initial)
+          (listStylePosition := initial)
 
       "list-style-position:unset" `isRenderedFrom` (listStylePosition := unset)
 
       "list-style-position:inside"
         `isRenderedFrom`
-        (listStylePosition := inside)
+          (listStylePosition := inside)
 
       "list-style-position:outside"
         `isRenderedFrom`
-        (listStylePosition := outside)
+          (listStylePosition := outside)
