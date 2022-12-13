@@ -4,7 +4,42 @@ module Test.TextSpec where
 
 import Prelude
 
-import Tecton (breakSpaces, capitalize, center, em, end, fullSizeKana, fullWidth, inherit, initial, justify, justifyAll, left, letterSpacing, lowercase, matchParent, none, normal, nowrap, pre, preLine, preWrap, pct, px, right, start, textAlign, textIndent, textTransform, unset, uppercase, whiteSpace, wordSpacing, (:=), (~))
+import Tecton
+  ( breakSpaces
+  , capitalize
+  , center
+  , em
+  , end
+  , fullSizeKana
+  , fullWidth
+  , inherit
+  , initial
+  , justify
+  , justifyAll
+  , left
+  , letterSpacing
+  , lowercase
+  , matchParent
+  , none
+  , normal
+  , nowrap
+  , pct
+  , pre
+  , preLine
+  , preWrap
+  , px
+  , right
+  , start
+  , textAlign
+  , textIndent
+  , textTransform
+  , unset
+  , uppercase
+  , whiteSpace
+  , wordSpacing
+  , (:=)
+  , (~)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -33,19 +68,19 @@ spec = do
 
       "text-transform:full-width full-size-kana"
         `isRenderedFrom`
-        (textTransform := fullWidth ~ fullSizeKana)
+          (textTransform := fullWidth ~ fullSizeKana)
 
       "text-transform:capitalize full-width"
         `isRenderedFrom`
-        (textTransform := capitalize ~ fullWidth)
+          (textTransform := capitalize ~ fullWidth)
 
       "text-transform:capitalize full-size-kana"
         `isRenderedFrom`
-        (textTransform := capitalize ~ fullSizeKana)
+          (textTransform := capitalize ~ fullSizeKana)
 
       "text-transform:capitalize full-width full-size-kana"
         `isRenderedFrom`
-        (textTransform := capitalize ~ fullWidth ~ fullSizeKana)
+          (textTransform := capitalize ~ fullWidth ~ fullSizeKana)
 
     describe "white-space property" do
 
