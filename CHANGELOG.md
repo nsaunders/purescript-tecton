@@ -7,15 +7,22 @@ Notable changes are documented in this file. The format is based on [Keep a Chan
 Breaking changes:
 
 New features:
-- `:focus-within` pseudo-class nsaunders/purescript-tecton#17
-- `appearance` property nsaunders/purescript-tecton#18
 
 Bugfixes:
+
+Other improvements:
+
+## [0.1.6] - 2022-12-12
+
+New features:
+- `:focus-within` pseudo-class nsaunders/purescript-tecton#17
+- `appearance` property nsaunders/purescript-tecton#18
 
 Other improvements:
 - Examples and tests are now formatted using `purs-tidy`.
 
 ## [0.1.5] - 2022-12-05
+
 New features:
 - Added the `Declarations` type alias.
 
