@@ -5,7 +5,36 @@ module Test.UISpec where
 import Prelude
 
 import Color (rgb)
-import Tecton (appearance, auto, dashed, dotted, double, groove, inherit, initial, inset, invert, medium, menulistButton, nil, none, outlineColor, outlineOffset, outlineStyle, outlineWidth, outset, px, ridge, solid, textfield, thick, thin, transparent, unset, (:=))
+import Tecton
+  ( appearance
+  , auto
+  , dashed
+  , dotted
+  , double
+  , groove
+  , inherit
+  , initial
+  , inset
+  , invert
+  , medium
+  , menulistButton
+  , nil
+  , none
+  , outlineColor
+  , outlineOffset
+  , outlineStyle
+  , outlineWidth
+  , outset
+  , px
+  , ridge
+  , solid
+  , textfield
+  , thick
+  , thin
+  , transparent
+  , unset
+  , (:=)
+  )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
 
@@ -23,7 +52,7 @@ spec = do
       "outline-width:initial" `isRenderedFrom` (outlineWidth := initial)
 
       "outline-width:unset" `isRenderedFrom` (outlineWidth := unset)
-      
+
       "outline-width:1px" `isRenderedFrom` (outlineWidth := px 1)
 
       "outline-width:thin" `isRenderedFrom` (outlineWidth := thin)
@@ -81,7 +110,7 @@ spec = do
       "outline-offset:initial" `isRenderedFrom` (outlineOffset := initial)
 
       "outline-offset:unset" `isRenderedFrom` (outlineOffset := unset)
-      
+
       "outline-offset:4px" `isRenderedFrom` (outlineOffset := px 4)
 
       "outline-offset:0" `isRenderedFrom` (outlineOffset := nil)
@@ -102,4 +131,4 @@ spec = do
 
       "appearance:menulist-button"
         `isRenderedFrom`
-        (appearance := menulistButton)
+          (appearance := menulistButton)
