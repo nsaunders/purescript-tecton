@@ -1,0 +1,31 @@
+name: Traffic
+
+on:
+  schedule: 
+    - cron: "15 23 * * 0"
+  workflow_dispatch:
+
+jobs:
+  log:
+    name: Log
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install node-fetch
+        run: npm install --no-save node-fetch
+
+      - name: Run update script
+        env:  
+          GITHUB_API_KEY: ${{ secrets.GH_ACCESS_TOKEN }}
+        run: node ./scripts/log-traffic.mjs
+
+      - name: Commit update
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: meta/traffic.json
+          author_name: GitHub Actions
+          author_email: 41898282+github-actions[bot]@users.noreply.github.com
+          message: Log repository traffic.
