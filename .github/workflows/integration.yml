@@ -3,7 +3,11 @@ name: Integration
 on:
   push:
     branches: [master]
-    paths-ignore: ['**.md']
+    paths:
+      - 'src/**/*.purs'
+      - 'src/**/*.js'
+      - '*.dhall'
+      - '.github/workflows/integration.yml'
 
 jobs:
   halogen:
