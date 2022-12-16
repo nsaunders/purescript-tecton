@@ -30,7 +30,17 @@ async function get(entity) {
   if (!x) {
     throw new Error(`Unexpected ${res.status} response: ${JSON.stringify(data)}`);
   }
-  return x;
+  return x
+    .sort((a, b) => {
+      const tsa = new Date(a.timestamp);
+      const tsb = new Date(b.timestamp);
+      if (tsa < tsb) return -1;
+      if (tsa > tsb) return 1;
+      return 0;
+    })
+    .reverse()
+    .slice(0, 14)
+    .reverse();
 }
 
 async function read() {
