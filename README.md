@@ -76,3 +76,4 @@ in  upstream
 ## Related
 
 * [purescript-tecton-halogen](https://github.com/nsaunders/purescript-tecton-halogen)
+* [purescript-tecton-halogen-starter](https://github.com/nsaunders/purescript-tecton-halogen-starter)
