@@ -19,7 +19,7 @@ jobs:
 
       - name: Run update script
         env:  
-          GITHUB_API_KEY: ${{ secrets.GH_ACCESS_TOKEN_2 }}
+          GITHUB_API_KEY: ${{ secrets.GH_ACCESS_TOKEN }}
         run: node ./scripts/log-traffic.mjs
 
       - name: Commit update
