@@ -25,7 +25,7 @@ async function get(entity) {
   if (!res.ok) {
     throw new Error(`Unexpected ${res.status} response: ${await res.text()}`);
   }
-  const data = res.json();
+  const data = await res.json();
   const x = data[entity];
   if (!x) {
     throw new Error(`Unexpected ${res.status} response: ${JSON.stringify(data)}`);
