@@ -12,6 +12,8 @@ on:
       - 'test/**/*.js'
       - '*.json'
       - '*.dhall'
+      - 'scripts/check-examples.mjs'
+      - '.github/workflows/ci.yml'
   pull_request:
     branches: [master]
     paths:
@@ -23,6 +25,8 @@ on:
       - 'test/**/*.js'
       - '*.json'
       - '*.dhall'
+      - 'scripts/check-examples.mjs'
+      - '.github/workflows/ci.yml'
 
 jobs:
   build:
