@@ -22,8 +22,15 @@ async function get(entity) {
       },
     }
   );
-  const data = await res.json();
-  return data[entity];
+  if (!res.ok) {
+    throw new Error(`Unexpected ${res.status} response: ${await res.text()}`);
+  }
+  const data = res.json();
+  const x = data[entity];
+  if (!x) {
+    throw new Error(`Unexpected ${res.status} response: ${JSON.stringify(data)}`);
+  }
+  return x;
 }
 
 async function read() {
@@ -58,8 +65,6 @@ if (!process.env.GITHUB_API_KEY) {
 if (!process.env.GITHUB_REPOSITORY) {
   throw new Error("Required environment variable undefined: GITHUB_REPOSITORY");
 }
-
-console.log(process.env);
 
 const { clones, views } = await read();
 await write({
