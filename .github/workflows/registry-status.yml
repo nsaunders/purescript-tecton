@@ -19,6 +19,8 @@ jobs:
 
       - name: List package sets
         run: curl https://api.github.com/repos/purescript/registry/contents/package-sets -o tmp.package-sets.json
+  
+      - run: cat tmp.package-sets.json
     
       - name: Get latest package set file
         uses: sergeysova/jq-action@v2
