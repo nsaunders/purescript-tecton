@@ -23,7 +23,7 @@ spago install tecton tecton-halogen
 
 This example serves as a good starting point for experimenting with Tecton. Simply update the `css` and `html` functions with your own content. Note that, while Tecton is framework-independent, Halogen is used for HTML templating; [this guide](https://purescript-halogen.github.io/purescript-halogen/guide/01-Rendering-Halogen-HTML.html) can help if needed.
 
-```purescript
+```haskell
 module Main where
 
 import Prelude
