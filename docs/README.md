@@ -25,17 +25,17 @@ You can give this a try now with the following example.
 This example serves as a good starting point for experimenting with Tecton. Simply update the `css` function with your own rules to see Tecton's CSS output.
 
 ```haskell
-module Main where
+module Example where
 
 import Prelude (Unit, ($), (<>))
+import Effect (Effect)
+import TryPureScript (render) as TryPureScript
+import Unsafe.Coerce (unsafeCoerce)
 
 import Color (rgb)
 import Data.Tuple.Nested ((/\))
-import Effect (Effect)
 import Tecton
 import Tecton.Rule as Rule
-import TryPureScript (render) as HTML
-import Unsafe.Coerce (unsafeCoerce)
 
 css :: CSS
 css = do
@@ -53,12 +53,12 @@ css = do
 
 main :: Effect Unit
 main =
-  HTML.render
+  TryPureScript.render
     $ unsafeCoerce
-    $ "<pre><code>" <> renderSheet pretty css <> "</code></pre>"
+    $  "<pre><code>" <> renderSheet pretty css <> "</code></pre>"
 ```
 
-[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAWQIYEsB2cDuALGAnGAKEJWAAcQ8AXOABQKgjHgAoBVNFKgGjhYBIAlLxYAeAHyDBxUhWpwAwiCiU%2BeAOYAjabMo0AIkipIAdABUIZWCYByMAM5UYYPiwD0AHSklyeuAFEAM0CYAGMaFiCQ8J1feTMwqhA0HzkaBPDkkwAlaHgkezhc2FS-MzwAT1oIAgBlULwUMgiCNGY8QTgCuAAJMwQAGVL5DnskEJMlfFDWCDQxkKm8GelCUPtCgC5NxVratY24AF44MBBCODg5lAA3fDGoOAAyEzgAIlwoFQBaTEooMBvOAAfiKeRMZwulywKDAVGwcE2JzIAA84AAWAAMmKhl1wKHU2BoSLgqLgACZsbi4JokKEANbqPAgOZgJQqPCIk4aTRwTFwACsgoAbNTQspVCSeRSAMzkuAARgAnErFeiABzUsAoexWJAVLlwQKwFHUpBQAloACSTmAWxOMzQTjw1IAVhBHChAhUlE6YE7DY7ndTAskqAAxJDAFBQA0kt4DGAo-2AuCeOBjea1fBekNh2ooABe8BJZLleadAHUYASiYaAOxUwjAVAYbYBYKJOAcLjN1vHKF9QYmVrtan8K7zcYwJYzcfvURkAjiUTi5jiIESOCj-C1XAwGhLg9UA3rQpbt6iNxrmArtxHjdAA)
+[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdZwO4AsYBOMAUMQJYYgEAucACkVBGPABQCqAdmdQDRysAJAEp+rADwA+YcPKUaiAGaKYAY1qsEytdVkV0VWgBUCATzoQiAZVUEy6DUU4sCwuCgDOcE+cswbdg5yBgpcHigqAHQAwiCEqmwQnOEqsfEwssGGcLFQVAIEAOYARnrytAAiKNQokUYQmDCRAHIwHtQwYAKsAPQAOjJZCkY6IJxDxqOckQBK0PCecHOwpKoeXgBcGzlWVsRrXgC8cGAgxHBwSWQAboThUHAAZJFwAET4UHkAtNhUUGCvOAAfiW80ip3OFxwZDA1FwcA2x3QSDgABYAAzoyEXfBkQq4WiIuDIuAAJkx2LgxRQqgA1oUCCAkmBcvkiUVinB0XAAKy8gBslNUIDyBARxw5ZIAzKS4ABGACcCvlqIAHJSwGQPJgUKZxXBFLAkJSUFA8ZwAJIdYCbY4JTgdAiUgBWEHaZEUpliDpgDv19sdlMUY2oADE0GQoHqia8ADIwJC+gFwfpwcLJKyED1BkNWMgAL3gRJJMpzDoA6jA8QT9QB2CnEYAoMicBHbLQqdRwLg8RvN1uHSE+CzWWz2aiRJwuSmCS7JCIwNIEBIzi6vcToIiScTCliSQFSOBTwhWfAwWib8-UPUHOCH9c9Xcwbc9S-7oA)
 
 ## API documentation
 

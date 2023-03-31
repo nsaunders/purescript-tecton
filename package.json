@@ -1,10 +1,14 @@
 {
   "scripts": {
-    "check-examples": "node ./scripts/check-examples.mjs"
+    "check-docs": "node ./scripts/docs-tryps.mjs --check",
+    "check-examples": "node ./scripts/check-examples.mjs",
+    "dev-docs": "parallel --will-cite ::: \"watchexec -w docs --exts md node ./scripts/docs-tryps.mjs\" \"mdbook serve\""
   },
   "devDependencies": {
     "chalk": "^5.1.2",
     "diff": "^5.1.0",
-    "execa": "^6.1.0"
+    "execa": "^6.1.0",
+    "globby": "^13.1.3",
+    "lz-string": "^1.5.0"
   }
 }

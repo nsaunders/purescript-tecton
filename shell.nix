@@ -16,13 +16,18 @@ let
 in
   pkgs.stdenv.mkDerivation {
     name = "tecton";
-    buildInputs = with pursPkgs; [
-      purs
-      spago
-      pulp
-      purs-tidy
-
-      pkgs.nodejs-16_x
-      pkgs.nodePackages.bower
-    ];
+    buildInputs = with pursPkgs;
+      [
+        purs
+        spago
+        pulp
+        purs-tidy
+      ]
+      ++ (with pkgs; [
+        mdbook
+        parallel
+        watchexec
+        nodejs-16_x
+        nodePackages.bower
+      ]);
   }
