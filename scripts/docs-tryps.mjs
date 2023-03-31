@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { globby } from "globby";
 import lz from "lz-string";
+import chalk from "chalk";
 
 let
   paths = [],
@@ -21,7 +22,7 @@ for (let p of paths) {
   const updated = updateMarkdown(original);
   if (original !== updated) {
     if (process.argv.includes("--check")) {
-      console.error(`Try PureScript link is missing or stale in ${p}`);
+      process.stdout.write(chalk.red(`Try PureScript link is missing or stale in ${p}`));
       exitCode = 1;
     }
     else {
