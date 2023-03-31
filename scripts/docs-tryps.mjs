@@ -38,7 +38,7 @@ if (exitCode) {
 }
 
 function updateMarkdown(markdown) {
-  return markdown.replace(/```haskell[\S\s]*```(\s*\[!\[Open with Try PureScript\S+)?/gm, content => {
+  return markdown.replace(/```haskell[\S\s]+?```(\s*\[!\[Open with Try PureScript\S+)?/gm, content => {
     let lines = content.trim().split("\n");
     lines = lines.slice(lines.findIndex(x => /```haskell/.test(x)) + 1);
     lines = lines.slice(0, lines.findIndex(x => /```/.test(x)));
