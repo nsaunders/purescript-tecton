@@ -22,7 +22,7 @@ You can give this a try now with the following example.
 
 ## "Hello world" example
 
-This example serves as a good starting point for experimenting with Tecton. Simply update the `css` function with your own rules to see Tecton's CSS output.
+This example serves as a good starting point for experimenting with Tecton. Simply update the `styleSheet` function with your own rules to see Tecton's CSS output.
 
 ```haskell
 module Example.StyleSheet where
