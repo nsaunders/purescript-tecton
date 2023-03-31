@@ -46,6 +46,53 @@ function updateMarkdown(markdown) {
 ${code}
 \`\`\`
 
-[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=${lz.compressToEncodedURIComponent(code)})`;
+[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=${lz.compressToEncodedURIComponent(tryPSCode(code))})`;
   });
+}
+
+function tryPSCode(code) {
+  const moduleName = (code.trim().match(/^module (\S+)/) || [])[1];
+  switch (moduleName) {
+    case "Example.StyleSheet":
+      return `module Example.StyleSheet where
+
+import Prelude (Unit, ($), (<>))
+import Effect (Effect)
+import TryPureScript (render) as TryPureScript
+import Unsafe.Coerce (unsafeCoerce)
+
+${removeModuleDeclaration(code)}
+
+main :: Effect Unit
+main =
+  TryPureScript.render
+    $ unsafeCoerce
+    $  "<pre><code>" <> renderSheet pretty styleSheet <> "</code></pre>"`;
+    case "Example.InlineStyle":
+      return `module Example.InlineStyle where
+
+import Prelude (Unit, ($), (<>))
+import Effect (Effect)
+import TryPureScript (render) as TryPureScript
+import Unsafe.Coerce (unsafeCoerce)
+
+${removeModuleDeclaration(code)}
+
+main :: Effect Unit
+main =
+  TryPureScript.render
+    $ unsafeCoerce
+    $  "<pre><code>" <> renderInline inlineStyle <> "</code></pre>"`;
+    default:
+      return code;
+  }
+
+  function removeModuleDeclaration(code) {
+    const lines = code.split("\n");
+    const ix = lines.findIndex(x => x.trim().endsWith("where"));
+    if (ix < 0) return code;
+    lines.splice(0, ix + 1);
+    while (lines.length && !lines[0].trim()) lines.splice(0, 1);
+    return lines.join("\n");
+  }
 }
