@@ -1,6 +1,6 @@
 # Selectors
 
-A _selector_ is a pattern that describes the scope of a rule, i.e. the set of HTML elements to which it should apply. Tecton supports several types of selectors, including element, class, ID, attribute, and pseudo-class selectors. You can combine these to form more advanced selectors or even lists of selectors.
+A selector is a pattern that describes the scope of a rule, i.e. the set of HTML elements to which it should apply. Tecton supports several types of selectors, including element, class, ID, attribute, and pseudo-class selectors. You can combine these to form more advanced selectors or even lists of selectors.
 
 ## Element selectors
 
@@ -160,3 +160,122 @@ styleSheet = do
 ```
 
 [![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4AgCQBKKQIA8APjlyWbDogBmOmAGNKAhHsN4NrdO0oAVWgU4R6OA7Wbpj9Ef1py4KADOcPaOzjCu7p6a1tqigSj6WADCIDC0BoIQIgn6qemZGjE2cKlQ7NK0AOYARpZaduYgIsXatk0iWABK0PBBcD2wTIGExGQUcABck6U4OAwjRBHjlAC8cGAgDHABcABkAAJwJPQ6UCgiVXAAPusARDAid3AA-AO9WJvbO3AGIOW0Kbrao1OAAJgArBC4AAGOAARgAnAA2JjAFDMERTGamfRGOCicQMdGYuCrb6hJwuNwePBYby+b47GRwbK5GD5DKMH5wFlwO5KdD0FRKP78FTPVRwBnpUjkShCiiEOCLMbyuBSgUAejFMBFWsVEqAA)
+
+### Prefix
+
+You can use the `^=` operator to represent an element whose attribute value begins with the specified value. The following example targets insecure links based on their _http://_ prefix:
+
+```haskell
+module Example.StyleSheet where
+
+import Color (rgb)
+import Tecton
+import Tecton.Rule as Rule
+
+styleSheet :: CSS
+styleSheet = do
+  a &@ href ^= "http://" ? Rule.do
+    color := rgb 255 0 0
+```
+
+[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4AgCQBKKQIA8APjlyWbDogBmOmAGNKAhHsN4NrdO0oAVWgU4R6OA7Wbpj9Ef1py4KADOcPaOzjCu7p6a1tqigSj6WADCIDC0BoIQIgn6qemZGjE2cKlQ7NK0AOYARpZaduYgIsXatk0iWABK0PBBcD2wTIGExGQUcABck6U4OAwjRBHjlAC8cGAgDHABcABkAAJwJPQ6cAB66wBEJHh46JMA9I9XcAD8A71Ym9s7cAYgcq0Kbrao1OAAJgArFC4AAGeFMYAoZgiKYzUz6IxwUTiBjI1FwVa-UJOFxuDx4LDeXy-HYyODZXIwfIZRh-OAMuBXJToegqJQA-gqV6qOA09KkciUPkUQhwRZjaVwMU8x5CmACx6ykVAA)
+
+### Suffix
+
+The `$=` operator matches an element with an attribute value ending in the specified value. This can be used to target a link to a PDF, for instance:
+
+```haskell
+module Example.StyleSheet where
+
+import Tecton
+import Tecton.Rule as Rule
+
+styleSheet :: CSS
+styleSheet = do
+  a &@ href $= ".pdf" ? Rule.do
+    fontWeight := bold
+```
+
+[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4AgCQBKKQIA8APjlyWbDogBmOmAGNKAhHsN4NrdO0oAVWgU4R6OA7Wbpj9Ef1py4KADOcPaOzjCu7p6a1tqigSj6WADCIDC0BoIQIgn6qemZGjE2IeYgIsXatmUiWABK0PBBcA2wTIGExGQUcABcvXDJODgMHUQR3ZQAvHBgIAxwAXAAZAACcCT0OnAyMwBEWOhgOntwAPwtjVhzC4twOuV4AOowzADmJJS9MwBGIFBgJjAFDMER9AamfRGOCicQMYGguBTW6hJwuNwePBYby+W6LGRwbK5GD5DKMO47RZ7JToegqJQGcAwFSnVRwHHpUjkSi0iiEOBjLrcuBs6kAekZ-HpYt5LKAA)
+
+### Substring
+
+To target an element whose attribute value simply contains a given substring, use the `*=` operator. The following selector matches any image sourced from Wikimedia:
+
+```haskell
+module Example.StyleSheet where
+
+import Tecton
+import Tecton.Rule as Rule
+
+styleSheet :: CSS
+styleSheet = do
+  img &@ src *= "wikimedia.org" ? Rule.do
+    display := initial
+```
+
+[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4AgCQBKKQIA8APjlyWbDogBmOmAGNKAhHsN4NrdO0oAVWgU4R6OA7Wbpj9Ef1py4KADOcPaOzjCu7p6a1tqigSj6WADCIDC0BoIQIgn6qemZGjE2IeYgIsXatmUiWABK0PBBcA2wTIGExGQUcABcvXDJODgMHUQR3ZQAvHBgIAxwcKwA5nAAZAACcIEZcABUMwBEVMwA1qwwYMwoWOzLh3AA-C2NWHMLi7PMgZgoBH0zZhiPDXKBMYAoIF9AamfRGOCicQMCFQqYfUJOFxuDx4LDeXwfRYyODZXIwfIZRifODEuCHJToegqJQGcAwFQPVRwfHpUjkSiMiiEbadCb8uBc+kAelZ-GZUsFHKAA)
+
+## Pseudo-classes
+
+A pseudo-class is a keyword added to a selector to style elements based on their state or position in the DOM tree. You can append a pseudo-class to the end of a selector using the `&:` operator. For instance, the `focus` pseudo-class applies a style conditionally when the element has focus:
+
+```haskell
+module Example.StyleSheet where
+
+import Tecton
+import Tecton.Rule as Rule
+
+styleSheet :: CSS
+styleSheet = do
+  universal &: focus ? Rule.do
+    outlineStyle := solid
+```
+
+[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4AgCQBKKQIA8APjlyWbDogBmOmAGNKAhHsN4NrdO0oAVWgU4R6OA7Wbpj9Ef1py4KADOcPaOzjCu7p6a1tqigSj6WADCIDC0BoIQIgn6qemZGjE2IeYgIsXatmUiWABK0PBBcA2wTIGExGQUcABcvXDJODgMHUQR3ZQAvHBgIAxwcNnMAG7pCVBwAGQDOiAGEMEA-C2NWHMLi3AgEHhQzCIRnfC9M4Eg92BMwCgPfQOmfRGOCicQMH5-KaXUJOFxuDx4LDeXyXRYyJY5RIwfIZRhXODouAAIiU6HoKiUBnAMBURLgqjgyPSpHIlDJFEIcDGXVZ9JUxKUAHoqfwKYL2bSgA)
+
+<!-- TODO: Create a "Basic pseudo-classes" section that lists and describes all of the supported pseudo-classes that don't have special syntax. -->
+
+### Nth pseudo-classes
+
+A special group of pseudo-classes allows you to select an element by its position within the parent element. These use a formula of the form **a**_n_+**b** where:
+
+- **a** determines the frequency of matches. For example, **3**_n_ can be interpreted as _every third element_.
+- **b** represents an offset, i.e. the index of the first matching element (one-indexed). For example, **2** will match the second element, before the pattern repeats.
+
+These pseudo-classes are
+- `nthChild`, which selects elements matching the **a**_n_+**b** formula within their parent;
+- `nthLastChild`, which reverses the direction of `nthChild`, counting from the last child element within a container;
+- `nthOfType`, which is like a version of `nthChild` that ignores sibling elements of a different type when evaluating the **a**_n_+**b** formula; and
+- `nthLastOfType`, which reverses the direction of `nthOfType`, counting from the last child element within a container.
+
+The [:nth Tester (CSS-Tricks)](https://css-tricks.com/examples/nth-child-tester/) offers an interactive way to learn how these pseudo-classes and the **a**_n_+**b** formula work.
+
+Constructing these pseudo-classes in Tecton begins with the formula:
+
+- The `even` function will select even-numbered elements, equivalent to **2**_n_.
+- The `odd` function will select odd-numbered elements, equivalent to **2**_n_+**1**.
+- The `nth` function has two parameters **a** and **b** which are used to create a **a**_n_+**b** formula.
+
+Apply one of the `nth*` functions listed above to the result to create the pseudo class.
+
+Here is how `nthChild`, for instance, can be used to add zebra-striping to a table:
+
+```haskell
+module Example.StyleSheet where
+
+import Color (rgb)
+import Tecton
+import Tecton.Rule as Rule
+
+styleSheet :: CSS
+styleSheet = do
+  tr &: nthChild even ? Rule.do
+    backgroundColor := rgb 240 240 240
+```
+
+[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4AgCQBKKQIA8APjlyWbDogBmOmAGNKAhHsN4NrdO0oAVWgU4R6OA7Wbpj9Ef1py4KADOcPaOzjCu7p6a1tqigSj6WADCIDC0BoIQIgn6qemZGjE2cKlQ7NK0AOYARpZaduYgIsXatk0iWABK0PBBcD2wTIGExGQUcABck6U4OAwjRBHjlAC8cGAgDHBweLRwAGQzIngkySTMUGBwMABuMCJwAPwDvVib2ztwNSgGANZVWggbJgMoVSbrao1OAAJgALAAGWGI5EIpjAFDMR7TXT6IxwUTiBgYrFwVafUJOFxuDx4LDeXyfHYyODZXIwfIZRhfOAsuAAIiU6HoKiUBnAMBU-LgqjgDPSpHIlGFFEIcEWYyVMpUAqUAHpxfxRXqVVKgA)
+
+<!-- TODO pseudo-elements -->
+
+<!-- TODO selector lists -->

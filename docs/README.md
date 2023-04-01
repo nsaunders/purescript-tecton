@@ -53,10 +53,6 @@ styleSheet = do
 
 API documentation is available on [Pursuit](https://pursuit.purescript.org/packages/purescript-tecton).
 
-## Tutorial
-
-TODO
-
 ## Troubleshooting
 
 If you encounter an error that is difficult to understand, please try the following resources:
