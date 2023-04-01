@@ -1,0 +1,7 @@
+[book]
+language = "en"
+multilingual = false
+src = "docs"
+title = "Tecton Guide"
+[output.html]
+git-repository-url = "https://github.com/nsaunders/purescript-tecton"

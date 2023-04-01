@@ -4,6 +4,7 @@ on:
   push:
     branches: [master]
     paths:
+      - 'docs/**/*.md'
       - 'examples/**/*.purs'
       - 'examples/**/*.js'
       - 'src/**/*.purs'
@@ -12,11 +13,13 @@ on:
       - 'test/**/*.js'
       - '*.json'
       - '*.dhall'
+      - 'scripts/check-docs.mjs'
       - 'scripts/check-examples.mjs'
       - '.github/workflows/ci.yml'
   pull_request:
     branches: [master]
     paths:
+      - 'docs/**/*.md'
       - 'examples/**/*.purs'
       - 'examples/**/*.js'
       - 'src/**/*.purs'
@@ -25,6 +28,7 @@ on:
       - 'test/**/*.js'
       - '*.json'
       - '*.dhall'
+      - 'scripts/check-docs.mjs'
       - 'scripts/check-examples.mjs'
       - '.github/workflows/ci.yml'
 
@@ -51,6 +55,12 @@ jobs:
             .spago
             output
 
+      - name: Cache NPM dependencies
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          path: node_modules
+
       - name: Install PureScript dependencies
         run: spago install
 
@@ -68,6 +78,9 @@ jobs:
 
       - name: Check examples
         run: npm run check-examples -- --color
+
+      - name: Check docs
+        run: npm run check-docs
 
       - name: Verify Bower & Pulp
         run: |
