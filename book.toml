@@ -4,5 +4,4 @@ multilingual = false
 src = "docs"
 title = "Tecton Guide"
 [output.html]
-theme = "docs/theme"
 git-repository-url = "https://github.com/nsaunders/purescript-tecton"
