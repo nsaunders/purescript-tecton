@@ -93,7 +93,9 @@ import Tecton.Internal
   , bottom
   , boxShadow
   , boxSizing
+  , breakAll
   , breakSpaces
+  , breakWord
   , button
   , cambodian
   , canvas
@@ -302,6 +304,7 @@ import Tecton.Internal
   , kannada
   , katakana
   , katakanaIroha
+  , keepAll
   , keyframes
   , keyframesName
   , khmer
@@ -697,6 +700,7 @@ import Tecton.Internal
   , width
   , woff
   , woff2
+  , wordBreak
   , wordSpacing
   , wrap
   , wrapReverse

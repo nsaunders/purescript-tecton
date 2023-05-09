@@ -5,7 +5,9 @@ module Test.TextSpec where
 import Prelude
 
 import Tecton
-  ( breakSpaces
+  ( breakAll
+  , breakSpaces
+  , breakWord
   , capitalize
   , center
   , em
@@ -16,6 +18,7 @@ import Tecton
   , initial
   , justify
   , justifyAll
+  , keepAll
   , left
   , letterSpacing
   , lowercase
@@ -36,6 +39,7 @@ import Tecton
   , unset
   , uppercase
   , whiteSpace
+  , wordBreak
   , wordSpacing
   , (:=)
   , (~)
@@ -161,3 +165,19 @@ spec = do
       "text-indent:10px" `isRenderedFrom` (textIndent := px 10)
 
       "text-indent:2.5%" `isRenderedFrom` (textIndent := pct 2.5)
+
+    describe "word-break property" do
+
+      "word-break:inherit" `isRenderedFrom` (wordBreak := inherit)
+
+      "word-break:initial" `isRenderedFrom` (wordBreak := initial)
+
+      "word-break:unset" `isRenderedFrom` (wordBreak := unset)
+
+      "word-break:normal" `isRenderedFrom` (wordBreak := normal)
+
+      "word-break:keep-all" `isRenderedFrom` (wordBreak := keepAll)
+
+      "word-break:break-all" `isRenderedFrom` (wordBreak := breakAll)
+
+      "word-break:break-word" `isRenderedFrom` (wordBreak := breakWord)
