@@ -8,6 +8,7 @@ Breaking changes:
 
 New features:
 - `box-sizing` property nsaunders/purescript-tecton#31
+- `word-break` property nsaunders/purescript-tecton#32
 
 Bugfixes:
 

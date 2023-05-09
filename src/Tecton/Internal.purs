@@ -173,6 +173,8 @@ module Tecton.Internal
   , bottom
   , boxShadow
   , boxSizing
+  , breakAll
+  , breakWord
   , breakSpaces
   , button
   , byAtt
@@ -348,6 +350,7 @@ module Tecton.Internal
   , class VisibilityKeyword
   , class WhiteSpaceKeyword
   , class WidthKeyword
+  , class WordBreakKeyword
   , class'
   , clear
   , clip
@@ -549,6 +552,7 @@ module Tecton.Internal
   , kannada
   , katakana
   , katakanaIroha
+  , keepAll
   , keyframes
   , keyframesName
   , khmer
@@ -955,6 +959,7 @@ module Tecton.Internal
   , width
   , woff
   , woff2
+  , wordBreak
   , wordSpacing
   , wrap
   , wrapReverse
@@ -6444,6 +6449,32 @@ instance declarationWhiteSpace ::
   , ToVal (Proxy s)
   ) =>
   Declaration "white-space" (Proxy s) where
+  pval = const val
+
+-- https://www.w3.org/TR/css-text-3/#propdef-word-break
+
+wordBreak = Proxy :: Proxy "word-break"
+
+instance Property "word-break"
+
+keepAll = Proxy :: Proxy "keep-all"
+
+breakAll = Proxy :: Proxy "break-all"
+
+breakWord = Proxy :: Proxy "break-word"
+
+class WordBreakKeyword (s :: Symbol)
+
+instance WordBreakKeyword "normal"
+instance WordBreakKeyword "keep-all"
+instance WordBreakKeyword "break-all"
+instance WordBreakKeyword "break-word"
+
+instance declarationWordBreak ::
+  ( WordBreakKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "word-break" (Proxy s) where
   pval = const val
 
 -- https://www.w3.org/TR/css-text-3/#propdef-text-align
