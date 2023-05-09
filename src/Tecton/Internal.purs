@@ -1,157 +1,27 @@
 module Tecton.Internal
-  ( class AlignmentBaselineKeyword
-  , class AlignmentBaselineOrBaselineShiftKeyword
-  , class AllPropertiesAnimatable
-  , class AngleTag
-  , class Animatable
-  , class AnimationDirectionKeyword
-  , class AnimationFillModeKeyword
-  , class AnimationPlayStateKeyword
-  , class AppearanceKeyword
-  , class Assoc
-  , class AttachmentKeyword
-  , class Attribute
-  , class AutoRepeatKeyword
-  , class BaselineShiftKeyword
-  , class BaselineSourceKeyword
-  , class BoxKeyword
-  , class ByAtt
-  , class Calc
-  , class ClearKeyword
-  , class CollectMediaFeatures
-  , class Combine
-  , class ContentKeyword
-  , class ContentPositionKeyword
-  , class CounterStyleKeyword
-  , class Declaration
-  , class DirectionKeyword
-  , class DisplayKeyword
-  , class DominantBaselineKeyword
-  , class Element
-  , class ExtentKeyword
-  , class FlexDirectionKeyword
-  , class FlexWrapKeyword
-  , class FloatKeyword
-  , class FoldLineNames
-  , class FontFaceDeclaration
-  , class FontFaceFontStyleKeyword
-  , class FontFaceFontWeightKeyword
-  , class FontFormatKeyword
-  , class FontSizeKeyword
-  , class FontStretchKeyword
-  , class FontStyleKeyword
-  , class FontWeightKeyword
-  , class GenericFontFamilyKeyword
-  , class IsAnimationNameList
-  , class IsAttachmentList
-  , class IsAttribute
-  , class IsBaselineShift
-  , class IsBgImageList
-  , class IsBgSize
-  , class IsBgSizeList
-  , class IsBorderColor
-  , class IsBorderRadius
-  , class IsBorderStyle
-  , class IsBorderWidth
-  , class IsBoxList
-  , class IsColor
-  , class IsColorStopListHead
-  , class IsColorStopListTail
-  , class IsExtensibleSelector
-  , class IsFontFaceFontStyle
-  , class IsFontFaceFontWeight
-  , class IsFontFaceSrcList
-  , class IsFontFamilyList
-  , class IsFontSize
-  , class IsFontStretch
-  , class IsFontStyle
-  , class IsFontWeight
-  , class IsImage
-  , class IsInset
-  , class IsInsetBlock
-  , class IsLetterSpacing
-  , class IsLineHeight
-  , class IsLineWidth
-  , class IsList
-  , class IsListStyleImage
-  , class IsListStyleType
-  , class IsMargin
-  , class IsMaskReferenceList
-  , class IsMaxWidth
-  , class IsMinWidth
-  , class IsOverflow
-  , class IsPadding
-  , class IsPerspective
-  , class IsPosition
-  , class IsPositionList
-  , class IsPositionX
-  , class IsPositionY
-  , class IsRadialGradientDimensions
-  , class IsRepeatStyle
-  , class IsRepeatStyleList
-  , class IsSelector
-  , class IsSelectorList
-  , class IsShadow
-  , class IsSingleAnimationDirectionList
-  , class IsSingleAnimationFillModeList
-  , class IsSingleAnimationIterationCountList
-  , class IsSingleAnimationPlayStateList
-  , class IsSingleBorderRadius
-  , class IsSingleMargin
-  , class IsSingleTransitionPropertyList
-  , class IsTextDecorationLine
-  , class IsTextShadow
-  , class IsTextShadowList
-  , class IsTextTransform
-  , class IsTimeList
-  , class IsTop
-  , class IsTransformList
-  , class IsTransformOrigin
-  , class IsVerticalAlign
-  , class IsWidth
-  , class IsWordSpacing
-  , class LengthPercentageTag
-  , class LengthTag
-  , class LineStyleKeyword
-  , class LineWidthKeyword
-  , class ListStylePositionKeyword
-  , class MaxWidthKeyword
-  , class MediaFeature
-  , class MediaTypeKeyword
-  , class MinWidthKeyword
-  , class Minmax
-  , class MkStatement
-  , class MultiVal
-  , class OutlineLineStyleKeyword
-  , class OverflowKeyword
-  , class OverflowPositionKeyword
-  , class PercentageTag
-  , class PositionKeyword
-  , class Property
-  , class Pseudo
-  , class Pseudo'
-  , class PseudoPrefix
-  , class Repeat
-  , class RepeatStyle1dKeyword
-  , class RepeatStyle2dKeyword
-  , class RepeatTrackList
-  , class SelectorStatus
-  , class SelfPositionKeyword
-  , class ShapeKeyword
-  , class StepPosition
-  , class TextAlignKeyword
-  , class TextDecorationStyleKeyword
-  , class TextOverflowKeyword
-  , class TextTransformCapitalizationKeyword
-  , class TimeTag
-  , class ToNumber
-  , class TrackBreadthKeyword
-  , class TrackCompat
-  , class TrackList
-  , class ToVal
-  , class VisibilityKeyword
-  , class WhiteSpaceKeyword
-  , class WidthKeyword
+  ( ($=)
+  , (&#)
+  , (&.)
+  , (&:)
+  , (&@)
+  , (*=)
+  , (*@)
+  , (:/)
+  , (:=)
+  , (?)
+  , (@*)
+  , (@+@)
+  , (@-@)
+  , (@/)
+  , (@=)
+  , (^=)
+  , (|*)
+  , (|+)
+  , (|=)
+  , (|>)
+  , (|~)
+  , (~)
+  , (~=)
   , Add
   , Angle
   , AttributePredicate
@@ -302,6 +172,7 @@ module Tecton.Internal
   , both
   , bottom
   , boxShadow
+  , boxSizing
   , breakSpaces
   , button
   , byAtt
@@ -323,6 +194,160 @@ module Tecton.Internal
   , cjkDecimal
   , cjkEarthlyBranch
   , cjkHeavenlyStem
+  , class AlignmentBaselineKeyword
+  , class AlignmentBaselineOrBaselineShiftKeyword
+  , class AllPropertiesAnimatable
+  , class AngleTag
+  , class Animatable
+  , class AnimationDirectionKeyword
+  , class AnimationFillModeKeyword
+  , class AnimationPlayStateKeyword
+  , class AppearanceKeyword
+  , class Assoc
+  , class AttachmentKeyword
+  , class Attribute
+  , class AutoRepeatKeyword
+  , class BaselineShiftKeyword
+  , class BaselineSourceKeyword
+  , class BoxKeyword
+  , class BoxSizingKeyword
+  , class ByAtt
+  , class Calc
+  , class ClearKeyword
+  , class CollectMediaFeatures
+  , class Combine
+  , class ContentKeyword
+  , class ContentPositionKeyword
+  , class CounterStyleKeyword
+  , class Declaration
+  , class DirectionKeyword
+  , class DisplayKeyword
+  , class DominantBaselineKeyword
+  , class Element
+  , class ExtentKeyword
+  , class FlexDirectionKeyword
+  , class FlexWrapKeyword
+  , class FloatKeyword
+  , class FoldLineNames
+  , class FontFaceDeclaration
+  , class FontFaceFontStyleKeyword
+  , class FontFaceFontWeightKeyword
+  , class FontFormatKeyword
+  , class FontSizeKeyword
+  , class FontStretchKeyword
+  , class FontStyleKeyword
+  , class FontWeightKeyword
+  , class GenericFontFamilyKeyword
+  , class IsAnimationNameList
+  , class IsAttachmentList
+  , class IsAttribute
+  , class IsBaselineShift
+  , class IsBgImageList
+  , class IsBgSize
+  , class IsBgSizeList
+  , class IsBorderColor
+  , class IsBorderRadius
+  , class IsBorderStyle
+  , class IsBorderWidth
+  , class IsBoxList
+  , class IsColor
+  , class IsColorStopListHead
+  , class IsColorStopListTail
+  , class IsExtensibleSelector
+  , class IsFontFaceFontStyle
+  , class IsFontFaceFontWeight
+  , class IsFontFaceSrcList
+  , class IsFontFamilyList
+  , class IsFontSize
+  , class IsFontStretch
+  , class IsFontStyle
+  , class IsFontWeight
+  , class IsImage
+  , class IsInset
+  , class IsInsetBlock
+  , class IsLetterSpacing
+  , class IsLineHeight
+  , class IsLineWidth
+  , class IsList
+  , class IsListStyleImage
+  , class IsListStyleType
+  , class IsMargin
+  , class IsMaskReferenceList
+  , class IsMaxWidth
+  , class IsMinWidth
+  , class IsOverflow
+  , class IsPadding
+  , class IsPerspective
+  , class IsPosition
+  , class IsPositionList
+  , class IsPositionX
+  , class IsPositionY
+  , class IsRadialGradientDimensions
+  , class IsRepeatStyle
+  , class IsRepeatStyleList
+  , class IsSelector
+  , class IsSelectorList
+  , class IsShadow
+  , class IsSingleAnimationDirectionList
+  , class IsSingleAnimationFillModeList
+  , class IsSingleAnimationIterationCountList
+  , class IsSingleAnimationPlayStateList
+  , class IsSingleBorderRadius
+  , class IsSingleMargin
+  , class IsSingleTransitionPropertyList
+  , class IsTextDecorationLine
+  , class IsTextShadow
+  , class IsTextShadowList
+  , class IsTextTransform
+  , class IsTimeList
+  , class IsTop
+  , class IsTransformList
+  , class IsTransformOrigin
+  , class IsVerticalAlign
+  , class IsWidth
+  , class IsWordSpacing
+  , class LengthPercentageTag
+  , class LengthTag
+  , class LineStyleKeyword
+  , class LineWidthKeyword
+  , class ListStylePositionKeyword
+  , class MaxWidthKeyword
+  , class MediaFeature
+  , class MediaTypeKeyword
+  , class MinWidthKeyword
+  , class Minmax
+  , class MkStatement
+  , class MultiVal
+  , class OutlineLineStyleKeyword
+  , class OverflowKeyword
+  , class OverflowPositionKeyword
+  , class PercentageTag
+  , class PositionKeyword
+  , class Property
+  , class Pseudo
+  , class Pseudo'
+  , class PseudoPrefix
+  , class Repeat
+  , class RepeatStyle1dKeyword
+  , class RepeatStyle2dKeyword
+  , class RepeatTrackList
+  , class SelectorStatus
+  , class SelfPositionKeyword
+  , class ShapeKeyword
+  , class StepPosition
+  , class TextAlignKeyword
+  , class TextDecorationStyleKeyword
+  , class TextOverflowKeyword
+  , class TextTransformCapitalizationKeyword
+  , class TimeTag
+  , class ToNumber
+  , class ToVal
+  , class TrackBreadthKeyword
+  , class TrackCompat
+  , class TrackList
+  , class VisibilityKeyword
+  , class WhiteSpaceKeyword
+  , class WidthKeyword
   , class'
   , clear
   , clip
@@ -431,8 +456,8 @@ module Tecton.Internal
   , flowRoot
   , focus
   , focusWithin
-  , foldlMultiVal
   , foldLineNames
+  , foldlMultiVal
   , fontFace
   , fontFamily
   , fontSize
@@ -938,29 +963,6 @@ module Tecton.Internal
   , xxLarge
   , xxSmall
   , zIndex
-  , ($=)
-  , (&#)
-  , (&.)
-  , (&:)
-  , (&@)
-  , (*=)
-  , (*@)
-  , (:/)
-  , (:=)
-  , (?)
-  , (@*)
-  , (@+@)
-  , (@-@)
-  , (@/)
-  , (@=)
-  , (^=)
-  , (|*)
-  , (|+)
-  , (|=)
-  , (|>)
-  , (|~)
-  , (~)
-  , (~=)
   ) where
 
 import Prelude hiding (add, bottom, sub, top)
@@ -6348,6 +6350,24 @@ instance declarationMaxHeight ::
   Declaration "max-width" a =>
   Declaration "max-height" a where
   pval = const $ pval maxWidth
+
+-- https://www.w3.org/TR/css-sizing-3/#propdef-box-sizing
+
+boxSizing = Proxy :: Proxy "box-sizing"
+
+instance Property "box-sizing"
+
+class BoxSizingKeyword (s :: Symbol)
+
+instance BoxSizingKeyword "content-box"
+instance BoxSizingKeyword "border-box"
+
+instance
+  ( BoxSizingKeyword s
+  , ToVal (Proxy s)
+  ) =>
+  Declaration "box-sizing" (Proxy s) where
+  pval = const val
 
 --------------------------------------------------------------------------------
 
