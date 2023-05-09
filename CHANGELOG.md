@@ -7,6 +7,7 @@ Notable changes are documented in this file. The format is based on [Keep a Chan
 Breaking changes:
 
 New features:
+- `box-sizing` property nsaunders/purescript-tecton#31
 
 Bugfixes:
 

@@ -92,6 +92,7 @@ import Tecton.Internal
   , both
   , bottom
   , boxShadow
+  , boxSizing
   , breakSpaces
   , button
   , cambodian

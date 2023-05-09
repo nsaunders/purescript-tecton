@@ -6,6 +6,9 @@ import Prelude
 
 import Tecton
   ( auto
+  , borderBox
+  , boxSizing
+  , contentBox
   , fitContent
   , height
   , inherit
@@ -226,3 +229,15 @@ spec = do
       "max-height:fit-content(calc(100px + 50%))"
         `isRenderedFrom`
           (maxHeight := fitContent (px 100 @+@ pct 50))
+
+    describe "box-sizing property" do
+
+      "box-sizing:inherit" `isRenderedFrom` (boxSizing := inherit)
+
+      "box-sizing:initial" `isRenderedFrom` (boxSizing := initial)
+
+      "box-sizing:unset" `isRenderedFrom` (boxSizing := unset)
+
+      "box-sizing:content-box" `isRenderedFrom` (boxSizing := contentBox)
+
+      "box-sizing:border-box" `isRenderedFrom` (boxSizing := borderBox)
