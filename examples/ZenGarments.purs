@@ -156,6 +156,7 @@ import Tecton
   , width
   , (&.)
   , (&:)
+  , (&::)
   , (&@)
   , (*=)
   , (:=)
@@ -231,8 +232,8 @@ main = log $ renderSheet pretty do
 
   label ? Rule.do
     fontSize := rem 1.6
-  ( input &. "empty" &: placeholder
-      /\ textarea &. "empty" &: placeholder
+  ( input &. "empty" &:: placeholder
+      /\ textarea &. "empty" &:: placeholder
   ) ? Rule.do
     color := rgb 255 0 0
   universal &. "error" ? Rule.do
@@ -265,7 +266,7 @@ main = log $ renderSheet pretty do
     transitionDuration := sec 0.25
     transitionTimingFunction := linear
 
-  a &: after ? Rule.do
+  a &:: after ? Rule.do
     content := ""
     display := block
     backgroundColor := hsl 37.0 0.33 0.48
@@ -281,7 +282,7 @@ main = log $ renderSheet pretty do
 
   a &: hover /\ a &: focus ? Rule.do
     color := black
-  a &: hover &: after /\ a &: focus &: after ? Rule.do
+  a &: hover &:: after /\ a &: focus &:: after ? Rule.do
     opacity := 1
     bottom := nil
 
@@ -313,7 +314,7 @@ main = log $ renderSheet pretty do
   sub /\ sup ? Rule.do
     lineHeight := 0
 
-  universal &: selection ? Rule.do
+  universal &:: selection ? Rule.do
     backgroundColor := rgb 213 217 220
     color := rgb 51 51 51
 
@@ -332,7 +333,7 @@ main = log $ renderSheet pretty do
     overflow := hidden
 
   -- Easy Clearing - http://www.positioniseverything.net/easyclearing.html
-  universal &. "clearfix" &: after ? Rule.do
+  universal &. "clearfix" &:: after ? Rule.do
     content := "."
     display := block
     height := nil
@@ -387,9 +388,9 @@ main = log $ renderSheet pretty do
   ) ? Rule.do
     fontWeight := 900
 
-  ( universal &. "main" |* h3 &: after
-      /\ universal &. "preamble" |* h3 &: after
-      /\ universal &. "select" &: after
+  ( universal &. "main" |* h3 &:: after
+      /\ universal &. "preamble" |* h3 &:: after
+      /\ universal &. "select" &:: after
   ) ? Rule.do
     visibility := visible
     display := block
@@ -409,11 +410,11 @@ main = log $ renderSheet pretty do
   ) ? Rule.do
     transitionProperty := none
 
-  ( universal &. "next" |* a &: after
-      /\ universal &. "previous" |* a &: after
-      /\ universal &. "viewall" |* a &: after
-      /\ universal &. "zen-resources" |* a &: after
-      /\ universal &. "summary" |* p &: nthChild (nth 0 2) |* a &: after
+  ( universal &. "next" |* a &:: after
+      /\ universal &. "previous" |* a &:: after
+      /\ universal &. "viewall" |* a &:: after
+      /\ universal &. "zen-resources" |* a &:: after
+      /\ universal &. "summary" |* p &: nthChild (nth 0 2) |* a &:: after
   ) ? Rule.do
     opacity := 0
 
@@ -427,11 +428,11 @@ main = log $ renderSheet pretty do
     fontWeight := 900
     color := hsl 216.0 0.53 0.2
     visibility := hidden
-  universal &@ role @= "banner" |* h1 &: before ? Rule.do
+  universal &@ role @= "banner" |* h1 &:: before ? Rule.do
     content := "CSS Zen Garments"
     visibility := visible
     display := block
-  universal &@ role @= "banner" |* h1 &: after ? Rule.do
+  universal &@ role @= "banner" |* h1 &:: after ? Rule.do
     content := "Made Locally"
     visibility := visible
     display := block
@@ -447,7 +448,7 @@ main = log $ renderSheet pretty do
     textTransform := uppercase
     fontWeight := 400
     color := rgba 41 78 134 0.5
-  universal &@ role @= "banner" |* h2 &: after ? Rule.do
+  universal &@ role @= "banner" |* h2 &:: after ? Rule.do
     content := "Impeccable Quality"
     visibility := visible
     display := block
@@ -467,28 +468,28 @@ main = log $ renderSheet pretty do
     backgroundImage := url "i/sep.png"
     backgroundRepeat := noRepeat
     backgroundPosition := pct 50 ~ nil
-  universal &. "preamble" |* h3 &: after ? Rule.do
+  universal &. "preamble" |* h3 &:: after ? Rule.do
     visibility := visible
     content := "A Fashion-Forward Future"
 
   -- Explanation
 
-  universal &. "explanation" |* h3 &: after ? Rule.do
+  universal &. "explanation" |* h3 &:: after ? Rule.do
     content := "See Yourself in a Different Way"
 
   -- Participation
 
-  universal &. "participation" |* h3 &: after ? Rule.do
+  universal &. "participation" |* h3 &:: after ? Rule.do
     content := "Get Into a Brand New Pair"
 
   -- Benefits
 
-  universal &. "benefits" |* h3 &: after ? Rule.do
+  universal &. "benefits" |* h3 &:: after ? Rule.do
     content := "Look Great\\2026  and Feel Great Too!"
 
   -- Requirements
 
-  universal &. "requirements" |* h3 &: after ? Rule.do
+  universal &. "requirements" |* h3 &:: after ? Rule.do
     content := "â€œOne Size Fitsâ€ All Be Damned!"
     textIndent := em (-0.5)
 
@@ -500,7 +501,7 @@ main = log $ renderSheet pretty do
     listStyleType := none
     width := pct 94
     margin := nil ~ auto
-  universal &. "design-selection" |* ul &: after ? Rule.do
+  universal &. "design-selection" |* ul &:: after ? Rule.do
     content := "."
     display := block
     height := nil
@@ -525,7 +526,7 @@ main = log $ renderSheet pretty do
     textTransform := uppercase
     letterSpacing := em 0.1
     position := relative
-  universal &. "design-name" &: after ? Rule.do
+  universal &. "design-name" &:: after ? Rule.do
     backgroundImage := none
     opacity := 0
   universal &. "design-name" &: hover ? Rule.do
@@ -533,10 +534,10 @@ main = log $ renderSheet pretty do
 
   universal &. "designer-name" ? Rule.do
     color := rgb 121 137 163
-  universal &. "designer-name" &: after /\ footer |* a &: after ? Rule.do
+  universal &. "designer-name" &:: after /\ footer |* a &:: after ? Rule.do
     height := px 1
 
-  universal &. "select" &: after ? Rule.do
+  universal &. "select" &:: after ? Rule.do
     content := "Washes & Styles"
     fontSize := rem 1.8
     textAlign := center
@@ -621,7 +622,7 @@ main = log $ renderSheet pretty do
     listStyleType := none
     margin := em 2 ~ nil ~ em 4
     textAlign := center
-  universal &. "zen-resources" |* ul &: before ? Rule.do
+  universal &. "zen-resources" |* ul &:: before ? Rule.do
     content := ""
     height := px 4
     width := px 80
@@ -687,7 +688,7 @@ main = log $ renderSheet pretty do
       backgroundAttachment := fixed
       backgroundPosition := pct 90 ~ pct 80
 
-    universal &. "intro" &: before ? Rule.do
+    universal &. "intro" &:: before ? Rule.do
       content := ""
       display := block
       width := px 105
@@ -715,7 +716,7 @@ main = log $ renderSheet pretty do
       textAlign := left
       fontSize := rem 1.5
       letterSpacing := nil
-    universal &@ role @= "article" |* h3 &: after ? Rule.do
+    universal &@ role @= "article" |* h3 &:: after ? Rule.do
       position := absolute
       top := nil
 
@@ -727,7 +728,7 @@ main = log $ renderSheet pretty do
       fontSize := rem 4.8
       letterSpacing := nil
       lineHeight := 0.8
-    universal &@ role @= "banner" |* h1 &: after ? Rule.do
+    universal &@ role @= "banner" |* h1 &:: after ? Rule.do
       position := absolute
       top := em 15.7
       right := pct 30
@@ -739,7 +740,7 @@ main = log $ renderSheet pretty do
       left := pct 75.5
       fontSize := rem 1.9
       lineHeight := 1
-    universal &@ role @= "banner" |* h2 &: before ? Rule.do
+    universal &@ role @= "banner" |* h2 &:: before ? Rule.do
       visibility := visible
       content := "Est. 2003"
       display := block
@@ -765,7 +766,7 @@ main = log $ renderSheet pretty do
       top := em 2
       fontSize := rem 1.4
 
-    universal &. "summary" |* p &: nthChild (nth 0 2) &: before ? Rule.do
+    universal &. "summary" |* p &: nthChild (nth 0 2) &:: before ? Rule.do
       content := ""
       display := block
       visibility := visible
@@ -779,7 +780,7 @@ main = log $ renderSheet pretty do
       width := em 6
       height := px 30
 
-    universal &. "summary" |* p &: nthChild (nth 0 2) &: after ? Rule.do
+    universal &. "summary" |* p &: nthChild (nth 0 2) &:: after ? Rule.do
       content := ""
       display := block
       visibility := visible
@@ -874,7 +875,7 @@ main = log $ renderSheet pretty do
     ) ? Rule.do
       width := pct 100
       padding := nil
-    universal &. "select" &: after ? Rule.do
+    universal &. "select" &:: after ? Rule.do
       textAlign := left
       backgroundPosition := nil ~ bottom
       padding := nil ~ nil ~ em 2

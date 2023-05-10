@@ -67,7 +67,7 @@ import Tecton
   , upperRoman
   , url
   , width
-  , (&:)
+  , (&::)
   , (:=)
   , (?)
   )
@@ -84,7 +84,7 @@ spec =
 
       "li::marker{width:0}"
         `isRenderedFrom` do
-          li &: marker ? width := nil
+          li &:: marker ? width := nil
 
     describe "list-style-image property" do
 

@@ -3,6 +3,7 @@ module Tecton.Internal
   , (&#)
   , (&.)
   , (&:)
+  , (&::)
   , (&@)
   , (*=)
   , (*@)
@@ -180,7 +181,8 @@ module Tecton.Internal
   , byAtt
   , byClass
   , byId
-  , byPseudo
+  , byPseudoClass
+  , byPseudoElement
   , cambodian
   , canvas
   , capitalize
@@ -284,6 +286,8 @@ module Tecton.Internal
   , class IsPositionList
   , class IsPositionX
   , class IsPositionY
+  , class IsPseudoClass
+  , class IsPseudoElement
   , class IsRadialGradientDimensions
   , class IsRepeatStyle
   , class IsRepeatStyleList
@@ -326,14 +330,10 @@ module Tecton.Internal
   , class PercentageTag
   , class PositionKeyword
   , class Property
-  , class Pseudo
-  , class Pseudo'
-  , class PseudoPrefix
   , class Repeat
   , class RepeatStyle1dKeyword
   , class RepeatStyle2dKeyword
   , class RepeatTrackList
-  , class SelectorStatus
   , class SelfPositionKeyword
   , class ShapeKeyword
   , class StepPosition
@@ -773,7 +773,6 @@ module Tecton.Internal
   , pretty
   , print
   , progress
-  , pseudoPrefix
   , pt
   , pval
   , px
@@ -6017,55 +6016,51 @@ byId s i' = Selector $ val s <> val "#" <> val i'
 
 infixl 7 byId as &#
 
-newtype PseudoElement = PseudoElement String
-
-derive newtype instance ToVal PseudoElement
-
 newtype PseudoClass = PseudoClass Val
 
 derive newtype instance ToVal PseudoClass
 
-class Pseudo' (i :: Symbol) (o :: Type) | i -> o
+class IsPseudoClass (a :: Type)
 
-instance Pseudo' "checked" PseudoClass
-instance Pseudo' "disabled" PseudoClass
-instance Pseudo' "target" PseudoClass
-instance Pseudo' "placeholder" PseudoElement
+instance IsPseudoClass PseudoClass
+instance IsPseudoClass (Proxy "checked")
+instance IsPseudoClass (Proxy "disabled")
+instance IsPseudoClass (Proxy "target")
 
-class Pseudo (i :: Type) (o :: Type) | i -> o
-
-instance Pseudo PseudoClass PseudoClass
-instance Pseudo PseudoElement PseudoElement
-instance (Pseudo' i o, IsSymbol i) => Pseudo (Proxy i) o
-
-class SelectorStatus (i :: Type) (o :: Type) | i -> o
-
-instance SelectorStatus PseudoClass Extensible
-instance SelectorStatus PseudoElement Inextensible
-
-class PseudoPrefix (a :: Type) where
-  pseudoPrefix :: Proxy a -> Val
-
-instance PseudoPrefix PseudoClass where
-  pseudoPrefix _ = val ":"
-
-instance PseudoPrefix PseudoElement where
-  pseudoPrefix _ = val "::"
-
-byPseudo
-  :: forall pseudo family status selector
-   . Pseudo pseudo family
-  => SelectorStatus family status
+byPseudoClass
+  :: forall pseudo selector
+   . IsPseudoClass pseudo
   => IsExtensibleSelector selector
   => ToVal selector
-  => PseudoPrefix family
   => ToVal pseudo
   => selector
   -> pseudo
-  -> Selector status
-byPseudo s p' = Selector $ val s <> pseudoPrefix (Proxy :: _ family) <> val p'
+  -> Selector Extensible
+byPseudoClass s p' = Selector $ val s <> val ":" <> val p'
 
-infixl 7 byPseudo as &:
+infixl 7 byPseudoClass as &:
+
+newtype PseudoElement = PseudoElement String
+
+derive newtype instance ToVal PseudoElement
+
+class IsPseudoElement (a :: Type)
+
+instance IsPseudoElement PseudoElement
+instance IsPseudoElement (Proxy "placeholder")
+
+byPseudoElement
+  :: forall pseudo selector
+   . IsPseudoElement pseudo
+  => IsExtensibleSelector selector
+  => ToVal selector
+  => ToVal pseudo
+  => selector
+  -> pseudo
+  -> Selector Inextensible
+byPseudoElement s p' = Selector $ val s <> val "::" <> val p'
+
+infixl 7 byPseudoElement as &::
 
 -- https://www.w3.org/TR/selectors-3/#sel-link
 

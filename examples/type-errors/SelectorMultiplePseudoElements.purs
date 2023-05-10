@@ -21,7 +21,7 @@ import Tecton
   , currentColor
   , placeholder
   , universal
-  , (&:)
+  , (&::)
   , (:=)
   , (?)
   )
@@ -29,5 +29,5 @@ import Tecton.Rule as Rule
 
 css :: CSS
 css =
-  universal &: placeholder &: after ? Rule.do
+  universal &:: placeholder &:: after ? Rule.do
     color := currentColor
