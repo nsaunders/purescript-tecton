@@ -11,7 +11,6 @@ import Tecton
   ( a
   , active
   , after
-  , att
   , before
   , checked
   , disabled
@@ -70,6 +69,7 @@ import Tecton
   )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromSheet)
+import Web.HTML.Common (AttrName(..))
 
 spec :: Spec Unit
 spec = do
@@ -100,7 +100,7 @@ spec = do
 
       "*[data-states~=\"selected\"]{width:0}"
         `isRenderedFrom` do
-          universal &@ att "data-states" ~= "selected" ? width := nil
+          universal &@ AttrName "data-states" ~= "selected" ? width := nil
 
       "*[hreflang|=\"en\"]{width:0}"
         `isRenderedFrom` do
@@ -108,11 +108,11 @@ spec = do
 
       "*[data-timezone^=\"UTC-\"]{width:0}"
         `isRenderedFrom` do
-          universal &@ att "data-timezone" ^= "UTC-" ? width := nil
+          universal &@ AttrName "data-timezone" ^= "UTC-" ? width := nil
 
       "*[data-timezone$=\":30\"]{width:0}"
         `isRenderedFrom` do
-          universal &@ att "data-timezone" $= ":30" ? width := nil
+          universal &@ AttrName "data-timezone" $= ":30" ? width := nil
 
       "*[title*=\"hello\"]{width:0}"
         `isRenderedFrom` do

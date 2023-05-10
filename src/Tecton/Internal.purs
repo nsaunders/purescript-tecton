@@ -31,7 +31,6 @@ module Tecton.Internal
   , CSSColor
   , CommonKeyword
   , Configuration
-  , CustomAttribute
   , Declaration'
   , Declarations
   , Divide
@@ -113,7 +112,6 @@ module Tecton.Internal
   , aside
   , assoc
   , async
-  , att
   , attContains
   , attElemWhitespace
   , attEndsWith
@@ -991,6 +989,7 @@ import Prim.RowList (class RowToList, RowList)
 import Prim.RowList as RL
 import Record as Record
 import Type.Proxy (Proxy(..))
+import Web.HTML.Common (AttrName(..))
 
 --------------------------------------------------------------------------------
 
@@ -5895,14 +5894,10 @@ instance Attribute "wrap"
 class IsAttribute (a :: Type)
 
 instance Attribute s => IsAttribute (Proxy s)
-instance IsAttribute CustomAttribute
+instance IsAttribute AttrName
 
-newtype CustomAttribute = CustomAttribute String
-
-derive newtype instance ToVal CustomAttribute
-
-att :: String -> CustomAttribute
-att = CustomAttribute
+instance ToVal AttrName where
+  val (AttrName x) = val x
 
 data AttributePredicate = AttributePredicate Val String String
 
@@ -5972,7 +5967,7 @@ infixr 8 attContains as *=
 class ToVal a <= ByAtt (a :: Type)
 
 instance ByAtt AttributePredicate
-instance ByAtt CustomAttribute
+instance ByAtt AttrName
 instance (IsSymbol s, Attribute s) => ByAtt (Proxy s)
 
 byAtt

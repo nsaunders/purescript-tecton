@@ -2,7 +2,6 @@ module Tecton (module T) where
 
 import Tecton.Internal
   ( CSS
-  , CustomAttribute
   , Declarations
   , KeyframesName(..)
   , a
@@ -39,7 +38,6 @@ import Tecton.Internal
   , article
   , aside
   , async
-  , att
   , audio
   , auto
   , autoFill
