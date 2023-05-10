@@ -5,6 +5,19 @@ Notable changes are documented in this file. The format is based on [Keep a Chan
 ## [Unreleased]
 
 Breaking changes:
+- _For pseudo-elements only_, the `&:` operator has bee replaced by `&::`. Pseudo-classes continue to work with the `&:` operator. (nsaunders/purescript-tecton#33)
+
+For example:
+
+**Before**
+```purescript
+universal &: after ? content := ""
+```
+
+**After**
+```purescript
+universal &:: after ? content := ""
+```
 
 New features:
 - `box-sizing` property nsaunders/purescript-tecton#31

@@ -10,10 +10,10 @@ information.
 
 module TypeError.SelectorPseudoElementDescendant where
 
-import Tecton (CSS, after, nil, universal, width, (&:), (:=), (?), (|*))
+import Tecton (CSS, after, nil, universal, width, (&::), (:=), (?), (|*))
 import Tecton.Rule as Rule
 
 css :: CSS
 css =
-  universal &: after |* universal ? Rule.do
+  universal &:: after |* universal ? Rule.do
     width := nil

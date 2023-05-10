@@ -54,6 +54,7 @@ import Tecton
   , (&#)
   , (&.)
   , (&:)
+  , (&::)
   , (&@)
   , (*=)
   , (:=)
@@ -256,27 +257,27 @@ spec = do
 
       "*::first-line{width:0}"
         `isRenderedFrom` do
-          universal &: firstLine ? width := nil
+          universal &:: firstLine ? width := nil
 
       "*::first-letter{width:0}"
         `isRenderedFrom` do
-          universal &: firstLetter ? width := nil
+          universal &:: firstLetter ? width := nil
 
       "*::before{width:0}"
         `isRenderedFrom` do
-          universal &: before ? width := nil
+          universal &:: before ? width := nil
 
       "*::after{width:0}"
         `isRenderedFrom` do
-          universal &: after ? width := nil
+          universal &:: after ? width := nil
 
       "*::placeholder{width:0}"
         `isRenderedFrom` do
-          universal &: placeholder ? width := nil
+          universal &:: placeholder ? width := nil
 
       "*::selection{width:0}"
         `isRenderedFrom` do
-          universal &: selection ? width := nil
+          universal &:: selection ? width := nil
 
     describe "Combinators" do
 
@@ -296,4 +297,4 @@ spec = do
 
       "*.foo,*::after{width:0}"
         `isRenderedFrom` do
-          universal &. "foo" /\ universal &: after ? width := nil
+          universal &. "foo" /\ universal &:: after ? width := nil

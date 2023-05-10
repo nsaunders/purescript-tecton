@@ -20,6 +20,7 @@ import Tecton
   , underline
   , universal
   , (&:)
+  , (&::)
   , (:=)
   , (?)
   )
@@ -27,5 +28,5 @@ import Tecton.Rule as Rule
 
 css :: CSS
 css =
-  universal &: after &: hover ? Rule.do
+  universal &:: after &: hover ? Rule.do
     textDecorationLine := underline
