@@ -241,7 +241,7 @@ module Tecton.Internal
   , class GenericFontFamilyKeyword
   , class IsAnimationNameList
   , class IsAttachmentList
-  , class IsAttribute
+  , class IsAttrName
   , class IsBaselineShift
   , class IsBgImageList
   , class IsBgSize
@@ -5891,10 +5891,10 @@ instance AttrName "value"
 instance AttrName "width"
 instance AttrName "wrap"
 
-class IsAttribute (a :: Type)
+class IsAttrName (a :: Type)
 
-instance AttrName s => IsAttribute (Proxy s)
-instance IsAttribute AttrName
+instance AttrName s => IsAttrName (Proxy s)
+instance IsAttrName AttrName
 
 instance ToVal AttrName where
   val (AttrName x) = val x
@@ -5904,14 +5904,14 @@ data AttributePredicate = AttributePredicate Val String String
 instance ToVal AttributePredicate where
   val (AttributePredicate k op v) = k <> val op <> val (quote v)
 
-attEq :: forall a. IsAttribute a => ToVal a => a -> String -> AttributePredicate
+attEq :: forall a. IsAttrName a => ToVal a => a -> String -> AttributePredicate
 attEq k v = AttributePredicate (val k) "=" v
 
 infixr 8 attEq as @=
 
 attElemWhitespace
   :: forall a
-   . IsAttribute a
+   . IsAttrName a
   => ToVal a
   => a
   -> String
@@ -5922,7 +5922,7 @@ infixr 8 attElemWhitespace as ~=
 
 attStartsWithHyphen
   :: forall a
-   . IsAttribute a
+   . IsAttrName a
   => ToVal a
   => a
   -> String
@@ -5933,7 +5933,7 @@ infixr 8 attStartsWithHyphen as |=
 
 attStartsWith
   :: forall a
-   . IsAttribute a
+   . IsAttrName a
   => ToVal a
   => a
   -> String
@@ -5944,7 +5944,7 @@ infixr 8 attStartsWith as ^=
 
 attEndsWith
   :: forall a
-   . IsAttribute a
+   . IsAttrName a
   => ToVal a
   => a
   -> String
@@ -5955,7 +5955,7 @@ infixr 8 attEndsWith as $=
 
 attContains
   :: forall a
-   . IsAttribute a
+   . IsAttrName a
   => ToVal a
   => a
   -> String
