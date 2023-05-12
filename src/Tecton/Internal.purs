@@ -47,7 +47,7 @@ module Tecton.Internal
   , Inextensible
   , KeyframeBlock
   , Keyframes
-  , KeyframesName
+  , KeyframesName(..)
   , Length
   , LengthPercentage
   , LineName
@@ -554,7 +554,6 @@ module Tecton.Internal
   , katakanaIroha
   , keepAll
   , keyframes
-  , keyframesName
   , khmer
   , kind
   , label
@@ -1820,9 +1819,6 @@ instance
 newtype KeyframesName = KeyframesName String
 
 derive newtype instance ToVal KeyframesName
-
-keyframesName :: String -> KeyframesName
-keyframesName = KeyframesName
 
 newtype Keyframes = Keyframes KeyframesName
 

@@ -4,7 +4,7 @@ import Tecton.Internal
   ( CSS
   , CustomAttribute
   , Declarations
-  , KeyframesName
+  , KeyframesName(..)
   , a
   , abbr
   , absolute
@@ -306,7 +306,6 @@ import Tecton.Internal
   , katakanaIroha
   , keepAll
   , keyframes
-  , keyframesName
   , khmer
   , kind
   , label

@@ -6,6 +6,7 @@ Notable changes are documented in this file. The format is based on [Keep a Chan
 
 Breaking changes:
 - _For pseudo-elements only_, the `&:` operator has bee replaced by `&::`. Pseudo-classes continue to work with the `&:` operator. (nsaunders/purescript-tecton#33)
+- The `keyframesName` function has been dropped. Just use the `KeyframesName` constructor instead. (nsaunders/purescript-tecton#34)
 
 For example:
 

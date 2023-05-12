@@ -7,7 +7,8 @@ import Data.Tuple.Nested ((/\))
 import Effect (Effect)
 import Effect.Console (log)
 import Tecton
-  ( a
+  ( KeyframesName(..)
+  , a
   , abbr
   , absolute
   , acronym
@@ -77,7 +78,6 @@ import Tecton
   , input
   , italic
   , keyframes
-  , keyframesName
   , label
   , left
   , letterSpacing
@@ -892,7 +892,7 @@ main = log $ renderSheet pretty do
 
   -- Animations
 
-  let fadey = keyframesName "FADEY"
+  let fadey = KeyframesName "FADEY"
 
   keyframes fadey ? do
     pct 0 ? Rule.do

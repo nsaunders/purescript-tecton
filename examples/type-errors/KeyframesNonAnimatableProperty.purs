@@ -13,12 +13,21 @@ module TypeError.KeyframesNonAnimatableProperty where
 
 import Prelude
 
-import Tecton (CSS, content, keyframes, keyframesName, nil, pct, (:=), (?))
+import Tecton
+  ( CSS
+  , KeyframesName(..)
+  , content
+  , keyframes
+  , nil
+  , pct
+  , (:=)
+  , (?)
+  )
 import Tecton.Rule as Rule
 
 css :: CSS
 css = do
-  keyframes (keyframesName "foo") ? do
+  keyframes (KeyframesName "foo") ? do
     pct 0 ? Rule.do
       content := ""
     pct 100 ? Rule.do
