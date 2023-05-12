@@ -13,6 +13,7 @@
   , "strings"
   , "transformers"
   , "tuples"
+  , "web-html"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs" ]

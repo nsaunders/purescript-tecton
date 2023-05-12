@@ -1,30 +1,31 @@
 {
-    "name": "purescript-tecton",
-    "license": [
-        "MIT"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/nsaunders/purescript-tecton"
-    },
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "output"
-    ],
-    "dependencies": {
-        "purescript-arrays": "^v7.0.0",
-        "purescript-colors": "^v7.0.1",
-        "purescript-either": "^v6.0.0",
-        "purescript-foldable-traversable": "^v6.0.0",
-        "purescript-integers": "^v6.0.0",
-        "purescript-lists": "^v7.0.0",
-        "purescript-numbers": "^v9.0.0",
-        "purescript-prelude": "^v6.0.0",
-        "purescript-record": "^v4.0.0",
-        "purescript-strings": "^v6.0.0",
-        "purescript-transformers": "^v6.0.0",
-        "purescript-tuples": "^v7.0.0"
-    }
+  "name": "purescript-tecton",
+  "license": [
+    "MIT"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nsaunders/purescript-tecton"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "output"
+  ],
+  "dependencies": {
+    "purescript-arrays": "^v7.0.0",
+    "purescript-colors": "^v7.0.1",
+    "purescript-either": "^v6.0.0",
+    "purescript-foldable-traversable": "^v6.0.0",
+    "purescript-integers": "^v6.0.0",
+    "purescript-lists": "^v7.0.0",
+    "purescript-numbers": "^v9.0.0",
+    "purescript-prelude": "^v6.0.0",
+    "purescript-record": "^v4.0.0",
+    "purescript-strings": "^v6.0.0",
+    "purescript-transformers": "^v6.0.0",
+    "purescript-tuples": "^v7.0.0",
+    "purescript-web-html": "^v4.0.0"
+  }
 }

@@ -31,7 +31,6 @@ module Tecton.Internal
   , CSSColor
   , CommonKeyword
   , Configuration
-  , CustomAttribute
   , Declaration'
   , Declarations
   , Divide
@@ -44,6 +43,7 @@ module Tecton.Internal
   , FontFaceDeclaration'
   , FontFaceFormatFunction
   , Gradient
+  , Identifier(..)
   , Inextensible
   , KeyframeBlock
   , Keyframes
@@ -113,7 +113,6 @@ module Tecton.Internal
   , aside
   , assoc
   , async
-  , att
   , attContains
   , attElemWhitespace
   , attEndsWith
@@ -208,7 +207,7 @@ module Tecton.Internal
   , class AppearanceKeyword
   , class Assoc
   , class AttachmentKeyword
-  , class Attribute
+  , class AttrName
   , class AutoRepeatKeyword
   , class BaselineShiftKeyword
   , class BaselineSourceKeyword
@@ -243,7 +242,7 @@ module Tecton.Internal
   , class GenericFontFamilyKeyword
   , class IsAnimationNameList
   , class IsAttachmentList
-  , class IsAttribute
+  , class IsAttrName
   , class IsBaselineShift
   , class IsBgImageList
   , class IsBgSize
@@ -991,6 +990,7 @@ import Prim.RowList (class RowToList, RowList)
 import Prim.RowList as RL
 import Record as Record
 import Type.Proxy (Proxy(..))
+import Web.HTML.Common (AttrName(..), ClassName(..))
 
 --------------------------------------------------------------------------------
 
@@ -5725,198 +5725,194 @@ value = Proxy :: Proxy "value"
 width = Proxy :: Proxy "width"
 wrap = Proxy :: Proxy "wrap"
 
-class Attribute (s :: Symbol)
+class AttrName (s :: Symbol)
 
-instance Attribute "accept"
-instance Attribute "accept-charset"
-instance Attribute "accesskey"
-instance Attribute "action"
-instance Attribute "alt"
-instance Attribute "async"
-instance Attribute "autocomplete"
-instance Attribute "autofocus"
-instance Attribute "autoplay"
-instance Attribute "charset"
-instance Attribute "checked"
-instance Attribute "cite"
-instance Attribute "class"
-instance Attribute "cols"
-instance Attribute "colspan"
-instance Attribute "content"
-instance Attribute "contenteditable"
-instance Attribute "controls"
-instance Attribute "coords"
-instance Attribute "data"
-instance Attribute "datetime"
-instance Attribute "default"
-instance Attribute "defer"
-instance Attribute "dir"
-instance Attribute "dirname"
-instance Attribute "disabled"
-instance Attribute "download"
-instance Attribute "draggable"
-instance Attribute "enctype"
-instance Attribute "for"
-instance Attribute "form"
-instance Attribute "formaction"
-instance Attribute "headers"
-instance Attribute "height"
-instance Attribute "hidden"
-instance Attribute "high"
-instance Attribute "href"
-instance Attribute "hreflang"
-instance Attribute "http-equiv"
-instance Attribute "id"
-instance Attribute "ismap"
-instance Attribute "kind"
-instance Attribute "label"
-instance Attribute "lang"
-instance Attribute "list"
-instance Attribute "loop"
-instance Attribute "low"
-instance Attribute "max"
-instance Attribute "maxlength"
-instance Attribute "media"
-instance Attribute "method"
-instance Attribute "min"
-instance Attribute "multiple"
-instance Attribute "muted"
-instance Attribute "name"
-instance Attribute "novalidate"
-instance Attribute "onabort"
-instance Attribute "onafterprint"
-instance Attribute "onbeforeprint"
-instance Attribute "onbeforeunload"
-instance Attribute "onblur"
-instance Attribute "oncanplay"
-instance Attribute "oncanplaythrough"
-instance Attribute "onchange"
-instance Attribute "onclick"
-instance Attribute "oncontextmenu"
-instance Attribute "oncopy"
-instance Attribute "oncuechange"
-instance Attribute "oncut"
-instance Attribute "ondblclick"
-instance Attribute "ondrag"
-instance Attribute "ondragend"
-instance Attribute "ondragenter"
-instance Attribute "ondragleave"
-instance Attribute "ondragover"
-instance Attribute "ondragstart"
-instance Attribute "ondrop"
-instance Attribute "ondurationchange"
-instance Attribute "onemptied"
-instance Attribute "onended"
-instance Attribute "onerror"
-instance Attribute "onfocus"
-instance Attribute "onhashchange"
-instance Attribute "oninput"
-instance Attribute "oninvalid"
-instance Attribute "onkeydown"
-instance Attribute "onkeypress"
-instance Attribute "onkeyup"
-instance Attribute "onload"
-instance Attribute "onloadeddata"
-instance Attribute "onloadedmetadata"
-instance Attribute "onloadstart"
-instance Attribute "onmousedown"
-instance Attribute "onmousemove"
-instance Attribute "onmouseout"
-instance Attribute "onmouseover"
-instance Attribute "onmouseup"
-instance Attribute "onmousewheel"
-instance Attribute "onoffline"
-instance Attribute "ononline"
-instance Attribute "onpagehide"
-instance Attribute "onpageshow"
-instance Attribute "onpaste"
-instance Attribute "onpause"
-instance Attribute "onplay"
-instance Attribute "onplaying"
-instance Attribute "onpopstate"
-instance Attribute "onprogress"
-instance Attribute "onratechange"
-instance Attribute "onreset"
-instance Attribute "onresize"
-instance Attribute "onscroll"
-instance Attribute "onsearch"
-instance Attribute "onseeked"
-instance Attribute "onseeking"
-instance Attribute "onselect"
-instance Attribute "onstalled"
-instance Attribute "onstorage"
-instance Attribute "onsubmit"
-instance Attribute "onsuspend"
-instance Attribute "ontimeupdate"
-instance Attribute "ontoggle"
-instance Attribute "onunload"
-instance Attribute "onvolumechange"
-instance Attribute "onwaiting"
-instance Attribute "onwheel"
-instance Attribute "open"
-instance Attribute "optimum"
-instance Attribute "pattern"
-instance Attribute "placeholder"
-instance Attribute "poster"
-instance Attribute "preload"
-instance Attribute "readonly"
-instance Attribute "rel"
-instance Attribute "required"
-instance Attribute "reversed"
-instance Attribute "role"
-instance Attribute "rows"
-instance Attribute "rowspan"
-instance Attribute "sandbox"
-instance Attribute "scope"
-instance Attribute "selected"
-instance Attribute "shape"
-instance Attribute "size"
-instance Attribute "sizes"
-instance Attribute "span"
-instance Attribute "spellcheck"
-instance Attribute "src"
-instance Attribute "srcdoc"
-instance Attribute "srclang"
-instance Attribute "srcset"
-instance Attribute "start"
-instance Attribute "step"
-instance Attribute "style"
-instance Attribute "tabindex"
-instance Attribute "target"
-instance Attribute "time"
-instance Attribute "title"
-instance Attribute "translate"
-instance Attribute "type"
-instance Attribute "usemap"
-instance Attribute "value"
-instance Attribute "width"
-instance Attribute "wrap"
+instance AttrName "accept"
+instance AttrName "accept-charset"
+instance AttrName "accesskey"
+instance AttrName "action"
+instance AttrName "alt"
+instance AttrName "async"
+instance AttrName "autocomplete"
+instance AttrName "autofocus"
+instance AttrName "autoplay"
+instance AttrName "charset"
+instance AttrName "checked"
+instance AttrName "cite"
+instance AttrName "class"
+instance AttrName "cols"
+instance AttrName "colspan"
+instance AttrName "content"
+instance AttrName "contenteditable"
+instance AttrName "controls"
+instance AttrName "coords"
+instance AttrName "data"
+instance AttrName "datetime"
+instance AttrName "default"
+instance AttrName "defer"
+instance AttrName "dir"
+instance AttrName "dirname"
+instance AttrName "disabled"
+instance AttrName "download"
+instance AttrName "draggable"
+instance AttrName "enctype"
+instance AttrName "for"
+instance AttrName "form"
+instance AttrName "formaction"
+instance AttrName "headers"
+instance AttrName "height"
+instance AttrName "hidden"
+instance AttrName "high"
+instance AttrName "href"
+instance AttrName "hreflang"
+instance AttrName "http-equiv"
+instance AttrName "id"
+instance AttrName "ismap"
+instance AttrName "kind"
+instance AttrName "label"
+instance AttrName "lang"
+instance AttrName "list"
+instance AttrName "loop"
+instance AttrName "low"
+instance AttrName "max"
+instance AttrName "maxlength"
+instance AttrName "media"
+instance AttrName "method"
+instance AttrName "min"
+instance AttrName "multiple"
+instance AttrName "muted"
+instance AttrName "name"
+instance AttrName "novalidate"
+instance AttrName "onabort"
+instance AttrName "onafterprint"
+instance AttrName "onbeforeprint"
+instance AttrName "onbeforeunload"
+instance AttrName "onblur"
+instance AttrName "oncanplay"
+instance AttrName "oncanplaythrough"
+instance AttrName "onchange"
+instance AttrName "onclick"
+instance AttrName "oncontextmenu"
+instance AttrName "oncopy"
+instance AttrName "oncuechange"
+instance AttrName "oncut"
+instance AttrName "ondblclick"
+instance AttrName "ondrag"
+instance AttrName "ondragend"
+instance AttrName "ondragenter"
+instance AttrName "ondragleave"
+instance AttrName "ondragover"
+instance AttrName "ondragstart"
+instance AttrName "ondrop"
+instance AttrName "ondurationchange"
+instance AttrName "onemptied"
+instance AttrName "onended"
+instance AttrName "onerror"
+instance AttrName "onfocus"
+instance AttrName "onhashchange"
+instance AttrName "oninput"
+instance AttrName "oninvalid"
+instance AttrName "onkeydown"
+instance AttrName "onkeypress"
+instance AttrName "onkeyup"
+instance AttrName "onload"
+instance AttrName "onloadeddata"
+instance AttrName "onloadedmetadata"
+instance AttrName "onloadstart"
+instance AttrName "onmousedown"
+instance AttrName "onmousemove"
+instance AttrName "onmouseout"
+instance AttrName "onmouseover"
+instance AttrName "onmouseup"
+instance AttrName "onmousewheel"
+instance AttrName "onoffline"
+instance AttrName "ononline"
+instance AttrName "onpagehide"
+instance AttrName "onpageshow"
+instance AttrName "onpaste"
+instance AttrName "onpause"
+instance AttrName "onplay"
+instance AttrName "onplaying"
+instance AttrName "onpopstate"
+instance AttrName "onprogress"
+instance AttrName "onratechange"
+instance AttrName "onreset"
+instance AttrName "onresize"
+instance AttrName "onscroll"
+instance AttrName "onsearch"
+instance AttrName "onseeked"
+instance AttrName "onseeking"
+instance AttrName "onselect"
+instance AttrName "onstalled"
+instance AttrName "onstorage"
+instance AttrName "onsubmit"
+instance AttrName "onsuspend"
+instance AttrName "ontimeupdate"
+instance AttrName "ontoggle"
+instance AttrName "onunload"
+instance AttrName "onvolumechange"
+instance AttrName "onwaiting"
+instance AttrName "onwheel"
+instance AttrName "open"
+instance AttrName "optimum"
+instance AttrName "pattern"
+instance AttrName "placeholder"
+instance AttrName "poster"
+instance AttrName "preload"
+instance AttrName "readonly"
+instance AttrName "rel"
+instance AttrName "required"
+instance AttrName "reversed"
+instance AttrName "role"
+instance AttrName "rows"
+instance AttrName "rowspan"
+instance AttrName "sandbox"
+instance AttrName "scope"
+instance AttrName "selected"
+instance AttrName "shape"
+instance AttrName "size"
+instance AttrName "sizes"
+instance AttrName "span"
+instance AttrName "spellcheck"
+instance AttrName "src"
+instance AttrName "srcdoc"
+instance AttrName "srclang"
+instance AttrName "srcset"
+instance AttrName "start"
+instance AttrName "step"
+instance AttrName "style"
+instance AttrName "tabindex"
+instance AttrName "target"
+instance AttrName "time"
+instance AttrName "title"
+instance AttrName "translate"
+instance AttrName "type"
+instance AttrName "usemap"
+instance AttrName "value"
+instance AttrName "width"
+instance AttrName "wrap"
 
-class IsAttribute (a :: Type)
+class IsAttrName (a :: Type)
 
-instance Attribute s => IsAttribute (Proxy s)
-instance IsAttribute CustomAttribute
+instance AttrName s => IsAttrName (Proxy s)
+instance IsAttrName AttrName
 
-newtype CustomAttribute = CustomAttribute String
-
-derive newtype instance ToVal CustomAttribute
-
-att :: String -> CustomAttribute
-att = CustomAttribute
+instance ToVal AttrName where
+  val (AttrName x) = val x
 
 data AttributePredicate = AttributePredicate Val String String
 
 instance ToVal AttributePredicate where
   val (AttributePredicate k op v) = k <> val op <> val (quote v)
 
-attEq :: forall a. IsAttribute a => ToVal a => a -> String -> AttributePredicate
+attEq :: forall a. IsAttrName a => ToVal a => a -> String -> AttributePredicate
 attEq k v = AttributePredicate (val k) "=" v
 
 infixr 8 attEq as @=
 
 attElemWhitespace
   :: forall a
-   . IsAttribute a
+   . IsAttrName a
   => ToVal a
   => a
   -> String
@@ -5927,7 +5923,7 @@ infixr 8 attElemWhitespace as ~=
 
 attStartsWithHyphen
   :: forall a
-   . IsAttribute a
+   . IsAttrName a
   => ToVal a
   => a
   -> String
@@ -5938,7 +5934,7 @@ infixr 8 attStartsWithHyphen as |=
 
 attStartsWith
   :: forall a
-   . IsAttribute a
+   . IsAttrName a
   => ToVal a
   => a
   -> String
@@ -5949,7 +5945,7 @@ infixr 8 attStartsWith as ^=
 
 attEndsWith
   :: forall a
-   . IsAttribute a
+   . IsAttrName a
   => ToVal a
   => a
   -> String
@@ -5960,7 +5956,7 @@ infixr 8 attEndsWith as $=
 
 attContains
   :: forall a
-   . IsAttribute a
+   . IsAttrName a
   => ToVal a
   => a
   -> String
@@ -5972,8 +5968,8 @@ infixr 8 attContains as *=
 class ToVal a <= ByAtt (a :: Type)
 
 instance ByAtt AttributePredicate
-instance ByAtt CustomAttribute
-instance (IsSymbol s, Attribute s) => ByAtt (Proxy s)
+instance ByAtt AttrName
+instance (IsSymbol s, AttrName s) => ByAtt (Proxy s)
 
 byAtt
   :: forall selector att
@@ -5994,20 +5990,24 @@ byClass
    . IsExtensibleSelector selector
   => ToVal selector
   => selector
-  -> String
+  -> ClassName
   -> Selector Extensible
-byClass s c = Selector $ val s <> val "." <> val c
+byClass s (ClassName c) = Selector $ val s <> val "." <> val c
 
 infixl 7 byClass as &.
 
 -- https://www.w3.org/TR/selectors-3/#id-selectors
+
+newtype Identifier = Identifier String
+
+derive newtype instance ToVal Identifier
 
 byId
   :: forall selector
    . IsExtensibleSelector selector
   => ToVal selector
   => selector
-  -> String
+  -> Identifier
   -> Selector Extensible
 byId s i' = Selector $ val s <> val "#" <> val i'
 

@@ -8,10 +8,12 @@ import Prelude hiding (not)
 
 import Data.Tuple.Nested ((/\))
 import Tecton
-  ( a
+  ( AttrName(..)
+  , ClassName(..)
+  , Identifier(..)
+  , a
   , active
   , after
-  , att
   , before
   , checked
   , disabled
@@ -100,7 +102,7 @@ spec = do
 
       "*[data-states~=\"selected\"]{width:0}"
         `isRenderedFrom` do
-          universal &@ att "data-states" ~= "selected" ? width := nil
+          universal &@ AttrName "data-states" ~= "selected" ? width := nil
 
       "*[hreflang|=\"en\"]{width:0}"
         `isRenderedFrom` do
@@ -108,11 +110,11 @@ spec = do
 
       "*[data-timezone^=\"UTC-\"]{width:0}"
         `isRenderedFrom` do
-          universal &@ att "data-timezone" ^= "UTC-" ? width := nil
+          universal &@ AttrName "data-timezone" ^= "UTC-" ? width := nil
 
       "*[data-timezone$=\":30\"]{width:0}"
         `isRenderedFrom` do
-          universal &@ att "data-timezone" $= ":30" ? width := nil
+          universal &@ AttrName "data-timezone" $= ":30" ? width := nil
 
       "*[title*=\"hello\"]{width:0}"
         `isRenderedFrom` do
@@ -122,19 +124,20 @@ spec = do
 
       "*.pastoral{width:0}"
         `isRenderedFrom` do
-          universal &. "pastoral" ? width := nil
+          universal &. ClassName "pastoral" ? width := nil
 
       "*.pastoral.marine{width:0}"
         `isRenderedFrom` do
-          universal &. "pastoral" &. "marine" ? width := nil
+          universal &. ClassName "pastoral" &. ClassName "marine" ? width := nil
 
     describe "ID selectors" do
 
       "*#chapter1{width:0}"
         `isRenderedFrom` do
-          universal &# "chapter1" ? width := nil
+          universal &# Identifier "chapter1" ? width := nil
 
-      "*#z98y{width:0}" `isRenderedFrom` do universal &# "z98y" ? width := nil
+      "*#z98y{width:0}" `isRenderedFrom` do
+        universal &# Identifier "z98y" ? width := nil
 
     describe "Pseudo-classes" do
 
@@ -242,8 +245,10 @@ spec = do
 
       "*:not(*.foo~*:checked){width:0}"
         `isRenderedFrom` do
-          universal &: not (universal &. "foo" |~ universal &: checked) ? do
-            width := nil
+          universal
+            &: not (universal &. ClassName "foo" |~ universal &: checked)
+            ? do
+                width := nil
 
       "*:not(*,*){width:0}"
         `isRenderedFrom` do
@@ -293,8 +298,9 @@ spec = do
 
       "*:checked,*.checked{width:0}"
         `isRenderedFrom` do
-          universal &: checked /\ universal &. "checked" ? width := nil
+          universal &: checked /\ universal &. ClassName "checked" ? width :=
+            nil
 
       "*.foo,*::after{width:0}"
         `isRenderedFrom` do
-          universal &. "foo" /\ universal &:: after ? width := nil
+          universal &. ClassName "foo" /\ universal &:: after ? width := nil

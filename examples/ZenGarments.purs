@@ -166,6 +166,7 @@ import Tecton
   , (~)
   )
 import Tecton.Rule as Rule
+import Web.HTML.Common (ClassName(..))
 
 main :: Effect Unit
 main = log $ renderSheet pretty do
@@ -209,20 +210,20 @@ main = log $ renderSheet pretty do
     fontWeight := bold
     fontSize := rem 1.2
 
-  ( universal &. "wf-active" |* body
-      /\ universal &. "wf-active" |* h1
-      /\ universal &. "wf-active" |* h2
-      /\ universal &. "wf-active" |* h3
-      /\ universal &. "wf-active" |* h4
-      /\ universal &. "wf-active" |* h5
-      /\ universal &. "wf-active" |* h6
+  ( universal &. ClassName "wf-active" |* body
+      /\ universal &. ClassName "wf-active" |* h1
+      /\ universal &. ClassName "wf-active" |* h2
+      /\ universal &. ClassName "wf-active" |* h3
+      /\ universal &. ClassName "wf-active" |* h4
+      /\ universal &. ClassName "wf-active" |* h5
+      /\ universal &. ClassName "wf-active" |* h6
   ) ? Rule.do
     fontFamily := "effra" /\ sansSerif
 
   p /\ ul /\ dl /\ ol /\ table ? Rule.do
     fontSize := px 16
     marginBottom := em 1.5
-  universal &. "wf-active" |* p ? Rule.do
+  universal &. ClassName "wf-active" |* p ? Rule.do
     fontWeight := 300
 
   form ? Rule.do
@@ -232,11 +233,11 @@ main = log $ renderSheet pretty do
 
   label ? Rule.do
     fontSize := rem 1.6
-  ( input &. "empty" &:: placeholder
-      /\ textarea &. "empty" &:: placeholder
+  ( input &. ClassName "empty" &:: placeholder
+      /\ textarea &. ClassName "empty" &:: placeholder
   ) ? Rule.do
     color := rgb 255 0 0
-  universal &. "error" ? Rule.do
+  universal &. ClassName "error" ? Rule.do
     color := rgb 255 0 0
 
   td ? Rule.do
@@ -321,7 +322,7 @@ main = log $ renderSheet pretty do
   -- Global
 
   -- Phark Image Replacement - http://phark.typepad.com/phark/2003/08/accessible_imag.html
-  universal &. "phark" ? Rule.do
+  universal &. ClassName "phark" ? Rule.do
     display := block
     textIndent := px (-9999)
     backgroundPosition := nil ~ nil
@@ -329,40 +330,40 @@ main = log $ renderSheet pretty do
     backgroundColor := transparent
 
   -- Trimming Outline in Firefox - http://snook.ca/archives/html_and_css/trimming_long_o
-  universal &. "phark-link" ? Rule.do
+  universal &. ClassName "phark-link" ? Rule.do
     overflow := hidden
 
   -- Easy Clearing - http://www.positioniseverything.net/easyclearing.html
-  universal &. "clearfix" &:: after ? Rule.do
+  universal &. ClassName "clearfix" &:: after ? Rule.do
     content := "."
     display := block
     height := nil
     clear := both
     visibility := hidden
 
-  universal &. "offscreen" ? Rule.do
+  universal &. ClassName "offscreen" ? Rule.do
     position := absolute
     left := px (-9999)
     display := block
-  universal &. "onscreen" ? Rule.do
+  universal &. ClassName "onscreen" ? Rule.do
     left := nil
 
-  universal &. "hide" ? Rule.do
+  universal &. ClassName "hide" ? Rule.do
     display := none
 
-  universal &. "no-bullets" ? Rule.do
+  universal &. ClassName "no-bullets" ? Rule.do
     listStyleType := none
 
-  universal &. "bulleted" ? Rule.do
+  universal &. ClassName "bulleted" ? Rule.do
     listStyleType := disc
 
-  universal &. "uppercase" ? Rule.do
+  universal &. ClassName "uppercase" ? Rule.do
     textTransform := uppercase
 
-  universal &. "rwd-break" ? Rule.do
+  universal &. ClassName "rwd-break" ? Rule.do
     display := block
 
-  universal &. "kellum" ? Rule.do
+  universal &. ClassName "kellum" ? Rule.do
     display := block
     textIndent := pct 100
     whiteSpace := nowrap
@@ -370,51 +371,57 @@ main = log $ renderSheet pretty do
 
   -- Modules
 
-  universal &. "page-wrapper" ? Rule.do
+  universal &. ClassName "page-wrapper" ? Rule.do
     width := pct 90
     margin := nil ~ auto
 
-  ( universal &. "main" |* h3
-      /\ universal &. "preamble" |* h3
-      /\ universal &. "select"
+  ( universal &. ClassName "main" |* h3
+      /\ universal &. ClassName "preamble" |* h3
+      /\ universal &. ClassName "select"
   ) ? Rule.do
     visibility := hidden
     fontSize := rem 2
     textTransform := uppercase
     letterSpacing := em 0.1
     color := hsl 224.0 0.4 0.25
-  ( universal &. "wf-active" |* universal &. "main" |* h3
-      /\ universal &. "wf-active" |* universal &. "preamble" |* h3
+  ( universal &. ClassName "wf-active" |* universal &. ClassName "main" |* h3
+      /\ universal &. ClassName "wf-active"
+        |* universal
+        &. ClassName "preamble"
+        |* h3
   ) ? Rule.do
     fontWeight := 900
 
-  ( universal &. "main" |* h3 &:: after
-      /\ universal &. "preamble" |* h3 &:: after
-      /\ universal &. "select" &:: after
+  ( universal &. ClassName "main" |* h3 &:: after
+      /\ universal &. ClassName "preamble" |* h3 &:: after
+      /\ universal &. ClassName "select" &:: after
   ) ? Rule.do
     visibility := visible
     display := block
 
-  universal &. "main" |* p /\ universal &. "preamble" |* p ? Rule.do
-    fontSize := rem 2
-  ( universal &. "wf-active" |* universal &. "main" |* p
-      /\ universal &. "wf-active" |* universal &. "preamble" |* p
+  universal &. ClassName "main" |* p /\ universal &. ClassName "preamble" |* p ?
+    Rule.do
+      fontSize := rem 2
+  ( universal &. ClassName "wf-active" |* universal &. ClassName "main" |* p
+      /\ universal &. ClassName "wf-active" |* universal &. ClassName "preamble"
+        |* p
   ) ? Rule.do
     lineHeight := 1.4
 
-  ( universal &. "next" |* a
-      /\ universal &. "previous" |* a
-      /\ universal &. "viewall" |* a
-      /\ universal &. "zen-resources" |* a
-      /\ universal &. "summary" |* p &: nthChild (nth 0 2) |* a
+  ( universal &. ClassName "next" |* a
+      /\ universal &. ClassName "previous" |* a
+      /\ universal &. ClassName "viewall" |* a
+      /\ universal &. ClassName "zen-resources" |* a
+      /\ universal &. ClassName "summary" |* p &: nthChild (nth 0 2) |* a
   ) ? Rule.do
     transitionProperty := none
 
-  ( universal &. "next" |* a &:: after
-      /\ universal &. "previous" |* a &:: after
-      /\ universal &. "viewall" |* a &:: after
-      /\ universal &. "zen-resources" |* a &:: after
-      /\ universal &. "summary" |* p &: nthChild (nth 0 2) |* a &:: after
+  ( universal &. ClassName "next" |* a &:: after
+      /\ universal &. ClassName "previous" |* a &:: after
+      /\ universal &. ClassName "viewall" |* a &:: after
+      /\ universal &. ClassName "zen-resources" |* a &:: after
+      /\ universal &. ClassName "summary" |* p &: nthChild (nth 0 2) |* a &::
+        after
   ) ? Rule.do
     opacity := 0
 
@@ -455,7 +462,7 @@ main = log $ renderSheet pretty do
 
   -- Preamble
 
-  universal &. "summary" |* p ? Rule.do
+  universal &. ClassName "summary" |* p ? Rule.do
     textTransform := uppercase
     letterSpacing := em 0.1
     fontSize := rem 1.8
@@ -463,62 +470,62 @@ main = log $ renderSheet pretty do
 
   -- Preamble
 
-  universal &. "preamble" ? Rule.do
+  universal &. ClassName "preamble" ? Rule.do
     backgroundColor := transparent
     backgroundImage := url "i/sep.png"
     backgroundRepeat := noRepeat
     backgroundPosition := pct 50 ~ nil
-  universal &. "preamble" |* h3 &:: after ? Rule.do
+  universal &. ClassName "preamble" |* h3 &:: after ? Rule.do
     visibility := visible
     content := "A Fashion-Forward Future"
 
   -- Explanation
 
-  universal &. "explanation" |* h3 &:: after ? Rule.do
+  universal &. ClassName "explanation" |* h3 &:: after ? Rule.do
     content := "See Yourself in a Different Way"
 
   -- Participation
 
-  universal &. "participation" |* h3 &:: after ? Rule.do
+  universal &. ClassName "participation" |* h3 &:: after ? Rule.do
     content := "Get Into a Brand New Pair"
 
   -- Benefits
 
-  universal &. "benefits" |* h3 &:: after ? Rule.do
+  universal &. ClassName "benefits" |* h3 &:: after ? Rule.do
     content := "Look Great\\2026  and Feel Great Too!"
 
   -- Requirements
 
-  universal &. "requirements" |* h3 &:: after ? Rule.do
+  universal &. ClassName "requirements" |* h3 &:: after ? Rule.do
     content := "â€œOne Size Fitsâ€ All Be Damned!"
     textIndent := em (-0.5)
 
   -- Design Selection
 
-  universal &. "design-selection" ? Rule.do
+  universal &. ClassName "design-selection" ? Rule.do
     margin := em 3 ~ nil ~ nil
-  universal &. "design-selection" |* ul ? Rule.do
+  universal &. ClassName "design-selection" |* ul ? Rule.do
     listStyleType := none
     width := pct 94
     margin := nil ~ auto
-  universal &. "design-selection" |* ul &:: after ? Rule.do
+  universal &. ClassName "design-selection" |* ul &:: after ? Rule.do
     content := "."
     display := block
     height := nil
     clear := both
     visibility := hidden
-  universal &. "design-selection" |* li ? Rule.do
+  universal &. ClassName "design-selection" |* li ? Rule.do
     float := left
     width := pct 50
     fontSize := rem 1.2
     margin := nil ~ nil ~ em 1
     color := hsl 0.0 0.0 0.6667
-  universal &. "design-selection" |* li &: nthChild odd ? Rule.do
+  universal &. ClassName "design-selection" |* li &: nthChild odd ? Rule.do
     width := pct 47
     paddingRight := pct 3
     clear := left
 
-  universal &. "design-name" ? Rule.do
+  universal &. ClassName "design-name" ? Rule.do
     display := block
     fontSize := rem 1.4
     fontWeight := bold
@@ -526,18 +533,19 @@ main = log $ renderSheet pretty do
     textTransform := uppercase
     letterSpacing := em 0.1
     position := relative
-  universal &. "design-name" &:: after ? Rule.do
+  universal &. ClassName "design-name" &:: after ? Rule.do
     backgroundImage := none
     opacity := 0
-  universal &. "design-name" &: hover ? Rule.do
+  universal &. ClassName "design-name" &: hover ? Rule.do
     fontStyle := italic
 
-  universal &. "designer-name" ? Rule.do
+  universal &. ClassName "designer-name" ? Rule.do
     color := rgb 121 137 163
-  universal &. "designer-name" &:: after /\ footer |* a &:: after ? Rule.do
-    height := px 1
+  universal &. ClassName "designer-name" &:: after /\ footer |* a &:: after ?
+    Rule.do
+      height := px 1
 
-  universal &. "select" &:: after ? Rule.do
+  universal &. ClassName "select" &:: after ? Rule.do
     content := "Washes & Styles"
     fontSize := rem 1.8
     textAlign := center
@@ -551,63 +559,64 @@ main = log $ renderSheet pretty do
     color := hsl 216.0 0.53 0.2
     visibility := visible
 
-  universal &. "archives" /\ universal &. "resources" ? Rule.do
-    position := absolute
-    left := px (-9999)
+  universal &. ClassName "archives" /\ universal &. ClassName "resources" ?
+    Rule.do
+      position := absolute
+      left := px (-9999)
 
-  universal &. "design-archives" |* ul ? Rule.do
+  universal &. ClassName "design-archives" |* ul ? Rule.do
     listStyleType := none
     margin := em 1 ~ nil ~ nil
     width := pct 100
     textAlign := center
-  universal &. "design-archives" |* li ? Rule.do
+  universal &. ClassName "design-archives" |* li ? Rule.do
     display := inlineBlock
     position := relative
-  universal &. "design-archives" |* a ? Rule.do
+  universal &. ClassName "design-archives" |* a ? Rule.do
     display := block
     textIndent := pct 100
     whiteSpace := nowrap
     overflow := hidden
 
-  universal &. "next" ? Rule.do
+  universal &. ClassName "next" ? Rule.do
     marginRight := em 3
-  universal &. "next" |* a ? Rule.do
+  universal &. ClassName "next" |* a ? Rule.do
     backgroundColor := transparent
     backgroundImage := url "s/czg.svg"
     backgroundRepeat := noRepeat
     backgroundPosition := px 10 ~ px (-56)
     width := px 43
     height := px 37
-  ( universal &. "next" |* a &: hover
-      /\ universal &. "next" |* a &: focus
+  ( universal &. ClassName "next" |* a &: hover
+      /\ universal &. ClassName "next" |* a &: focus
   ) ? Rule.do
     backgroundPosition := px 10 ~ px (-138)
 
-  universal &. "previous" ? Rule.do
+  universal &. ClassName "previous" ? Rule.do
     marginRight := em 3
-  universal &. "previous" |* a ? Rule.do
+  universal &. ClassName "previous" |* a ? Rule.do
     backgroundColor := transparent
     backgroundImage := url "s/czg.svg"
     backgroundRepeat := noRepeat
     backgroundPosition := px 10 ~ px (-220)
     width := px 43
     height := px 37
-  ( universal &. "previous" |* a &: hover
-      /\ universal &. "previous" |* a &: focus
+  ( universal &. ClassName "previous" |* a &: hover
+      /\ universal &. ClassName "previous" |* a &: focus
   ) ? Rule.do
     backgroundPosition := px 10 ~ px (-302)
 
-  universal &. "viewall" ? Rule.do
+  universal &. ClassName "viewall" ? Rule.do
     marginLeft := em 1
-  universal &. "viewall" |* a ? Rule.do
+  universal &. ClassName "viewall" |* a ? Rule.do
     backgroundColor := transparent
     backgroundImage := url "s/czg.svg"
     backgroundRepeat := noRepeat
     backgroundPosition := px (-56) ~ px (-55)
     width := px 39
     height := px 39
-  ( universal &. "viewall" |* a &: hover
-      /\ universal &. "viewall" |* a &: focus
+  ( universal &. ClassName "viewall" |* a &: hover
+      /\ universal &. ClassName "viewall" |* a &: focus
   ) ? Rule.do
     backgroundPosition := px (-56) ~ px (-137)
 
@@ -618,11 +627,11 @@ main = log $ renderSheet pretty do
   footer |* a &: firstChild ? Rule.do
     marginLeft := nil
 
-  universal &. "zen-resources" |* ul ? Rule.do
+  universal &. ClassName "zen-resources" |* ul ? Rule.do
     listStyleType := none
     margin := em 2 ~ nil ~ em 4
     textAlign := center
-  universal &. "zen-resources" |* ul &:: before ? Rule.do
+  universal &. ClassName "zen-resources" |* ul &:: before ? Rule.do
     content := ""
     height := px 4
     width := px 80
@@ -630,12 +639,12 @@ main = log $ renderSheet pretty do
     display := block
     textAlign := center
     margin := nil ~ auto ~ em 2
-  universal &. "zen-resources" |* li ? Rule.do
+  universal &. ClassName "zen-resources" |* li ? Rule.do
     margin := nil ~ nil ~ em 1 ~ em 3
     display := inlineBlock
-  universal &. "zen-resources" |* li &: firstChild ? Rule.do
+  universal &. ClassName "zen-resources" |* li &: firstChild ? Rule.do
     marginLeft := nil
-  universal &. "zen-resources" |* a ? Rule.do
+  universal &. ClassName "zen-resources" |* a ? Rule.do
     display := inlineBlock
     textIndent := pct 100
     whiteSpace := nowrap
@@ -647,38 +656,38 @@ main = log $ renderSheet pretty do
     width := px 60
     height := px 60
 
-  universal &. "view-css" |* a ? Rule.do
+  universal &. ClassName "view-css" |* a ? Rule.do
     backgroundPosition := px (-502) ~ px 12
-  ( universal &. "view-css" |* a &: hover
-      /\ universal &. "view-css" |* a &: focus
+  ( universal &. ClassName "view-css" |* a &: hover
+      /\ universal &. ClassName "view-css" |* a &: focus
   ) ? Rule.do
     backgroundPosition := px (-502) ~ px (-78)
 
-  universal &. "css-resources" |* a ? Rule.do
+  universal &. ClassName "css-resources" |* a ? Rule.do
     backgroundPosition := px (-150) ~ px (-194)
-  ( universal &. "css-resources" |* a &: hover
-      /\ universal &. "css-resources" |* a &: focus
+  ( universal &. ClassName "css-resources" |* a &: hover
+      /\ universal &. ClassName "css-resources" |* a &: focus
   ) ? Rule.do
     backgroundPosition := px (-150) ~ px (-286)
 
-  universal &. "zen-faq" |* a ? Rule.do
+  universal &. ClassName "zen-faq" |* a ? Rule.do
     backgroundPosition := px (-265) ~ px (-192)
-  ( universal &. "zen-faq" |* a &: hover
-      /\ universal &. "zen-faq" |* a &: focus
+  ( universal &. ClassName "zen-faq" |* a &: hover
+      /\ universal &. ClassName "zen-faq" |* a &: focus
   ) ? Rule.do
     backgroundPosition := px (-265) ~ px (-284)
 
-  universal &. "zen-submit" |* a ? Rule.do
+  universal &. ClassName "zen-submit" |* a ? Rule.do
     backgroundPosition := px (-502) ~ px (-194)
-  ( universal &. "zen-submit" |* a &: hover
-      /\ universal &. "zen-submit" |* a &: focus
+  ( universal &. ClassName "zen-submit" |* a &: hover
+      /\ universal &. ClassName "zen-submit" |* a &: focus
   ) ? Rule.do
     backgroundPosition := px (-502) ~ px (-286)
 
-  universal &. "zen-translations" |* a ? Rule.do
+  universal &. ClassName "zen-translations" |* a ? Rule.do
     backgroundPosition := px (-380) ~ px (-193)
-  ( universal &. "zen-translations" |* a &: hover
-      /\ universal &. "zen-translations" |* a &: focus
+  ( universal &. ClassName "zen-translations" |* a &: hover
+      /\ universal &. ClassName "zen-translations" |* a &: focus
   ) ? Rule.do
     backgroundPosition := px (-380) ~ px (-285)
 
@@ -688,7 +697,7 @@ main = log $ renderSheet pretty do
       backgroundAttachment := fixed
       backgroundPosition := pct 90 ~ pct 80
 
-    universal &. "intro" &:: before ? Rule.do
+    universal &. ClassName "intro" &:: before ? Rule.do
       content := ""
       display := block
       width := px 105
@@ -759,42 +768,44 @@ main = log $ renderSheet pretty do
       transform := rotate $ deg (-90)
       maskImage := url "i/denim-mask2.png"
 
-    universal &. "summary" |* p &: nthChild (nth 0 2) ? Rule.do
+    universal &. ClassName "summary" |* p &: nthChild (nth 0 2) ? Rule.do
       backgroundColor := rgb 255 255 0
       position := relative
       visibility := hidden
       top := em 2
       fontSize := rem 1.4
 
-    universal &. "summary" |* p &: nthChild (nth 0 2) &:: before ? Rule.do
-      content := ""
-      display := block
-      visibility := visible
-      position := absolute
-      right := em 21
-      top := em (-0.25)
-      backgroundColor := transparent
-      backgroundImage := url "s/czg.svg"
-      backgroundRepeat := noRepeat
-      backgroundPosition := px (-159) ~ px (-1)
-      width := em 6
-      height := px 30
+    universal &. ClassName "summary" |* p &: nthChild (nth 0 2) &:: before ?
+      Rule.do
+        content := ""
+        display := block
+        visibility := visible
+        position := absolute
+        right := em 21
+        top := em (-0.25)
+        backgroundColor := transparent
+        backgroundImage := url "s/czg.svg"
+        backgroundRepeat := noRepeat
+        backgroundPosition := px (-159) ~ px (-1)
+        width := em 6
+        height := px 30
 
-    universal &. "summary" |* p &: nthChild (nth 0 2) &:: after ? Rule.do
-      content := ""
-      display := block
-      visibility := visible
-      position := absolute
-      right := em 14
-      top := em (-0.25)
-      backgroundColor := transparent
-      backgroundImage := url "s/czg.svg"
-      backgroundRepeat := noRepeat
-      backgroundPosition := px (-277) ~ nil
-      width := em 6
-      height := px 30
+    universal &. ClassName "summary" |* p &: nthChild (nth 0 2) &:: after ?
+      Rule.do
+        content := ""
+        display := block
+        visibility := visible
+        position := absolute
+        right := em 14
+        top := em (-0.25)
+        backgroundColor := transparent
+        backgroundImage := url "s/czg.svg"
+        backgroundRepeat := noRepeat
+        backgroundPosition := px (-277) ~ nil
+        width := em 6
+        height := px 30
 
-    universal &. "summary" |* p &: nthChild (nth 0 2) |* a ? Rule.do
+    universal &. ClassName "summary" |* p &: nthChild (nth 0 2) |* a ? Rule.do
       visibility := visible
       backgroundColor := transparent
       backgroundImage := url "s/czg.svg"
@@ -809,43 +820,48 @@ main = log $ renderSheet pretty do
       position := absolute
       top := nil
       right := em 7
-    ( universal &. "summary" |* p &: nthChild (nth 0 2) |* a &: hover
-        /\ universal &. "summary" |* p &: nthChild (nth 0 2) |* a &: focus
+    ( universal &. ClassName "summary" |* p &: nthChild (nth 0 2) |* a &: hover
+        /\ universal &. ClassName "summary" |* p &: nthChild (nth 0 2) |* a &:
+          focus
     ) ? Rule.do
       backgroundPosition := px (-396) ~ px (-3)
       textIndent := nil
       backgroundImage := none
 
-    ( universal &. "summary" |* p &: nthChild (nth 0 2) |* a &@ href *= "css"
+    ( universal &. ClassName "summary" |* p &: nthChild (nth 0 2) |* a &@ href
+        *= "css"
     ) ? Rule.do
       backgroundPosition := px (-472) ~ px (-94)
       right := nil
-    ( universal &. "summary" |* p &: nthChild (nth 0 2) |* a &@ href *= "css" &:
-        hover
-        /\ universal &. "summary" |* p &: nthChild (nth 0 2) |* a &@ href
+    ( universal &. ClassName "summary" |* p &: nthChild (nth 0 2) |* a &@ href
+        *= "css"
+        &:
+          hover
+        /\ universal &. ClassName "summary" |* p &: nthChild (nth 0 2) |* a
+          &@ href
           *= "css"
           &: focus
     ) ? Rule.do
       backgroundPosition := px (-512) ~ px (-4)
 
-    universal &. "preamble" ? Rule.do
+    universal &. ClassName "preamble" ? Rule.do
       paddingTop := em 10
-    universal &. "preamble" |* h3 ? Rule.do
+    universal &. ClassName "preamble" |* h3 ? Rule.do
       top := em 5.9
 
-    universal &. "design-selection" |* li ? Rule.do
+    universal &. ClassName "design-selection" |* li ? Rule.do
       width := pct 23
       marginBottom := em 3
       paddingRight := pct 2
-    universal &. "design-selection" |* li &: nthChild odd ? Rule.do
+    universal &. ClassName "design-selection" |* li &: nthChild odd ? Rule.do
       width := pct 23
       clear := none
       paddingRight := pct 2
 
-    universal &. "next" ? Rule.do
+    universal &. ClassName "next" ? Rule.do
       marginRight := em 2
       marginLeft := em (-0.4)
-    universal &. "viewall" ? Rule.do
+    universal &. ClassName "viewall" ? Rule.do
       marginLeft := nil
 
     footer ? Rule.do
@@ -857,38 +873,40 @@ main = log $ renderSheet pretty do
     universal &@ role @= "article" /\ universal &@ role @= "banner" ? Rule.do
       paddingLeft := pct 25
 
-    universal &. "design-selection" ? Rule.do
+    universal &. ClassName "design-selection" ? Rule.do
       position := absolute
       left := pct 5
       top := em 30
-    universal &. "design-selection" |* ul ? Rule.do
+    universal &. ClassName "design-selection" |* ul ? Rule.do
       margin := nil
       width := pct 100
-    universal &. "design-selection" |* li ? Rule.do
+    universal &. ClassName "design-selection" |* li ? Rule.do
       float := none
       marginBottom := em 2
     ( universal
-        &. "design-selection"
-        &. "design-selection" -- adding specificity in lieu of !important
-        &. "design-selection"
+        &. ClassName "design-selection"
+        &. ClassName "design-selection" -- adding specificity in lieu of !important
+        &. ClassName "design-selection"
         |* li
     ) ? Rule.do
       width := pct 100
       padding := nil
-    universal &. "select" &:: after ? Rule.do
+    universal &. ClassName "select" &:: after ? Rule.do
       textAlign := left
       backgroundPosition := nil ~ bottom
       padding := nil ~ nil ~ em 2
       margin := nil ~ nil ~ em 2
 
-    universal &. "design-archives" ? Rule.do
+    universal &. ClassName "design-archives" ? Rule.do
       position := absolute
       left := pct 5
       top := em 95
 
   media screen { minWidth: px 1130, minHeight: px 1037 } ? do
-    universal &. "design-selection" /\ universal &. "design-archives" ? Rule.do
-      position := fixed
+    universal &. ClassName "design-selection" /\ universal
+      &. ClassName "design-archives"
+      ? Rule.do
+          position := fixed
 
   -- Animations
 
@@ -900,7 +918,7 @@ main = log $ renderSheet pretty do
     pct 100 ? Rule.do
       opacity := 1
 
-  universal &. "intro" ? Rule.do
+  universal &. ClassName "intro" ? Rule.do
     animationName := fadey
     animationDuration := sec 1
     animationTimingFunction := easeInOut
@@ -915,11 +933,13 @@ main = log $ renderSheet pretty do
     animationFillMode := forwards
     animationIterationCount := 1
 
-  universal &. "design-selection" /\ universal &. "design-archives" ? Rule.do
-    opacity := 0
-    animationName := fadey
-    animationDuration := sec 1
-    animationTimingFunction := easeInOut
-    animationDelay := sec 1
-    animationFillMode := forwards
-    animationIterationCount := 1
+  universal &. ClassName "design-selection" /\ universal
+    &. ClassName "design-archives"
+    ? Rule.do
+        opacity := 0
+        animationName := fadey
+        animationDuration := sec 1
+        animationTimingFunction := easeInOut
+        animationDelay := sec 1
+        animationFillMode := forwards
+        animationIterationCount := 1
