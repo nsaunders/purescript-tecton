@@ -989,7 +989,7 @@ import Prim.RowList (class RowToList, RowList)
 import Prim.RowList as RL
 import Record as Record
 import Type.Proxy (Proxy(..))
-import Web.HTML.Common (AttrName(..))
+import Web.HTML.Common (AttrName(..), ClassName(..))
 
 --------------------------------------------------------------------------------
 
@@ -5989,9 +5989,9 @@ byClass
    . IsExtensibleSelector selector
   => ToVal selector
   => selector
-  -> String
+  -> ClassName
   -> Selector Extensible
-byClass s c = Selector $ val s <> val "." <> val c
+byClass s (ClassName c) = Selector $ val s <> val "." <> val c
 
 infixl 7 byClass as &.
 

@@ -69,7 +69,7 @@ import Tecton
   )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromSheet)
-import Web.HTML.Common (AttrName(..))
+import Web.HTML.Common (AttrName(..), ClassName(..))
 
 spec :: Spec Unit
 spec = do
@@ -122,11 +122,11 @@ spec = do
 
       "*.pastoral{width:0}"
         `isRenderedFrom` do
-          universal &. "pastoral" ? width := nil
+          universal &. ClassName "pastoral" ? width := nil
 
       "*.pastoral.marine{width:0}"
         `isRenderedFrom` do
-          universal &. "pastoral" &. "marine" ? width := nil
+          universal &. ClassName "pastoral" &. ClassName "marine" ? width := nil
 
     describe "ID selectors" do
 
@@ -242,8 +242,10 @@ spec = do
 
       "*:not(*.foo~*:checked){width:0}"
         `isRenderedFrom` do
-          universal &: not (universal &. "foo" |~ universal &: checked) ? do
-            width := nil
+          universal
+            &: not (universal &. ClassName "foo" |~ universal &: checked)
+            ? do
+                width := nil
 
       "*:not(*,*){width:0}"
         `isRenderedFrom` do
@@ -293,8 +295,9 @@ spec = do
 
       "*:checked,*.checked{width:0}"
         `isRenderedFrom` do
-          universal &: checked /\ universal &. "checked" ? width := nil
+          universal &: checked /\ universal &. ClassName "checked" ? width :=
+            nil
 
       "*.foo,*::after{width:0}"
         `isRenderedFrom` do
-          universal &. "foo" /\ universal &:: after ? width := nil
+          universal &. ClassName "foo" /\ universal &:: after ? width := nil
