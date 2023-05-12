@@ -6,7 +6,8 @@ import Prelude
 
 import Data.Tuple.Nested ((/\))
 import Tecton
-  ( all
+  ( KeyframesName(..)
+  , all
   , alternate
   , alternateReverse
   , animationDelay
@@ -34,7 +35,6 @@ import Tecton
   , jumpNone
   , jumpStart
   , keyframes
-  , keyframesName
   , linear
   , media
   , ms
@@ -72,19 +72,19 @@ spec =
 
       "@keyframes foo{0%{width:0}100%{width:500px}}"
         `isRenderedFrom` do
-          keyframes (keyframesName "foo") ? do
+          keyframes (KeyframesName "foo") ? do
             pct 0 ? width := nil
             pct 100 ? width := px 500
 
       "@media all{@keyframes foo{0%,100%{width:0}}}"
         `isRenderedFrom` do
           media all {} ? do
-            keyframes (keyframesName "foo") ? do
+            keyframes (KeyframesName "foo") ? do
               pct 0 /\ pct 100 ? width := nil
 
       "@keyframes foo{0%{width:75%}20%{width:80%}50%{width:100%}}"
         `isRenderedFrom` do
-          keyframes (keyframesName "foo") ? do
+          keyframes (KeyframesName "foo") ? do
             pct 0 ? width := pct 75
             pct 10 @+@ pct 5 @* 2 ? width := pct 80
             pct 100 @/ 2 ? width := pct 100
@@ -101,11 +101,11 @@ spec =
 
       "animation-name:none" `isRenderedFrom` (animationName := none)
 
-      "animation-name:xx" `isRenderedFrom` (animationName := keyframesName "xx")
+      "animation-name:xx" `isRenderedFrom` (animationName := KeyframesName "xx")
 
       "animation-name:foo,none,bar"
         `isRenderedFrom`
-          (animationName := keyframesName "foo" /\ none /\ keyframesName "bar")
+          (animationName := KeyframesName "foo" /\ none /\ KeyframesName "bar")
 
     describe "animation-duration property" do
 
