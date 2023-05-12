@@ -57,7 +57,6 @@ module Tecton.Internal
   , Minmax'
   , Multiply
   , Names
-  , NestedRule
   , Nil
   , NoAuto
   , Nth
@@ -972,6 +971,7 @@ import Prelude hiding (add, bottom, sub, top)
 
 import Color (Color, cssStringHSLA, toHexString)
 import Control.Monad.Writer (Writer, execWriter, tell)
+import Data.Either (Either(..))
 import Data.Either as Either
 import Data.Either.Nested (type (\/))
 import Data.Foldable (foldl, intercalate)
@@ -1111,11 +1111,7 @@ runVal x (Val f) = f x
 
 type CSS = Writer (List Statement) Unit
 
-newtype NestedRule = NestedRule Val
-
-data Statement
-  = NestedAtRule NestedRule (List Statement)
-  | Ruleset Val Val
+data Statement = Statement Val (Val \/ (List Statement))
 
 class MkStatement (a :: Type) (b :: Type) (c :: Type) | a -> b where
   mkStatement :: a -> b -> Writer (List c) Unit
@@ -1124,7 +1120,8 @@ instance MkStatement MediaQuery (Writer (List Statement) Unit) Statement where
   mkStatement mq nested =
     tell
       $ pure
-      $ NestedAtRule (NestedRule $ val mq)
+      $ Statement (val "@" <> val mq)
+      $ Right
       $ execWriter nested
 
 else instance
@@ -1136,7 +1133,8 @@ else instance
   mkStatement _ decls =
     tell
       $ pure
-      $ Ruleset (val "@font-face")
+      $ Statement (val "@font-face")
+      $ Left
       $ concatDeclarations
       $ map (\(FontFaceDeclaration' d) -> d)
       $ execWriter decls
@@ -1146,10 +1144,12 @@ else instance
   mkStatement (Keyframes (KeyframesName kfname)) blocks =
     tell
       $ pure
-      $ NestedAtRule (NestedRule $ val "keyframes " <> val kfname)
+      $ Statement (val "@keyframes " <> val kfname)
+      $ Right
       $
-        ( (\(KeyframeBlock sel decls) -> Ruleset sel decls) <$> execWriter
-            blocks
+        ( (\(KeyframeBlock sel decls) -> Statement sel $ Left decls) <$>
+            execWriter
+              blocks
         )
 
 else instance
@@ -1192,7 +1192,8 @@ else instance
   mkStatement sel decls =
     tell
       $ pure
-      $ Ruleset (intercalateMultiVal (val "," <> Val _.separator) sel)
+      $ Statement (intercalateMultiVal (val "," <> Val _.separator) sel)
+      $ Left
       $ concatDeclarations
       $ map (\(Declaration' d) -> d)
       $ execWriter decls
@@ -1300,13 +1301,13 @@ renderSheet config =
 
   where
 
-  renderStatement =
-    case _ of
-      Ruleset selector declarations ->
-        nested selector declarations
-      NestedAtRule (NestedRule nestedRule) statements ->
-        nested (val "@" <> nestedRule) $
-          intercalate (val config.newline) (renderStatement <$> statements)
+  renderStatement (Statement outer inner) =
+    case inner of
+      Left inner' ->
+        nested outer inner'
+      Right inner' ->
+        nested outer $
+          intercalate (val config.newline) (renderStatement <$> inner')
 
   nested outer inner =
     Val \c@{ indentLevel, indentation, newline, separator } ->
