@@ -9,6 +9,7 @@ Breaking changes:
 - The `keyframesName` function has been dropped. Just use the `KeyframesName` constructor instead. (nsaunders/purescript-tecton#34)
 - The `CustomAttribute` type and `att` constructor function have been removed in favor of the [`AttrName` type from `web-html`](https://pursuit.purescript.org/packages/purescript-web-html/4.1.0/docs/Web.HTML.Common#t:AttrName). nsaunders/purescript-tecton#35
 - The `&.` operator (`byClass` function) no longer accepts a string argument. Instead, it requires a [`ClassName`](https://pursuit.purescript.org/packages/purescript-web-html/4.1.0/docs/Web.HTML.Common#t:ClassName). nsaunders/purescript-tecton#35
+- The `&#` operator (`byId` function) no longer accepts a string argument. Instead, it requires a value of the newly-added `Identifier` type. nsaunders/purescript-tecton#35
 
 New features:
 - `box-sizing` property nsaunders/purescript-tecton#31

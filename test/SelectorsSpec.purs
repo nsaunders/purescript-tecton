@@ -8,7 +8,10 @@ import Prelude hiding (not)
 
 import Data.Tuple.Nested ((/\))
 import Tecton
-  ( a
+  ( AttrName(..)
+  , ClassName(..)
+  , Identifier(..)
+  , a
   , active
   , after
   , before
@@ -69,7 +72,6 @@ import Tecton
   )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromSheet)
-import Web.HTML.Common (AttrName(..), ClassName(..))
 
 spec :: Spec Unit
 spec = do
@@ -132,9 +134,10 @@ spec = do
 
       "*#chapter1{width:0}"
         `isRenderedFrom` do
-          universal &# "chapter1" ? width := nil
+          universal &# Identifier "chapter1" ? width := nil
 
-      "*#z98y{width:0}" `isRenderedFrom` do universal &# "z98y" ? width := nil
+      "*#z98y{width:0}" `isRenderedFrom` do
+        universal &# Identifier "z98y" ? width := nil
 
     describe "Pseudo-classes" do
 

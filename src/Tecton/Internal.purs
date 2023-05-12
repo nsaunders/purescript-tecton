@@ -43,6 +43,7 @@ module Tecton.Internal
   , FontFaceDeclaration'
   , FontFaceFormatFunction
   , Gradient
+  , Identifier(..)
   , Inextensible
   , KeyframeBlock
   , Keyframes
@@ -5997,12 +5998,16 @@ infixl 7 byClass as &.
 
 -- https://www.w3.org/TR/selectors-3/#id-selectors
 
+newtype Identifier = Identifier String
+
+derive newtype instance ToVal Identifier
+
 byId
   :: forall selector
    . IsExtensibleSelector selector
   => ToVal selector
   => selector
-  -> String
+  -> Identifier
   -> Selector Extensible
 byId s i' = Selector $ val s <> val "#" <> val i'
 

@@ -1,8 +1,9 @@
-module Tecton (module T) where
+module Tecton (module H, module T) where
 
 import Tecton.Internal
   ( CSS
   , Declarations
+  , Identifier(..)
   , KeyframesName(..)
   , a
   , abbr
@@ -731,3 +732,4 @@ import Tecton.Internal
   , (~)
   , (~=)
   ) as T
+import Web.HTML.Common (AttrName(..), ClassName(..)) as H
