@@ -100,7 +100,6 @@ import Tecton
   , none
   , normal
   , nowrap
-  , nth
   , nthChild
   , odd
   , ol
@@ -154,6 +153,7 @@ import Tecton
   , visible
   , whiteSpace
   , width
+  , (#+)
   , (&.)
   , (&:)
   , (&::)
@@ -412,7 +412,7 @@ main = log $ renderSheet pretty do
       /\ universal &. ClassName "previous" |* a
       /\ universal &. ClassName "viewall" |* a
       /\ universal &. ClassName "zen-resources" |* a
-      /\ universal &. ClassName "summary" |* p &: nthChild (nth 0 2) |* a
+      /\ universal &. ClassName "summary" |* p &: nthChild (0 #+ 2) |* a
   ) ? Rule.do
     transitionProperty := none
 
@@ -420,7 +420,7 @@ main = log $ renderSheet pretty do
       /\ universal &. ClassName "previous" |* a &:: after
       /\ universal &. ClassName "viewall" |* a &:: after
       /\ universal &. ClassName "zen-resources" |* a &:: after
-      /\ universal &. ClassName "summary" |* p &: nthChild (nth 0 2) |* a &::
+      /\ universal &. ClassName "summary" |* p &: nthChild (0 #+ 2) |* a &::
         after
   ) ? Rule.do
     opacity := 0
@@ -768,14 +768,14 @@ main = log $ renderSheet pretty do
       transform := rotate $ deg (-90)
       maskImage := url "i/denim-mask2.png"
 
-    universal &. ClassName "summary" |* p &: nthChild (nth 0 2) ? Rule.do
+    universal &. ClassName "summary" |* p &: nthChild (0 #+ 2) ? Rule.do
       backgroundColor := rgb 255 255 0
       position := relative
       visibility := hidden
       top := em 2
       fontSize := rem 1.4
 
-    universal &. ClassName "summary" |* p &: nthChild (nth 0 2) &:: before ?
+    universal &. ClassName "summary" |* p &: nthChild (0 #+ 2) &:: before ?
       Rule.do
         content := ""
         display := block
@@ -790,7 +790,7 @@ main = log $ renderSheet pretty do
         width := em 6
         height := px 30
 
-    universal &. ClassName "summary" |* p &: nthChild (nth 0 2) &:: after ?
+    universal &. ClassName "summary" |* p &: nthChild (0 #+ 2) &:: after ?
       Rule.do
         content := ""
         display := block
@@ -805,7 +805,7 @@ main = log $ renderSheet pretty do
         width := em 6
         height := px 30
 
-    universal &. ClassName "summary" |* p &: nthChild (nth 0 2) |* a ? Rule.do
+    universal &. ClassName "summary" |* p &: nthChild (0 #+ 2) |* a ? Rule.do
       visibility := visible
       backgroundColor := transparent
       backgroundImage := url "s/czg.svg"
@@ -820,24 +820,24 @@ main = log $ renderSheet pretty do
       position := absolute
       top := nil
       right := em 7
-    ( universal &. ClassName "summary" |* p &: nthChild (nth 0 2) |* a &: hover
-        /\ universal &. ClassName "summary" |* p &: nthChild (nth 0 2) |* a &:
+    ( universal &. ClassName "summary" |* p &: nthChild (0 #+ 2) |* a &: hover
+        /\ universal &. ClassName "summary" |* p &: nthChild (0 #+ 2) |* a &:
           focus
     ) ? Rule.do
       backgroundPosition := px (-396) ~ px (-3)
       textIndent := nil
       backgroundImage := none
 
-    ( universal &. ClassName "summary" |* p &: nthChild (nth 0 2) |* a &@ href
+    ( universal &. ClassName "summary" |* p &: nthChild (0 #+ 2) |* a &@ href
         *= "css"
     ) ? Rule.do
       backgroundPosition := px (-472) ~ px (-94)
       right := nil
-    ( universal &. ClassName "summary" |* p &: nthChild (nth 0 2) |* a &@ href
+    ( universal &. ClassName "summary" |* p &: nthChild (0 #+ 2) |* a &@ href
         *= "css"
         &:
           hover
-        /\ universal &. ClassName "summary" |* p &: nthChild (nth 0 2) |* a
+        /\ universal &. ClassName "summary" |* p &: nthChild (0 #+ 2) |* a
           &@ href
           *= "css"
           &: focus
