@@ -1,5 +1,7 @@
 module Tecton.Internal
-  ( ($=)
+  ( (#+)
+  , (#-)
+  , ($=)
   , (&#)
   , (&.)
   , (&:)
@@ -23,9 +25,8 @@ module Tecton.Internal
   , (|~)
   , (~)
   , (~=)
-  , (#-)
-  , (#+)
   , Add
+  , AnPlusB(..)
   , Angle
   , AttributePredicate
   , Auto
@@ -37,6 +38,7 @@ module Tecton.Internal
   , Declarations
   , Divide
   , EasingFunction
+  , ElementId(..)
   , Extensible
   , FitContent
   , Fixed
@@ -45,7 +47,6 @@ module Tecton.Internal
   , FontFaceDeclaration'
   , FontFaceFormatFunction
   , Gradient
-  , Identifier(..)
   , Inextensible
   , KeyframeBlock
   , Keyframes
@@ -61,7 +62,6 @@ module Tecton.Internal
   , Names
   , Nil
   , NoAuto
-  , AnPlusB(..)
   , Orientation
   , Pair(..)
   , Percentage
@@ -176,8 +176,8 @@ module Tecton.Internal
   , boxShadow
   , boxSizing
   , breakAll
-  , breakWord
   , breakSpaces
+  , breakWord
   , button
   , byAtt
   , byClass
@@ -6000,16 +6000,16 @@ infixl 7 byClass as &.
 
 -- https://www.w3.org/TR/selectors-3/#id-selectors
 
-newtype Identifier = Identifier String
+newtype ElementId = ElementId String
 
-derive newtype instance ToVal Identifier
+derive newtype instance ToVal ElementId
 
 byId
   :: forall selector
    . IsExtensibleSelector selector
   => ToVal selector
   => selector
-  -> Identifier
+  -> ElementId
   -> Selector Extensible
 byId s i' = Selector $ val s <> val "#" <> val i'
 

@@ -10,7 +10,7 @@ import Data.Tuple.Nested ((/\))
 import Tecton
   ( AttrName(..)
   , ClassName(..)
-  , Identifier(..)
+  , ElementId(..)
   , a
   , active
   , after
@@ -135,10 +135,10 @@ spec = do
 
       "*#chapter1{width:0}"
         `isRenderedFrom` do
-          universal &# Identifier "chapter1" ? width := nil
+          universal &# ElementId "chapter1" ? width := nil
 
       "*#z98y{width:0}" `isRenderedFrom` do
-        universal &# Identifier "z98y" ? width := nil
+        universal &# ElementId "z98y" ? width := nil
 
     describe "Pseudo-classes" do
 

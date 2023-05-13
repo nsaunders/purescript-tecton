@@ -4,7 +4,7 @@ import Tecton.Internal
   ( AnPlusB(..)
   , CSS
   , Declarations
-  , Identifier(..)
+  , ElementId(..)
   , KeyframesName(..)
   , a
   , abbr
