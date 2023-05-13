@@ -255,7 +255,8 @@ Constructing these pseudo-classes in Tecton begins with the formula:
 
 - The `even` function will select even-numbered elements, equivalent to **2**_n_.
 - The `odd` function will select odd-numbered elements, equivalent to **2**_n_+**1**.
-- The `nth` function has two parameters **a** and **b** which are used to create a **a**_n_+**b** formula.
+- The `#+` operator has two parameters **a** and **b** which are used to create a **a**_n_+**b** formula, e.g. `2 #+ 1`.
+- The `#-` operator has two parameters **a** and **b** which are used to create a **a**_n_-**b** formula, e.g. `2 #- 1`.
 
 Apply one of the `nth*` functions listed above to the result to create the pseudo class.
 

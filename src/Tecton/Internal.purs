@@ -23,6 +23,8 @@ module Tecton.Internal
   , (|~)
   , (~)
   , (~=)
+  , (#-)
+  , (#+)
   , Add
   , Angle
   , AttributePredicate
@@ -59,7 +61,7 @@ module Tecton.Internal
   , Names
   , Nil
   , NoAuto
-  , Nth
+  , AnPlusB(..)
   , Orientation
   , Pair(..)
   , Percentage
@@ -106,6 +108,7 @@ module Tecton.Internal
   , animationName
   , animationPlayState
   , animationTimingFunction
+  , anminusb
   , appearance
   , arabicIndic
   , armenian
@@ -645,7 +648,6 @@ module Tecton.Internal
   , not
   , novalidate
   , nowrap
-  , nth
   , nthChild
   , nthLastChild
   , nthOfType
@@ -6106,12 +6108,10 @@ root = PseudoClass $ val "root"
 
 -- https://www.w3.org/TR/selectors-3/#sel-nth-child
 
-data Nth = Even | Odd | Nth Int Int
+data AnPlusB = AnPlusB Int Int
 
-instance ToVal Nth where
-  val Even = val "even"
-  val Odd = val "odd"
-  val (Nth a' b') =
+instance ToVal AnPlusB where
+  val (AnPlusB a' b') =
     Val \{ separator } ->
       let
         an
@@ -6130,26 +6130,30 @@ instance ToVal Nth where
       in
         an <> op <> b''
 
-even :: Nth
-even = Even
+even :: AnPlusB
+even = AnPlusB 2 0
 
-odd :: Nth
-odd = Odd
+odd :: AnPlusB
+odd = AnPlusB 2 1
 
-nth :: Int -> Int -> Nth
-nth = Nth
+infixl 9 AnPlusB as #+
 
-nthChild :: Nth -> PseudoClass
+anminusb :: Int -> Int -> AnPlusB
+anminusb a' b' = AnPlusB a' (-b')
+
+infixl 9 anminusb as #-
+
+nthChild :: AnPlusB -> PseudoClass
 nthChild formula = PseudoClass $ fn "nth-child" formula
 
 -- https://www.w3.org/TR/selectors-3/#sel-nth-last-child
 
-nthLastChild :: Nth -> PseudoClass
+nthLastChild :: AnPlusB -> PseudoClass
 nthLastChild formula = PseudoClass $ fn "nth-last-child" formula
 
 -- https://www.w3.org/TR/selectors-3/#sel-nth-of-type
 
-nthOfType :: Nth -> PseudoClass
+nthOfType :: AnPlusB -> PseudoClass
 nthOfType formula = PseudoClass $ fn "nth-of-type" formula
 
 -- https://www.w3.org/TR/selectors-3/#sel-first-child

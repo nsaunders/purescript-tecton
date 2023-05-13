@@ -36,7 +36,6 @@ import Tecton
   , link
   , nil
   , not
-  , nth
   , nthChild
   , nthLastChild
   , nthOfType
@@ -52,6 +51,8 @@ import Tecton
   , universal
   , visited
   , width
+  , (#+)
+  , (#-)
   , ($=)
   , (&#)
   , (&.)
@@ -177,41 +178,41 @@ spec = do
 
       "*:root{width:0}" `isRenderedFrom` do universal &: root ? width := nil
 
-      "*:nth-child(even){width:0}"
+      "*:nth-child(2n){width:0}"
         `isRenderedFrom` do
           universal &: nthChild even ? width := nil
 
-      "*:nth-child(odd){width:0}"
+      "*:nth-child(2n+1){width:0}"
         `isRenderedFrom` do
           universal &: nthChild odd ? width := nil
 
       "*:nth-child(2n){width:0}"
         `isRenderedFrom` do
-          universal &: nthChild (nth 2 0) ? width := nil
+          universal &: nthChild (2 #+ 0) ? width := nil
 
       "*:nth-child(2n+1){width:0}"
         `isRenderedFrom` do
-          universal &: nthChild (nth 2 1) ? width := nil
+          universal &: nthChild (2 #+ 1) ? width := nil
 
       "*:nth-child(10n-1){width:0}"
         `isRenderedFrom` do
-          universal &: nthChild (nth 10 (-1)) ? width := nil
+          universal &: nthChild (10 #- 1) ? width := nil
 
       "*:nth-last-child(-n+2){width:0}"
         `isRenderedFrom` do
-          universal &: nthLastChild (nth (-1) 2) ? width := nil
+          universal &: nthLastChild ((-1) #+ 2) ? width := nil
 
-      "*:nth-last-child(odd){width:0}"
+      "*:nth-last-child(2n+1){width:0}"
         `isRenderedFrom` do
           universal &: nthLastChild odd ? width := nil
 
       "*:nth-of-type(2n+1){width:0}"
         `isRenderedFrom` do
-          universal &: nthOfType (nth 2 1) ? width := nil
+          universal &: nthOfType (2 #+ 1) ? width := nil
 
       "*:nth-of-type(2n){width:0}"
         `isRenderedFrom` do
-          universal &: nthOfType (nth 2 0) ? width := nil
+          universal &: nthOfType (2 #+ 0) ? width := nil
 
       "*:first-child{width:0}"
         `isRenderedFrom` do

@@ -303,7 +303,7 @@ sub, sup {
   margin: 0 0 1em;
   color: hsl(0.0, 0.0%, 66.67%);
 }
-*.design-selection li:nth-child(odd) {
+*.design-selection li:nth-child(2n + 1) {
   width: 47%;
   padding-right: 3%;
   clear: left;
@@ -629,7 +629,7 @@ footer a:first-child {
     margin-bottom: 3em;
     padding-right: 2%;
   }
-  *.design-selection li:nth-child(odd) {
+  *.design-selection li:nth-child(2n + 1) {
     width: 23%;
     clear: none;
     padding-right: 2%;

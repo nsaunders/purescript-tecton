@@ -1,7 +1,8 @@
 module Tecton (module H, module T) where
 
 import Tecton.Internal
-  ( CSS
+  ( AnPlusB(..)
+  , CSS
   , Declarations
   , Identifier(..)
   , KeyframesName(..)
@@ -394,7 +395,6 @@ import Tecton.Internal
   , not
   , novalidate
   , nowrap
-  , nth
   , nthChild
   , nthLastChild
   , nthOfType
@@ -707,6 +707,8 @@ import Tecton.Internal
   , xxLarge
   , xxSmall
   , zIndex
+  , (#+)
+  , (#-)
   , ($=)
   , (&#)
   , (&.)
