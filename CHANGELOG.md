@@ -15,6 +15,7 @@ Breaking changes:
 New features:
 - `box-sizing` property nsaunders/purescript-tecton#31
 - `word-break` property nsaunders/purescript-tecton#32
+- Support for custom pseudo-classes and pseudo-elements via the `PseudoClass` and `PseudoElement` constructors nsaunders/purescript-tecton#38
 
 Bugfixes:
 

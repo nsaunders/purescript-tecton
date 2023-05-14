@@ -6,14 +6,18 @@ module Test.SelectorsSpec where
 
 import Prelude hiding (not)
 
+import Color (rgb)
 import Data.Tuple.Nested ((/\))
 import Tecton
   ( AttrName(..)
   , ClassName(..)
   , ElementId(..)
+  , PseudoClass(..)
+  , PseudoElement(..)
   , a
   , active
   , after
+  , backgroundColor
   , before
   , checked
   , disabled
@@ -259,6 +263,12 @@ spec = do
         `isRenderedFrom` do
           universal &: focusWithin ? width := nil
 
+      "*:-moz-user-disabled{background-color:#ff0000}"
+        `isRenderedFrom` do
+          universal &: PseudoClass "-moz-user-disabled"
+            ? backgroundColor
+            := rgb 255 0 0
+
     describe "Pseudo-elements" do
 
       "*::first-line{width:0}"
@@ -284,6 +294,11 @@ spec = do
       "*::selection{width:0}"
         `isRenderedFrom` do
           universal &:: selection ? width := nil
+
+      "*::-webkit-meter-bar{background-color:#eeeeee}"
+        `isRenderedFrom` do
+          universal &:: PseudoElement "-webkit-meter-bar" ? backgroundColor :=
+            rgb 238 238 238
 
     describe "Combinators" do
 

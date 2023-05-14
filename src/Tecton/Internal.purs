@@ -65,8 +65,8 @@ module Tecton.Internal
   , Orientation
   , Pair(..)
   , Percentage
-  , PseudoClass
-  , PseudoElement
+  , PseudoClass(..)
+  , PseudoElement(..)
   , Ratio(..)
   , Repeat'
   , Repeating
@@ -6015,9 +6015,11 @@ byId s i' = Selector $ val s <> val "#" <> val i'
 
 infixl 7 byId as &#
 
-newtype PseudoClass = PseudoClass Val
+data PseudoClass = PseudoClass String | PseudoClassVal Val
 
-derive newtype instance ToVal PseudoClass
+instance ToVal PseudoClass where
+  val (PseudoClass x) = val x
+  val (PseudoClassVal x) = x
 
 class IsPseudoClass (a :: Type)
 
@@ -6064,47 +6066,47 @@ infixl 7 byPseudoElement as &::
 -- https://www.w3.org/TR/selectors-3/#sel-link
 
 link :: PseudoClass
-link = PseudoClass $ val "link"
+link = PseudoClass "link"
 
 -- https://www.w3.org/TR/selectors-3/#sel-visited
 
 visited :: PseudoClass
-visited = PseudoClass $ val "visited"
+visited = PseudoClass "visited"
 
 -- https://www.w3.org/TR/selectors-3/#sel-hover
 
 hover :: PseudoClass
-hover = PseudoClass $ val "hover"
+hover = PseudoClass "hover"
 
 -- https://www.w3.org/TR/selectors-3/#sel-active
 
 active :: PseudoClass
-active = PseudoClass $ val "active"
+active = PseudoClass "active"
 
 -- https://www.w3.org/TR/selectors-3/#sel-focus
 
 focus :: PseudoClass
-focus = PseudoClass $ val "focus"
+focus = PseudoClass "focus"
 
 -- https://www.w3.org/TR/selectors-3/#lang-pseudo
 
 lang :: String -> PseudoClass
-lang c = PseudoClass $ fn "lang" c
+lang c = PseudoClassVal $ fn "lang" c
 
 -- https://www.w3.org/TR/selectors-3/#sel-enabled
 
 enabled :: PseudoClass
-enabled = PseudoClass $ val "enabled"
+enabled = PseudoClass "enabled"
 
 -- https://www.w3.org/TR/selectors-3/#sel-indeterminate
 
 indeterminate :: PseudoClass
-indeterminate = PseudoClass $ val "indeterminate"
+indeterminate = PseudoClass "indeterminate"
 
 -- https://www.w3.org/TR/selectors-3/#sel-root
 
 root :: PseudoClass
-root = PseudoClass $ val "root"
+root = PseudoClass "root"
 
 -- https://www.w3.org/TR/selectors-3/#sel-nth-child
 
@@ -6144,62 +6146,62 @@ anminusb a' b' = AnPlusB a' (-b')
 infixl 9 anminusb as #-
 
 nthChild :: AnPlusB -> PseudoClass
-nthChild formula = PseudoClass $ fn "nth-child" formula
+nthChild formula = PseudoClassVal $ fn "nth-child" formula
 
 -- https://www.w3.org/TR/selectors-3/#sel-nth-last-child
 
 nthLastChild :: AnPlusB -> PseudoClass
-nthLastChild formula = PseudoClass $ fn "nth-last-child" formula
+nthLastChild formula = PseudoClassVal $ fn "nth-last-child" formula
 
 -- https://www.w3.org/TR/selectors-3/#sel-nth-of-type
 
 nthOfType :: AnPlusB -> PseudoClass
-nthOfType formula = PseudoClass $ fn "nth-of-type" formula
+nthOfType formula = PseudoClassVal $ fn "nth-of-type" formula
 
 -- https://www.w3.org/TR/selectors-3/#sel-first-child
 
 firstChild :: PseudoClass
-firstChild = PseudoClass $ val "first-child"
+firstChild = PseudoClass "first-child"
 
 -- https://www.w3.org/TR/selectors-3/#sel-last-child
 
 lastChild :: PseudoClass
-lastChild = PseudoClass $ val "last-child"
+lastChild = PseudoClass "last-child"
 
 -- https://www.w3.org/TR/selectors-3/#sel-first-of-type
 
 firstOfType :: PseudoClass
-firstOfType = PseudoClass $ val "first-of-type"
+firstOfType = PseudoClass "first-of-type"
 
 -- https://www.w3.org/TR/selectors-3/#sel-last-of-type
 
 lastOfType :: PseudoClass
-lastOfType = PseudoClass $ val "last-of-type"
+lastOfType = PseudoClass "last-of-type"
 
 -- https://www.w3.org/TR/selectors-3/#sel-only-child
 
 onlyChild :: PseudoClass
-onlyChild = PseudoClass $ val "only-child"
+onlyChild = PseudoClass "only-child"
 
 -- https://www.w3.org/TR/selectors-3/#sel-only-of-type
 
 onlyOfType :: PseudoClass
-onlyOfType = PseudoClass $ val "only-of-type"
+onlyOfType = PseudoClass "only-of-type"
 
 -- https://www.w3.org/TR/selectors-3/#sel-empty
 
 empty :: PseudoClass
-empty = PseudoClass $ val "empty"
+empty = PseudoClass "empty"
 
 -- https://www.w3.org/TR/selectors-4/#negation-pseudo
 
 not :: forall s. IsSelectorList s => MultiVal s => s -> PseudoClass
-not s = PseudoClass $ fn "not" s
+not s = PseudoClassVal $ fn "not" s
 
 -- https://www.w3.org/TR/selectors-4/#focus-within-pseudo
 
 focusWithin :: PseudoClass
-focusWithin = PseudoClass $ val "focus-within"
+focusWithin = PseudoClass "focus-within"
 
 -- https://www.w3.org/TR/selectors-3/#sel-first-line
 
