@@ -87,3 +87,21 @@ jobs:
           npm install bower pulp@16.0.0-0
           npx bower install
           npx pulp build -- --censor-lib --strict
+
+      - if: github.ref == 'refs/heads/master'
+        id: count
+        name: Get test count
+        run: echo "value=$(spago -x test.dhall test | grep Summary -A1 | tail -n 1 | cut -d "/" -f2 | cut -d " " -f1)" >> $GITHUB_OUTPUT
+
+      - if: github.ref == 'refs/heads/master'
+        name: Update test count data
+        run: echo '{"schemaVersion":1,"label":"tests","message":"${{ steps.count.outputs.value }}","color":"cd523e"}' > meta/test-count.json
+
+      - if: github.ref == 'refs/heads/master'
+        name: Commit test count data update
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: meta/test-count.json
+          author_name: GitHub Actions
+          author_email: 41898282+github-actions[bot]@users.noreply.github.com
+          message: Update test count.
