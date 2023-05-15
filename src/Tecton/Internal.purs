@@ -933,6 +933,7 @@ module Tecton.Internal
   , underline
   , universal
   , unsafe
+  , unsafeDeclaration
   , unset
   , upperAlpha
   , upperArmenian
@@ -1252,6 +1253,13 @@ instance
         Proxy
 
 infixr 0 assoc as :=
+
+-- | Adds a declaration to a rule. The first parameter is the name of the
+-- | property, while the second parameter is the corresponding value as it would
+-- | be written directly in CSS.
+unsafeDeclaration :: String -> String -> Writer (List Declaration') (Proxy ())
+unsafeDeclaration p' v' =
+  tell (pure $ Declaration' $ val p' /\ val v') *> pure Proxy
 
 concatDeclarations :: List (Val /\ Val) -> Val
 concatDeclarations decls = Val \c ->

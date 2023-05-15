@@ -31,6 +31,7 @@ import Test.TextSpec as Text
 import Test.TransformsSpec as Transforms
 import Test.TransitionsSpec as Transitions
 import Test.UISpec as UI
+import Test.UnsafeDeclarationSpec as UnsafeDeclaration
 import Test.VisufxSpec as Visufx
 import Test.VisurenSpec as Visuren
 import Test.WritingModesSpec as WritingModes
@@ -64,6 +65,7 @@ main =
       Transforms.spec
       Transitions.spec
       UI.spec
+      UnsafeDeclaration.spec
       Visufx.spec
       Visuren.spec
       WritingModes.spec

@@ -677,6 +677,7 @@ import Tecton.Internal
   , underline
   , universal
   , unsafe
+  , unsafeDeclaration
   , unset
   , upperAlpha
   , upperArmenian
