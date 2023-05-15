@@ -1229,7 +1229,7 @@ instance
 else instance
   ( IsSymbol p
   , Declaration p v
-  , Row.Cons p CommonKeyword () p'
+  , Row.Cons p v () p'
   ) =>
   Assoc p v Declaration' p' where
   assoc _ v =
@@ -1241,7 +1241,7 @@ else instance
 instance
   ( IsSymbol d
   , FontFaceDeclaration d v
-  , Row.Cons d CommonKeyword () d'
+  , Row.Cons d v () d'
   ) =>
   Assoc d v FontFaceDeclaration' d' where
   assoc _ v =

@@ -18,6 +18,7 @@ New features:
 - Support for custom pseudo-classes and pseudo-elements via the `PseudoClass` and `PseudoElement` constructors nsaunders/purescript-tecton#38
 
 Bugfixes:
+- Fixed the content of the compiler error that results from duplicate properties or descriptors within a single ruleset. Previously all values were incorrectly reported as having the type `CommonKeyword`. nsaunders/purescript-tecton#39
 
 Other improvements:
 
