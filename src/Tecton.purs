@@ -19,11 +19,13 @@ import Tecton.Internal
   , active
   , adjacentSibling
   , after
+  , alias
   , alignContent
   , alignItems
   , alignSelf
   , alignmentBaseline
   , all
+  , allScroll
   , alphabetic
   , alt
   , alternate
@@ -103,6 +105,7 @@ import Tecton.Internal
   , canvas
   , capitalize
   , caption
+  , cell
   , center
   , central
   , ch
@@ -121,6 +124,7 @@ import Tecton.Internal
   , cm
   , code
   , col
+  , colResize
   , colgroup
   , collapse
   , collection
@@ -137,12 +141,16 @@ import Tecton.Internal
   , contentBox
   , contenteditable
   , contents
+  , contextMenu
   , controls
   , coords
+  , copy
   , cover
+  , crosshair
   , cubicBezier
   , currentColor
   , cursive
+  , cursor
   , dashed
   , data'
   , datetime
@@ -173,6 +181,7 @@ import Tecton.Internal
   , dpi
   , draggable
   , dt
+  , eResize
   , ease
   , easeIn
   , easeInOut
@@ -188,6 +197,7 @@ import Tecton.Internal
   , enctype
   , end
   , even
+  , ewResize
   , ex
   , expanded
   , extraCondensed
@@ -234,6 +244,8 @@ import Tecton.Internal
   , fullWidth
   , gap
   , georgian
+  , grab
+  , grabbing
   , grid
   , gridAutoColumns
   , gridAutoFlow
@@ -258,6 +270,7 @@ import Tecton.Internal
   , headers
   , hebrew
   , height
+  , help
   , hidden
   , high
   , hiragana
@@ -384,22 +397,31 @@ import Tecton.Internal
   , mm
   , mongolian
   , monospace
+  , move
   , ms
   , multiple
   , muted
   , myanmar
+  , nResize
   , name
   , nav
+  , neResize
+  , neswResize
   , nil
+  , noDrop
   , noRepeat
   , none
   , normal
   , not
+  , notAllowed
   , novalidate
   , nowrap
+  , nsResize
   , nthChild
   , nthLastChild
   , nthOfType
+  , nwResize
+  , nwseResize
   , oblique
   , odd
   , ol
@@ -508,6 +530,7 @@ import Tecton.Internal
   , persian
   , perspective
   , placeholder
+  , pointer
   , polygon
   , polyline
   , portrait
@@ -552,11 +575,13 @@ import Tecton.Internal
   , round
   , row
   , rowGap
+  , rowResize
   , rowReverse
   , rows
   , rowspan
   , rtl
   , running
+  , sResize
   , safe
   , sandbox
   , sansSerif
@@ -568,6 +593,7 @@ import Tecton.Internal
   , scope
   , screen
   , scroll
+  , seResize
   , sec
   , section
   , select
@@ -612,6 +638,7 @@ import Tecton.Internal
   , sup
   , super
   , svg
+  , swResize
   , systemUI
   , tabindex
   , table
@@ -628,6 +655,7 @@ import Tecton.Internal
   , tbody
   , td
   , telugu
+  , text
   , textAlign
   , textBottom
   , textDecorationColor
@@ -688,6 +716,7 @@ import Tecton.Internal
   , usemap
   , value
   , verticalAlign
+  , verticalText
   , vh
   , video
   , visibility
@@ -696,6 +725,8 @@ import Tecton.Internal
   , vmax
   , vmin
   , vw
+  , wResize
+  , wait
   , wavy
   , whiteSpace
   , width
@@ -710,6 +741,8 @@ import Tecton.Internal
   , xxLarge
   , xxSmall
   , zIndex
+  , zoomIn
+  , zoomOut
   , (#+)
   , (#-)
   , ($=)

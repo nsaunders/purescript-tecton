@@ -5,35 +5,73 @@ module Test.UISpec where
 import Prelude
 
 import Color (rgb)
+import Data.Tuple.Nested ((/\))
 import Tecton
-  ( appearance
+  ( alias
+  , allScroll
+  , appearance
   , auto
+  , cell
+  , colResize
+  , contextMenu
+  , copy
+  , crosshair
+  , cursor
   , dashed
+  , default
   , dotted
   , double
+  , eResize
+  , ewResize
+  , grab
+  , grabbing
   , groove
+  , help
   , inherit
   , initial
   , inset
   , invert
   , medium
   , menulistButton
+  , move
+  , nResize
+  , neResize
+  , neswResize
   , nil
+  , noDrop
   , none
+  , notAllowed
+  , nsResize
+  , nwResize
+  , nwseResize
   , outlineColor
   , outlineOffset
   , outlineStyle
   , outlineWidth
   , outset
+  , pointer
+  , progress
   , px
   , ridge
+  , rowResize
+  , sResize
+  , seResize
   , solid
+  , swResize
+  , text
   , textfield
   , thick
   , thin
   , transparent
   , unset
+  , url
+  , verticalText
+  , wResize
+  , wait
+  , zoomIn
+  , zoomOut
   , (:=)
+  , (~)
   )
 import Test.Spec (Spec, describe)
 import Test.Util (isRenderedFromInline)
@@ -114,6 +152,95 @@ spec = do
       "outline-offset:4px" `isRenderedFrom` (outlineOffset := px 4)
 
       "outline-offset:0" `isRenderedFrom` (outlineOffset := nil)
+
+    describe "cursor" do
+
+      "cursor:inherit" `isRenderedFrom` (cursor := inherit)
+
+      "cursor:initial" `isRenderedFrom` (cursor := initial)
+
+      "cursor:unset" `isRenderedFrom` (cursor := unset)
+
+      "cursor:auto" `isRenderedFrom` (cursor := auto)
+
+      "cursor:default" `isRenderedFrom` (cursor := default)
+
+      "cursor:none" `isRenderedFrom` (cursor := none)
+
+      "cursor:context-menu" `isRenderedFrom` (cursor := contextMenu)
+
+      "cursor:help" `isRenderedFrom` (cursor := help)
+
+      "cursor:pointer" `isRenderedFrom` (cursor := pointer)
+
+      "cursor:progress" `isRenderedFrom` (cursor := progress)
+
+      "cursor:wait" `isRenderedFrom` (cursor := wait)
+
+      "cursor:cell" `isRenderedFrom` (cursor := cell)
+
+      "cursor:crosshair" `isRenderedFrom` (cursor := crosshair)
+
+      "cursor:text" `isRenderedFrom` (cursor := text)
+
+      "cursor:vertical-text" `isRenderedFrom` (cursor := verticalText)
+
+      "cursor:alias" `isRenderedFrom` (cursor := alias)
+
+      "cursor:copy" `isRenderedFrom` (cursor := copy)
+
+      "cursor:move" `isRenderedFrom` (cursor := move)
+
+      "cursor:no-drop" `isRenderedFrom` (cursor := noDrop)
+
+      "cursor:not-allowed" `isRenderedFrom` (cursor := notAllowed)
+
+      "cursor:grab" `isRenderedFrom` (cursor := grab)
+
+      "cursor:grabbing" `isRenderedFrom` (cursor := grabbing)
+
+      "cursor:e-resize" `isRenderedFrom` (cursor := eResize)
+
+      "cursor:n-resize" `isRenderedFrom` (cursor := nResize)
+
+      "cursor:ne-resize" `isRenderedFrom` (cursor := neResize)
+
+      "cursor:nw-resize" `isRenderedFrom` (cursor := nwResize)
+
+      "cursor:s-resize" `isRenderedFrom` (cursor := sResize)
+
+      "cursor:se-resize" `isRenderedFrom` (cursor := seResize)
+
+      "cursor:sw-resize" `isRenderedFrom` (cursor := swResize)
+
+      "cursor:w-resize" `isRenderedFrom` (cursor := wResize)
+
+      "cursor:ew-resize" `isRenderedFrom` (cursor := ewResize)
+
+      "cursor:ns-resize" `isRenderedFrom` (cursor := nsResize)
+
+      "cursor:nesw-resize" `isRenderedFrom` (cursor := neswResize)
+
+      "cursor:nwse-resize" `isRenderedFrom` (cursor := nwseResize)
+
+      "cursor:col-resize" `isRenderedFrom` (cursor := colResize)
+
+      "cursor:row-resize" `isRenderedFrom` (cursor := rowResize)
+
+      "cursor:all-scroll" `isRenderedFrom` (cursor := allScroll)
+
+      "cursor:zoom-in" `isRenderedFrom` (cursor := zoomIn)
+
+      "cursor:zoom-out" `isRenderedFrom` (cursor := zoomOut)
+
+      "cursor:url(\"example.svg#linkcursor\"),url(\"hyper.cur\"),url(\"hyper.png\") 2 3,pointer"
+        `isRenderedFrom`
+          ( cursor := url "example.svg#linkcursor" /\ url "hyper.cur"
+              /\ url "hyper.png"
+                ~ 2
+                ~ 3
+              /\ pointer
+          )
 
     describe "appearance property" do
 
