@@ -5,6 +5,16 @@ Notable changes are documented in this file. The format is based on [Keep a Chan
 ## [Unreleased]
 
 Breaking changes:
+
+New features:
+
+Bugfixes:
+
+Other improvements:
+
+## [0.2.0] - 2023-05-16
+
+Breaking changes:
 - _For pseudo-elements only_, the `&:` operator has been replaced by `&::`. Pseudo-classes continue to work with the `&:` operator. nsaunders/purescript-tecton#33
 - The `keyframesName` function has been dropped. Just use the `KeyframesName` constructor instead. (nsaunders/purescript-tecton#34)
 - The `CustomAttribute` type and `att` constructor function have been removed in favor of the [`AttrName` type from `web-html`](https://pursuit.purescript.org/packages/purescript-web-html/4.1.0/docs/Web.HTML.Common#t:AttrName). nsaunders/purescript-tecton#35
@@ -21,8 +31,6 @@ New features:
 
 Bugfixes:
 - Fixed the content of the compiler error that results from duplicate properties or descriptors within a single ruleset. Previously all values were incorrectly reported as having the type `CommonKeyword`. nsaunders/purescript-tecton#39
-
-Other improvements:
 
 ## [0.1.6] - 2022-12-12
 
