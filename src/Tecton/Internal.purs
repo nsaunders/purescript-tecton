@@ -242,6 +242,7 @@ module Tecton.Internal
   , class FontStretchKeyword
   , class FontStyleKeyword
   , class FontWeightKeyword
+  , class GenericCursorKeyword
   , class GenericFontFamilyKeyword
   , class IsAnimationNameList
   , class IsAttachmentList
@@ -258,6 +259,8 @@ module Tecton.Internal
   , class IsColor
   , class IsColorStopListHead
   , class IsColorStopListTail
+  , class IsCursorImage
+  , class IsCursorList
   , class IsExtensibleSelector
   , class IsFontFaceFontStyle
   , class IsFontFaceFontWeight
@@ -384,6 +387,7 @@ module Tecton.Internal
   , cubicBezier
   , currentColor
   , cursive
+  , cursor
   , dashed
   , data'
   , datetime
@@ -967,6 +971,38 @@ module Tecton.Internal
   , xxLarge
   , xxSmall
   , zIndex
+  , contextMenu
+  , help
+  , pointer
+  , wait
+  , cell
+  , crosshair
+  , text
+  , verticalText
+  , alias
+  , copy
+  , move
+  , noDrop
+  , notAllowed
+  , grab
+  , grabbing
+  , eResize
+  , nResize
+  , neResize
+  , nwResize
+  , sResize
+  , seResize
+  , swResize
+  , wResize
+  , ewResize
+  , nsResize
+  , neswResize
+  , nwseResize
+  , colResize
+  , rowResize
+  , allScroll
+  , zoomIn
+  , zoomOut
   ) where
 
 import Prelude hiding (add, bottom, sub, top)
@@ -7130,6 +7166,101 @@ instance declarationOutlineOffset ::
   Declaration "outline-offset" (Measure t) where
   pval = const val
 
+-- https://www.w3.org/TR/css-ui-4/#propdef-cursor
+
+cursor = Proxy :: Proxy "cursor"
+
+instance Property "cursor"
+
+contextMenu = Proxy :: Proxy "context-menu"
+help = Proxy :: Proxy "help"
+pointer = Proxy :: Proxy "pointer"
+wait = Proxy :: Proxy "wait"
+cell = Proxy :: Proxy "cell"
+crosshair = Proxy :: Proxy "crosshair"
+text = Proxy :: Proxy "text"
+verticalText = Proxy :: Proxy "vertical-text"
+alias = Proxy :: Proxy "alias"
+copy = Proxy :: Proxy "copy"
+move = Proxy :: Proxy "move"
+noDrop = Proxy :: Proxy "no-drop"
+notAllowed = Proxy :: Proxy "not-allowed"
+grab = Proxy :: Proxy "grab"
+grabbing = Proxy :: Proxy "grabbing"
+eResize = Proxy :: Proxy "e-resize"
+nResize = Proxy :: Proxy "n-resize"
+neResize = Proxy :: Proxy "ne-resize"
+nwResize = Proxy :: Proxy "nw-resize"
+sResize = Proxy :: Proxy "s-resize"
+seResize = Proxy :: Proxy "se-resize"
+swResize = Proxy :: Proxy "sw-resize"
+wResize = Proxy :: Proxy "w-resize"
+ewResize = Proxy :: Proxy "ew-resize"
+nsResize = Proxy :: Proxy "ns-resize"
+neswResize = Proxy :: Proxy "nesw-resize"
+nwseResize = Proxy :: Proxy "nwse-resize"
+colResize = Proxy :: Proxy "col-resize"
+rowResize = Proxy :: Proxy "row-resize"
+allScroll = Proxy :: Proxy "all-scroll"
+zoomIn = Proxy :: Proxy "zoom-in"
+zoomOut = Proxy :: Proxy "zoom-out"
+
+class GenericCursorKeyword (s :: Symbol)
+
+instance GenericCursorKeyword "auto"
+instance GenericCursorKeyword "default"
+instance GenericCursorKeyword "none"
+instance GenericCursorKeyword "context-menu"
+instance GenericCursorKeyword "help"
+instance GenericCursorKeyword "pointer"
+instance GenericCursorKeyword "progress"
+instance GenericCursorKeyword "wait"
+instance GenericCursorKeyword "cell"
+instance GenericCursorKeyword "crosshair"
+instance GenericCursorKeyword "text"
+instance GenericCursorKeyword "vertical-text"
+instance GenericCursorKeyword "alias"
+instance GenericCursorKeyword "copy"
+instance GenericCursorKeyword "move"
+instance GenericCursorKeyword "no-drop"
+instance GenericCursorKeyword "not-allowed"
+instance GenericCursorKeyword "grab"
+instance GenericCursorKeyword "grabbing"
+instance GenericCursorKeyword "e-resize"
+instance GenericCursorKeyword "n-resize"
+instance GenericCursorKeyword "ne-resize"
+instance GenericCursorKeyword "nw-resize"
+instance GenericCursorKeyword "s-resize"
+instance GenericCursorKeyword "se-resize"
+instance GenericCursorKeyword "sw-resize"
+instance GenericCursorKeyword "w-resize"
+instance GenericCursorKeyword "ew-resize"
+instance GenericCursorKeyword "ns-resize"
+instance GenericCursorKeyword "nesw-resize"
+instance GenericCursorKeyword "nwse-resize"
+instance GenericCursorKeyword "col-resize"
+instance GenericCursorKeyword "row-resize"
+instance GenericCursorKeyword "all-scroll"
+instance GenericCursorKeyword "zoom-in"
+instance GenericCursorKeyword "zoom-out"
+
+class IsCursorImage (a :: Type)
+
+instance IsCursorImage URL
+instance IsCursorImage (URL ~ Int ~ Int)
+
+class IsCursorList (a :: Type)
+
+instance GenericCursorKeyword s => IsCursorList (Proxy s)
+instance (IsCursorImage x, IsCursorList xs) => IsCursorList (x /\ xs)
+
+instance declarationCursor ::
+  ( IsCursorList xs
+  , MultiVal xs
+  ) =>
+  Declaration "cursor" xs where
+  pval = const $ intercalateMultiVal (val "," <> Val _.separator)
+
 -- https://www.w3.org/TR/css-ui-4/#propdef-appearance
 
 appearance = Proxy :: Proxy "appearance"
@@ -7148,7 +7279,7 @@ instance AppearanceKeyword "menulist-button"
 
 instance declarationAppearance ::
   ( AppearanceKeyword s
-  , IsSymbol s
+  , ToVal (Proxy s)
   ) =>
   Declaration "appearance" (Proxy s) where
   pval = const val

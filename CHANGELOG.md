@@ -14,6 +14,7 @@ Breaking changes:
 
 New features:
 - `box-sizing` property nsaunders/purescript-tecton#31
+- `cursor` property nsaunders/purescript-tecton#41
 - `word-break` property nsaunders/purescript-tecton#32
 - Support for custom pseudo-classes and pseudo-elements via the `PseudoClass` and `PseudoElement` constructors nsaunders/purescript-tecton#38
 - A new `unsafeDeclaration` function offers an "escape hatch" for e.g. vendor-prefixed or experimental properties that haven't been added to the library yet. nsaunders/purescript-tecton#40
