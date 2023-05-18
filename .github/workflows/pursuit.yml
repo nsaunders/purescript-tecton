@@ -1,0 +1,31 @@
+name: Pursuit
+
+# This workflow can be used whenever publishing the docs to Pursuit fails (as it
+# often does via registry).
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: Publish
+    
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Bower and Pulp
+        run: npm install bower pulp@16.0.0-0
+
+      - name: Install Bower dependencies
+        run: npx bower install
+
+      - name: Pulp login
+        run: echo "${{ secrets.GH_ACCESS_TOKEN }}" | pulp login
+
+      - name: Pulp publish
+        uses: nick-fields/retry@v2
+        timeout_seconds: 15
+        max_attempts: 3
+        command: npx pulp publish --no-push
