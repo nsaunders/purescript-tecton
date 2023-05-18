@@ -1,4 +1,4 @@
-# Getting started with Tecton
+# Tecton: CSS in PureScript
 
 Tecton is a domain-specific language for authoring CSS using [PureScript](https://purescript.org/). At a basic level, it could be compared to CSS preprocessors such as [Sass](http://sass-lang.com/) and [LESS](http://lesscss.org/). However, where these preprocessors aim to add expressivity to CSS, Tecton offers the full expressive power of its host language along with a high degree of type safety. It also unlocks a number of secondary benefits, such as reuse of existing PureScript knowledge and seamless colocation with related markup. If you're ready to write masterful CSS with Tecton, let's get started.
 
@@ -20,6 +20,9 @@ Alternatively, to evaluate Tecton without installing anything locally, you can u
 
 You can give this a try now with the following example.
 
+> **Warning**
+> As of this writing on May 16, 2023, Try PureScript provides an outdated package set. Until it is updated, some examples will fail to compile in that environment.
+
 ## "Hello world" example
 
 This example serves as a good starting point for experimenting with Tecton. Simply update the `styleSheet` function with your own rules to see Tecton's CSS output.
@@ -34,7 +37,7 @@ import Tecton.Rule as Rule
 
 styleSheet :: CSS
 styleSheet = do
-  universal &. "hello-world" ? Rule.do
+  universal &. ClassName "hello-world" ? Rule.do
     width := px 400
     height := px 200
     backgroundColor := rgb 0 5 56
@@ -47,7 +50,7 @@ styleSheet = do
     fontWeight := 700
 ```
 
-[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4AgCQBKKQIA8APjlyWbDogBmOmAGNKAhHsN4NrdO0oAVWgU4R6OA7Wbpj9Ef1py4KADOcPaOzjCu7p6a1tqigSj6WADCIDC0BoIQIgn6qemZGjE2cKlQ7NK0AOYARpZalAAiKHgoWLYQmDBYAHIwgXgwYNICAPQAOurF2rbmICLTdnMiWABK0PBBcOuwTANEEWQUcABcJ6U4OAz7xEeUALxwYCAMcHDZzABu6QlQcABkWDgACIyFBygBaKjsKBgYFwAD82w2WGerze1GYYDwJFOj3QSDgABYAAwk9FvMjMKokSgnfGEgBMZIpcBqKAMAGsqrQQNkwGUKvS4NUanASXAAKxSgBsrIMIHKtDxItqcEZAGZGXAAIwATj1uqJAA5WWBmIFMCgCCqdLAkKyUFBqSIAJKDYDBYWZESDWisgBWEAGzB0BFSvpgvpVPr9rJ08zwADE0MwoDbhcCADIwJBRuFwCZwBI5HDpUPxxM4ZgAL3gwoJcC1ld9AHUYNTaSqAOwshjAFDMESnc6mfRGOCicT9wfD+7o0JOFxuDx4LDeXysmTvHKJGD5DKMDFwbcgpToegqJQK-gqeGqEX59KkciUC8UQjFwi3V9wB-ApRRhvGAr1Gd87yAA)
+[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4AgCQBKKQIA8APjlyWbDogBmOmAGNKAhHsN4NrdO0oAVWgU4R6OA7Wbpj9Ef1py4KADOcPaOzjCu7p6a1tqigSj6WADCIDC0BoIQIgn6qemZGjE2cKlQ7NK0AOYARpZalAAiKHgoWLYQmDBYAHIwgXgwYNICAPQAOurF2rbmICLTdnMiWABK0PBBcOuwTANEEWQUcABcJ6U4OAz7xEeUALxwYCAMcHDZzABu6QlQcABkWFKUCCgR6aHgACIyFBygBaKjsKBgSFwAD82w2WGerze1GYYDwJFOj3QSDgABYAAxU3FvMjMKokSgnUnkgBMNLpcBqKAMAGsqrQQNkwGUKqy4NUanAqXAAKwKgBs3IMIHKtBJUtqcHZAGZ2XAAIwAThNxopAA5uWBmIFMCgCFqdLAkNyUFBGSIAJKDYDBSWZESDWjcgBWEAGzB0BFSwZgwa1QZD3J08zwADE0MwoE7JZCADIwJAJlFwCZwBI5HDpaOp9M4ZgAL3gkrJcAN9eDAHUYIzmVqAOxchjAFDMESnc6mfRGOCicSj8eT+640JOFxuDx4LDeXzcmTvHKJGD5DKMPFwQ9wSFKdD0FRKNX8FSo1RS0vpUjkSj3iiEStCFuH84HfW9RmfGBH1GP9XyAA)
 
 ## API documentation
 
@@ -65,4 +68,4 @@ If you get stuck, help is available in the [PureScript Discord](https://purescri
 
 ## Contributing
 
-Contributions are welcome. Please see the [Contributing guide](https://discourse.purescript.org/) for more information.
+Contributions are welcome. Please see the [Contributing guide](https://github.com/nsaunders/purescript-tecton/blob/master/CONTRIBUTING.md) for more information.

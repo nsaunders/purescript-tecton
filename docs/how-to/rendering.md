@@ -62,7 +62,7 @@ import Color (rgb)
 import Tecton
 import Tecton.Rule as Rule
 
-containerClass = "container" :: String
+containerClass = ClassName "container" :: ClassName
 
 css :: CSS
 css =
@@ -83,7 +83,7 @@ main =
   TryPureScript.render
     $ unsafeCoerce
     $ "<style>" <> renderSheet compact css <> "</style>" <>
-      "<div class=\"" <> containerClass <> "\">Hello world!</div>" <>
+      "<div class=\"" <> (\(ClassName c) -> c) containerClass <> "\">Hello world!</div>" <>
       "<pre><code>\npretty:\n\n" <>
       renderSheet pretty css <>
       "\n\ncompact:\n" <>
@@ -91,4 +91,4 @@ main =
       "</pre></code>"
 ```
 
-[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdZwO4AsYBOMAUMQJYYgEAucACkVBGPABQCqAdmdQDRysAJAEp+rADwA+YcPKUaiAGaKYAY1qsEytdVkV0VWgBUCATzoQiAZVUEy6DUU4sCwuCgDOcE+cswbdg5yBgpcHigqAHQAwiCEqmwQnOEqsfEwssGGcLFQVAIEAOYARnryxjognFkKRpWckQBK0PCecM2wpKpV1ChknITRUJ5eALxwAETdnL39hBNwAFyLcFbUdpyFXR5eyzlWVsSqO3CjxHBwSWQAboThUHAAZJFw07MDBEMjcAD87S2RMAgc4XHBkMDUXBLcboJBwAAsAAZESCLvgyIVcLRFjC4QAmZGouDFFCqADWhQIICSYFy+RxcCKxTgiLgAFZ2QA2IndPIEaGMkpwPEAZjxcAAjABOKWS+EADiJYDIHkwKFMAsUsCQRJQUAxnAAktQYMBduMEjNCESAFYQDzUMiKUyxK0zAWWk0EImKHoAMTQZCgGoZ4WSVkITp9PSsZAAXvAGbC4GLozMAOowDFYgUAdkJxGAfU4SxWWhU6jgXB4heLpxBPgs1ls9mokScLiJgkuyQiMDSBASXcm4gdplgkgWUkZMGchCs+BgtG6GFJy5O04m4gA9GOJ1PJESLlvlddXsMdqMADoTA+vHrFwYXrybm+SAASMCgeRwVCgYAAQh3U9JzgKQjxHdAiEkcRuhYSQr04KCl2oUxFkQxCDwgjt50XWhkOoVDXg3Q9QVBCYMM4Fd0DXdDOCwsiLhwggFxgJd71XStjhfUjGK3bdkJg7c4JgScgA)
+[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdZwO4AsYBOMAUMQJYYgEAucACkVBGPABQCqAdmdQDRysAJAEp+rADwA+YcPKUaiAGaKYAY1qsEytdVkV0VWgBUCATzoQiAZVUEy6DUU4sCwuCgDOcE+cswbdg5yBgpcHigqAHQAwiCEqmwQnOEqsfEwssGGcLFQVAIEAOYARnryxjognFkKRpWckQBK0PCecM2wpKpV1ChknITRUJ5eALw5wx4eAHJo8ABE3Zy9-YTzcABcGxMjs8AkxKpTm9vRVlaHx6PEcHBJZABuhOFQcABkkXBLKwMEQyNwAD87RakTAIButxwZDA1Fwm3G6CQcAALAAGNGQ274MiFXC0DaI5EAJgxWLgxRQqgA1oUCCAkmBcvlCXAisU4Gi4ABWHkANnJ3TyBARbJKcGJAGZiXAAIwATnlcpRAA5yWAyB5MChTKLFLAkOSUFBcZwAJLUGDALyshLLQjkgBWEA81DIilMsXty1FdstBHJih6ADE0GQoLrWeFklZCO7Az0rGQAF7wVlIuDShPLADqMFx+NFAHYycRgH1OCclCp1HAuDwyxW4Ndbj4LNZbPZqJEnC5yYI7skIjA0gQEv24PNxK7TLBJOspGyYM5CFZ8DBaN0MFTN8dF1OAPQzucLyTk25TjUPL6TDyjAA681PAnvrH+Uz28FUbgAtJIvm43wVoMt5wPuj6SAAEjAUB5DgVBQGAACE4gHle85gWeUJQlO6BEJI4jdCwkj3pweEbtQpgbKRpGnueS4rgQa4wBucDkdQlFfHuWHYZONGcFu6A7tRnB0bxDEuMxrGCTuXFeFI9GHuRBEHkRMDzkAA)
