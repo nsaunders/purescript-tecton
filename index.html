@@ -146,7 +146,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="getting-started-with-tecton"><a class="header" href="#getting-started-with-tecton">Getting started with Tecton</a></h1>
+                        <h1 id="tecton-css-in-purescript"><a class="header" href="#tecton-css-in-purescript">Tecton: CSS in PureScript</a></h1>
 <p>Tecton is a domain-specific language for authoring CSS using <a href="https://purescript.org/">PureScript</a>. At a basic level, it could be compared to CSS preprocessors such as <a href="http://sass-lang.com/">Sass</a> and <a href="http://lesscss.org/">LESS</a>. However, where these preprocessors aim to add expressivity to CSS, Tecton offers the full expressive power of its host language along with a high degree of type safety. It also unlocks a number of secondary benefits, such as reuse of existing PureScript knowledge and seamless colocation with related markup. If you're ready to write masterful CSS with Tecton, let's get started.</p>
 <h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
 <h3 id="local-installation"><a class="header" href="#local-installation">Local installation</a></h3>
@@ -157,6 +157,10 @@
 <p>Alternatively, to evaluate Tecton without installing anything locally, you can use <a href="https://try.purescript.org">Try PureScript</a>. Throughout the documentation, look for buttons like this one to launch the corresponding code example in the Try PureScript app:</p>
 <p><a href="javascript:alert(%22Normally%2C%20you%27ll%20be%20redirected%20to%20Try%20PureScript.%20For%20now%2C%20let%27s%20continue%20getting%20started%20with%20Tecton.%22)"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
 <p>You can give this a try now with the following example.</p>
+<blockquote>
+<p><strong>Warning</strong>
+As of this writing on May 16, 2023, Try PureScript provides an outdated package set. Until it is updated, some examples will fail to compile in that environment.</p>
+</blockquote>
 <h2 id="hello-world-example"><a class="header" href="#hello-world-example">&quot;Hello world&quot; example</a></h2>
 <p>This example serves as a good starting point for experimenting with Tecton. Simply update the <code>styleSheet</code> function with your own rules to see Tecton's CSS output.</p>
 <pre><code class="language-haskell">module Example.StyleSheet where
@@ -168,7 +172,7 @@ import Tecton.Rule as Rule
 
 styleSheet :: CSS
 styleSheet = do
-  universal &amp;. &quot;hello-world&quot; ? Rule.do
+  universal &amp;. ClassName &quot;hello-world&quot; ? Rule.do
     width := px 400
     height := px 200
     backgroundColor := rgb 0 5 56
@@ -180,7 +184,7 @@ styleSheet = do
     fontSize := px 32
     fontWeight := 700
 </code></pre>
-<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4AgCQBKKQIA8APjlyWbDogBmOmAGNKAhHsN4NrdO0oAVWgU4R6OA7Wbpj9Ef1py4KADOcPaOzjCu7p6a1tqigSj6WADCIDC0BoIQIgn6qemZGjE2cKlQ7NK0AOYARpZalAAiKHgoWLYQmDBYAHIwgXgwYNICAPQAOurF2rbmICLTdnMiWABK0PBBcOuwTANEEWQUcABcJ6U4OAz7xEeUALxwYCAMcHDZzABu6QlQcABkWDgACIyFBygBaKjsKBgYFwAD82w2WGerze1GYYDwJFOj3QSDgABYAAwk9FvMjMKokSgnfGEgBMZIpcBqKAMAGsqrQQNkwGUKvS4NUanASXAAKxSgBsrIMIHKtDxItqcEZAGZGXAAIwATj1uqJAA5WWBmIFMCgCCqdLAkKyUFBqSIAJKDYDBYWZESDWisgBWEAGzB0BFSvpgvpVPr9rJ08zwADE0MwoDbhcCADIwJBRuFwCZwBI5HDpUPxxM4ZgAL3gwoJcC1ld9AHUYNTaSqAOwshjAFDMESnc6mfRGOCicT9wfD+7o0JOFxuDx4LDeXysmTvHKJGD5DKMDFwbcgpToegqJQK-gqeGqEX59KkciUC8UQjFwi3V9wB-ApRRhvGAr1Gd87yAA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4AgCQBKKQIA8APjlyWbDogBmOmAGNKAhHsN4NrdO0oAVWgU4R6OA7Wbpj9Ef1py4KADOcPaOzjCu7p6a1tqigSj6WADCIDC0BoIQIgn6qemZGjE2cKlQ7NK0AOYARpZalAAiKHgoWLYQmDBYAHIwgXgwYNICAPQAOurF2rbmICLTdnMiWABK0PBBcOuwTANEEWQUcABcJ6U4OAz7xEeUALxwYCAMcHDZzABu6QlQcABkWFKUCCgR6aHgACIyFBygBaKjsKBgSFwAD82w2WGerze1GYYDwJFOj3QSDgABYAAxU3FvMjMKokSgnUnkgBMNLpcBqKAMAGsqrQQNkwGUKqy4NUanAqXAAKwKgBs3IMIHKtBJUtqcHZAGZ2XAAIwAThNxopAA5uWBmIFMCgCFqdLAkNyUFBGSIAJKDYDBSWZESDWjcgBWEAGzB0BFSwZgwa1QZD3J08zwADE0MwoE7JZCADIwJAJlFwCZwBI5HDpaOp9M4ZgAL3gkrJcAN9eDAHUYIzmVqAOxchjAFDMESnc6mfRGOCicSj8eT+640JOFxuDx4LDeXzcmTvHKJGD5DKMPFwQ9wSFKdD0FRKNX8FSo1RS0vpUjkSj3iiEStCFuH84HfW9RmfGBH1GP9XyAA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
 <h2 id="api-documentation"><a class="header" href="#api-documentation">API documentation</a></h2>
 <p>API documentation is available on <a href="https://pursuit.purescript.org/packages/purescript-tecton">Pursuit</a>.</p>
 <h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
@@ -192,7 +196,7 @@ styleSheet = do
 <h2 id="support"><a class="header" href="#support">Support</a></h2>
 <p>If you get stuck, help is available in the <a href="https://purescript.org/chat">PureScript Discord</a> chat or on the <a href="https://discourse.purescript.org/">PureScript Discourse</a> forum.</p>
 <h2 id="contributing"><a class="header" href="#contributing">Contributing</a></h2>
-<p>Contributions are welcome. Please see the <a href="https://discourse.purescript.org/">Contributing guide</a> for more information.</p>
+<p>Contributions are welcome. Please see the <a href="https://github.com/nsaunders/purescript-tecton/blob/master/CONTRIBUTING.md">Contributing guide</a> for more information.</p>
 
                     </main>
 
