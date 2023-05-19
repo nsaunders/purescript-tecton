@@ -60,6 +60,8 @@ A range of properties can be used to control animations:
 
 Each of these properties also supports a list of animations by using Tecton's list syntax based on nested tuples, e.g. `animationDuration := ms 150 /\ ms 250 /\ ms 75`.
 
+<!-- TODO transitions -->
+
 ## Further reading
 
 [CSS Animations Level 1 (W3C)](https://www.w3.org/TR/css-animations-1/#animation-fill-mode)
