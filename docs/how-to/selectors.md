@@ -234,7 +234,33 @@ styleSheet = do
 
 [![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNkl2j7EBEqk1dakSwAJWh4SLh22CZZQmIyCjgALhG4LJwcBn6ieKHKAF5pEAY4OCLmADc89Kg4ADJx0xB5CCiAfm6OrDBV9fWQCDwoZhF4gfgR5dkQV7AmMAUG9RuNbBYrHBROIGECQYs1tEPF4fH4AngsMFQoj1moNsUMjAyvlGA84Hi4AAibToei6bTycAwXSUuB6OBYvKkciUWkUQhwWaDHls3RU7QAekZ-HpEr5LKAA)
 
-<!-- TODO: Create a "Basic pseudo-classes" section that lists and describes all of the supported pseudo-classes that don't have special syntax. -->
+### Basic pseudo-classes
+
+The most commonly-used pseudo-classes are bundled with the library:
+
+- `link` targets an unvisited link, i.e. an `<a>` element that the user has not yet clicked or visited.
+- `visited` targets a visited link, i.e. an `<a>` element that the user has clicked or visited in the past.
+- `hover` matches an element while the user's mouse cursor hovers over it.
+- `focus` matches an element when it has keyboard focus. An element typically receives focus through user interaction, such as clicking on an input field.
+- `focusWithin` targets an element containing a descendant element that has keyboard focus.
+- `active` matches an element while it is being clicked, pressed, or activated.
+- `target` targets an element whose ID matches the current location hash. This is often useful with deep-linking in order to draw the user's attention to the requested section of the page.
+- `enabled` targets an interactive element (e.g. `<input>`, `<select>`, or `<button>`) that is enabled.
+- `disabled` targets an interactive element (e.g. `<input>`, `<select>`, or `<button>`) that is disabled.
+- `checked` matches a radio button, checkbox, or option element that is checked or selected.
+- `indeterminate` matches a checkbox element in an indeterminate state, i.e. neither checked nor unchecked.
+- `root` targets the highest-level element in the document, typically an `<html>` element.
+- `firstChild` targets an element with no preceding siblings.
+- `lastChild` targets an element with no subsequent siblings.
+- `firstOfType` matches an element with no preceding siblings of the same type.
+- `lastOfType` matches an element with no subsequent siblings of the same type.
+- `onlyChild` matches an element with no siblings.
+- `onlyOfType` matches an element with no siblings of the same type.
+- `empty` matches an element with no children or that contains only empty text nodes.
+
+<!-- TODO: lang -->
+
+<!-- TODO: not -->
 
 ### Nth pseudo-classes
 
@@ -281,6 +307,7 @@ styleSheet = do
 
 <!-- TODO selector lists -->
 
-## Further reading
+## See also
 
-[Selectors Level 4 (W3C)](https://www.w3.org/TR/selectors-4/)
+- [Selectors spec](https://github.com/nsaunders/purescript-tecton/tree/master/test/SelectorsSpec.purs)
+- [Selectors Level 4 (W3C)](https://www.w3.org/TR/selectors-4/)

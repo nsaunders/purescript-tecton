@@ -62,6 +62,6 @@ Each of these properties also supports a list of animations by using Tecton's li
 
 <!-- TODO transitions -->
 
-## Further reading
+## See also
 
 [CSS Animations Level 1 (W3C)](https://www.w3.org/TR/css-animations-1/#animation-fill-mode)
