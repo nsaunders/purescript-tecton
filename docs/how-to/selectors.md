@@ -218,7 +218,7 @@ styleSheet = do
 
 ## Pseudo-classes
 
-A pseudo-class is a keyword added to a selector to style elements based on their state or position in the DOM tree. You can append a pseudo-class to the end of a selector using the `&:` operator. For instance, the `focus` pseudo-class applies a style conditionally when the element has focus:
+A pseudo-class can be used to style elements based on their state or position in the DOM tree. You can append a pseudo-class to the end of a selector using the `&:` operator. For instance, the `focus` pseudo-class applies a style conditionally when the element has focus:
 
 ```haskell
 module Example.StyleSheet where
@@ -236,7 +236,7 @@ styleSheet = do
 
 ### Basic pseudo-classes
 
-The most commonly-used pseudo-classes are bundled with the library:
+The most common pseudo-classes usually consist of a single keyword, such as the following:
 
 - `link` targets an unvisited link, i.e. an `<a>` element that the user has not yet clicked or visited.
 - `visited` targets a visited link, i.e. an `<a>` element that the user has clicked or visited in the past.
@@ -281,8 +281,8 @@ Constructing these pseudo-classes in Tecton begins with the formula:
 
 - The `even` function will select even-numbered elements, equivalent to **2**_n_.
 - The `odd` function will select odd-numbered elements, equivalent to **2**_n_+**1**.
-- The `#+` operator has two parameters **a** and **b** which are used to create a **a**_n_+**b** formula, e.g. `2 #+ 1`.
-- The `#-` operator has two parameters **a** and **b** which are used to create a **a**_n_-**b** formula, e.g. `2 #- 1`.
+- The `#+` operator has two parameters **a** and **b**, used to create a **a**_n_+**b** formula, e.g. `2 #+ 1`.
+- The `#-` operator has two parameters **a** and **b**, used to create a **a**_n_-**b** formula, e.g. `2 #- 1`.
 
 Apply one of the `nth*` functions listed above to the result to create the pseudo class.
 
@@ -302,6 +302,8 @@ styleSheet = do
 ```
 
 [![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgcqHY4AVoAcwAjR2M3exARKpNXLpEsACVoeEi4EdgmWUJiMgo4AC5FmpwcBhmiePnKAF5pEAY4ODxaOAAyFZE8EiySZigwOBgANxgROAB+CdGsMEPjscWih5ABrJq0EBFMC1eqLfbNFpwABMABYAAwojFY9FMYAoZgfZZmCxWOCicQMfGEuC7I7RDxeHx+AJ4LDBUL045qOBFEowMr5RiAuA8uAAIm06Houm08nAMF04rgejgHLypHIlGlFEIcE2cy1Kt0Eu0AHp5fxZWadUqgA)
+
+<!-- TODO custom pseudo-classes -->
 
 <!-- TODO pseudo-elements -->
 
