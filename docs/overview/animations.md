@@ -64,4 +64,5 @@ Each of these properties also supports a list of animations by using Tecton's li
 
 ## See also
 
-[CSS Animations Level 1 (W3C)](https://www.w3.org/TR/css-animations-1/#animation-fill-mode)
+* [Animations spec](https://github.com/nsaunders/purescript-tecton/tree/master/test/AnimationsSpec.purs)
+* [CSS Animations Level 1 (W3C)](https://www.w3.org/TR/css-animations-1/#animation-fill-mode)

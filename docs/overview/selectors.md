@@ -1,6 +1,6 @@
 # Selectors
 
-A selector is a pattern that describes the scope of a rule, i.e. the set of HTML elements to which it should apply. Tecton supports several types of selectors, including element, class, ID, attribute, and pseudo-class selectors. You can combine these to form more advanced selectors or even lists of selectors.
+A selector is a pattern that describes the scope of a rule, i.e. the set of HTML elements to which it should apply. Tecton supports several types of selectors, including element, class, ID, attribute, and pseudo-class selectors. You can combine these to form more advanced selectors or even a selector list.
 
 ## Element selectors
 

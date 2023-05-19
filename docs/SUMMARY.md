@@ -1,11 +1,11 @@
 # Summary
 
 - [Getting started](./README.md)
-- [How-to guides]()
-  - [Declarations](./how-to/declarations.md)
-  - [Selectors](./how-to/selectors.md)
-  - [Animations](./how-to/animations.md)
+- [Overview]()
+  - [Declarations](./overview/declarations.md)
+  - [Selectors](./overview/selectors.md)
+  - [Animations](./overview/animations.md)
   - [Font resources]()
   - [Media queries]()
   - [Calc expressions]()
-  - [Rendering](./how-to/rendering.md)
+  - [Rendering](./overview/rendering.md)
