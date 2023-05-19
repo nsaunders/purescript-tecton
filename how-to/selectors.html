@@ -307,7 +307,7 @@ styleSheet = do
 </code></pre>
 <p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNkl2j7EBEqk1dakSwAJWh4SLh22CZZQmIyCjgALhG4LJwcBn6ieKHKAF5pEAY4OFYAczgAMgABOFl8uAAqZYAiKmYAa1YYGRQsdk3zuAB+bo6sMFX19ZlZJgUARRstmGI8MwUFAmMAUODRuNbBYrHBROIGHCEYs1tEPF4fH4AngsMFQrj1mo4EUSjAyvlGH84FS4OdtOh6LptPJwDBdK89HAyXlSORKByKIRDgN5mK4IK2QB6Hn8LmKiX8oA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
 <h2 id="pseudo-classes"><a class="header" href="#pseudo-classes">Pseudo-classes</a></h2>
-<p>A pseudo-class is a keyword added to a selector to style elements based on their state or position in the DOM tree. You can append a pseudo-class to the end of a selector using the <code>&amp;:</code> operator. For instance, the <code>focus</code> pseudo-class applies a style conditionally when the element has focus:</p>
+<p>A pseudo-class can be used to style elements based on their state or position in the DOM tree. You can append a pseudo-class to the end of a selector using the <code>&amp;:</code> operator. For instance, the <code>focus</code> pseudo-class applies a style conditionally when the element has focus:</p>
 <pre><code class="language-haskell">module Example.StyleSheet where
 
 import Tecton
@@ -320,7 +320,7 @@ styleSheet = do
 </code></pre>
 <p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNkl2j7EBEqk1dakSwAJWh4SLh22CZZQmIyCjgALhG4LJwcBn6ieKHKAF5pEAY4OCLmADc89Kg4ADJx0xB5CCiAfm6OrDBV9fWQCDwoZhF4gfgR5dkQV7AmMAUG9RuNbBYrHBROIGECQYs1tEPF4fH4AngsMFQoj1moNsUMjAyvlGA84Hi4AAibToei6bTycAwXSUuB6OBYvKkciUWkUQhwWaDHls3RU7QAekZ-HpEr5LKAA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
 <h3 id="basic-pseudo-classes"><a class="header" href="#basic-pseudo-classes">Basic pseudo-classes</a></h3>
-<p>The most commonly-used pseudo-classes are bundled with the library:</p>
+<p>The most common pseudo-classes usually consist of a single keyword, such as the following:</p>
 <ul>
 <li><code>link</code> targets an unvisited link, i.e. an <code>&lt;a&gt;</code> element that the user has not yet clicked or visited.</li>
 <li><code>visited</code> targets a visited link, i.e. an <code>&lt;a&gt;</code> element that the user has clicked or visited in the past.</li>
@@ -362,8 +362,8 @@ styleSheet = do
 <ul>
 <li>The <code>even</code> function will select even-numbered elements, equivalent to <strong>2</strong><em>n</em>.</li>
 <li>The <code>odd</code> function will select odd-numbered elements, equivalent to <strong>2</strong><em>n</em>+<strong>1</strong>.</li>
-<li>The <code>#+</code> operator has two parameters <strong>a</strong> and <strong>b</strong> which are used to create a <strong>a</strong><em>n</em>+<strong>b</strong> formula, e.g. <code>2 #+ 1</code>.</li>
-<li>The <code>#-</code> operator has two parameters <strong>a</strong> and <strong>b</strong> which are used to create a <strong>a</strong><em>n</em>-<strong>b</strong> formula, e.g. <code>2 #- 1</code>.</li>
+<li>The <code>#+</code> operator has two parameters <strong>a</strong> and <strong>b</strong>, used to create a <strong>a</strong><em>n</em>+<strong>b</strong> formula, e.g. <code>2 #+ 1</code>.</li>
+<li>The <code>#-</code> operator has two parameters <strong>a</strong> and <strong>b</strong>, used to create a <strong>a</strong><em>n</em>-<strong>b</strong> formula, e.g. <code>2 #- 1</code>.</li>
 </ul>
 <p>Apply one of the <code>nth*</code> functions listed above to the result to create the pseudo class.</p>
 <p>Here is how <code>nthChild</code>, for instance, can be used to add zebra-striping to a table:</p>
@@ -379,6 +379,7 @@ styleSheet = do
     backgroundColor := rgb 240 240 240
 </code></pre>
 <p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgcqHY4AVoAcwAjR2M3exARKpNXLpEsACVoeEi4EdgmWUJiMgo4AC5FmpwcBhmiePnKAF5pEAY4ODxaOAAyFZE8EiySZigwOBgANxgROAB+CdGsMEPjscWih5ABrJq0EBFMC1eqLfbNFpwABMABYAAwojFY9FMYAoZgfZZmCxWOCicQMfGEuC7I7RDxeHx+AJ4LDBUL045qOBFEowMr5RiAuA8uAAIm06Houm08nAMF04rgejgHLypHIlGlFEIcE2cy1Kt0Eu0AHp5fxZWadUqgA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
+<!-- TODO custom pseudo-classes -->
 <!-- TODO pseudo-elements -->
 <!-- TODO selector lists -->
 <h2 id="see-also"><a class="header" href="#see-also">See also</a></h2>
