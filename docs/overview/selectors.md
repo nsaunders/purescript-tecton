@@ -258,9 +258,13 @@ The most common pseudo-classes usually consist of a single keyword, such as the 
 - `onlyOfType` matches an element with no siblings of the same type.
 - `empty` matches an element with no children or that contains only empty text nodes.
 
-<!-- TODO: lang -->
+### The `lang` pseudo-class
 
-<!-- TODO: not -->
+The `lang` pseudo-class can be used to target an element based on the value of its `lang` attribute (or the value inherited from an ancestor). The `lang` pseudo-class is parameterized by a one- or two-part language tag consisting of an [ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes), optionally followed by a hyphen and an [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code.
+
+<!-- TODO finish lang section -->
+
+<!-- TODO not -->
 
 ### Nth pseudo-classes
 
