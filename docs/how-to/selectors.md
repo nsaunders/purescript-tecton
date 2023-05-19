@@ -238,18 +238,18 @@ styleSheet = do
 
 The most common pseudo-classes usually consist of a single keyword, such as the following:
 
-- `link` targets an unvisited link, i.e. an `<a>` element that the user has not yet clicked or visited.
-- `visited` targets a visited link, i.e. an `<a>` element that the user has clicked or visited in the past.
+- `link` targets an unvisited link, i.e. an `a` element that the user has not yet clicked or visited.
+- `visited` targets a visited link, i.e. an `a` element that the user has clicked or visited in the past.
 - `hover` matches an element while the user's mouse cursor hovers over it.
 - `focus` matches an element when it has keyboard focus. An element typically receives focus through user interaction, such as clicking on an input field.
 - `focusWithin` targets an element containing a descendant element that has keyboard focus.
 - `active` matches an element while it is being clicked, pressed, or activated.
 - `target` targets an element whose ID matches the current location hash. This is often useful with deep-linking in order to draw the user's attention to the requested section of the page.
-- `enabled` targets an interactive element (e.g. `<input>`, `<select>`, or `<button>`) that is enabled.
-- `disabled` targets an interactive element (e.g. `<input>`, `<select>`, or `<button>`) that is disabled.
+- `enabled` targets an interactive element (e.g. `input`, `select`, or `button`) that is enabled.
+- `disabled` targets an interactive element (e.g. `input`, `select`, or `button`) that is disabled.
 - `checked` matches a radio button, checkbox, or option element that is checked or selected.
 - `indeterminate` matches a checkbox element in an indeterminate state, i.e. neither checked nor unchecked.
-- `root` targets the highest-level element in the document, typically an `<html>` element.
+- `root` targets the highest-level element in the document, typically an `html` element.
 - `firstChild` targets an element with no preceding siblings.
 - `lastChild` targets an element with no subsequent siblings.
 - `firstOfType` matches an element with no preceding siblings of the same type.
