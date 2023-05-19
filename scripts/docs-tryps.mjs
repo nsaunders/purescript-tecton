@@ -57,7 +57,7 @@ function tryPSCode(code) {
     case "Example.StyleSheet":
       return `module Example.StyleSheet where
 
-import Prelude (Unit, ($), (<>))
+import Prelude (Unit, discard, ($), (<>))
 import Effect (Effect)
 import TryPureScript (render) as TryPureScript
 import Unsafe.Coerce (unsafeCoerce)

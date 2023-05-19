@@ -4,7 +4,7 @@
 - [How-to guides]()
   - [Declarations](./how-to/declarations.md)
   - [Selectors](./how-to/selectors.md)
-  - [Animations]()
+  - [Animations](./how-to/animations.md)
   - [Font resources]()
   - [Media queries]()
   - [Calc expressions]()
