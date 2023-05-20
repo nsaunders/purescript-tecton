@@ -260,11 +260,40 @@ The most common pseudo-classes usually consist of a single keyword, such as the 
 
 ### The `lang` pseudo-class
 
-The `lang` pseudo-class can be used to target an element based on the value of its `lang` attribute (or the value inherited from an ancestor). The `lang` pseudo-class is parameterized by a one- or two-part language tag consisting of an [ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes), optionally followed by a hyphen and an [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code.
+The `lang` pseudo-class can be used to target an element based on the value of its `lang` attribute (or the value inherited from an ancestor). The `lang` pseudo-class is parameterized by a one- or two-part language tag consisting of an [ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes), optionally followed by a hyphen and an [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code. To construct the pseudo-class, apply the `lang` function to the language tag string. For example:
 
-<!-- TODO finish lang section -->
+```haskell
+module Example.StyleSheet where
 
-<!-- TODO not -->
+import Tecton
+import Tecton.Rule as Rule
+
+styleSheet :: CSS
+styleSheet = do
+  universal &: lang "en-US" ? Rule.do
+    display := none
+```
+
+[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNkl2j7EBEqk1dakSwAJWh4SLh22CZZQmIyCjgALhG4LJwcBn6ieKHKAF5pEAY4OCLmADc89Kg4ADJxqBQRAHM4ACIYEQBaIRxLuAB+bo6sMFX19ZlZTBQCKNliI6owGMAUMwRKNxrYLFY4KJxODIdDFmtoh4vD4-AE8FhgqEMes1BtihkYGV8oxvnBSVdtOh6LptPJwDBdE89HBCXlSORKEyKIQ4LNBgK4NzLtoAPRs-gsmVCzlAA)
+
+### The `not` pseudo-class
+
+The `not` pseudo-class targets an element that does not match the specified selector. You can pass any selector to the `not` function to construct the pseudo-class. For example, the following selector will match any `input` element lacking a `type` attribute:
+
+```haskell
+module Example.StyleSheet where
+
+import Color (rgb)
+import Tecton
+import Tecton.Rule as Rule
+
+styleSheet :: CSS
+styleSheet = do
+  input &: not (universal &@ type') ? Rule.do
+    backgroundColor := rgb 255 0 0
+```
+
+[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgcqHY4AVoAcwAjR2M3exARKpNXLpEsACVoeEi4EdgmWUJiMgo4AC5FmpwcBhmiePnKAF5pEAY4OGYRdAhKADIVkRBrIuYANzz0qDhLgAE4QnQYAHJwgB+CajLBgQ7HY4tFDyADWTVoICKYFq9UW+2aLTgACYAKy4uAABiJTGAKFOSxWtgsVjgonEDDJFN2R2iHi8Pj8ATwWGCoVZxzUcCKJRgZXyjEhcCFcAARNp0PRdNp5OAYLpZXA9HA+XlSORKIqKIQ4Js5gatbo5doAPSq-jKm1GjVAA)
 
 ### Nth pseudo-classes
 
@@ -306,8 +335,6 @@ styleSheet = do
 ```
 
 [![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgcqHY4AVoAcwAjR2M3exARKpNXLpEsACVoeEi4EdgmWUJiMgo4AC5FmpwcBhmiePnKAF5pEAY4ODxaOAAyFZE8EiySZigwOBgANxgROAB+CdGsMEPjscWih5ABrJq0EBFMC1eqLfbNFpwABMABYAAwojFY9FMYAoZgfZZmCxWOCicQMfGEuC7I7RDxeHx+AJ4LDBUL045qOBFEowMr5RiAuA8uAAIm06Houm08nAMF04rgejgHLypHIlGlFEIcE2cy1Kt0Eu0AHp5fxZWadUqgA)
-
-<!-- TODO custom pseudo-classes -->
 
 <!-- TODO pseudo-elements -->
 
