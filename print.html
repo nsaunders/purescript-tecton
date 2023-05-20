@@ -420,9 +420,32 @@ styleSheet = do
 <li><code>empty</code> matches an element with no children or that contains only empty text nodes.</li>
 </ul>
 <h3 id="the-lang-pseudo-class"><a class="header" href="#the-lang-pseudo-class">The <code>lang</code> pseudo-class</a></h3>
-<p>The <code>lang</code> pseudo-class can be used to target an element based on the value of its <code>lang</code> attribute (or the value inherited from an ancestor). The <code>lang</code> pseudo-class is parameterized by a one- or two-part language tag consisting of an <a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO 639-1 language code</a>, optionally followed by a hyphen and an <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha-2</a> country code.</p>
-<!-- TODO finish lang section -->
-<!-- TODO not -->
+<p>The <code>lang</code> pseudo-class can be used to target an element based on the value of its <code>lang</code> attribute (or the value inherited from an ancestor). The <code>lang</code> pseudo-class is parameterized by a one- or two-part language tag consisting of an <a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO 639-1 language code</a>, optionally followed by a hyphen and an <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha-2</a> country code. To construct the pseudo-class, apply the <code>lang</code> function to the language tag string. For example:</p>
+<pre><code class="language-haskell">module Example.StyleSheet where
+
+import Tecton
+import Tecton.Rule as Rule
+
+styleSheet :: CSS
+styleSheet = do
+  universal &amp;: lang &quot;en-US&quot; ? Rule.do
+    display := none
+</code></pre>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNkl2j7EBEqk1dakSwAJWh4SLh22CZZQmIyCjgALhG4LJwcBn6ieKHKAF5pEAY4OCLmADc89Kg4ADJxqBQRAHM4ACIYEQBaIRxLuAB+bo6sMFX19ZlZTBQCKNliI6owGMAUMwRKNxrYLFY4KJxODIdDFmtoh4vD4-AE8FhgqEMes1BtihkYGV8oxvnBSVdtOh6LptPJwDBdE89HBCXlSORKEyKIQ4LNBgK4NzLtoAPRs-gsmVCzlAA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
+<h3 id="the-not-pseudo-class"><a class="header" href="#the-not-pseudo-class">The <code>not</code> pseudo-class</a></h3>
+<p>The <code>not</code> pseudo-class targets an element that does not match the specified selector. You can pass any selector to the <code>not</code> function to construct the pseudo-class. For example, the following selector will match any <code>input</code> element lacking a <code>type</code> attribute:</p>
+<pre><code class="language-haskell">module Example.StyleSheet where
+
+import Color (rgb)
+import Tecton
+import Tecton.Rule as Rule
+
+styleSheet :: CSS
+styleSheet = do
+  input &amp;: not (universal &amp;@ type') ? Rule.do
+    backgroundColor := rgb 255 0 0
+</code></pre>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgcqHY4AVoAcwAjR2M3exARKpNXLpEsACVoeEi4EdgmWUJiMgo4AC5FmpwcBhmiePnKAF5pEAY4OGYRdAhKADIVkRBrIuYANzz0qDhLgAE4QnQYAHJwgB+CajLBgQ7HY4tFDyADWTVoICKYFq9UW+2aLTgACYAKy4uAABiJTGAKFOSxWtgsVjgonEDDJFN2R2iHi8Pj8ATwWGCoVZxzUcCKJRgZXyjEhcCFcAARNp0PRdNp5OAYLpZXA9HA+XlSORKIqKIQ4Js5gatbo5doAPSq-jKm1GjVAA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
 <h3 id="nth-pseudo-classes"><a class="header" href="#nth-pseudo-classes">Nth pseudo-classes</a></h3>
 <p>A special group of pseudo-classes allows you to select an element by its position within the parent element. These use a formula of the form <strong>a</strong><em>n</em>+<strong>b</strong> where:</p>
 <ul>
@@ -458,7 +481,6 @@ styleSheet = do
     backgroundColor := rgb 240 240 240
 </code></pre>
 <p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgcqHY4AVoAcwAjR2M3exARKpNXLpEsACVoeEi4EdgmWUJiMgo4AC5FmpwcBhmiePnKAF5pEAY4ODxaOAAyFZE8EiySZigwOBgANxgROAB+CdGsMEPjscWih5ABrJq0EBFMC1eqLfbNFpwABMABYAAwojFY9FMYAoZgfZZmCxWOCicQMfGEuC7I7RDxeHx+AJ4LDBUL045qOBFEowMr5RiAuA8uAAIm06Houm08nAMF04rgejgHLypHIlGlFEIcE2cy1Kt0Eu0AHp5fxZWadUqgA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
-<!-- TODO custom pseudo-classes -->
 <!-- TODO pseudo-elements -->
 <!-- TODO selector lists -->
 <h2 id="see-also"><a class="header" href="#see-also">See also</a></h2>
