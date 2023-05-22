@@ -194,7 +194,30 @@ styleSheet = do
 <li><code>animationFillMode</code> specifies how the element should be styled before and after the animation (e.g. <code>none</code>, <code>forwards</code>, <code>backwards</code> or <code>both</code>).</li>
 </ul>
 <p>Each of these properties also supports a list of animations by using Tecton's list syntax based on nested tuples, e.g. <code>animationDuration := ms 150 /\ ms 250 /\ ms 75</code>.</p>
-<!-- TODO transitions -->
+<h2 id="transitions"><a class="header" href="#transitions">Transitions</a></h2>
+<p>Keyframe animations provide flexibility and control for complex, multi-step animations. For basic, one-off property changes triggered by events, transitions offer a lightweight approach with no need for a <code>keyframes</code> at-rule. Instead, you simply leverage the following properties:</p>
+<ul>
+<li><code>transitionProperty</code> specifies the property to be transitioned.</li>
+<li><code>transitionDuration</code> specifies the length of time over which the transition should occur.</li>
+<li><code>transitionTimingFunction</code> defines the timing function used for the transition. It determines how intermediate property values are calculated over time.</li>
+<li><code>transitionDelay</code> sets a delay before the transition starts.</li>
+</ul>
+<p>Like animation properties, each of the transition properties supports a list of values, e.g. <code>transitionProperty := width /\ height /\ padding</code>.</p>
+<p>For example, the following ruleset transitions the background and foreground colors over a 150-millisecond period:</p>
+<pre><code class="language-haskell">module Example.StyleSheet where
+
+import Data.Tuple.Nested ((/\))
+import Tecton
+import Tecton.Rule as Rule
+
+styleSheet :: CSS
+styleSheet = do
+  universal ? Rule.do
+    transitionProperty := backgroundColor /\ color
+    transitionDuration := ms 150
+    transitionTimingFunction := ease
+</code></pre>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgAERQ8FCxXCEwYLAA5GFk8GDA4AQEAegAdAyqTV3sQEXG3KZEsACVoeEi4ZdgmbqJ4sgo4AC4DuCycHAZt4j3KAF5pEAY4OCLmADc89Kg4AH51lawwA8nk88LQUMVxMxptwQOg8oRDncAEYoeQAawA5rQQEUwDkoOw4CM4PIQATaI9gaDwbJIdMat56lCRIi4MAogBGACsAAZKSCwRC8MzXKxmCIMQAxIpWZmsmCRRgMYAocWHY62CxWOCicTK1Usm6UmJeHx+AJ4LDBUL8uBqZ7FDIwMr5RjAu1PABE2nQ9F02lJ-F0nrgejg1rypHIlF9FARl120dDujg3sGgZg-sGseDQA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
 <h2 id="see-also"><a class="header" href="#see-also">See also</a></h2>
 <ul>
 <li><a href="https://github.com/nsaunders/purescript-tecton/tree/master/test/AnimationsSpec.purs">Animations spec</a></li>
