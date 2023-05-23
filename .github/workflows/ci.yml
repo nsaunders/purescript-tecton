@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up a PureScript toolchain
         uses: purescript-contrib/setup-purescript@main
@@ -89,6 +89,14 @@ jobs:
           npx pulp build -- --censor-lib --strict
 
       - if: github.ref == 'refs/heads/master'
+        name: Dispatch tecton-halogen CI
+        run: |
+          curl -X POST https://api.github.com/repos/nsaunders/purescript-tecton-halogen/dispatches \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -u ${{ secrets.GH_ACCESS_TOKEN }} \
+          --data '{"event_type": "dependency_changed", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
+
+      - if: github.ref == 'refs/heads/master'
         id: count
         name: Get test count
         run: echo "value=$(spago -x test.dhall test | grep Summary -A1 | tail -n 1 | cut -d "/" -f2 | cut -d " " -f1)" >> $GITHUB_OUTPUT
@@ -105,3 +113,20 @@ jobs:
           author_name: GitHub Actions
           author_email: 41898282+github-actions[bot]@users.noreply.github.com
           message: Update test count.
+
+      - if: github.ref == 'refs/heads/master'
+        name: Setup mdBook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: "0.4.12"
+
+      - if: github.ref == 'refs/heads/master'
+        name: Build docs
+        run: mdbook build
+
+      - if: github.ref == 'refs/heads/master'
+        name: Deploy docs
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./book
