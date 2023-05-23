@@ -71,24 +71,31 @@ Keyframe animations provide flexibility and control for complex, multi-step anim
 
 Like animation properties, each of the transition properties supports a list of values, e.g. `transitionProperty := width /\ height /\ padding`.
 
-For example, the following ruleset transitions the background and foreground colors over a 150-millisecond period:
+For example, the following rulesets transition the background and foreground colors over a 150-millisecond period on hover:
 
 ```haskell
 module Example.StyleSheet where
 
+import Color (black, white)
 import Data.Tuple.Nested ((/\))
 import Tecton
 import Tecton.Rule as Rule
 
 styleSheet :: CSS
 styleSheet = do
-  universal ? Rule.do
+  let transitionDemo = ClassName "transition-demo"
+  universal &. transitionDemo ? Rule.do
     transitionProperty := backgroundColor /\ color
     transitionDuration := ms 150
     transitionTimingFunction := ease
+    backgroundColor := white
+    color := black
+  universal &. transitionDemo &: hover ? Rule.do
+    backgroundColor := black
+    color := white
 ```
 
-[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgAERQ8FCxXCEwYLAA5GFk8GDA4AQEAegAdAyqTV3sQEXG3KZEsACVoeEi4ZdgmbqJ4sgo4AC4DuCycHAZt4j3KAF5pEAY4OCLmADc89Kg4AH51lawwA8nk88LQUMVxMxptwQOg8oRDncAEYoeQAawA5rQQEUwDkoOw4CM4PIQATaI9gaDwbJIdMat56lCRIi4MAogBGACsAAZKSCwRC8MzXKxmCIMQAxIpWZmsmCRRgMYAocWHY62CxWOCicTK1Usm6UmJeHx+AJ4LDBUL8uBqZ7FDIwMr5RjAu1PABE2nQ9F02lJ-F0nrgejg1rypHIlF9FARl120dDujg3sGgZg-sGseDQA)
+[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgcqHY4AQAjKBR5AGspGnEYR2NKABEUPBQsVwhMGCwAORhZPBgwBoEAegAdAyqTV3sQEU23HZEsACVoeEi4U9gmOaJ4sgo4AC4nmpwcBlviB8oAXmkQAw4HBYJQ8LQUMVxMxdv0YKA4P8si1ZLIpmh4AAicGQ2TQ3YAWn4oExQLgRWYADc8ukoHAAGRYOA4qF4GEiOEIgD8lzOWDAgOBwJZeLZu24IHQeUIz3+jVabQA5rQQEUwLV6ms4PIQHVaGThRDWez+t4huzZXBgFEAIwAVgADAbmUbRezXKxmCJFQAxIpWC1Pf4wSKMIVweXtZWqkIa2iWrrzZ06vWW5oKskU6m0WkMpki-Ec+EgBmvEggbNwHlXSYC52RpUqtVxtMtdrJ3X1IPUEjdJjAFBe56vWwWKxwUTiBgDoe-MkxLw+PwBPBYYKhZ1qcnFDIwMr5MNCrdwTHadD0XTaHX8XSYuB6ODrvKkciUc8UGVfe6v++6E-aZZrxgS9lnfW8gA)
 
 ## See also
 
