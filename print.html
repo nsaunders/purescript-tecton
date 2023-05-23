@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Getting started</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Overview</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="overview/declarations.html"><strong aria-hidden="true">2.1.</strong> Declarations</a></li><li class="chapter-item expanded "><a href="overview/selectors.html"><strong aria-hidden="true">2.2.</strong> Selectors</a></li><li class="chapter-item expanded "><a href="overview/animations.html"><strong aria-hidden="true">2.3.</strong> Animations</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.4.</strong> Font resources</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.5.</strong> Media queries</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.6.</strong> Calc expressions</div></li><li class="chapter-item expanded "><a href="overview/rendering.html"><strong aria-hidden="true">2.7.</strong> Rendering</a></li></ol></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Getting started</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Overview</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="overview/values.html"><strong aria-hidden="true">2.1.</strong> Values</a></li><li class="chapter-item expanded "><a href="overview/declarations.html"><strong aria-hidden="true">2.2.</strong> Declarations</a></li><li class="chapter-item expanded "><a href="overview/selectors.html"><strong aria-hidden="true">2.3.</strong> Selectors</a></li><li class="chapter-item expanded "><a href="overview/animations.html"><strong aria-hidden="true">2.4.</strong> Animations</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.5.</strong> Font resources</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.6.</strong> Media queries</div></li><li class="chapter-item expanded "><a href="overview/calc.html"><strong aria-hidden="true">2.7.</strong> Calc expressions</a></li><li class="chapter-item expanded "><a href="overview/rendering.html"><strong aria-hidden="true">2.8.</strong> Rendering</a></li></ol></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -198,6 +198,9 @@ styleSheet = do
 <p>If you get stuck, help is available in the <a href="https://purescript.org/chat">PureScript Discord</a> chat or on the <a href="https://discourse.purescript.org/">PureScript Discourse</a> forum.</p>
 <h2 id="contributing"><a class="header" href="#contributing">Contributing</a></h2>
 <p>Contributions are welcome. Please see the <a href="https://github.com/nsaunders/purescript-tecton/blob/master/CONTRIBUTING.md">Contributing guide</a> for more information.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="basic-values"><a class="header" href="#basic-values">Basic values</a></h1>
+<h2 id="the-measure-type"><a class="header" href="#the-measure-type">The <code>Measure</code> type</a></h2>
+<p>TODO</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="declarations"><a class="header" href="#declarations">Declarations</a></h1>
 <p>The smallest building block of style sheets and inline styles alike is a declaration. A declaration consists of two parts: a property and a value. The property describes the aspect of the element you want to style, such as its font or color, and the value specifies what you want the property to be. Tecton uses the <code>:=</code> operator to set the property on the left-hand side to the value on the right. For example, here is how to set the color of the text content within an HTML element to black:</p>
 <pre><code class="language-haskell">module Example.InlineStyle where
@@ -602,6 +605,17 @@ styleSheet = do
 <li><a href="https://github.com/nsaunders/purescript-tecton/tree/master/test/AnimationsSpec.purs">Animations spec</a></li>
 <li><a href="https://www.w3.org/TR/css-animations-1/#animation-fill-mode">CSS Animations Level 1 (W3C)</a></li>
 </ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="calc-expressions"><a class="header" href="#calc-expressions">Calc expressions</a></h1>
+<p>Calc expressions allow you to perform calculations within CSS property values, supporting a wide range of use cases such as responsive design, grid systems, and fluid typography.</p>
+<p>Several calc operators are supported:</p>
+<ul>
+<li><code>@+@</code> adds two operands, e.g. <code>pct 90 @+@ px 16</code>.</li>
+<li><code>@-@</code> subtracts the second operand from the first, e.g. <code>pct 100 - px 32</code>.</li>
+<li><code>@*</code> multiplies the first operand by the second, e.g. <code>px 16 @* 2</code>.</li>
+<li><code>*@</code> multiplies the first operand by the second, e.g. <code>2 *@ px 16</code>.</li>
+<li><code>@/</code> divides the first operand by the second, e.g. <code>pct 100 @/ 6</code>.</li>
+</ul>
+<p>Notice that each operator includes one or more <code>@</code> symbols. An operand that is adjacent to this symbol is a <a href="overview/./values.html#the-measure-type"><code>Measure</code></a> value; otherwise, it is a number or integer.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rendering"><a class="header" href="#rendering">Rendering</a></h1>
 <p>Just as PureScript code must be compiled to JavaScript to run in the web browser, CSS rules written using Tecton must be rendered to plain CSS strings. Tecton provides two rendering functions depending on your use case, as well as options for pretty-printing or compact output.</p>
 <h2 id="inline-styles"><a class="header" href="#inline-styles">Inline styles</a></h2>

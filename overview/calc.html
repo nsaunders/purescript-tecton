@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Rendering - Tecton Guide</title>
+        <title>Calc expressions - Tecton Guide</title>
                 
 
         <!-- Custom HTML head -->
@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Getting started</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Overview</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../overview/values.html"><strong aria-hidden="true">2.1.</strong> Values</a></li><li class="chapter-item expanded "><a href="../overview/declarations.html"><strong aria-hidden="true">2.2.</strong> Declarations</a></li><li class="chapter-item expanded "><a href="../overview/selectors.html"><strong aria-hidden="true">2.3.</strong> Selectors</a></li><li class="chapter-item expanded "><a href="../overview/animations.html"><strong aria-hidden="true">2.4.</strong> Animations</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.5.</strong> Font resources</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.6.</strong> Media queries</div></li><li class="chapter-item expanded "><a href="../overview/calc.html"><strong aria-hidden="true">2.7.</strong> Calc expressions</a></li><li class="chapter-item expanded "><a href="../overview/rendering.html" class="active"><strong aria-hidden="true">2.8.</strong> Rendering</a></li></ol></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Getting started</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Overview</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../overview/values.html"><strong aria-hidden="true">2.1.</strong> Values</a></li><li class="chapter-item expanded "><a href="../overview/declarations.html"><strong aria-hidden="true">2.2.</strong> Declarations</a></li><li class="chapter-item expanded "><a href="../overview/selectors.html"><strong aria-hidden="true">2.3.</strong> Selectors</a></li><li class="chapter-item expanded "><a href="../overview/animations.html"><strong aria-hidden="true">2.4.</strong> Animations</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.5.</strong> Font resources</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.6.</strong> Media queries</div></li><li class="chapter-item expanded "><a href="../overview/calc.html" class="active"><strong aria-hidden="true">2.7.</strong> Calc expressions</a></li><li class="chapter-item expanded "><a href="../overview/rendering.html"><strong aria-hidden="true">2.8.</strong> Rendering</a></li></ol></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -146,98 +146,29 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="rendering"><a class="header" href="#rendering">Rendering</a></h1>
-<p>Just as PureScript code must be compiled to JavaScript to run in the web browser, CSS rules written using Tecton must be rendered to plain CSS strings. Tecton provides two rendering functions depending on your use case, as well as options for pretty-printing or compact output.</p>
-<h2 id="inline-styles"><a class="header" href="#inline-styles">Inline styles</a></h2>
-<p>To render a group of <a href="./declarations.html">declarations</a>, use the <code>renderInline</code> function. As the name suggests, the output is appropriate for inline styles, i.e. for use in the <code>style</code> attribute of an HTML element. For example:</p>
-<pre><code class="language-haskell">module Example where
-
-import Prelude (Unit, ($), (&lt;&gt;))
-import Effect (Effect)
-import TryPureScript (render) as TryPureScript
-import Unsafe.Coerce (unsafeCoerce)
-
-import Color (rgb)
-import Tecton
-import Tecton.Rule as Rule
-
-renderedInlineStyle :: String
-renderedInlineStyle =
-  renderInline Rule.do
-    width := px 400
-    height := px 200
-    backgroundColor := rgb 0 5 56
-    color := rgb 232 199 148
-    display := flex
-    alignItems := center
-    justifyContent := center
-    fontFamily := sansSerif
-    fontSize := px 32
-    fontWeight := 700
-
-main :: Effect Unit
-main =
-  TryPureScript.render
-    $ unsafeCoerce
-    $ &quot;&lt;div style=\&quot;&quot; &lt;&gt; renderedInlineStyle &lt;&gt; &quot;\&quot;&gt;Hello world!&lt;/div&gt;&quot;
-</code></pre>
-<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdZwO4AsYBOMAUMQJYYgEAucACkVBGPABQCqAdmdQDRysAJAEp+rADwA+YcPKUaiAGaKYAY1qsEytdVkV0VWgBUCATzoQiAZVUEy6DUU4sCwuCgDOcE+cswbdg5yBgpcHigqAHQAwiCEqmwQnOEqsfEwssGGcLFQVAIEAOYARnryxjognFkKRpWckQBK0PCecM2wpE4uMGAAkpxQZJz+1KZYAFwTcFbUdpyFxN2EvQNDI7Pj8AC8xHBwywRrw-AdMJFgIHv7OGRg1LhwE9tw6EhwACwADF-X+-hkQq4WjPV7vABMPz+cGKKFUAGtCgQQEkwLl8qCisU4F84ABWfEANmhqhAeQITxeWLg4IAzOC4ABGACczKZHwAHNCwGQPJgUKZKXBFLAkNCUENCpw+tQYMAvKCEpxZQRoQArCAeahkRSmWLKmDKoVKlXQxRVagAMTQZCggtB4WSVkIOrNFqsZAAXvBQW84PS3cqAOowQHAoUAdihxGAKGGT2mWhU6jgXB4MbjnDgu32Pgs1ls9mokUO0MEcCSKRgaQICTLcAAROIeQA3OBarbbAA6DYbcCkB0NPX6gxOmywA4bPckAAkYFA8jgqFAwABCcQAelbkgbQA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
-<h2 id="style-sheets"><a class="header" href="#style-sheets">Style sheets</a></h2>
-<p>For a style sheet, which contains statements (e.g. <a href="./selectors.html">selectors</a> and at-rules) instead of &quot;top-level&quot; declarations, use the <code>renderSheet</code> function. This function accepts a <em>configuration</em> argument followed by the CSS parameter. For configuration, choose between the following options:</p>
-<ol>
-<li><code>pretty</code> prints the CSS output in a human-readable format.</li>
-<li><code>compact</code> optimizes the output for performance, for example removing unnecessary whitespace and using short hex strings for colors.</li>
-</ol>
-<p>The following example demonstrates how to render a style sheet with each configuration. Open it in Try PureScript to compare the output.</p>
-<pre><code class="language-haskell">module Example where
-
-import Prelude (Unit, ($), (&lt;&gt;))
-import Effect (Effect)
-import TryPureScript (render) as TryPureScript
-import Unsafe.Coerce (unsafeCoerce)
-
-import Color (rgb)
-import Tecton
-import Tecton.Rule as Rule
-
-containerClass = ClassName &quot;container&quot; :: ClassName
-
-css :: CSS
-css =
-  universal &amp;. containerClass ? Rule.do
-    width := px 400
-    height := px 200
-    backgroundColor := rgb 0 5 56
-    color := rgb 232 199 148
-    display := flex
-    alignItems := center
-    justifyContent := center
-    fontFamily := sansSerif
-    fontSize := px 32
-    fontWeight := 700
-
-main :: Effect Unit
-main =
-  TryPureScript.render
-    $ unsafeCoerce
-    $ &quot;&lt;style&gt;&quot; &lt;&gt; renderSheet compact css &lt;&gt; &quot;&lt;/style&gt;&quot; &lt;&gt;
-      &quot;&lt;div class=\&quot;&quot; &lt;&gt; (\(ClassName c) -&gt; c) containerClass &lt;&gt; &quot;\&quot;&gt;Hello world!&lt;/div&gt;&quot; &lt;&gt;
-      &quot;&lt;pre&gt;&lt;code&gt;\npretty:\n\n&quot; &lt;&gt;
-      renderSheet pretty css &lt;&gt;
-      &quot;\n\ncompact:\n&quot; &lt;&gt;
-      renderSheet compact css &lt;&gt;
-      &quot;&lt;/pre&gt;&lt;/code&gt;&quot;
-</code></pre>
-<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdZwO4AsYBOMAUMQJYYgEAucACkVBGPABQCqAdmdQDRysAJAEp+rADwA+YcPKUaiAGaKYAY1qsEytdVkV0VWgBUCATzoQiAZVUEy6DUU4sCwuCgDOcE+cswbdg5yBgpcHigqAHQAwiCEqmwQnOEqsfEwssGGcLFQVAIEAOYARnryxjognFkKRpWckQBK0PCecM2wpKpV1ChknITRUJ5eALw5wx4eAHJo8ABE3Zy9-YTzcABcGxMjs8AkxKpTm9vRVlaHx6PEcHBJZABuhOFQcABkkXBLKwMEQyNwAD87RakTAIButxwZDA1Fwm3G6CQcAALAAGNGQ274MiFXC0DaI5EAJgxWLgxRQqgA1oUCCAkmBcvlCXAisU4Gi4ABWHkANnJ3TyBARbJKcGJAGZiXAAIwATnlcpRAA5yWAyB5MChTKLFLAkOSUFBcZwAJLUGDALyshLLQjkgBWEA81DIilMsXty1FdstBHJih6ADE0GQoLrWeFklZCO7Az0rGQAF7wVlIuDShPLADqMFx+NFAHYycRgH1OCclCp1HAuDwyxW4Ndbj4LNZbPZqJEnC5yYI7skIjA0gQEv24PNxK7TLBJOspGyYM5CFZ8DBaN0MFTN8dF1OAPQzucLyTk25TjUPL6TDyjAA681PAnvrH+Uz28FUbgAtJIvm43wVoMt5wPuj6SAAEjAUB5DgVBQGAACE4gHle85gWeUJQlO6BEJI4jdCwkj3pweEbtQpgbKRpGnueS4rgQa4wBucDkdQlFfHuWHYZONGcFu6A7tRnB0bxDEuMxrGCTuXFeFI9GHuRBEHkRMDzkAA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
+                        <h1 id="calc-expressions"><a class="header" href="#calc-expressions">Calc expressions</a></h1>
+<p>Calc expressions allow you to perform calculations within CSS property values, supporting a wide range of use cases such as responsive design, grid systems, and fluid typography.</p>
+<p>Several calc operators are supported:</p>
+<ul>
+<li><code>@+@</code> adds two operands, e.g. <code>pct 90 @+@ px 16</code>.</li>
+<li><code>@-@</code> subtracts the second operand from the first, e.g. <code>pct 100 - px 32</code>.</li>
+<li><code>@*</code> multiplies the first operand by the second, e.g. <code>px 16 @* 2</code>.</li>
+<li><code>*@</code> multiplies the first operand by the second, e.g. <code>2 *@ px 16</code>.</li>
+<li><code>@/</code> divides the first operand by the second, e.g. <code>pct 100 @/ 6</code>.</li>
+</ul>
+<p>Notice that each operator includes one or more <code>@</code> symbols. An operand that is adjacent to this symbol is a <a href="./values.html#the-measure-type"><code>Measure</code></a> value; otherwise, it is a number or integer.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                                                    <a rel="prev" href="../overview/calc.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                                    <a rel="prev" href="../overview/animations.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
+                                                    <a rel="next" href="../overview/rendering.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
                         
                         <div style="clear: both"></div>
                     </nav>
@@ -245,10 +176,13 @@ main =
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                                    <a rel="prev" href="../overview/calc.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                    <a rel="prev" href="../overview/animations.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
+                                    <a rel="next" href="../overview/rendering.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
                             </nav>
 
         </div>
