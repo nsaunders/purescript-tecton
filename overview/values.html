@@ -146,9 +146,32 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="basic-values"><a class="header" href="#basic-values">Basic values</a></h1>
+                        <h1 id="values-and-units"><a class="header" href="#values-and-units">Values and units</a></h1>
+<h2 id="css-wide-keywords"><a class="header" href="#css-wide-keywords">CSS-wide keywords</a></h2>
+<p>A few keywords can be used for any CSS property. In Tecton, these are</p>
+<ul>
+<li><code>initial</code>, which resets the property to its default value defined in the CSS specification;</li>
+<li><code>inherit</code>, which uses the property value inherited from the parent element; and</li>
+<li><code>unset</code>, which either inherits the value of an inheritable property or reverts to the initial value.</li>
+</ul>
+<p>Notice how <code>inherit</code>, for example, can be assigned to any property:</p>
+<pre><code class="language-haskell">module Example.InlineStyle where
+
+import Tecton
+import Tecton.Rule as Rule
+
+inlineStyle :: Declarations _
+inlineStyle = Rule.do
+  backgroundColor := inherit
+  color := inherit
+  fontSize := inherit
+  margin := inherit
+  outlineStyle := inherit
+  cursor := inherit
+</code></pre>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhwjrEDwy-UdKvCwAJWh4MLhm2HZiIhIKangALgG4ABFTKBQmFHJCKvCAfQ4CYjIqGgBedpasMBBWODgAIxQTAGsAcyYQPLBMqG44Ac3iRm94g5MQe6ZH57xX6T7OAGKrkUiEABegz+APecGAk3OxF+cBezEBB2u5B6q36KLRbyBJncoQeT1R-3R8VYCORQ0MxjMcEkgNpeDg6yBkTcHliviw-kCQIOCjgeQKMCKTBywrgorgACI1OgWBo1J8RBoFXBNHBBcx8DiKTi+jRdUqAPQamBqi0qm0KoA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
 <h2 id="the-measure-type"><a class="header" href="#the-measure-type">The <code>Measure</code> type</a></h2>
-<p>TODO</p>
+<p>The <code>Measure</code> type provides a common interface for many types of values, such as lengths, angles, and durations, allowing them to be calculated and/or combined via <a href="./calc.html">calc expressions</a>. It is a <a href="https://jordanmartinez.github.io/purescript-jordans-reference-site/content/31-Design-Patterns/03-Phantom-Types/01-What-Are-Phantom-Types.html">phantom type</a>, meaning that each value is tagged as a <code>Length</code>, <code>Percentage</code>, <code>Time</code>, etc. This tag ensures that incompatible values can't be combined (such as a <code>Measure Time</code> with a <code>Measure Length</code>). It also prevents the wrong kind of value from being assigned to a given property, e.g. a percentage value to a property that only supports a length.</p>
 
                     </main>
 
