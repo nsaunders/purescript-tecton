@@ -237,6 +237,12 @@ inlineStyle = padding := nil ~ pct 10 ~ px 20 ~ em 5
 <tr><td><code>Nil</code></td><td><code>nil</code></td></tr>
 </tbody></table>
 <p>In some cases, measures of different types can be used interchangeably. For example, <code>nil</code> produces a value that can be used as a length, percentage, angle, or time. Similarly, values of type <code>Measure Length</code> or <code>Measure Percentage</code> can be used wherever a <code>Measure LengthPercentage</code> is expected (although the opposite is not true).</p>
+<h2 id="colors"><a class="header" href="#colors">Colors</a></h2>
+<p>Tecton is compatible with the <a href="https://pursuit.purescript.org/packages/purescript-colors/7.0.1/docs/Color#t:Color"><code>Color</code> type from the <em>colors</em> package</a>, along with the following CSS-specific color keywords:</p>
+<ul>
+<li><code>transparent</code></li>
+<li><code>currentColor</code></li>
+</ul>
 <h2 id="css-wide-keywords"><a class="header" href="#css-wide-keywords">CSS-wide keywords</a></h2>
 <p>A few global keywords can be assigned to any property. In Tecton, these are</p>
 <ul>
