@@ -2,9 +2,9 @@
 
 - [Getting started](./README.md)
 - [Overview]()
+  - [Values](./overview/values.md)
   - [Declarations](./overview/declarations.md)
   - [Selectors](./overview/selectors.md)
-  - [Values](./overview/values.md)
   - [Animations](./overview/animations.md)
   - [Font resources]()
   - [Media queries]()

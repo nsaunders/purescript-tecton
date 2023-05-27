@@ -9,7 +9,7 @@ Several calc operators are supported:
 * `*@` multiplies the first operand by the second, e.g. `2 *@ px 16`.
 * `@/` divides the first operand by the second, e.g. `pct 100 @/ 6`.
 
-Notice that each operator includes one or more `@` symbols. An operand that is adjacent to this symbol is a [`Measure`](./values.md#the-measure-type) value; otherwise, it is a number or integer.
+Notice that each operator includes one or more `@` symbols. An operand that is adjacent to this symbol is a [measure](./values.md#measures); otherwise, it is a number or integer.
 
 Here is an example of how the `@-@` and `@*` operators can be used to make a `div` element span the width of the viewport, but leaving a 32-pixel "margin" on each side:
 
