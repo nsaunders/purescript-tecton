@@ -54,6 +54,12 @@ You can construct a measure by applying the appropriate function (named for the 
 
 In some cases, measures of different types can be used interchangeably. For example, `nil` produces a value that can be used as a length, percentage, angle, or time. Similarly, values of type `Measure Length` or `Measure Percentage` can be used wherever a `Measure LengthPercentage` is expected (although the opposite is not true).
 
+## Colors
+
+Tecton is compatible with the [`Color` type from the _colors_ package](https://pursuit.purescript.org/packages/purescript-colors/7.0.1/docs/Color#t:Color), along with the following CSS-specific color keywords:
+* `transparent`
+* `currentColor`
+
 ## CSS-wide keywords
 
 A few global keywords can be assigned to any property. In Tecton, these are
