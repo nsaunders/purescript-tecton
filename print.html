@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Getting started</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Overview</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="overview/declarations.html"><strong aria-hidden="true">2.1.</strong> Declarations</a></li><li class="chapter-item expanded "><a href="overview/selectors.html"><strong aria-hidden="true">2.2.</strong> Selectors</a></li><li class="chapter-item expanded "><a href="overview/values.html"><strong aria-hidden="true">2.3.</strong> Values</a></li><li class="chapter-item expanded "><a href="overview/animations.html"><strong aria-hidden="true">2.4.</strong> Animations</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.5.</strong> Font resources</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.6.</strong> Media queries</div></li><li class="chapter-item expanded "><a href="overview/calc.html"><strong aria-hidden="true">2.7.</strong> Calc expressions</a></li><li class="chapter-item expanded "><a href="overview/rendering.html"><strong aria-hidden="true">2.8.</strong> Rendering</a></li></ol></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Getting started</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Overview</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="overview/values.html"><strong aria-hidden="true">2.1.</strong> Values</a></li><li class="chapter-item expanded "><a href="overview/declarations.html"><strong aria-hidden="true">2.2.</strong> Declarations</a></li><li class="chapter-item expanded "><a href="overview/selectors.html"><strong aria-hidden="true">2.3.</strong> Selectors</a></li><li class="chapter-item expanded "><a href="overview/animations.html"><strong aria-hidden="true">2.4.</strong> Animations</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.5.</strong> Font resources</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.6.</strong> Media queries</div></li><li class="chapter-item expanded "><a href="overview/calc.html"><strong aria-hidden="true">2.7.</strong> Calc expressions</a></li><li class="chapter-item expanded "><a href="overview/rendering.html"><strong aria-hidden="true">2.8.</strong> Rendering</a></li></ol></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -198,6 +198,67 @@ styleSheet = do
 <p>If you get stuck, help is available in the <a href="https://purescript.org/chat">PureScript Discord</a> chat or on the <a href="https://discourse.purescript.org/">PureScript Discourse</a> forum.</p>
 <h2 id="contributing"><a class="header" href="#contributing">Contributing</a></h2>
 <p>Contributions are welcome. Please see the <a href="https://github.com/nsaunders/purescript-tecton/blob/master/CONTRIBUTING.md">Contributing guide</a> for more information.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="values"><a class="header" href="#values">Values</a></h1>
+<h2 id="lists"><a class="header" href="#lists">Lists</a></h2>
+<p>Lists can be found throughout CSS, notably in <a href="overview/./selectors.html">selectors</a> and many properties such as <code>transitionProperty</code> (which accepts a list of properties to animate). Because they are often overloaded with different types of values, Tecton uses a list syntax based on <a href="https://pursuit.purescript.org/packages/purescript-tuples/4.0.0/docs/Data.Tuple.Nested#v:(/%5C)">nested tuples</a> that supports heterogeneous data. Here is how the syntax looks:</p>
+<pre><code class="language-haskell">module Example.StyleSheet where
+
+import Data.Tuple.Nested ((/\))
+import Tecton
+import Tecton.Rule as Rule
+
+styleSheet :: CSS
+styleSheet = do
+  a /\ button /\ summary ? Rule.do
+    transitionProperty := color /\ backgroundColor
+    transitionDuration := ms 150 /\ ms 75
+</code></pre>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgAERQ8FCxXCEwYLAA5GFk8GDA4AQEAegAdAyqTV3sQEXG3KZEsACVoeEi4ZdgmbqJ4sgo4AC4DuCycHAZt4j3KAF5pEAY4CLgRuAAjCDw8aZfhuFkIMBgEoCHAAPzrFZYMAPJ5PPC0FDFcTMabcEDoPKEQ53eQgKDsX7vFDyADWAHNaCAimAcgTaI84QikbIUdMat56qiRDi4MAogBGACsAAYify4AB2IVMYHMHlHMwWKxwUTiBhynk3RkxLw+PwBPBYYKhRlPNRwIolGBlfKMOFwC1wABE2nQ9F02jx-F0zrgejgJrypHIlHdFGxl12of9uhd2kG3pgnsG4d9QA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
+<h2 id="multipart-values"><a class="header" href="#multipart-values">Multipart values</a></h2>
+<p>With tuples reserved for <a href="overview/values.html#lists">lists</a>, Tecton uses its own <code>Pair</code> type, constructed via the <code>~</code> operator, to represent multipart values that would typically be separated by spaces in vanilla CSS. Examples of this can be found in shorthand syntax, multiple-keyword values (as in <a href="https://github.com/nsaunders/purescript-tecton/search?q=path%3Atest+alignSelf+first+baseline"><code>alignSelf</code></a>), and two-part X/Y values (as in <a href="https://github.com/nsaunders/purescript-tecton/search?q=path%3Atest+backgroundSize+pct+px"><code>backgroundSize</code></a>).</p>
+<p>A common example of this is setting a padding value for each of an element's four sides using a single declaration:</p>
+<pre><code class="language-haskell">module Example.InlineStyle where
+
+import Tecton
+
+inlineStyle :: Declarations _
+inlineStyle = padding := nil ~ pct 10 ~ px 20 ~ em 5
+</code></pre>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhwjrEDx2YiISCmp4AC4muAARUygUJhRyQirwgH0OAmIyKhoAXjh0FDAwYgBzOCbpqSg4AD8ZszgARgAGLZmkOAAmI+2YYDgAVnZgFGIV1stjXclpVkfnydY4CIuNweWK+LD+QL-AFwBRwPIFGBFJg5KEA2FwABEanQLA0ahM4BgGgxcE0cAhzHwdXgtTGDRoZKxAHoCSI8UycUSMUA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
+<h2 id="measures"><a class="header" href="#measures">Measures</a></h2>
+<p>The <code>Measure</code> type provides a common interface for many types of values, such as lengths, angles, and durations, allowing them to be calculated and/or combined via <a href="overview/./calc.html">calc expressions</a>. It is a <a href="https://jordanmartinez.github.io/purescript-jordans-reference-site/content/31-Design-Patterns/03-Phantom-Types/01-What-Are-Phantom-Types.html">phantom type</a>, meaning that each value is tagged as a <code>Length</code>, <code>Percentage</code>, <code>Time</code>, etc. This tag ensures that incompatible values can't be combined (such as a <code>Measure Time</code> with a <code>Measure Length</code>). It also prevents the wrong kind of value from being assigned to a given property, e.g. a percentage value to a property that only supports a length.</p>
+<p>You can construct a measure by applying the appropriate function (named for the corresponding CSS unit), followed by a number or integer, e.g. <code>px 100</code> (rendered as <code>100px</code>). The following table lists the various types of measures along with the functions that can be used to construct their values.</p>
+<table><thead><tr><th>Measure type</th><th>Constructors</th></tr></thead><tbody>
+<tr><td><code>Length</code></td><td><code>ch</code>, <code>em</code>, <code>ex</code>, <code>rem</code>, <code>vh</code>, <code>vw</code>, <code>vmin</code>, <code>vmax</code>, <code>px</code>, <code>cm</code>, <code>mm</code>, <code>pc</code>, <code>pt</code>, <code>inch</code></td></tr>
+<tr><td><code>Percentage</code></td><td><code>pct</code></td></tr>
+<tr><td><code>Angle</code></td><td><code>deg</code>, <code>rad</code>, <code>turn</code></td></tr>
+<tr><td><code>Time</code></td><td><code>ms</code>, <code>sec</code></td></tr>
+<tr><td><code>LengthPercentage</code></td><td>via <a href="overview/./calc.html">calc expressions</a></td></tr>
+<tr><td><code>Nil</code></td><td><code>nil</code></td></tr>
+</tbody></table>
+<p>In some cases, measures of different types can be used interchangeably. For example, <code>nil</code> produces a value that can be used as a length, percentage, angle, or time. Similarly, values of type <code>Measure Length</code> or <code>Measure Percentage</code> can be used wherever a <code>Measure LengthPercentage</code> is expected (although the opposite is not true).</p>
+<h2 id="css-wide-keywords"><a class="header" href="#css-wide-keywords">CSS-wide keywords</a></h2>
+<p>A few global keywords can be assigned to any property. In Tecton, these are</p>
+<ul>
+<li><code>initial</code>, which resets the property to its default value defined in the CSS specification;</li>
+<li><code>inherit</code>, which uses the property value inherited from the parent element; and</li>
+<li><code>unset</code>, which either inherits the value of an inheritable property or reverts to the initial value.</li>
+</ul>
+<p>Notice how <code>inherit</code>, for example, is compatible with each property:</p>
+<pre><code class="language-haskell">module Example.InlineStyle where
+
+import Tecton
+import Tecton.Rule as Rule
+
+inlineStyle :: Declarations _
+inlineStyle = Rule.do
+  backgroundColor := inherit
+  color := inherit
+  fontSize := inherit
+  margin := inherit
+  outlineStyle := inherit
+</code></pre>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhwjrEDwy-UdKvCwAJWh4MLhm2HZiIhIKangALgG4ABFTKBQmFHJCKvCAfQ4CYjIqGgBedpasMBBWODgAIxQTAGsAcyYQPLBMqG44Ac3iRm94g5MQe6ZH57xX6T7OAGKrkUiEABegz+APecGAk3OxF+cBezEBB2u5B6q36KLRb3YCORQ0MxjMcEkgOJeDg6yBkTcHliviw-kCQIOCjgeQKMCKTBynLg3LgACI1OgWBo1J8RBoxXBNHB2cx8DjUctemt4MqJQB6OUwGX6qXGsVAA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="declarations"><a class="header" href="#declarations">Declarations</a></h1>
 <p>The smallest building block of style sheets and inline styles alike is a declaration. A declaration consists of two parts: a property and a value. The property describes the aspect of the element you want to style, such as its font or color, and the value specifies what you want the property to be. Tecton uses the <code>:=</code> operator to set the property on the left-hand side to the value on the right. For example, here is how to set the color of the text content within an HTML element to black:</p>
 <pre><code class="language-haskell">module Example.InlineStyle where
@@ -518,46 +579,6 @@ styleSheet = do
 <li><a href="https://github.com/nsaunders/purescript-tecton/tree/master/test/SelectorsSpec.purs">Selectors spec</a></li>
 <li><a href="https://www.w3.org/TR/selectors-4/">Selectors Level 4 (W3C)</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="values"><a class="header" href="#values">Values</a></h1>
-<h2 id="css-wide-keywords"><a class="header" href="#css-wide-keywords">CSS-wide keywords</a></h2>
-<p>A few global keywords can be assigned to any property. In Tecton, these are</p>
-<ul>
-<li><code>initial</code>, which resets the property to its default value defined in the CSS specification;</li>
-<li><code>inherit</code>, which uses the property value inherited from the parent element; and</li>
-<li><code>unset</code>, which either inherits the value of an inheritable property or reverts to the initial value.</li>
-</ul>
-<p>Notice how <code>inherit</code>, for example, is compatible with each property:</p>
-<pre><code class="language-haskell">module Example.InlineStyle where
-
-import Tecton
-import Tecton.Rule as Rule
-
-inlineStyle :: Declarations _
-inlineStyle = Rule.do
-  backgroundColor := inherit
-  color := inherit
-  fontSize := inherit
-  margin := inherit
-  outlineStyle := inherit
-</code></pre>
-<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhwjrEDwy-UdKvCwAJWh4MLhm2HZiIhIKangALgG4ABFTKBQmFHJCKvCAfQ4CYjIqGgBedpasMBBWODgAIxQTAGsAcyYQPLBMqG44Ac3iRm94g5MQe6ZH57xX6T7OAGKrkUiEABegz+APecGAk3OxF+cBezEBB2u5B6q36KLRb3YCORQ0MxjMcEkgOJeDg6yBkTcHliviw-kCQIOCjgeQKMCKTBynLg3LgACI1OgWBo1J8RBoxXBNHB2cx8DjUctemt4MqJQB6OUwGX6qXGsVAA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
-<h2 id="lists"><a class="header" href="#lists">Lists</a></h2>
-<p>Lists can be found throughout CSS, notably in <a href="overview/./selectors.html">selectors</a> and many properties such as <code>transitionProperty</code> (which accepts a list of properties to animate). Because they are often overloaded with different types of data, Tecton uses a list syntax based on <a href="https://pursuit.purescript.org/packages/purescript-tuples/4.0.0/docs/Data.Tuple.Nested#v:(/%5C)">nested tuples</a> that supports heterogeneous data. Here is how the syntax looks:</p>
-<pre><code class="language-haskell">module Example.StyleSheet where
-
-import Data.Tuple.Nested ((/\))
-import Tecton
-import Tecton.Rule as Rule
-
-styleSheet :: CSS
-styleSheet = do
-  a /\ button /\ summary ? Rule.do
-    transitionProperty := color /\ backgroundColor
-    transitionDuration := ms 150 /\ ms 75
-</code></pre>
-<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgAERQ8FCxXCEwYLAA5GFk8GDA4AQEAegAdAyqTV3sQEXG3KZEsACVoeEi4ZdgmbqJ4sgo4AC4DuCycHAZt4j3KAF5pEAY4CLgRuAAjCDw8aZfhuFkIMBgEoCHAAPzrFZYMAPJ5PPC0FDFcTMabcEDoPKEQ53eQgKDsX7vFDyADWAHNaCAimAcgTaI84QikbIUdMat56qiRDi4MAogBGACsAAYify4AB2IVMYHMHlHMwWKxwUTiBhynk3RkxLw+PwBPBYYKhRlPNRwIolGBlfKMOFwC1wABE2nQ9F02jx-F0zrgejgJrypHIlHdFGxl12of9uhd2kG3pgnsG4d9QA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
-<h2 id="the-measure-type"><a class="header" href="#the-measure-type">The <code>Measure</code> type</a></h2>
-<p>The <code>Measure</code> type provides a common interface for many types of values, such as lengths, angles, and durations, allowing them to be calculated and/or combined via <a href="overview/./calc.html">calc expressions</a>. It is a <a href="https://jordanmartinez.github.io/purescript-jordans-reference-site/content/31-Design-Patterns/03-Phantom-Types/01-What-Are-Phantom-Types.html">phantom type</a>, meaning that each value is tagged as a <code>Length</code>, <code>Percentage</code>, <code>Time</code>, etc. This tag ensures that incompatible values can't be combined (such as a <code>Measure Time</code> with a <code>Measure Length</code>). It also prevents the wrong kind of value from being assigned to a given property, e.g. a percentage value to a property that only supports a length.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="animations"><a class="header" href="#animations">Animations</a></h1>
 <p>CSS animations are a powerful tool for adding motion and interactivity to a webpage. They allow you to animate various properties of HTML elements, such as position, size, color, and opacity.</p>
 <h2 id="defining-keyframes"><a class="header" href="#defining-keyframes">Defining keyframes</a></h2>
@@ -652,7 +673,7 @@ styleSheet = do
 <li><code>*@</code> multiplies the first operand by the second, e.g. <code>2 *@ px 16</code>.</li>
 <li><code>@/</code> divides the first operand by the second, e.g. <code>pct 100 @/ 6</code>.</li>
 </ul>
-<p>Notice that each operator includes one or more <code>@</code> symbols. An operand that is adjacent to this symbol is a <a href="overview/./values.html#the-measure-type"><code>Measure</code></a> value; otherwise, it is a number or integer.</p>
+<p>Notice that each operator includes one or more <code>@</code> symbols. An operand that is adjacent to this symbol is a <a href="overview/./values.html#measures">measure</a>; otherwise, it is a number or integer.</p>
 <p>Here is an example of how the <code>@-@</code> and <code>@*</code> operators can be used to make a <code>div</code> element span the width of the viewport, but leaving a 32-pixel &quot;margin&quot; on each side:</p>
 <pre><code class="language-haskell">module Example.StyleSheet where
 
