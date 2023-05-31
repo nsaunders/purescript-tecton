@@ -60,6 +60,83 @@ Tecton is compatible with the [`Color` type from the _colors_ package](https://p
 * `transparent`
 * `currentColor`
 
+## Positions
+
+Position values are used in background positioning, transforms, and gradients. A position consists of one of the following:
+
+* `center`
+* `top`
+* `right`
+* `bottom`
+* `left`
+* X/Y keyword positions, e.g. `left ~ top`
+* single length-percentage value, e.g. `px 25` or `pct 50`
+* X/Y length-percentage values, e.g. `pct 10 ~ px 25`
+
+## URLs
+
+URLs have several use cases in CSS, including images, fonts, and custom cursors. To construct a `URL` value, simply apply the `url` function to a URL string.
+
+## Images
+
+Images can be used for backgrounds, custom list markers, and more. An image consists of either a [`URL` value](#urls) or a [gradient](#gradients).
+
+### Gradients
+
+#### Linear gradients
+
+A linear gradient can be constructed using the `linearGradient` function, parameterized by an [angle](#measures) and a [color stop list](#color-stop-lists).
+
+For example, the following declaration creates a background image that transitions top to bottom from black to white:
+
+```haskell
+module Example.InlineStyle where
+
+import Color (black, white)
+import Data.Tuple.Nested ((/\))
+import Tecton
+
+inlineStyle :: Declarations _
+inlineStyle = backgroundImage := linearGradient (deg 180) (black /\ white)
+```
+
+[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhzhMqG55ACMoFBMAazkGaRKy-QARFHIULEcITBgsADkYUPIYMHlRAHoAHW0Op2sQPHZiIhIKangALj24TtN6ph7CNfCAfQ4CYjIqGgBeOBqGxoBzJhA8sBxgFAffYvLYwFBMADiZzAhBgeHMIg+cAAjAAOAAMwVEdXecAWdHobVKAOIcAOhmMZjgkmkrBJeDgT1YcAiLjcHliviw-kCzJZcAUcDyBRgRSYOT5LMFcAARGp0CwNGoTOAYBoZXBNHAecx8KC4Jt7jsaFq5bMVSIlbMFWqZUA)
+
+#### Radial gradients
+
+You can create a radial gradient using the `radialGradient` function.
+
+The first parameter accepts any of the following:
+* A shape and extent (e.g. `circle ~ closestSide` or `ellipse ~ farthestCorner`)
+* A length (e.g. `px 100`), representing a circle radius
+* A pair of length-percentage values, representing the horizontal and vertical radii of an ellipse
+
+The second parameter accepts the [position](#positions) of the center point of the gradient.
+
+The third parameter accepts a [color stop list](#color-stop-lists).
+
+#### Color stop lists
+
+A color stop [list](#lists) defines the colors and their respective positions within a gradient. Each color stop consists of a color and an optional length-percentage position, e.g. `rgb 255 0 0` or `black ~ pct 50`. A length-percentage transition hint may optionally be inserted between two color stops to set the midpoint in the color transition.
+
+The following gradient demonstrates all of these options:
+
+```haskell
+module Example.InlineStyle where
+
+import Color (rgb)
+import Data.Tuple.Nested ((/\))
+import Tecton
+
+inlineStyle :: Declarations _
+inlineStyle =
+  backgroundImage :=
+    linearGradient nil $
+      rgb 0 160 0 /\ rgb 0 100 0 ~ pct 75 /\ pct 80 /\ rgb 135 206 235
+```
+
+[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhzhMqG55JgBzACNbPV4AERRyFCxHCEwYLAA5GFDyGDB5UQB6AB1tMv1HaxA8dmIiEgpqeAAuLbgW0ygUJnbCJfCAfQ4CYjIqGgBeVjg4epQTAGtaphA8sBxgFC1baPZ7PNYwI4AcWOYEIMDwvCkUDgCieoOedXqcAADHAAIwANlxuOmcExOPx2OJcAAfnB0GY4AB2ACscFJDN4AA4SVMyQ18QBmNkAJmxBLgIuF7ABxDgO0MxkZkmkrFleDgIIiLjcHliviw-kCaOeCjgeQKMCKTByJpRzwARGp0CwNGoTOAYBoHXBNGT4YF8OC4KsbhsaH6nRMPSI3RMXV6HUA)
+
 ## CSS-wide keywords
 
 A few global keywords can be assigned to any property. In Tecton, these are
