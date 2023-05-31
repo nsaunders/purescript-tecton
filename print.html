@@ -243,6 +243,62 @@ inlineStyle = padding := nil ~ pct 10 ~ px 20 ~ em 5
 <li><code>transparent</code></li>
 <li><code>currentColor</code></li>
 </ul>
+<h2 id="positions"><a class="header" href="#positions">Positions</a></h2>
+<p>Position values are used in background positioning, transforms, and gradients. A position consists of one of the following:</p>
+<ul>
+<li><code>center</code></li>
+<li><code>top</code></li>
+<li><code>right</code></li>
+<li><code>bottom</code></li>
+<li><code>left</code></li>
+<li>X/Y keyword positions, e.g. <code>left ~ top</code></li>
+<li>single length-percentage value, e.g. <code>px 25</code> or <code>pct 50</code></li>
+<li>X/Y length-percentage values, e.g. <code>pct 10 ~ px 25</code></li>
+</ul>
+<h2 id="urls"><a class="header" href="#urls">URLs</a></h2>
+<p>URLs have several use cases in CSS, including images, fonts, and custom cursors. To construct a <code>URL</code> value, simply apply the <code>url</code> function to a URL string.</p>
+<h2 id="images"><a class="header" href="#images">Images</a></h2>
+<p>Images can be used for backgrounds, custom list markers, and more. An image consists of either a <a href="overview/values.html#urls"><code>URL</code> value</a> or a <a href="overview/values.html#gradients">gradient</a>.</p>
+<h3 id="gradients"><a class="header" href="#gradients">Gradients</a></h3>
+<h4 id="linear-gradients"><a class="header" href="#linear-gradients">Linear gradients</a></h4>
+<p>A linear gradient can be constructed using the <code>linearGradient</code> function, parameterized by an <a href="overview/values.html#measures">angle</a> and a <a href="overview/values.html#color-stop-lists">color stop list</a>.</p>
+<p>For example, the following declaration creates a background image that transitions top to bottom from black to white:</p>
+<pre><code class="language-haskell">module Example.InlineStyle where
+
+import Color (black, white)
+import Data.Tuple.Nested ((/\))
+import Tecton
+
+inlineStyle :: Declarations _
+inlineStyle = backgroundImage := linearGradient (deg 180) (black /\ white)
+</code></pre>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhzhMqG55ACMoFBMAazkGaRKy-QARFHIULEcITBgsADkYUPIYMHlRAHoAHW0Op2sQPHZiIhIKangALj24TtN6ph7CNfCAfQ4CYjIqGgBeOBqGxoBzJhA8sBxgFAffYvLYwFBMADiZzAhBgeHMIg+cAAjAAOAAMwVEdXecAWdHobVKAOIcAOhmMZjgkmkrBJeDgT1YcAiLjcHliviw-kCzJZcAUcDyBRgRSYOT5LMFcAARGp0CwNGoTOAYBoZXBNHAecx8KC4Jt7jsaFq5bMVSIlbMFWqZUA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
+<h4 id="radial-gradients"><a class="header" href="#radial-gradients">Radial gradients</a></h4>
+<p>You can create a radial gradient using the <code>radialGradient</code> function.</p>
+<p>The first parameter accepts any of the following:</p>
+<ul>
+<li>A shape and extent (e.g. <code>circle ~ closestSide</code> or <code>ellipse ~ farthestCorner</code>)</li>
+<li>A length (e.g. <code>px 100</code>), representing a circle radius</li>
+<li>A pair of length-percentage values, representing the horizontal and vertical radii of an ellipse</li>
+</ul>
+<p>The second parameter accepts the <a href="overview/values.html#positions">position</a> of the center point of the gradient.</p>
+<p>The third parameter accepts a <a href="overview/values.html#color-stop-lists">color stop list</a>.</p>
+<h4 id="color-stop-lists"><a class="header" href="#color-stop-lists">Color stop lists</a></h4>
+<p>A color stop <a href="overview/values.html#lists">list</a> defines the colors and their respective positions within a gradient. Each color stop consists of a color and an optional length-percentage position, e.g. <code>rgb 255 0 0</code> or <code>black ~ pct 50</code>. A length-percentage transition hint may optionally be inserted between two color stops to set the midpoint in the color transition.</p>
+<p>The following gradient demonstrates all of these options:</p>
+<pre><code class="language-haskell">module Example.InlineStyle where
+
+import Color (rgb)
+import Data.Tuple.Nested ((/\))
+import Tecton
+
+inlineStyle :: Declarations _
+inlineStyle =
+  backgroundImage :=
+    linearGradient nil $
+      rgb 0 160 0 /\ rgb 0 100 0 ~ pct 75 /\ pct 80 /\ rgb 135 206 235
+</code></pre>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhzhMqG55JgBzACNbPV4AERRyFCxHCEwYLAA5GFDyGDB5UQB6AB1tMv1HaxA8dmIiEgpqeAAuLbgW0ygUJnbCJfCAfQ4CYjIqGgBeVjg4epQTAGtaphA8sBxgFC1baPZ7PNYwI4AcWOYEIMDwvCkUDgCieoOedXqcAADHAAIwANlxuOmcExOPx2OJcAAfnB0GY4AB2ACscFJDN4AA4SVMyQ18QBmNkAJmxBLgIuF7ABxDgO0MxkZkmkrFleDgIIiLjcHliviw-kCaOeCjgeQKMCKTByJpRzwARGp0CwNGoTOAYBoHXBNGT4YF8OC4KsbhsaH6nRMPSI3RMXV6HUA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
 <h2 id="css-wide-keywords"><a class="header" href="#css-wide-keywords">CSS-wide keywords</a></h2>
 <p>A few global keywords can be assigned to any property. In Tecton, these are</p>
 <ul>
