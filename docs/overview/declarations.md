@@ -1,6 +1,6 @@
 # Declarations
 
-The smallest building block of style sheets and inline styles alike is a declaration. A declaration consists of two parts: a property and a value. The property describes the aspect of the element you want to style, such as its font or color, and the value specifies what you want the property to be. Tecton uses the `:=` operator to set the property on the left-hand side to the value on the right. For example, here is how to set the color of the text content within an HTML element to black:
+The main building block of style sheets and inline styles alike is a declaration. A declaration consists of two parts: a property and a value. The property describes the aspect of the element you want to style, such as its font or color, and the value specifies what you want the property to be. Tecton uses the `:=` operator to set the property on the left-hand side to the value on the right. For example, here is how to set the color of the text content within an HTML element to black:
 
 ```haskell
 module Example.InlineStyle where

@@ -2,7 +2,7 @@
 
 ## Lists
 
-Lists can be found throughout CSS, notably in [selectors](./selectors.md) and many properties such as `transitionProperty` (which accepts a list of properties to animate). Because they are often overloaded with different types of values, Tecton uses a list syntax based on [nested tuples](https://pursuit.purescript.org/packages/purescript-tuples/4.0.0/docs/Data.Tuple.Nested#v:(/\\)) that supports heterogeneous data. Here is how the syntax looks:
+Lists can be found throughout CSS, notably in [selectors](./selectors.md) and many properties such as [`transitionProperty`](./animations.md#transitions) (which accepts a list of properties to animate). Because they are often overloaded with different types of values, Tecton uses a list syntax based on [nested tuples](https://pursuit.purescript.org/packages/purescript-tuples/4.0.0/docs/Data.Tuple.Nested#v:(/\\)) that supports heterogeneous data. Here is how the syntax looks:
 
 ```haskell
 module Example.StyleSheet where
