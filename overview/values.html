@@ -247,6 +247,18 @@ inlineStyle =
       rgb 0 160 0 /\ rgb 0 100 0 ~ pct 75 /\ pct 80 /\ rgb 135 206 235
 </code></pre>
 <p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhzhMqG55JgBzACNbPV4AERRyFCxHCEwYLAA5GFDyGDB5UQB6AB1tMv1HaxA8dmIiEgpqeAAuLbgW0ygUJnbCJfCAfQ4CYjIqGgBeVjg4epQTAGtaphA8sBxgFC1baPZ7PNYwI4AcWOYEIMDwvCkUDgCieoOedXqcAADHAAIwANlxuOmcExOPx2OJcAAfnB0GY4AB2ACscFJDN4AA4SVMyQ18QBmNkAJmxBLgIuF7ABxDgO0MxkZkmkrFleDgIIiLjcHliviw-kCaOeCjgeQKMCKTByJpRzwARGp0CwNGoTOAYBoHXBNGT4YF8OC4KsbhsaH6nRMPSI3RMXV6HUA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
+<h4 id="repeating-gradients"><a class="header" href="#repeating-gradients">Repeating gradients</a></h4>
+<p>To create a repeating linear or radial gradient, simply apply the <code>repeating</code> function to the gradient, e.g.</p>
+<pre><code class="language-haskell">module Example.InlineStyle where
+
+import Color (black, white)
+import Data.Tuple.Nested ((/\))
+import Tecton
+
+inlineStyle :: Declarations _
+inlineStyle = backgroundImage := repeating $ linearGradient nil $ black /\ white
+</code></pre>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhzhMqG55ACMoFBMAazkGaRKy-QARFHIULEcITBgsADkYUPIYMHlRAHoAHW0Op2sQPHZiIhIKangALj24TtN6ph7CNfCAfQ4CYjIqGgBeOBqGxoBzJhA8sBxgFAffYvFjoGDnPAfOAKOBbcFMADiZzAhBgeF4Uig0Ne9SacAWdHobXYAOIcAOhmMZjgkmkrFJeDgT1YcAiLjcHliviw-kCLNZ2LyBRgRSYOX5rJhcAARGp0CwNGoTOAYBppXBNHBecx8HC4Jt7jsaJrZbNlSJFbN5arpUA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
 <h2 id="css-wide-keywords"><a class="header" href="#css-wide-keywords">CSS-wide keywords</a></h2>
 <p>A few global keywords can be assigned to any property. In Tecton, these are</p>
 <ul>
