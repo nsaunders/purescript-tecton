@@ -1759,6 +1759,77 @@
     },
     "timestamp": "2023-05-28T00:00:00Z",
     "clones": {
+      "uniques": 2,
+      "count": 2
+    }
+  },
+  {
+    "views": {
+      "uniques": 1,
+      "count": 2
+    },
+    "timestamp": "2023-05-29T00:00:00Z",
+    "clones": {
+      "uniques": 2,
+      "count": 2
+    }
+  },
+  {
+    "views": {
+      "uniques": 2,
+      "count": 41
+    },
+    "timestamp": "2023-05-30T00:00:00Z",
+    "clones": {
+      "uniques": 2,
+      "count": 3
+    }
+  },
+  {
+    "views": {
+      "uniques": 3,
+      "count": 32
+    },
+    "timestamp": "2023-05-31T00:00:00Z",
+    "clones": {
+      "uniques": 9,
+      "count": 10
+    }
+  },
+  {
+    "views": {
+      "uniques": 2,
+      "count": 3
+    },
+    "timestamp": "2023-06-01T00:00:00Z",
+    "clones": {
+      "uniques": 10,
+      "count": 13
+    }
+  },
+  {
+    "views": {
+      "uniques": 3,
+      "count": 37
+    },
+    "timestamp": "2023-06-02T00:00:00Z",
+    "clones": null
+  },
+  {
+    "views": {
+      "uniques": 1,
+      "count": 13
+    },
+    "timestamp": "2023-06-03T00:00:00Z",
+    "clones": null
+  },
+  {
+    "views": {
+      "uniques": 3,
+      "count": 13
+    },
+    "timestamp": "2023-06-04T00:00:00Z",
+    "clones": {
       "uniques": 1,
       "count": 1
     }
