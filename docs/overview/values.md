@@ -75,7 +75,18 @@ Position values are used in background positioning, transforms, and gradients. A
 
 ## URLs
 
-URLs have several use cases in CSS, including images, fonts, and custom cursors. To construct a `URL` value, simply apply the `url` function to a URL string.
+URLs have several use cases in CSS, including images, fonts, and custom cursors. To construct a `URL` value, simply apply the `url` function to a URL string, e.g.
+
+```haskell
+module Example.InlineStyle where
+
+import Tecton
+
+inlineStyle :: Declarations _
+inlineStyle = backgroundImage := url "./bg.gif"
+```
+
+[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhwjrEDx2YiISCmp4AC4muAARUygUJhRyQirwgH0OAmIyKhoAXjgAIxQTAGsAcyYQPLAcYBQl5un3KDgAIiwAehmlrCXCA0P2LeI4FsNjMzhJaVZ7vDhJ1jgIlxuDyxXxYfyBP7-OAKOB5AowIpMHKQ-4wo5qdAsDRqEzgGAaQ5wTRwcHMfB1eC1MYNGjEw5qE64kTYk6Y-GHIA)
 
 ## Images
 
