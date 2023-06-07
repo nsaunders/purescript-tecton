@@ -146,7 +146,24 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="values"><a class="header" href="#values">Values</a></h1>
+                        <h1 id="values-and-units"><a class="header" href="#values-and-units">Values and units</a></h1>
+<h2 id="component-values"><a class="header" href="#component-values">Component values</a></h2>
+<p>Component values include keywords and various data types. A property value usually consists of a single component. In many cases, however, you may combine multiple components to form a complete property value. In CSS, these would typically be separated by spaces. With Tecton, you can use the <code>~</code> operator to join them together. For example:</p>
+<pre><code class="language-haskell">module Example.InlineStyle where
+
+import Tecton
+import Tecton.Rule as Rule
+
+inlineStyle :: Declarations _
+inlineStyle = Rule.do
+
+  -- Setting top, x, and bottom padding in a single declaration
+  padding := px 4 ~ px 8 ~ px 16
+
+  -- Combining two keywords
+  alignSelf := safe ~ center
+</code></pre>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhwjrEDwy-UdKvCwAJWh4MLhm2HZiIhIKangALgG4ABFTKBQmFHJCKvCAfQ4CYjIqGgBedpasMBB2ODgAWkO4UhhyGbwAczhyEHQ5JDkUALgAIxALkGA4dBQwMDEG7EEJwUJAmgiEwTKYzKqsA5-AFAuADTboJBwAAscAAfr9MQAOPEEuAARgAbPsjidMsA3sQUeRaCA4ABrGCUFlMMChBEhIhXPBnKAGVGbArwfE5PDkZjsYAoEFDQzGMxwSTSViKkHrfmRNweWK+LD+QL8g4KOB5SVFJg5C1wK1wABEanQLA0ahM4BgGhdcE0cDNzHwPXg3RWfRoQbdAHofSIvXGPX6XUA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
 <h2 id="lists"><a class="header" href="#lists">Lists</a></h2>
 <p>Lists can be found throughout CSS, notably in <a href="./selectors.html">selectors</a> and many properties such as <a href="./animations.html#transitions"><code>transitionProperty</code></a> (which accepts a list of properties to animate). Because they are often overloaded with different types of values, Tecton uses a list syntax based on <a href="https://pursuit.purescript.org/packages/purescript-tuples/4.0.0/docs/Data.Tuple.Nested#v:(/%5C)">nested tuples</a> that supports heterogeneous data. Here is how the syntax looks:</p>
 <pre><code class="language-haskell">module Example.StyleSheet where
@@ -157,22 +174,17 @@ import Tecton.Rule as Rule
 
 styleSheet :: CSS
 styleSheet = do
+
+  -- A selector list matching multiple HTML element types
   a /\ button /\ summary ? Rule.do
+
+    -- A list of multiple properties to transition
     transitionProperty := color /\ backgroundColor
+
+    -- A list of transition durations corresponding to each property
     transitionDuration := ms 150 /\ ms 75
 </code></pre>
-<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgAERQ8FCxXCEwYLAA5GFk8GDA4AQEAegAdAyqTV3sQEXG3KZEsACVoeEi4ZdgmbqJ4sgo4AC4DuCycHAZt4j3KAF5pEAY4CLgRuAAjCDw8aZfhuFkIMBgEoCHAAPzrFZYMAPJ5PPC0FDFcTMabcEDoPKEQ53eQgKDsX7vFDyADWAHNaCAimAcgTaI84QikbIUdMat56qiRDi4MAogBGACsAAYify4AB2IVMYHMHlHMwWKxwUTiBhynk3RkxLw+PwBPBYYKhRlPNRwIolGBlfKMOFwC1wABE2nQ9F02jx-F0zrgejgJrypHIlHdFGxl12of9uhd2kG3pgnsG4d9QA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
-<h2 id="multipart-values"><a class="header" href="#multipart-values">Multipart values</a></h2>
-<p>With tuples reserved for <a href="#lists">lists</a>, Tecton uses its own <code>Pair</code> type, constructed via the <code>~</code> operator, to represent multipart values that would typically be separated by spaces in vanilla CSS. Examples of this can be found in shorthand syntax, multiple-keyword values (as in <a href="https://github.com/nsaunders/purescript-tecton/search?q=path%3Atest+alignSelf+first+baseline"><code>alignSelf</code></a>), and two-part X/Y values (as in <a href="https://github.com/nsaunders/purescript-tecton/search?q=path%3Atest+backgroundSize+pct+px"><code>backgroundSize</code></a>).</p>
-<p>A common example of this is setting a padding value for each of an element's four sides using a single declaration:</p>
-<pre><code class="language-haskell">module Example.InlineStyle where
-
-import Tecton
-
-inlineStyle :: Declarations _
-inlineStyle = padding := nil ~ pct 10 ~ px 20 ~ em 5
-</code></pre>
-<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhwjrEDx2YiISCmp4AC4muAARUygUJhRyQirwgH0OAmIyKhoAXjh0FDAwYgBzOCbpqSg4AD8ZszgARgAGLZmkOAAmI+2YYDgAVnZgFGIV1stjXclpVkfnydY4CIuNweWK+LD+QL-AFwBRwPIFGBFJg5KEA2FwABEanQLA0ahM4BgGgxcE0cAhzHwdXgtTGDRoZKxAHoCSI8UycUSMUA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgAERQ8FCxXCEwYLAA5GFk8GDA4AQEAegAdAyqTV3sQEXG3KZEsACVoeEi4ZdgmbqJ4sgo4AC4DuCycHAZt4j3KAF5pECY4OABaZ7gAQThZGFgrdjgoHJKMB6vISMwRABzODAaB4AKwOAACVcAFkADJwH4wYAwESUQjoLoMJ4oOAjOAAIwgeDw03Jwy+EGAII8cAA-OsVlgwA8SU8Xm9PoDunAQKYYXCEfB0LQQESOMwunA6SraChiuJmNN+U88OrNfDptx5XlCIc7vIQFB-hTKSh5ABrSFyopgHI22iPAWvD4AoFiiX6jWyLX0yDqo3FOBW2j0WTOEIQ6GqmAOkhwWWmjgEXVqkNhkQ1bz1bUiC0wqIARgArAAGBmVuAAdhrTBBEMOx1sFiscFE4gYHfLN35MS8Pj8ATwWGCoTzajgRRKMDK+UYArgi7gACJtLKYLptFb+Lod3A9HA53lSORKAfaQQvoQrneL7pd9pBifD1+D2egA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
 <h2 id="measures"><a class="header" href="#measures">Measures</a></h2>
 <p>The <code>Measure</code> type provides a common interface for many types of values, such as lengths, angles, and durations, allowing them to be calculated and/or combined via <a href="./calc.html">calc expressions</a>. It is a <a href="https://jordanmartinez.github.io/purescript-jordans-reference-site/content/31-Design-Patterns/03-Phantom-Types/01-What-Are-Phantom-Types.html">phantom type</a>, meaning that each value is tagged as a <code>Length</code>, <code>Percentage</code>, <code>Time</code>, etc. This tag ensures that incompatible values can't be combined (such as a <code>Measure Time</code> with a <code>Measure Length</code>). It also prevents the wrong kind of value from being assigned to a given property, e.g. a percentage value to a property that only supports a length.</p>
 <p>You can construct a measure by applying the appropriate function (named for the corresponding CSS unit), followed by a number or integer, e.g. <code>px 100</code> (rendered as <code>100px</code>). The following table lists the various types of measures along with the functions that can be used to construct their values.</p>
