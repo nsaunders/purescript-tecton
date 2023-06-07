@@ -26,6 +26,7 @@ jobs:
 
       - name: Pulp publish
         uses: nick-fields/retry@v2
-        timeout_seconds: 15
-        max_attempts: 3
-        command: npx pulp publish --no-push
+        with:
+          timeout_seconds: 15
+          max_attempts: 3
+          command: npx pulp publish --no-push
