@@ -22,7 +22,7 @@ jobs:
         run: npx bower install
 
       - name: Pulp login
-        run: echo "${{ secrets.GH_ACCESS_TOKEN }}" | pulp login
+        run: echo "${{ secrets.GH_ACCESS_TOKEN }}" | npx pulp login
 
       - name: Pulp publish
         uses: nick-fields/retry@v2
