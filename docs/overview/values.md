@@ -48,6 +48,47 @@ styleSheet = do
 
 [![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgAERQ8FCxXCEwYLAA5GFk8GDA4AQEAegAdAyqTV3sQEXG3KZEsACVoeEi4ZdgmbqJ4sgo4AC4DuCycHAZt4j3KAF5pECY4OABaZ7gAQThZGFgrdjgoHJKMB6vISMwRABzODAaB4AKwOAACVcAFkADJwH4wYAwESUQjoLoMJ4oOAjOAAIwgeDw03Jwy+EGAII8cAA-OsVlgwA8SU8Xm9PoDunAQKYYXCEfB0LQQESOMwunA6SraChiuJmNN+U88OrNfDptx5XlCIc7vIQFB-hTKSh5ABrSFyopgHI22iPAWvD4AoFiiX6jWyLX0yDqo3FOBW2j0WTOEIQ6GqmAOkhwWWmjgEXVqkNhkQ1bz1bUiC0wqIARgArAAGBmVuAAdhrTBBEMOx1sFiscFE4gYHfLN35MS8Pj8ATwWGCoTzajgRRKMDK+UYArgi7gACJtLKYLptFb+Lod3A9HA53lSORKAfaQQvoQrneL7pd9pBifD1+D2egA)
 
+## CSS-wide keywords
+
+A few global keywords can be assigned to any property. In Tecton, these are
+* `initial`, which resets the property to its default value defined in the CSS specification;
+* `inherit`, which uses the property value inherited from the parent element; and
+* `unset`, which either inherits the value of an inheritable property or reverts to the initial value.
+
+Notice how `inherit`, for example, is compatible with each property:
+
+```haskell
+module Example.InlineStyle where
+
+import Tecton
+import Tecton.Rule as Rule
+
+inlineStyle :: Declarations _
+inlineStyle = Rule.do
+  backgroundColor := inherit
+  color := inherit
+  fontSize := inherit
+  margin := inherit
+  outlineStyle := inherit
+```
+
+[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhwjrEDwy-UdKvCwAJWh4MLhm2HZiIhIKangALgG4ABFTKBQmFHJCKvCAfQ4CYjIqGgBedpasMBBWODgAIxQTAGsAcyYQPLBMqG44Ac3iRm94g5MQe6ZH57xX6T7OAGKrkUiEABegz+APecGAk3OxF+cBezEBB2u5B6q36KLRb3YCORQ0MxjMcEkgOJeDg6yBkTcHliviw-kCQIOCjgeQKMCKTBynLg3LgACI1OgWBo1J8RBoxXBNHB2cx8DjUctemt4MqJQB6OUwGX6qXGsVAA)
+
+## URLs
+
+A `URL` is a pointer to a resource, such as an image, font, or custom cursor. To construct a `URL` value, simply apply the `url` function to a URL string. The following example uses the `url` function to create a reference to a background image:
+
+```haskell
+module Example.InlineStyle where
+
+import Tecton
+
+inlineStyle :: Declarations _
+inlineStyle = backgroundImage := url "./bg.gif"
+```
+
+[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhwjrEDx2YiISCmp4AC4muAARUygUJhRyQirwgH0OAmIyKhoAXjgAIxQTAGsAcyYQPLAcYBQl5un3KDgAIiwAehmlrCXCA0P2LeI4FsNjMzhJaVZ7vDhJ1jgIlxuDyxXxYfyBP7-OAKOB5AowIpMHKQ-4wo5qdAsDRqEzgGAaQ5wTRwcHMfB1eC1MYNGjEw5qE64kTYk6Y-GHIA)
+
 ## Measures
 
 The `Measure` type provides a common interface for many types of values, such as lengths, angles, and durations, allowing them to be calculated and/or combined via [calc expressions](./calc.md). It is a [phantom type](https://jordanmartinez.github.io/purescript-jordans-reference-site/content/31-Design-Patterns/03-Phantom-Types/01-What-Are-Phantom-Types.html), meaning that each value is tagged as a `Length`, `Percentage`, `Time`, etc. This tag ensures that incompatible values can't be combined (such as a `Measure Time` with a `Measure Length`). It also prevents the wrong kind of value from being assigned to a given property, e.g. a percentage value to a property that only supports a length.
@@ -63,43 +104,19 @@ You can construct a measure by applying the appropriate function (named for the 
 | `LengthPercentage` | via [calc expressions](./calc.md) |
 | `Nil` | `nil` |
 
-In some cases, measures of different types can be used interchangeably. For example, `nil` produces a value that can be used as a length, percentage, angle, or time. Similarly, values of type `Measure Length` or `Measure Percentage` can be used wherever a `Measure LengthPercentage` is expected (although the opposite is not true).
+In some cases, measures of different types can be used interchangeably. For example, `nil` produces a value that can be used as a length, percentage, angle, or time. Similarly, values of type `Measure Length` or `Measure Percentage` can be used wherever a `Measure LengthPercentage` is expected (although the reverse is not true).
 
 ## Colors
+
+<!-- TODO: Migrate this to another "Colors" chapter. -->
 
 Tecton is compatible with the [`Color` type from the _colors_ package](https://pursuit.purescript.org/packages/purescript-colors/7.0.1/docs/Color#t:Color), along with the following CSS-specific color keywords:
 * `transparent`
 * `currentColor`
 
-## Positions
-
-Position values are used in background positioning, transforms, and gradients. A position consists of one of the following:
-
-* `center`
-* `top`
-* `right`
-* `bottom`
-* `left`
-* X/Y keyword positions, e.g. `left ~ top`
-* single length-percentage value, e.g. `px 25` or `pct 50`
-* X/Y length-percentage values, e.g. `pct 10 ~ px 25`
-
-## URLs
-
-URLs have several use cases in CSS, including images, fonts, and custom cursors. To construct a `URL` value, simply apply the `url` function to a URL string, e.g.
-
-```haskell
-module Example.InlineStyle where
-
-import Tecton
-
-inlineStyle :: Declarations _
-inlineStyle = backgroundImage := url "./bg.gif"
-```
-
-[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhwjrEDx2YiISCmp4AC4muAARUygUJhRyQirwgH0OAmIyKhoAXjgAIxQTAGsAcyYQPLAcYBQl5un3KDgAIiwAehmlrCXCA0P2LeI4FsNjMzhJaVZ7vDhJ1jgIlxuDyxXxYfyBP7-OAKOB5AowIpMHKQ-4wo5qdAsDRqEzgGAaQ5wTRwcHMfB1eC1MYNGjEw5qE64kTYk6Y-GHIA)
-
 ## Images
+
+<!-- TODO: Migrate this to another "Images" chapter. -->
 
 Images can be used for backgrounds, custom list markers, and more. An image consists of either a [`URL` value](#urls) or a [gradient](#gradients).
 
@@ -176,28 +193,17 @@ inlineStyle = backgroundImage := repeating $ linearGradient nil $ black /\ white
 
 [![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhzhMqG55ACMoFBMAazkGaRKy-QARFHIULEcITBgsADkYUPIYMHlRAHoAHW0Op2sQPHZiIhIKangALj24TtN6ph7CNfCAfQ4CYjIqGgBeOBqGxoBzJhA8sBxgFAffYvFjoGDnPAfOAKOBbcFMADiZzAhBgeF4Uig0Ne9SacAWdHobXYAOIcAOhmMZjgkmkrFJeDgT1YcAiLjcHliviw-kCLNZ2LyBRgRSYOX5rJhcAARGp0CwNGoTOAYBppXBNHBecx8HC4Jt7jsaJrZbNlSJFbN5arpUA)
 
-## CSS-wide keywords
+## Positions
 
-A few global keywords can be assigned to any property. In Tecton, these are
-* `initial`, which resets the property to its default value defined in the CSS specification;
-* `inherit`, which uses the property value inherited from the parent element; and
-* `unset`, which either inherits the value of an inheritable property or reverts to the initial value.
+<!-- TODO: Migrate this to another "Backgrounds" chapter. -->
 
-Notice how `inherit`, for example, is compatible with each property:
+Position values are used in background positioning, transforms, and gradients. A position consists of one of the following:
 
-```haskell
-module Example.InlineStyle where
-
-import Tecton
-import Tecton.Rule as Rule
-
-inlineStyle :: Declarations _
-inlineStyle = Rule.do
-  backgroundColor := inherit
-  color := inherit
-  fontSize := inherit
-  margin := inherit
-  outlineStyle := inherit
-```
-
-[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhwjrEDwy-UdKvCwAJWh4MLhm2HZiIhIKangALgG4ABFTKBQmFHJCKvCAfQ4CYjIqGgBedpasMBBWODgAIxQTAGsAcyYQPLBMqG44Ac3iRm94g5MQe6ZH57xX6T7OAGKrkUiEABegz+APecGAk3OxF+cBezEBB2u5B6q36KLRb3YCORQ0MxjMcEkgOJeDg6yBkTcHliviw-kCQIOCjgeQKMCKTBynLg3LgACI1OgWBo1J8RBoxXBNHB2cx8DjUctemt4MqJQB6OUwGX6qXGsVAA)
+* `center`
+* `top`
+* `right`
+* `bottom`
+* `left`
+* X/Y keyword positions, e.g. `left ~ top`
+* single length-percentage value, e.g. `px 25` or `pct 50`
+* X/Y length-percentage values, e.g. `pct 10 ~ px 25`
