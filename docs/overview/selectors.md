@@ -297,6 +297,8 @@ styleSheet = do
 
 ### Nth pseudo-classes
 
+<!-- TODO: Move the An+B microsyntax to the ./syntax.md overview. -->
+
 A special group of pseudo-classes allows you to select an element by its position within the parent element. These use a formula of the form **a**_n_+**b** where:
 
 - **a** determines the frequency of matches. For example, **3**_n_ can be interpreted as _every third element_.

@@ -22,32 +22,6 @@ inlineStyle = Rule.do
 
 [![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhwjrEDwy-UdKvCwAJWh4MLhm2HZiIhIKangALgG4ABFTKBQmFHJCKvCAfQ4CYjIqGgBedpasMBB2ODgAWkO4UhhyGbwAczhyEHQ5JDkUALgAIxALkGA4dBQwMDEG7EEJwUJAmgiEwTKYzKqsA5-AFAuADTboJBwAAscAAfr9MQAOPEEuAARgAbPsjidMsA3sQUeRaCA4ABrGCUFlMMChBEhIhXPBnKAGVGbArwfE5PDkZjsYAoEFDQzGMxwSTSViKkHrfmRNweWK+LD+QL8g4KOB5SVFJg5C1wK1wABEanQLA0ahM4BgGhdcE0cDNzHwPXg3RWfRoQbdAHofSIvXGPX6XUA)
 
-## Lists
-
-Lists can be found throughout CSS, notably in [selectors](./selectors.md) and many properties such as [`transitionProperty`](./animations.md#transitions) (which accepts a list of properties to animate). Because they are often overloaded with different types of values, Tecton uses a list syntax based on [nested tuples](https://pursuit.purescript.org/packages/purescript-tuples/4.0.0/docs/Data.Tuple.Nested#v:(/\\)) that supports heterogeneous data. Here is how the syntax looks:
-
-```haskell
-module Example.StyleSheet where
-
-import Data.Tuple.Nested ((/\))
-import Tecton
-import Tecton.Rule as Rule
-
-styleSheet :: CSS
-styleSheet = do
-
-  -- A selector list matching multiple HTML element types
-  a /\ button /\ summary ? Rule.do
-
-    -- A list of multiple properties to transition
-    transitionProperty := color /\ backgroundColor
-
-    -- A list of transition durations corresponding to each property
-    transitionDuration := ms 150 /\ ms 75
-```
-
-[![Open with Try PureScript](https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&style=flat)](https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgAERQ8FCxXCEwYLAA5GFk8GDA4AQEAegAdAyqTV3sQEXG3KZEsACVoeEi4ZdgmbqJ4sgo4AC4DuCycHAZt4j3KAF5pECY4OABaZ7gAQThZGFgrdjgoHJKMB6vISMwRABzODAaB4AKwOAACVcAFkADJwH4wYAwESUQjoLoMJ4oOAjOAAIwgeDw03Jwy+EGAII8cAA-OsVlgwA8SU8Xm9PoDunAQKYYXCEfB0LQQESOMwunA6SraChiuJmNN+U88OrNfDptx5XlCIc7vIQFB-hTKSh5ABrSFyopgHI22iPAWvD4AoFiiX6jWyLX0yDqo3FOBW2j0WTOEIQ6GqmAOkhwWWmjgEXVqkNhkQ1bz1bUiC0wqIARgArAAGBmVuAAdhrTBBEMOx1sFiscFE4gYHfLN35MS8Pj8ATwWGCoTzajgRRKMDK+UYArgi7gACJtLKYLptFb+Lod3A9HA53lSORKAfaQQvoQrneL7pd9pBifD1+D2egA)
-
 ## CSS-wide keywords
 
 A few global keywords can be assigned to any property. In Tecton, these are
