@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Getting started</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Overview</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="overview/values.html"><strong aria-hidden="true">2.1.</strong> Values and units</a></li><li class="chapter-item expanded "><a href="overview/declarations.html"><strong aria-hidden="true">2.2.</strong> Declarations</a></li><li class="chapter-item expanded "><a href="overview/selectors.html"><strong aria-hidden="true">2.3.</strong> Selectors</a></li><li class="chapter-item expanded "><a href="overview/animations.html"><strong aria-hidden="true">2.4.</strong> Animations</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.5.</strong> Font resources</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.6.</strong> Media queries</div></li><li class="chapter-item expanded "><a href="overview/calc.html"><strong aria-hidden="true">2.7.</strong> Calc expressions</a></li><li class="chapter-item expanded "><a href="overview/rendering.html"><strong aria-hidden="true">2.8.</strong> Rendering</a></li></ol></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Getting started</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Overview</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="overview/syntax.html"><strong aria-hidden="true">2.1.</strong> Syntax</a></li><li class="chapter-item expanded "><a href="overview/values.html"><strong aria-hidden="true">2.2.</strong> Values and units</a></li><li class="chapter-item expanded "><a href="overview/declarations.html"><strong aria-hidden="true">2.3.</strong> Declarations</a></li><li class="chapter-item expanded "><a href="overview/selectors.html"><strong aria-hidden="true">2.4.</strong> Selectors</a></li><li class="chapter-item expanded "><a href="overview/animations.html"><strong aria-hidden="true">2.5.</strong> Animations</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.6.</strong> Font resources</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.7.</strong> Media queries</div></li><li class="chapter-item expanded "><a href="overview/calc.html"><strong aria-hidden="true">2.8.</strong> Calc expressions</a></li><li class="chapter-item expanded "><a href="overview/rendering.html"><strong aria-hidden="true">2.9.</strong> Rendering</a></li></ol></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -198,26 +198,67 @@ styleSheet = do
 <p>If you get stuck, help is available in the <a href="https://purescript.org/chat">PureScript Discord</a> chat or on the <a href="https://discourse.purescript.org/">PureScript Discourse</a> forum.</p>
 <h2 id="contributing"><a class="header" href="#contributing">Contributing</a></h2>
 <p>Contributions are welcome. Please see the <a href="https://github.com/nsaunders/purescript-tecton/blob/master/CONTRIBUTING.md">Contributing guide</a> for more information.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="values-and-units"><a class="header" href="#values-and-units">Values and units</a></h1>
-<h2 id="component-values"><a class="header" href="#component-values">Component values</a></h2>
-<p>Component values include keywords and various data types. A property value usually consists of a single component. In many cases, however, you may combine multiple components to form a complete property value. In CSS, these would typically be separated by spaces. With Tecton, you can use the <code>~</code> operator to join them together. For example:</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="syntax"><a class="header" href="#syntax">Syntax</a></h1>
+<h2 id="declarations"><a class="header" href="#declarations">Declarations</a></h2>
+<p>The main building block of style sheets and inline styles alike is a declaration. A declaration consists of two parts: a property and a value. The property describes the aspect of the element you want to style, such as its font or color, and the value specifies what you want the property to be. Tecton uses the <code>:=</code> operator to set the property on the left-hand side to the value on the right. For example, here is how to set the color of the text content within an HTML element to black:</p>
 <pre><code class="language-haskell">module Example.InlineStyle where
 
+import Color (black)
+import Tecton
+
+inlineStyle :: Declarations _
+inlineStyle = color := black
+</code></pre>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhzhMqG55ACMoFBMAa1s9J2sQPHZiIhIKangALgG4ABFTeqYUckIO8IB9DgJiMioaAF44ExAqpjgBjbqGxvZgFGI94ctjMzhJaVZT87XWOAiXNw9Y3yx-QJfXuAKOB5AowIpMHL-V5AuAAIjU6BYGjUWxEGlhcE0cF+zHwPXg3WWfRoWPhAHpUTBkWTEVTYUA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
+<h2 id="declaration-blocks"><a class="header" href="#declaration-blocks">Declaration blocks</a></h2>
+<p>A simple rule can consist of a single declaration. However, in many cases you will need to use <a href="https://jordanmartinez.github.io/purescript-jordans-reference-site/content/11-Syntax/06-Modifying-Do-Ado-Syntax-Sugar/src/13-Qualified-Do-ps.html">qualified-do syntax</a> to combine multiple declarations into a declaration block, as in the following:</p>
+<pre><code class="language-haskell">module Example.InlineStyle where
+
+import Color (black, white)
 import Tecton
 import Tecton.Rule as Rule
 
 inlineStyle :: Declarations _
 inlineStyle = Rule.do
-
-  -- Setting top, x, and bottom padding in a single declaration
-  padding := px 4 ~ px 8 ~ px 16
-
-  -- Combining two keywords
-  alignSelf := safe ~ center
+  color := black
+  backgroundColor := white
 </code></pre>
-<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhwjrEDwy-UdKvCwAJWh4MLhm2HZiIhIKangALgG4ABFTKBQmFHJCKvCAfQ4CYjIqGgBedpasMBB2ODgAWkO4UhhyGbwAczhyEHQ5JDkUALgAIxALkGA4dBQwMDEG7EEJwUJAmgiEwTKYzKqsA5-AFAuADTboJBwAAscAAfr9MQAOPEEuAARgAbPsjidMsA3sQUeRaCA4ABrGCUFlMMChBEhIhXPBnKAGVGbArwfE5PDkZjsYAoEFDQzGMxwSTSViKkHrfmRNweWK+LD+QL8g4KOB5SVFJg5C1wK1wABEanQLA0ahM4BgGhdcE0cDNzHwPXg3RWfRoQbdAHofSIvXGPX6XUA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhzhMqG55ACMoFBMAazkGaRKy-UdrEDwOp268LAAlaHgwuBHYdmIiEgpqeAAuRbgAEVN6phRyQh7wgH0OAmIyKhoAXgnRrDAQVjg4ExAqpjhFy7qGxvu4Gq+AcyYIDyYEq1XedHobXYwBQxDeK0sxjMcEk0lYsPh5x+kTcHliviw-kCPweCjgeQKMCKTBypLg5LgACI1OgWBo1E8RBomXBNHBicx8LN4DMTvMaPyWQB6LkwDnStnyplAA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
+<h2 id="rules"><a class="header" href="#rules">Rules</a></h2>
+<p>A rule consists of a prelude and either nested rules or a declaration block, joined together using the <code>?</code> operator.</p>
+<blockquote>
+<p><strong>Note</strong>
+The <code>?</code> operator is equivalent to the pair of curly braces surrounding a rule or declaration block in CSS.</p>
+</blockquote>
+<p>The most common type of rule is a style rule, consisting of a selector to the left of the <code>?</code> operator and a declaration block to the right, e.g.</p>
+<pre><code class="language-haskell">module Example.StyleSheet where
+
+import Color (black, white)
+import Tecton
+import Tecton.Rule as Rule
+
+styleSheet :: CSS
+styleSheet = do
+  universal ? Rule.do
+    backgroundColor := black
+    color := white
+</code></pre>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgcqHY4AQAjKBR5AGspGnEYR2M3exARKpNXAZEsACVoeEi4KdgmWUJiMgo4AC51mpwcBiWieNXKAF5pEAY4OCLmADc89Kg4AH456awwc8vLxta2gHNaCAimBavV1qdmr8Ll95CA6rQNqcunhGAxgChmCINltbBYrHBROI0RiscdoTEvD4-AE8FhgqFoZc1FdihkYGV8owvnBmXAAETadD0XTaWH8XR8uB6OD0vKkciUIUUQhwfYrBVS3T87QAejFMBFOqVEqAA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
+<p>Another type of rule is a media query, whose prelude specifies the conditions under which the nested rules apply. In the following example, the style rule applies to a printed page:</p>
+<pre><code class="language-haskell">module Example.StyleSheet where
+
+import Tecton
+import Tecton.Rule as Rule
+
+styleSheet :: CSS
+styleSheet = do
+  media print {} ? do
+    body ? Rule.do
+      margin := inch 1
+</code></pre>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNkl2j7EBEqk1dakSwAJWh4SLh22CZZQmIyCjgALhG4LJwcBn6ieKHKAF5pEAY4OGAYGRQ4dH8RSgBvAF84AH4VtfW4ACNwAnPujqwwVevr4CUAc2YRUeXfvISHAAIxMT6-UbjWwWKxwUTiBgQv6LK4xLw+PwBPBYYKhK7rNRwIolGBlfKMd5EuAAIm0exgum08nAjJpcD0cDxeVI5EoDLwhDgs0GfI5ulp2gA9Cz+EypQzdDSgA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
 <h2 id="lists"><a class="header" href="#lists">Lists</a></h2>
-<p>Lists can be found throughout CSS, notably in <a href="overview/./selectors.html">selectors</a> and many properties such as <a href="overview/./animations.html#transitions"><code>transitionProperty</code></a> (which accepts a list of properties to animate). Because they are often overloaded with different types of values, Tecton uses a list syntax based on <a href="https://pursuit.purescript.org/packages/purescript-tuples/4.0.0/docs/Data.Tuple.Nested#v:(/%5C)">nested tuples</a> that supports heterogeneous data. Here is how the syntax looks:</p>
+<p>Lists can be found throughout CSS, notably in <a href="overview/./selectors.html">selectors</a> and many properties such as <a href="overview/./animations.html#transitions"><code>transitionProperty</code></a> (which accepts a list of properties to animate). Tecton's list syntax uses <a href="https://pursuit.purescript.org/packages/purescript-tuples/4.0.0/docs/Data.Tuple.Nested#v:(/%5C)">the <code>/\</code> operator (nested tuples)</a>. Here is how the syntax looks:</p>
 <pre><code class="language-haskell">module Example.StyleSheet where
 
 import Data.Tuple.Nested ((/\))
@@ -237,6 +278,32 @@ styleSheet = do
     transitionDuration := ms 150 /\ ms 75
 </code></pre>
 <p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgAERQ8FCxXCEwYLAA5GFk8GDA4AQEAegAdAyqTV3sQEXG3KZEsACVoeEi4ZdgmbqJ4sgo4AC4DuCycHAZt4j3KAF5pECY4OABaZ7gAQThZGFgrdjgoHJKMB6vISMwRABzODAaB4AKwOAACVcAFkADJwH4wYAwESUQjoLoMJ4oOAjOAAIwgeDw03Jwy+EGAII8cAA-OsVlgwA8SU8Xm9PoDunAQKYYXCEfB0LQQESOMwunA6SraChiuJmNN+U88OrNfDptx5XlCIc7vIQFB-hTKSh5ABrSFyopgHI22iPAWvD4AoFiiX6jWyLX0yDqo3FOBW2j0WTOEIQ6GqmAOkhwWWmjgEXVqkNhkQ1bz1bUiC0wqIARgArAAGBmVuAAdhrTBBEMOx1sFiscFE4gYHfLN35MS8Pj8ATwWGCoTzajgRRKMDK+UYArgi7gACJtLKYLptFb+Lod3A9HA53lSORKAfaQQvoQrneL7pd9pBifD1+D2egA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
+<blockquote>
+<p><strong>Note</strong>
+The <code>/\</code> operator is generally equivalent to <code>,</code> in CSS.</p>
+</blockquote>
+<blockquote>
+<p><strong>Note</strong>
+If you're just getting started with Tecton, you may wonder why nested tuples are used to represent lists, rather than the more &quot;obvious&quot; structures like <code>Array</code> or even <code>List</code>. The reason for this relates to Tecton's highly polymorphic API, which is designed to mimic the &quot;flexible&quot; nature of CSS itself, whose design takes full advantage of dynamic typing. <code>Array</code> and <code>List</code> are homogenous structures, while list items in Tecton frequently have various data types.</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="values-and-units"><a class="header" href="#values-and-units">Values and units</a></h1>
+<h2 id="component-values"><a class="header" href="#component-values">Component values</a></h2>
+<p>Component values include keywords and various data types. A property value usually consists of a single component. In many cases, however, you may combine multiple components to form a complete property value. In CSS, these would typically be separated by spaces. With Tecton, you can use the <code>~</code> operator to join them together. For example:</p>
+<pre><code class="language-haskell">module Example.InlineStyle where
+
+import Tecton
+import Tecton.Rule as Rule
+
+inlineStyle :: Declarations _
+inlineStyle = Rule.do
+
+  -- Setting top, x, and bottom padding in a single declaration
+  padding := px 4 ~ px 8 ~ px 16
+
+  -- Combining two keywords
+  alignSelf := safe ~ center
+</code></pre>
+<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhwjrEDwy-UdKvCwAJWh4MLhm2HZiIhIKangALgG4ABFTKBQmFHJCKvCAfQ4CYjIqGgBedpasMBB2ODgAWkO4UhhyGbwAczhyEHQ5JDkUALgAIxALkGA4dBQwMDEG7EEJwUJAmgiEwTKYzKqsA5-AFAuADTboJBwAAscAAfr9MQAOPEEuAARgAbPsjidMsA3sQUeRaCA4ABrGCUFlMMChBEhIhXPBnKAGVGbArwfE5PDkZjsYAoEFDQzGMxwSTSViKkHrfmRNweWK+LD+QL8g4KOB5SVFJg5C1wK1wABEanQLA0ahM4BgGhdcE0cDNzHwPXg3RWfRoQbdAHofSIvXGPX6XUA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
 <h2 id="css-wide-keywords"><a class="header" href="#css-wide-keywords">CSS-wide keywords</a></h2>
 <p>A few global keywords can be assigned to any property. In Tecton, these are</p>
 <ul>
@@ -356,7 +423,7 @@ inlineStyle = backgroundImage := repeating $ linearGradient nil $ black /\ white
 <li>single length-percentage value, e.g. <code>px 25</code> or <code>pct 50</code></li>
 <li>X/Y length-percentage values, e.g. <code>pct 10 ~ px 25</code></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="declarations"><a class="header" href="#declarations">Declarations</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="declarations-1"><a class="header" href="#declarations-1">Declarations</a></h1>
 <p>The main building block of style sheets and inline styles alike is a declaration. A declaration consists of two parts: a property and a value. The property describes the aspect of the element you want to style, such as its font or color, and the value specifies what you want the property to be. Tecton uses the <code>:=</code> operator to set the property on the left-hand side to the value on the right. For example, here is how to set the color of the text content within an HTML element to black:</p>
 <pre><code class="language-haskell">module Example.InlineStyle where
 
@@ -367,7 +434,7 @@ inlineStyle :: Declarations _
 inlineStyle = color := black
 </code></pre>
 <p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhzhMqG55ACMoFBMAa1s9J2sQPHZiIhIKangALgG4ABFTeqYUckIO8IB9DgJiMioaAF44ExAqpjgBjbqGxvZgFGI94ctjMzhJaVZT87XWOAiXNw9Y3yx-QJfXuAKOB5AowIpMHL-V5AuAAIjU6BYGjUWxEGlhcE0cF+zHwPXg3WWfRoWPhAHpUTBkWTEVTYUA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
-<h2 id="rules"><a class="header" href="#rules">Rules</a></h2>
+<h2 id="rules-1"><a class="header" href="#rules-1">Rules</a></h2>
 <p>A simple rule can consist of a single declaration. More often, multiple declarations are combined to create a complex rule using <a href="https://jordanmartinez.github.io/purescript-jordans-reference-site/content/11-Syntax/06-Modifying-Do-Ado-Syntax-Sugar/src/13-Qualified-Do-ps.html">qualified-do</a> syntax. In the following example, a second declaration sets the background color of an HTML element to white:</p>
 <pre><code class="language-haskell">module Example.InlineStyle where
 
@@ -605,6 +672,7 @@ styleSheet = do
 </code></pre>
 <p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgcqHY4AVoAcwAjR2M3exARKpNXLpEsACVoeEi4EdgmWUJiMgo4AC5FmpwcBhmiePnKAF5pEAY4OGYRdAhKADIVkRBrIuYANzz0qDhLgAE4QnQYAHJwgB+CajLBgQ7HY4tFDyADWTVoICKYFq9UW+2aLTgACYAKy4uAABiJTGAKFOSxWtgsVjgonEDDJFN2R2iHi8Pj8ATwWGCoVZxzUcCKJRgZXyjEhcCFcAARNp0PRdNp5OAYLpZXA9HA+XlSORKIqKIQ4Js5gatbo5doAPSq-jKm1GjVAA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
 <h3 id="nth-pseudo-classes"><a class="header" href="#nth-pseudo-classes">Nth pseudo-classes</a></h3>
+<!-- TODO: Move the An+B microsyntax to the ./syntax.md overview. -->
 <p>A special group of pseudo-classes allows you to select an element by its position within the parent element. These use a formula of the form <strong>a</strong><em>n</em>+<strong>b</strong> where:</p>
 <ul>
 <li><strong>a</strong> determines the frequency of matches. For example, <strong>3</strong><em>n</em> can be interpreted as <em>every third element</em>.</li>

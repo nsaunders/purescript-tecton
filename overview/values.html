@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Getting started</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Overview</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../overview/values.html" class="active"><strong aria-hidden="true">2.1.</strong> Values and units</a></li><li class="chapter-item expanded "><a href="../overview/declarations.html"><strong aria-hidden="true">2.2.</strong> Declarations</a></li><li class="chapter-item expanded "><a href="../overview/selectors.html"><strong aria-hidden="true">2.3.</strong> Selectors</a></li><li class="chapter-item expanded "><a href="../overview/animations.html"><strong aria-hidden="true">2.4.</strong> Animations</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.5.</strong> Font resources</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.6.</strong> Media queries</div></li><li class="chapter-item expanded "><a href="../overview/calc.html"><strong aria-hidden="true">2.7.</strong> Calc expressions</a></li><li class="chapter-item expanded "><a href="../overview/rendering.html"><strong aria-hidden="true">2.8.</strong> Rendering</a></li></ol></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Getting started</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Overview</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../overview/syntax.html"><strong aria-hidden="true">2.1.</strong> Syntax</a></li><li class="chapter-item expanded "><a href="../overview/values.html" class="active"><strong aria-hidden="true">2.2.</strong> Values and units</a></li><li class="chapter-item expanded "><a href="../overview/declarations.html"><strong aria-hidden="true">2.3.</strong> Declarations</a></li><li class="chapter-item expanded "><a href="../overview/selectors.html"><strong aria-hidden="true">2.4.</strong> Selectors</a></li><li class="chapter-item expanded "><a href="../overview/animations.html"><strong aria-hidden="true">2.5.</strong> Animations</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.6.</strong> Font resources</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.7.</strong> Media queries</div></li><li class="chapter-item expanded "><a href="../overview/calc.html"><strong aria-hidden="true">2.8.</strong> Calc expressions</a></li><li class="chapter-item expanded "><a href="../overview/rendering.html"><strong aria-hidden="true">2.9.</strong> Rendering</a></li></ol></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -164,27 +164,6 @@ inlineStyle = Rule.do
   alignSelf := safe ~ center
 </code></pre>
 <p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoCSA7KASzxgGUAXAT1jgHcALGAJxgChXCMQny4AFFlAhh4ACgCqeQuQA0cUQBIAlHNEAeAHxKlHLj0QAzAzADGvUQiOnyOzum68AKk0p8ILUiaaF05lnhEmJTgUAGc4Z1d3Mi8fcl17fUlQlGMsAGEQZhMxCDwU40zsmB0EhwjrEDwy-UdKvCwAJWh4MLhm2HZiIhIKangALgG4ABFTKBQmFHJCKvCAfQ4CYjIqGgBedpasMBB2ODgAWkO4UhhyGbwAczhyEHQ5JDkUALgAIxALkGA4dBQwMDEG7EEJwUJAmgiEwTKYzKqsA5-AFAuADTboJBwAAscAAfr9MQAOPEEuAARgAbPsjidMsA3sQUeRaCA4ABrGCUFlMMChBEhIhXPBnKAGVGbArwfE5PDkZjsYAoEFDQzGMxwSTSViKkHrfmRNweWK+LD+QL8g4KOB5SVFJg5C1wK1wABEanQLA0ahM4BgGhdcE0cDNzHwPXg3RWfRoQbdAHofSIvXGPX6XUA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
-<h2 id="lists"><a class="header" href="#lists">Lists</a></h2>
-<p>Lists can be found throughout CSS, notably in <a href="./selectors.html">selectors</a> and many properties such as <a href="./animations.html#transitions"><code>transitionProperty</code></a> (which accepts a list of properties to animate). Because they are often overloaded with different types of values, Tecton uses a list syntax based on <a href="https://pursuit.purescript.org/packages/purescript-tuples/4.0.0/docs/Data.Tuple.Nested#v:(/%5C)">nested tuples</a> that supports heterogeneous data. Here is how the syntax looks:</p>
-<pre><code class="language-haskell">module Example.StyleSheet where
-
-import Data.Tuple.Nested ((/\))
-import Tecton
-import Tecton.Rule as Rule
-
-styleSheet :: CSS
-styleSheet = do
-
-  -- A selector list matching multiple HTML element types
-  a /\ button /\ summary ? Rule.do
-
-    -- A list of multiple properties to transition
-    transitionProperty := color /\ backgroundColor
-
-    -- A list of transition durations corresponding to each property
-    transitionDuration := ms 150 /\ ms 75
-</code></pre>
-<p><a href="https://try.purescript.org/?code=LYewJgrgNgpgBAUQB4ENgAdYDoDKAXAT1hwAsYY84B3MgJxgCgGBLDEWygBXqgjHgAUAVQB2zPABo4YZgGcAxilpgpAgCQBKVQB4AfBo0s2HRADNTMeZQEJzlvIdbp2lACq0CnCPRzzazdGt6EX5aDTgUWTh3T28YX39Ao2cTUVkUCywAYRAYWnlBCBF0ixy8gsNklzgAERQ8FCxXCEwYLAA5GFk8GDA4AQEAegAdAyqTV3sQEXG3KZEsACVoeEi4ZdgmbqJ4sgo4AC4DuCycHAZt4j3KAF5pECY4OABaZ7gAQThZGFgrdjgoHJKMB6vISMwRABzODAaB4AKwOAACVcAFkADJwH4wYAwESUQjoLoMJ4oOAjOAAIwgeDw03Jwy+EGAII8cAA-OsVlgwA8SU8Xm9PoDunAQKYYXCEfB0LQQESOMwunA6SraChiuJmNN+U88OrNfDptx5XlCIc7vIQFB-hTKSh5ABrSFyopgHI22iPAWvD4AoFiiX6jWyLX0yDqo3FOBW2j0WTOEIQ6GqmAOkhwWWmjgEXVqkNhkQ1bz1bUiC0wqIARgArAAGBmVuAAdhrTBBEMOx1sFiscFE4gYHfLN35MS8Pj8ATwWGCoTzajgRRKMDK+UYArgi7gACJtLKYLptFb+Lod3A9HA53lSORKAfaQQvoQrneL7pd9pBifD1+D2egA"><img src="https://shields.io/badge/-Open%20in%20Try%20PureScript-303748?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAArElEQVQ4EeWRzQ6CMBCECSJnwOfiwN2YmCgn49F49cnrzNLdDFhfQDdpd+fbH2hbVf9lKaUaizZ/PTmSByv53I5AO8FjcQgKWqyXFGrYs0nAFEMAn0wEKARIN45ZSzMNfza1bHu4u2gNOzYIuFDMDnKyc73xN2gOdzv51w2YWKbHbzpTn7sfwQAmH0mIuHe98bzYNho1QGKUYr41n6xkg/atYlRfc0e9Svy+eAM93kRyOW/z2AAAAABJRU5ErkJggg==&amp;style=flat" alt="Open with Try PureScript" /></a></p>
 <h2 id="css-wide-keywords"><a class="header" href="#css-wide-keywords">CSS-wide keywords</a></h2>
 <p>A few global keywords can be assigned to any property. In Tecton, these are</p>
 <ul>
@@ -309,7 +288,7 @@ inlineStyle = backgroundImage := repeating $ linearGradient nil $ black /\ white
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                                                    <a rel="prev" href="../index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                                    <a rel="prev" href="../overview/syntax.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
@@ -323,7 +302,7 @@ inlineStyle = backgroundImage := repeating $ linearGradient nil $ black /\ white
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                                    <a rel="prev" href="../index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                    <a rel="prev" href="../overview/syntax.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
