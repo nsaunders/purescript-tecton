@@ -6,6 +6,7 @@ import Tecton.Internal
   , Declarations
   , ElementId(..)
   , KeyframesName(..)
+  , LineName(..)
   , PseudoClass(PseudoClass)
   , PseudoElement(PseudoElement)
   , a
