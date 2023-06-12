@@ -53,7 +53,7 @@ module Tecton.Internal
   , KeyframesName(..)
   , Length
   , LengthPercentage
-  , LineName
+  , LineName(..)
   , LocalFunction
   , Measure
   , MediaQuery
@@ -1027,6 +1027,7 @@ import Data.Tuple.Nested (type (/\), (/\))
 import Prim.Row as Row
 import Prim.RowList (class RowToList, RowList)
 import Prim.RowList as RL
+import Prim.TypeError (class Warn, Text)
 import Record as Record
 import Type.Proxy (Proxy(..))
 import Web.HTML.Common (AttrName(..), ClassName(..))
@@ -3938,7 +3939,7 @@ newtype LineName = LineName String
 
 derive newtype instance ToVal LineName
 
-lineName :: String -> LineName
+lineName :: Warn (Text "`lineName` is deprecated. Use the `LineName` constructor instead.") => String -> LineName
 lineName = LineName
 
 instance ToVal (List LineName) where

@@ -7,6 +7,7 @@ Notable changes are documented in this file. The format is based on [Keep a Chan
 Breaking changes:
 
 New features:
+- The `LineName` data constructor is now exported, replacing the `lineName` function which is hereby deprecated. nsaunders/purescript-tecton#43
 
 Bugfixes:
 
