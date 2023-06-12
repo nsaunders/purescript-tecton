@@ -3939,7 +3939,13 @@ newtype LineName = LineName String
 
 derive newtype instance ToVal LineName
 
-lineName :: Warn (Text "`lineName` is deprecated. Use the `LineName` constructor instead.") => String -> LineName
+lineName
+  :: Warn
+       ( Text
+           "`lineName` is deprecated. Use the `LineName` constructor instead."
+       )
+  => String
+  -> LineName
 lineName = LineName
 
 instance ToVal (List LineName) where
