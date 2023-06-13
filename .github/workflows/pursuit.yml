@@ -16,17 +16,17 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set up Bower and Pulp
-        run: npm install bower pulp@16.0.0-0
+        run: npm install -g purescript bower pulp@16.0.0-0
 
       - name: Install Bower dependencies
-        run: npx bower install
+        run: bower install
 
       - name: Pulp login
-        run: echo "${{ secrets.GH_ACCESS_TOKEN }}" | npx pulp login
+        run: echo "${{ secrets.GH_ACCESS_TOKEN }}" | pulp login
 
       - name: Pulp publish
         uses: nick-fields/retry@v2
         with:
           timeout_seconds: 15
           max_attempts: 3
-          command: npx pulp publish --no-push
+          command: pulp publish --no-push
