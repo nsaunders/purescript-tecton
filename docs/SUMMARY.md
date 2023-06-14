@@ -4,7 +4,6 @@
 - [Overview]()
   - [Syntax](./overview/syntax.md)
   - [Values and units](./overview/values.md)
-  - [Declarations](./overview/declarations.md)
   - [Selectors](./overview/selectors.md)
   - [Animations](./overview/animations.md)
   - [Font resources]()
