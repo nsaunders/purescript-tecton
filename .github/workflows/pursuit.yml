@@ -36,4 +36,4 @@ jobs:
         with:
           timeout_seconds: 15
           max_attempts: 3
-          command: pulp publish --no-push
+          command: yes | pulp publish --no-push
