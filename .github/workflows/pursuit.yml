@@ -5,6 +5,11 @@ name: Pursuit
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        required: true
+        description: "The version number to publish, e.g. 0.2.1"
 
 jobs:
   publish:
@@ -13,7 +18,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          ref: v${{ github.event.inputs.version }}
 
       - name: Set up Bower and Pulp
         run: npm install -g purescript bower pulp@16.0.0-0
