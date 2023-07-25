@@ -20,9 +20,6 @@ Alternatively, to evaluate Tecton without installing anything locally, you can u
 
 You can give this a try now with the following example.
 
-> **Warning**
-> As of this writing on May 16, 2023, Try PureScript provides an outdated package set. Until it is updated, some examples will fail to compile in that environment.
-
 ## "Hello world" example
 
 This example serves as a good starting point for experimenting with Tecton. Simply update the `styleSheet` function with your own rules to see Tecton's CSS output.
