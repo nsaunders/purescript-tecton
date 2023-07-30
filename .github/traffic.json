@@ -2230,8 +2230,76 @@
     "views": null,
     "timestamp": "2023-07-23T00:00:00Z",
     "clones": {
-      "uniques": 2,
-      "count": 2
+      "uniques": 3,
+      "count": 3
     }
+  },
+  {
+    "views": null,
+    "timestamp": "2023-07-24T00:00:00Z",
+    "clones": {
+      "uniques": 4,
+      "count": 4
+    }
+  },
+  {
+    "views": {
+      "uniques": 5,
+      "count": 55
+    },
+    "timestamp": "2023-07-25T00:00:00Z",
+    "clones": {
+      "uniques": 6,
+      "count": 13
+    }
+  },
+  {
+    "views": {
+      "uniques": 1,
+      "count": 1
+    },
+    "timestamp": "2023-07-26T00:00:00Z",
+    "clones": {
+      "uniques": 2,
+      "count": 3
+    }
+  },
+  {
+    "views": {
+      "uniques": 2,
+      "count": 16
+    },
+    "timestamp": "2023-07-27T00:00:00Z",
+    "clones": {
+      "uniques": 5,
+      "count": 6
+    }
+  },
+  {
+    "views": null,
+    "timestamp": "2023-07-28T00:00:00Z",
+    "clones": {
+      "uniques": 2,
+      "count": 4
+    }
+  },
+  {
+    "views": {
+      "uniques": 2,
+      "count": 9
+    },
+    "timestamp": "2023-07-29T00:00:00Z",
+    "clones": {
+      "uniques": 1,
+      "count": 1
+    }
+  },
+  {
+    "views": {
+      "uniques": 1,
+      "count": 2
+    },
+    "timestamp": "2023-07-30T00:00:00Z",
+    "clones": null
   }
 ]
