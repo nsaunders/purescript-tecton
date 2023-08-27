@@ -2478,8 +2478,43 @@
     "views": null,
     "timestamp": "2023-08-20T00:00:00Z",
     "clones": {
+      "uniques": 2,
+      "count": 2
+    }
+  },
+  {
+    "views": {
+      "uniques": 2,
+      "count": 2
+    },
+    "timestamp": "2023-08-21T00:00:00Z",
+    "clones": {
       "uniques": 1,
       "count": 1
     }
+  },
+  {
+    "views": null,
+    "timestamp": "2023-08-24T00:00:00Z",
+    "clones": {
+      "uniques": 2,
+      "count": 6
+    }
+  },
+  {
+    "views": null,
+    "timestamp": "2023-08-25T00:00:00Z",
+    "clones": {
+      "uniques": 2,
+      "count": 2
+    }
+  },
+  {
+    "views": {
+      "uniques": 1,
+      "count": 1
+    },
+    "timestamp": "2023-08-27T00:00:00Z",
+    "clones": null
   }
 ]
