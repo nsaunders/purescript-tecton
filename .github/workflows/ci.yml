@@ -12,7 +12,7 @@ on:
       - 'test/**/*.purs'
       - 'test/**/*.js'
       - '*.json'
-      - '*.dhall'
+      - '**/spago.yaml'
       - 'scripts/check-docs.mjs'
       - 'scripts/check-examples.mjs'
       - '.github/workflows/ci.yml'
@@ -27,7 +27,7 @@ on:
       - 'test/**/*.purs'
       - 'test/**/*.js'
       - '*.json'
-      - '*.dhall'
+      - '**/spago.yaml'
       - 'scripts/check-docs.mjs'
       - 'scripts/check-examples.mjs'
       - '.github/workflows/ci.yml'
@@ -41,16 +41,23 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
       - name: Set up a PureScript toolchain
         uses: purescript-contrib/setup-purescript@main
         with:
           purescript: "unstable"
           purs-tidy: "latest"
 
+      - name: Install Spago
+        run: npm install -g spago@1.0.5
+
       - name: Cache PureScript dependencies
         uses: actions/cache@v2
         with:
-          key: ${{ runner.os }}-spago-${{ hashFiles('**/*.dhall') }}
+          key: ${{ runner.os }}-spago-${{ hashFiles('**/spago.yaml') }}
           path: |
             .spago
             output
@@ -62,13 +69,13 @@ jobs:
           path: node_modules
 
       - name: Install PureScript dependencies
-        run: spago install
+        run: spago fetch
 
       - name: Build source
-        run: spago build --no-install --purs-args '--censor-lib --strict'
+        run: spago build -p tecton --strict
 
       - name: Run tests
-        run: spago -x test.dhall test
+        run: spago test -p tecton
 
       - name: Check formatting
         run: purs-tidy check examples src test
@@ -99,7 +106,7 @@ jobs:
       - if: github.ref == 'refs/heads/master'
         id: count
         name: Get test count
-        run: echo "value=$(spago -x test.dhall test | grep Summary -A1 | tail -n 1 | cut -d "/" -f2 | cut -d " " -f1)" >> $GITHUB_OUTPUT
+        run: echo "value=$(spago test -p tecton | grep Summary -A1 | tail -n 1 | cut -d "/" -f2 | cut -d " " -f1)" >> $GITHUB_OUTPUT
 
       - if: github.ref == 'refs/heads/master'
         name: Update test count data
