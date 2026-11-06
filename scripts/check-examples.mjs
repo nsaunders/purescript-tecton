@@ -4,7 +4,7 @@ import path from "path";
 import { execa } from "execa";
 import { diffLines } from "diff";
 
-for (let x of ["examples", "example.dhall"]) {
+for (let x of ["examples", "examples/spago.yaml"]) {
   try {
     await fs.access(x);
   }
@@ -32,7 +32,8 @@ for (let example of examples) {
   }
   catch {}
 
-  const { stdout: actual } = await execa("spago", ["-x", "example.dhall", "run", "-p", path.join(examplesDir, `${example}.purs`), "-m", `Example.${example}`]);
+  await execa("spago", ["build", "-p", "tecton-examples", "--purs-args", path.join(examplesDir, `${example}.purs`)]);
+  const { stdout: actual } = await execa("node", ["--input-type=module", "-e", `import { main } from './output/Example.${example}/index.js'; main();`]);
 
   const needsUpdate = updateFlag || !expected;
 
@@ -69,7 +70,7 @@ const typeErrors = typeErrorsListing.flatMap(x => x.match(/^[A-Za-z]+(?=\.purs$)
 
 for (let typeError of typeErrors) {
   try {
-    await execa("spago", ["build", "-p", path.join(typeErrorsDir, `${typeError}.purs`)]);
+    await execa("spago", ["build", "-p", "tecton", "--purs-args", path.join(typeErrorsDir, `${typeError}.purs`)]);
     process.stdout.write(chalk.red(`✗ TypeError.${typeError} compiled successfully.\n`));
     process.exit(1);
   }
