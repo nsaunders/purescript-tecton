@@ -89,12 +89,6 @@ jobs:
       - name: Check docs
         run: npm run check-docs
 
-      - name: Verify Bower & Pulp
-        run: |
-          npm install bower pulp@16.0.0-0
-          npx bower install
-          npx pulp build -- --censor-lib --strict
-
       - if: github.ref == 'refs/heads/master'
         name: Dispatch tecton-halogen CI
         run: |
